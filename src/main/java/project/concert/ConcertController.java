@@ -19,72 +19,72 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class ConcertController {
-    private ConcertService bookService;
+    private ConcertService concertService;
 
-    public ConcertController(ConcertService bs){
-        this.bookService = bs;
+    public ConcertController(ConcertService cs){
+        this.concertService = cs;
     }
 
     /**
-     * List all books in the system
-     * @return list of all books
+     * List all concerts in the system
+     * @return list of all concerts
      */
-    @GetMapping("/books")
-    public List<Concert> getBooks(){
-        return bookService.listBooks();
+    @GetMapping("/concerts")
+    public List<Concert> getConcerts(){
+        return concertService.listConcerts();
     }
 
     /**
-     * Search for book with the given id
-     * If there is no book with the given "id", throw a BookNotFoundException
+     * Search for concert with the given id
+     * If there is no concert with the given "id", throw a concertNotFoundException
      * @param id
-     * @return book with the given id
+     * @return concert with the given id
      */
-    @GetMapping("/books/{id}")
-    public Concert getBook(@PathVariable Long id){
-        Concert book = bookService.getBook(id);
+    @GetMapping("/concerts/{id}")
+    public Concert getConcert(@PathVariable Long id){
+        Concert concert = concertService.getConcert(id);
 
-        // Need to handle "book not found" error using proper HTTP status code
+        // Need to handle "concert not found" error using proper HTTP status code
         // In this case it should be HTTP 404
-        if(book == null) throw new ConcertNotFoundException(id);
-        return bookService.getBook(id);
+        if(concert == null) throw new ConcertNotFoundException(id);
+        return concertService.getConcert(id);
 
     }
     /**
-     * Add a new book with POST request to "/books"
+     * Add a new concert with POST request to "/concerts"
      * Note the use of @RequestBody
-     * @param book
-     * @return list of all books
+     * @param concert
+     * @return list of all concerts
      */
     @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping("/books")
-    public Concert addBook(@Valid @RequestBody Concert book) {
-        return bookService.addBook(book);
+    @PostMapping("/concerts")
+    public Concert addconcert(@Valid @RequestBody Concert concert) {
+        return concertService.addConcert(concert);
     }
 
     /**
-     * If there is no book with the given "id", throw a BookNotFoundException
+     * If there is no concert with the given "id", throw a concertNotFoundException
      * @param id
-     * @param newBookInfo
-     * @return the updated, or newly added book
+     * @param newconcertInfo
+     * @return the updated, or newly added concert
      */
-    @PutMapping("/books/{id}")
-    public Concert updateBook(@PathVariable Long id, @Valid @RequestBody Concert newBookInfo){
-        Concert book = bookService.updateBook(id, newBookInfo);
-        if(book == null) throw new ConcertNotFoundException(id);
+    @PutMapping("/concerts/{id}")
+    public Concert updateconcert(@PathVariable Long id, @Valid @RequestBody Concert newconcertInfo){
+        Concert concert = concertService.updateConcert(id, newconcertInfo);
+        if(concert == null) throw new ConcertNotFoundException(id);
         
-        return book;
+        return concert;
     }
 
     /**
-     * Remove a book with the DELETE request to "/books/{id}"
-     * If there is no book with the given "id", throw a BookNotFoundException
+     * Remove a concert with the DELETE request to "/concerts/{id}"
+     * If there is no concert with the given "id", throw a concertNotFoundException
      * @param id
      */
-    @DeleteMapping("/books/{id}")
-    public void deleteBook(@PathVariable Long id){
+    @DeleteMapping("/concerts/{id}")
+    public void deleteconcert(@PathVariable Long id){
         try{
-            bookService.deleteBook(id);
+            concertService.deleteConcert(id);
          }catch(EmptyResultDataAccessException e) {
             throw new ConcertNotFoundException(id);
          }
