@@ -9,7 +9,7 @@ public class ConcertNotFoundException extends RuntimeException{
     private static final long serialVersionUID = 1L;
 
     public ConcertNotFoundException(Long id) {
-        super("Could not find book " + id);
+        super("Could not find concert with id " + id);
     }
     
 }

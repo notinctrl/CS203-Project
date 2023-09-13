@@ -7,44 +7,44 @@ import org.springframework.stereotype.Service;
 @Service
 public class ConcertServiceImpl implements ConcertService {
    
-    private ConcertRepository books;
+    private ConcertRepository concert;
     
 
-    public ConcertServiceImpl(ConcertRepository books){
-        this.books = books;
+    public ConcertServiceImpl(ConcertRepository concert){
+        this.concert = concert;
     }
 
     @Override
-    public List<Concert> listBooks() {
-        return books.findAll();
+    public List<Concert> listConcerts() {
+        return concert.findAll();
     }
 
     
     @Override
-    public Concert getBook(Long id){
-        return books.findById(id).orElse(null);
+    public Concert getConcert(Long id){
+        return concert.findById(id).orElse(null);
     }
     
     @Override
-    public Concert addBook(Concert book) {
-        return books.save(book);
+    public Concert addConcert(Concert concert) {
+        return concert.save(concert);
     }
     
     @Override
-    public Concert updateBook(Long id, Concert newBookInfo){
-        return books.findById(id).map(book -> {book.setTitle(newBookInfo.getTitle());
-            return books.save(book);
-        }).orElse(null);
+    public Concert updateConcert(Long id, Concert newConcertInfo){
+        return concert.findById(id).map(concert -> new Concert(newConcertInfo.getConcertName(), newConcertInfo.getTicketQuantity());
+            return concert.save(concert);
+        ).orElse(null);
 
     }
 
     /**
-     * Remove a book with the given id
+     * Remove a concert with the given id
      * Spring Data JPA does not return a value for delete operation
-     * Cascading: removing a book will also remove all its associated reviews
+     * Cascading: removing a concert will also remove all its associated reviews
      */
     @Override
-    public void deleteBook(Long id){
-        books.deleteById(id);
+    public void deleteConcert(Long id){
+        concert.deleteById(id);
     }
 }
