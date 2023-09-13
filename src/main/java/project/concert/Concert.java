@@ -1,4 +1,4 @@
-package csd.week5.book;
+package project.concert;
 
 import java.util.List;
 
@@ -23,7 +23,7 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode
-public class Book {
+public class Concert {
     private @Id @GeneratedValue (strategy = GenerationType.IDENTITY) Long id;
     
 
@@ -36,7 +36,7 @@ public class Book {
     @JsonIgnore
     private List<Review> reviews;
     
-    public Book(String title){
+    public Concert(String title){
         this.title = title;
     }
     

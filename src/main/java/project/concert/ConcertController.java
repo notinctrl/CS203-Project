@@ -1,4 +1,4 @@
-package csd.week5.book;
+package project.concert;
 
 import java.util.List;
 
@@ -18,10 +18,10 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class BookController {
-    private BookService bookService;
+public class ConcertController {
+    private ConcertService bookService;
 
-    public BookController(BookService bs){
+    public ConcertController(ConcertService bs){
         this.bookService = bs;
     }
 
@@ -30,7 +30,7 @@ public class BookController {
      * @return list of all books
      */
     @GetMapping("/books")
-    public List<Book> getBooks(){
+    public List<Concert> getBooks(){
         return bookService.listBooks();
     }
 
@@ -41,12 +41,12 @@ public class BookController {
      * @return book with the given id
      */
     @GetMapping("/books/{id}")
-    public Book getBook(@PathVariable Long id){
-        Book book = bookService.getBook(id);
+    public Concert getBook(@PathVariable Long id){
+        Concert book = bookService.getBook(id);
 
         // Need to handle "book not found" error using proper HTTP status code
         // In this case it should be HTTP 404
-        if(book == null) throw new BookNotFoundException(id);
+        if(book == null) throw new ConcertNotFoundException(id);
         return bookService.getBook(id);
 
     }
@@ -58,7 +58,7 @@ public class BookController {
      */
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/books")
-    public Book addBook(@Valid @RequestBody Book book) {
+    public Concert addBook(@Valid @RequestBody Concert book) {
         return bookService.addBook(book);
     }
 
@@ -69,9 +69,9 @@ public class BookController {
      * @return the updated, or newly added book
      */
     @PutMapping("/books/{id}")
-    public Book updateBook(@PathVariable Long id, @Valid @RequestBody Book newBookInfo){
-        Book book = bookService.updateBook(id, newBookInfo);
-        if(book == null) throw new BookNotFoundException(id);
+    public Concert updateBook(@PathVariable Long id, @Valid @RequestBody Concert newBookInfo){
+        Concert book = bookService.updateBook(id, newBookInfo);
+        if(book == null) throw new ConcertNotFoundException(id);
         
         return book;
     }
@@ -86,7 +86,7 @@ public class BookController {
         try{
             bookService.deleteBook(id);
          }catch(EmptyResultDataAccessException e) {
-            throw new BookNotFoundException(id);
+            throw new ConcertNotFoundException(id);
          }
     }
 }

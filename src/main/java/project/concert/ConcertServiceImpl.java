@@ -1,37 +1,37 @@
-package csd.week5.book;
+package project.concert;
 
 import java.util.List;
 import org.springframework.stereotype.Service;
 
 
 @Service
-public class BookServiceImpl implements BookService {
+public class ConcertServiceImpl implements ConcertService {
    
-    private BookRepository books;
+    private ConcertRepository books;
     
 
-    public BookServiceImpl(BookRepository books){
+    public ConcertServiceImpl(ConcertRepository books){
         this.books = books;
     }
 
     @Override
-    public List<Book> listBooks() {
+    public List<Concert> listBooks() {
         return books.findAll();
     }
 
     
     @Override
-    public Book getBook(Long id){
+    public Concert getBook(Long id){
         return books.findById(id).orElse(null);
     }
     
     @Override
-    public Book addBook(Book book) {
+    public Concert addBook(Concert book) {
         return books.save(book);
     }
     
     @Override
-    public Book updateBook(Long id, Book newBookInfo){
+    public Concert updateBook(Long id, Concert newBookInfo){
         return books.findById(id).map(book -> {book.setTitle(newBookInfo.getTitle());
             return books.save(book);
         }).orElse(null);
