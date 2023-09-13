@@ -10,9 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import csd.week5.review.Review;
 import lombok.*;
 
 
@@ -24,20 +22,21 @@ import lombok.*;
 @NoArgsConstructor
 @EqualsAndHashCode
 public class Concert {
+    //ID tagged to all concerts
     private @Id @GeneratedValue (strategy = GenerationType.IDENTITY) Long id;
     
 
-    @NotNull(message = "Book's title should not be null")
+    @NotNull(message = "Error: Concert name cannot be empty.")
     // null elements are considered valid, so we need a size constraints too
-    @Size(min = 5, max = 200, message = "Book's title should be at least 5 characters long")
-    private String title;
-    
-    @OneToMany(mappedBy = "book", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonIgnore
-    private List<Review> reviews;
-    
-    public Concert(String title){
-        this.title = title;
+    @Size(min = 5, max = 200, message = "Error: Concert name should be at least 5 characters long")
+    private String concertName;
+    private int ticketQuantity;
+    private boolean isSoldOut = false;
+    //@JsonIgnore
+
+    public Concert(String concertName, int ticketQuantity) {
+        this.concertName = concertName;
+        this.ticketQuantity = ticketQuantity;
     }
     
 }
