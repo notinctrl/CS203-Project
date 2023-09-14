@@ -1,9 +1,8 @@
 package project;
 
-import project.book.*;
+import project.concert.*;
 import project.client.RestTemplateClient;
-// import project.user.User;
-import project.user.project
+import project.user.*;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -17,10 +16,10 @@ public class BookingApp {
 		
 		ApplicationContext ctx = SpringApplication.run(BookingApp.class, args);
 
-        // JPA book repository init. default settings
+        // JPA concert repository init. default settings
         ConcertRepository concerts = ctx.getBean(ConcertRepository.class);
-        System.out.println("[Add book]: " + concerts.save(new Book("Spring Security Fundamentals")).getTitle());
-        System.out.println("[Add book]: " + concerts.save(new Book("Gone With The Wind")).getTitle());
+        System.out.println("[Add concert]: " + concerts.save(new Concert("Taylor Swift Singapore 2023", 10000)).getConcertName());
+        System.out.println("[Add concert]: " + concerts.save(new Concert("BTS Singapore 2024", 20000)).getConcertName());
 
         // JPA user repository init
         UserRepository users = ctx.getBean(UserRepository.class);
