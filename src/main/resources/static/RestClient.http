@@ -5,31 +5,32 @@ Accept: application/json
 GET http://localhost:8080/concerts/1
 
 ###
-DELETE http://localhost:8080/concerts/abc
+DELETE http://localhost:8080/concerts/3
 
 
 ###
 POST http://localhost:8080/concerts
 Content-Type: application/json
 Authorization: Basic admin goodpassword
-
-{
-    "title": "The Great Ideas"
-}
-###
-POST http://localhost:8080/concerts
-Content-Type: application/json
-Authorization: Basic admin goodpassword
-# Validation failed - book title is null
 
 {
     "concertName": "Coldplay Singapore 2023",
     "ticketQuantity": 8000
 }
 ###
+POST http://localhost:8080/concerts
+Content-Type: application/json
+Authorization: Basic admin goodpassword
+# Validation failed - book title is null. wrong attribute!
+
+{
+    "eventName": "HOTplay Singapore 2023",
+    "ticketQuantity": 8000
+}
+###
 PUT http://localhost:8080/concerts/1
 Content-Type: application/json
-# Wrong username
+# Wrong username in Authorization
 Authorization: Basic dt goodpassword
 
 {
@@ -38,7 +39,7 @@ Authorization: Basic dt goodpassword
 }
 
 ###
-GET http://localhost:8080/concerts/1/
+# GET http://localhost:8080/concerts/1/
 
 
 ###
@@ -59,10 +60,12 @@ GET http://localhost:8080/concerts/1/
 #     "review": "Should be bad!"
 # }
 
-###
+###deleting concert works under admin privileges
 DELETE http://localhost:8080/concerts/3
+Content-Type: application/json
+Authorization: Basic admin goodpassword
 
-###
+###unauthorised for non-admins
 GET http://localhost:8080/users
 
 ###
