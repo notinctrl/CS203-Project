@@ -1,4 +1,4 @@
-package csd.week5.security;
+package project.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -38,21 +38,15 @@ public class SecurityConfig {
     }
 
     /**
-     * TODO: Activity 2a - Authentication
-     * Add code to secure requests to Reviews
-     * In particular, only authenticated users would be able to create/update/delete Reviews
-     * Hint: Add antMatchers rules
-     * 
-     * 
-     * 
+     * TODO: Only authenticated admins would be able to create/update/delete Concerts
      * 
      * TODO: Activity 2b - Authorization
-     * Add roles to specify permissions for each enpoint
-     * User role: can add review.
-     * Admin role: can add/delete/update books/reviews, and add/list users
+     * Add roles to specify permissions for each endpoint
+     * User role: can add concerts to cart.
+     * Admin role: can add/delete/update concerts/reviews, and add/list users
      *  
-     * Note: '*'�matches zero or more characters, e.g., /books/* matches /books/20
-             '**'�matches zero or more 'directories' in a path, e.g., /books/** matches /books/1/reviews 
+     * Note: '*': matches zero or more characters, e.g., /concerts/* matches /concerts/20
+             '**': matches zero or more 'directories' in a path, e.g., /concerts/** matches /concerts/1/details
      */
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -63,22 +57,22 @@ public class SecurityConfig {
         .httpBasic()
             .and() //  "and()"" method allows us to continue configuring the parent
         .authorizeRequests()
-            .antMatchers(HttpMethod.GET, "/books", "/books/**").permitAll() // Anyone can view books and reviews
-            .antMatchers(HttpMethod.POST, "/books", "books/").authenticated()
-            .antMatchers(HttpMethod.PUT, "/books/*").authenticated()
-            .antMatchers(HttpMethod.DELETE, "/books/*").authenticated()
+            .antMatchers(HttpMethod.GET, "/concerts", "/concerts/**").permitAll() // Anyone can view concerts and reviews
+            .antMatchers(HttpMethod.POST, "/concerts", "concerts/").authenticated()
+            .antMatchers(HttpMethod.PUT, "/concerts/**").authenticated()
+            .antMatchers(HttpMethod.DELETE, "/concerts/*").authenticated()
             
             // your code here
-            .antMatchers(HttpMethod.POST, "/books/**/reviews/", "/books/**/reviews").authenticated()
-            .antMatchers(HttpMethod.PUT, "/books/**/reviews/","/books/**/reviews/**").authenticated()
-            .antMatchers(HttpMethod.DELETE, "/books/**/reviews/**").authenticated()
+            .antMatchers(HttpMethod.POST, "/concerts/**/reviews/", "/concerts/**/reviews").authenticated()
+            .antMatchers(HttpMethod.PUT, "/concerts/**").authenticated()
+            .antMatchers(HttpMethod.DELETE, "/concerts/**").authenticated()
 
-            .antMatchers(HttpMethod.POST, "/users", "k/users/").authenticated()
+            .antMatchers(HttpMethod.POST, "/users", "/users/").authenticated()
             .antMatchers(HttpMethod.DELETE, "/users", "/users/").authenticated()
 
-            .antMatchers(HttpMethod.POST, "/books/**/reviews/", "/books/**/reviews").hasAnyRole("USER", "ADMIN")
-            .antMatchers(HttpMethod.PUT, "/books/**/reviews/","/books/**/reviews/**").hasRole("ADMIN")
-            .antMatchers(HttpMethod.DELETE, "/books/**/reviews/**").hasRole("ADMIN")
+            .antMatchers(HttpMethod.POST, "/concerts/**").hasAnyRole("USER", "ADMIN")
+            .antMatchers(HttpMethod.PUT, "/concerts/**").hasRole("ADMIN")
+            .antMatchers(HttpMethod.DELETE, "/concerts/**").hasRole("ADMIN")
             .antMatchers(HttpMethod.POST, "/users", "/users/").hasRole("ADMIN")
             .antMatchers(HttpMethod.GET, "/users", "/users/").hasRole("ADMIN")
             .and()
