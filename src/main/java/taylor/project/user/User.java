@@ -1,4 +1,4 @@
-package project.user;
+package taylor.project.user;
 
 import java.util.Arrays;
 import java.util.Collection;

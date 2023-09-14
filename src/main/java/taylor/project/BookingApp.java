@@ -1,13 +1,13 @@
-package project;
-
-import project.concert.*;
-import project.client.RestTemplateClient;
-import project.user.*;
+package taylor.project;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
+import taylor.project.client.RestTemplateClient;
+import taylor.project.concert.*;
+import taylor.project.user.*;
 
 @SpringBootApplication
 public class BookingApp {

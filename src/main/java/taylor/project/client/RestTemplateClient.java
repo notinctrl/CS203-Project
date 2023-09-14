@@ -1,4 +1,4 @@
-package project.client;
+package taylor.project.client;
 
 
 import org.springframework.boot.web.client.RestTemplateBuilder;
@@ -6,7 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
-import project.concert.*;
+import taylor.project.concert.*;
 
 @Component
 public class RestTemplateClient {

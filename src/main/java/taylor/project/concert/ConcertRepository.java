@@ -1,4 +1,4 @@
-package project.concert;
+package taylor.project.concert;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
