@@ -1,40 +1,42 @@
 package project.concert;
 
 import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 
 @Service
 public class ConcertServiceImpl implements ConcertService {
    
-    private ConcertRepository concert;
+    private ConcertRepository concerts;
     
 
-    public ConcertServiceImpl(ConcertRepository concert){
-        this.concert = concert;
+    public ConcertServiceImpl(ConcertRepository concerts){
+        this.concerts = concerts;
     }
 
     @Override
     public List<Concert> listConcerts() {
-        return concert.findAll();
+        return concerts.findAll();
     }
 
     
     @Override
     public Concert getConcert(Long id){
-        return concert.findById(id).orElse(null);
+        return concerts.findById(id).orElse(null);
     }
     
     @Override
     public Concert addConcert(Concert concert) {
-        return concert.save(concert);
+        return concerts.save(concert);
     }
     
     @Override
     public Concert updateConcert(Long id, Concert newConcertInfo){
-        return concert.findById(id).map(concert -> new Concert(newConcertInfo.getConcertName(), newConcertInfo.getTicketQuantity());
-            return concert.save(concert);
-        ).orElse(null);
+        return concerts.findById(id).map(concert -> {concert.setConcertName(newConcertInfo.getConcertName());
+                                                    concert.setTicketQuantity(newConcertInfo.getTicketQuantity());
+            return concerts.save(concert);
+    }).orElse(null);
 
     }
 
@@ -45,6 +47,6 @@ public class ConcertServiceImpl implements ConcertService {
      */
     @Override
     public void deleteConcert(Long id){
-        concert.deleteById(id);
+        concerts.deleteById(id);
     }
 }
