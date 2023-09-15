@@ -1,25 +1,36 @@
 package taylor.project;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import taylor.project.concert.Concert;
+import taylor.project.concert.ConcertRepository;
+import taylor.project.concertimage.FileUploadController;
+import taylor.project.user.User;
+import taylor.project.user.UserRepository;
 import taylor.project.client.RestTemplateClient;
-import taylor.project.concert.*;
-import taylor.project.user.*;
 
 @SpringBootApplication
+@ComponentScan({"taylor.project","taylor.project.fileupload"})
 public class BookingApp {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException{
 		
+        new File(FileUploadController.uploadDirectory).mkdir();
 		ApplicationContext ctx = SpringApplication.run(BookingApp.class, args);
 
         // JPA concert repository init. default settings
         ConcertRepository concerts = ctx.getBean(ConcertRepository.class);
-        System.out.println("[Add concert]: " + concerts.save(new Concert("Taylor Swift Singapore 2023", 10000)).getConcertName());
-        System.out.println("[Add concert]: " + concerts.save(new Concert("BTS Singapore 2024", 20000)).getConcertName());
+        System.out.println("[Add concert]: " + concerts.save(new Concert("Taylor Swift Singapore 2023", 10000, Files.readAllBytes(Paths.get("Concert_Posters/Taylor_Swift_Concert_Poster.jpg")))).getConcertName());
+        System.out.println("[Add concert]: " + concerts.save(new Concert("BTS Singapore 2024", 20000, null)).getConcertName());
 
         // JPA user repository init
         UserRepository users = ctx.getBean(UserRepository.class);
