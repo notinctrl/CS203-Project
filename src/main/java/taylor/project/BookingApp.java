@@ -1,5 +1,7 @@
 package taylor.project;
 
+import java.time.LocalDate;
+
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
@@ -25,7 +27,7 @@ public class BookingApp {
         UserRepository users = ctx.getBean(UserRepository.class);
         BCryptPasswordEncoder encoder = ctx.getBean(BCryptPasswordEncoder.class);
         System.out.println("[Add user]: " + users.save(
-            new User("admin", encoder.encode("goodpassword"), "ROLE_ADMIN")).getUsername());
+            new User("admin", encoder.encode("goodpassword"), "19-03-2003" , "hello123@gmail.com" ,"1234", "ROLE_ADMIN")).getUsername());
         
         // Test the RestTemplate client with authentication
         /**
