@@ -2,6 +2,9 @@ package taylor.project.user;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter; // Import the DateTimeFormatter class
+import java.util.regex.*;    
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -44,9 +47,24 @@ public class User implements UserDetails{
     // We define two roles/authorities: ROLE_USER or ROLE_ADMIN
     private String authorities;
 
-    public User(String username, String password, String authorities){
+    private String birthday;
+
+    private String emailAddress;
+
+    public User(String username, String password, DateTimeFormatter birthday, String emailAddress, String authorities){
+        LocalDateTime myDateObj = LocalDateTime.now();
+        birthday = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        String regex = "^(.+)@(.+)$"; 
+        Pattern pattern = Pattern.compile(regex);  
+        Matcher matcher = pattern.matcher(emailAddress);
+        if(matcher.matches() == true){
+            this.emailAddress = emailAddress;
+        }else{
+            System.out.println("Invalid Email Address");
+        }
         this.username = username;
         this.password = password;
+        this.birthday = myDateObj.format(birthday);
         this.authorities = authorities;
     }
 
