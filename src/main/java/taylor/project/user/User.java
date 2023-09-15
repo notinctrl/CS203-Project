@@ -2,6 +2,7 @@ package taylor.project.user;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.concurrent.atomic.AtomicLong;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter; // Import the DateTimeFormatter class
 import java.util.regex.*;    
@@ -33,6 +34,7 @@ e.g., what authorities (roles) are granted to the user and whether the account i
 public class User implements UserDetails{
     private static final long serialVersionUID = 1L;
 
+    private static final AtomicLong counter = new AtomicLong();
     private @Id @GeneratedValue(strategy = GenerationType.IDENTITY) Long id;
     
     @NotNull(message = "Username should not be null")
@@ -51,8 +53,10 @@ public class User implements UserDetails{
 
     private String emailAddress;
 
-    public User(String username, String password, DateTimeFormatter birthday, String emailAddress, String authorities){
-        LocalDateTime myDateObj = LocalDateTime.now();
+    private String address;
+
+    public User(String username, String password, DateTimeFormatter birthday, String emailAddress, String address, String authorities){
+        LocalDateTime myDateObj = LocalDateTime.now(); 
         birthday = DateTimeFormatter.ofPattern("dd-MM-yyyy");
         String regex = "^(.+)@(.+)$"; 
         Pattern pattern = Pattern.compile(regex);  
@@ -62,9 +66,11 @@ public class User implements UserDetails{
         }else{
             System.out.println("Invalid Email Address");
         }
+        this.id = counter.incrementAndGet();
         this.username = username;
         this.password = password;
         this.birthday = myDateObj.format(birthday);
+        this.address = address;
         this.authorities = authorities;
     }
 
@@ -75,7 +81,7 @@ public class User implements UserDetails{
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return Arrays.asList(new SimpleGrantedAuthority(authorities));
     }
-
+    
     /*
     The various is___Expired() methods return a boolean to indicate whether
     or not the user’s account is enabled or expired.
