@@ -17,6 +17,17 @@ Authorization: Basic admin goodpassword
     "concertName": "Coldplay Singapore 2023",
     "ticketQuantity": 8000
 }
+
+###
+POST http://localhost:8080/concerts
+Content-Type: application/json
+Authorization: Basic admin goodpassword
+# doesn't work because of short concert name
+
+{
+    "concertName": "Cold",
+    "ticketQuantity": 8000
+}
 ###
 POST http://localhost:8080/concerts
 Content-Type: application/json
