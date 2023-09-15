@@ -29,18 +29,16 @@ public class BookingApp {
         
         // Test the RestTemplate client with authentication
         /**
-         * TODO: Activity 3 (after class)
-         * Uncomment the following code and test the changes
-         * Here we use our own Rest client to test the service
-         * Authentication info has been added int the RestTemplateClient.java
+         * Use Rest client to test the service
+         * Authentication info has been added into the RestTemplateClient.java in client subfolder
          */
-        /*
-        RestTemplateClient client = ctx.getBean(RestTemplateClient.class);
-        System.out.println("[Add book]: " + client.addBook("http://localhost:8080/concerts", new Book("Spring in Actions")).getTitle());
+        
+        // RestTemplateClient client = ctx.getBean(RestTemplateClient.class);
+        // System.out.println("[Add concert]: " + client.addConcert("http://localhost:8080/concerts", new Concert("Kessoku Band", 100)).getConcertName());
 
-        // Get the 1st book, obtain a HTTP response and print out the title of the book
-        System.out.println("[Get book]: " + client.getBookEntity("http://localhost:8080/concerts", 1L).getBody().getTitle());
-        */
+        // // Get the 1st concert, obtain a HTTP response and print out the name of the concert
+        // System.out.println("[Get concert]: " + client.getConcertEntity("http://localhost:8080/concerts", 1L).getBody().getConcertName());
+        
     }
     
 }
