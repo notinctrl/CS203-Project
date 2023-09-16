@@ -2,9 +2,10 @@ package taylor.project.user;
 
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.concurrent.atomic.AtomicLong;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter; // Import the DateTimeFormatter class
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+
 import java.util.regex.*;    
 
 import javax.persistence.Entity;
@@ -13,6 +14,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -32,9 +36,8 @@ import lombok.*;
 e.g., what authorities (roles) are granted to the user and whether the account is enabled or not
 */
 public class User implements UserDetails{
-    private static final long serialVersionUID = 1L;
 
-    private static final AtomicLong counter = new AtomicLong();
+    private static final long serialVersionUID = 1L;
     private @Id @GeneratedValue(strategy = GenerationType.IDENTITY) Long id;
     
     @NotNull(message = "Username should not be null")
@@ -55,9 +58,8 @@ public class User implements UserDetails{
 
     private String address;
 
-    public User(String username, String password, DateTimeFormatter birthday, String emailAddress, String address, String authorities){
-        LocalDateTime myDateObj = LocalDateTime.now(); 
-        birthday = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+    public User(String username, String password, String stringBirthday, String emailAddress, String address, String authorities){
+        //DateFormat birthday = new SimpleDateFormat(stringBirthday);
         String regex = "^(.+)@(.+)$"; 
         Pattern pattern = Pattern.compile(regex);  
         Matcher matcher = pattern.matcher(emailAddress);
@@ -66,10 +68,10 @@ public class User implements UserDetails{
         }else{
             System.out.println("Invalid Email Address");
         }
-        this.id = counter.incrementAndGet();
         this.username = username;
         this.password = password;
-        this.birthday = myDateObj.format(birthday);
+        //this.birthday = birthday.format(stringBirthday);
+        this.birthday = stringBirthday;
         this.address = address;
         this.authorities = authorities;
     }
@@ -102,4 +104,9 @@ public class User implements UserDetails{
     public boolean isEnabled() {
         return true;
     }
+
+    public boolean isPresent() {
+        return false;
+    }
+
 }
