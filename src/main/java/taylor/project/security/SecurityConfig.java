@@ -69,14 +69,14 @@ public class SecurityConfig {
 
             .antMatchers(HttpMethod.POST, "/users", "/users/**").permitAll()
             .antMatchers(HttpMethod.DELETE, "/users", "/users/").permitAll()
-            .antMatchers(HttpMethod.GET, "/users/**").permitAll()
+            .antMatchers(HttpMethod.GET, "/users/*").permitAll()
             .antMatchers(HttpMethod.GET, "/users").authenticated()
 
             .antMatchers(HttpMethod.POST, "/concerts/**").hasAnyRole("USER", "ADMIN")
             .antMatchers(HttpMethod.PUT, "/concerts/**").hasRole("ADMIN")
             .antMatchers(HttpMethod.DELETE, "/concerts/**").hasRole("ADMIN")
             //.antMatchers(HttpMethod.POST, "/users", "/users/").hasRole("ADMIN")
-            .antMatchers(HttpMethod.GET, "/users").hasRole("ADMIN")
+            //.antMatchers(HttpMethod.GET, "/users").hasRole("ADMIN")
             .and()
         .authenticationProvider(authenticationProvider()) //specifies the authentication provider for HttpSecurity
         .csrf().disable()
