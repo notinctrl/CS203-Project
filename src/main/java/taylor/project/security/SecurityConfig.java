@@ -76,7 +76,7 @@ public class SecurityConfig {
             .antMatchers(HttpMethod.PUT, "/concerts/**").hasRole("ADMIN")
             .antMatchers(HttpMethod.DELETE, "/concerts/**").hasRole("ADMIN")
             //.antMatchers(HttpMethod.POST, "/users", "/users/").hasRole("ADMIN")
-            //.antMatchers(HttpMethod.GET, "/users").hasRole("ADMIN")
+            .antMatchers(HttpMethod.GET, "/users").hasRole("ADMIN")
             .and()
         .authenticationProvider(authenticationProvider()) //specifies the authentication provider for HttpSecurity
         .csrf().disable()
