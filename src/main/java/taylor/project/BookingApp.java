@@ -25,7 +25,11 @@ public class BookingApp {
         UserRepository users = ctx.getBean(UserRepository.class);
         BCryptPasswordEncoder encoder = ctx.getBean(BCryptPasswordEncoder.class);
         System.out.println("[Add user]: " + users.save(
-            new User("admin", encoder.encode("goodpassword"), "ROLE_ADMIN")).getUsername());
+            new User("admin", encoder.encode("goodpassword"),"20232321", 
+            "dsasdgsdf@sfs.com", "dsdfsdsd", "ROLE_ADMIN")).getUsername());
+            System.out.println("[Add user]: " + users.save(
+            new User("normaluser", encoder.encode("goodpassword"),"20232321", 
+            "dsasdgsdf@sfs.com", "dsdfsdsd", "ROLE_USER")).getEmailAddress());
         
         // Test the RestTemplate client with authentication
         /**
