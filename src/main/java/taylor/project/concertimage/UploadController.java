@@ -18,9 +18,9 @@ public class UploadController {
     //Save the uploaded file to this folder
     private static String UPLOADED_FOLDER = "F://temp//";
 
-    @GetMapping("/")
+    @GetMapping("/test")
     public String index() {
-        return "upload";
+        return "test";
     }
 
     @PostMapping("/upload") // //new annotation since 4.3

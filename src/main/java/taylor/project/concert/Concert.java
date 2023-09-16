@@ -34,7 +34,7 @@ public class Concert {
     private int ticketQuantity;
     private boolean isSoldOut = false;
     //for handling gallery uploads
-    @Column(nullable = true, length = 5000000)
+    @Column(nullable = true, length = 10000000)
     private byte[] photo;
 
     @NotNull(message = "Error: Concert name cannot be empty.")

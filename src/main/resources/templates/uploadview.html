@@ -23,12 +23,15 @@
 
 
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="https://www.thymeleaf.org">
+    <h4>Concert Poster Upload</h4>
     <head>
-    <meta charset="UTF-8"></meta>
-    <title>"title here"</title>
+    <!-- <meta charset="UTF-8"></meta> -->
+    <title>Create a Concert</title>
     </head>
     <body>
+        <img src="../static/concert_posters/Taylor_Swift_Concert_Poster.jpg"
+        style="float:left;height:640px;" th:src="@{concert_posters/Taylor_Swift_Concert_Poster.jpg}"/>
         <form action="/upload" method="post" enctype="multipart/form-data">
             <input type="file" name="files" multiple>
             <input type="submit" value="Upload Files"></input>
