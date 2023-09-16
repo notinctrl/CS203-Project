@@ -53,7 +53,7 @@ public class Concert {
     public Concert(String concertName, int ticketQuantity, byte[] photo) throws IOException{
         this.concertName = concertName;
         this.ticketQuantity = ticketQuantity;
-        if (photo == null || photo.length == 0) this.photo = Files.readAllBytes(Paths.get("Concert_Posters/Poster_Placeholder.png"));
+        if (photo == null || photo.length == 0) this.photo = Files.readAllBytes(Paths.get("src/main/resources/static/concert_posters/Poster_Placeholder.png"));
         else this.photo = photo;
     }
     
