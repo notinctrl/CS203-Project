@@ -22,10 +22,15 @@ public class ConcertServiceImpl implements ConcertService {
 
     
     @Override
-    public Concert getConcert(Long id){
+    public Concert getConcertById(Long id){
         return concerts.findById(id).orElse(null);
     }
     
+    @Override
+    public List<Concert> getConcertsByName(String concertName) {
+        return concerts.findByConcertNameContaining(concertName);
+    }
+
     @Override
     public Concert addConcert(Concert concert) {
         return concerts.save(concert);

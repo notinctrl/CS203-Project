@@ -2,7 +2,14 @@ GET http://localhost:8080/concerts
 Accept: application/json
 
 ###
-GET http://localhost:8080/concerts/1
+GET http://localhost:8080/concerts/byId/1
+
+###
+GET http://localhost:8080/concerts/byName/Taylor
+
+###
+GET http://localhost:8080/concerts/byName/BST
+# Should throw a 404 exception because there are no concerts whose name contains "BST"
 
 ###
 DELETE http://localhost:8080/concerts/3

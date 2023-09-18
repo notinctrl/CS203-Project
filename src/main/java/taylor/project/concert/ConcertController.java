@@ -40,16 +40,33 @@ public class ConcertController {
      * @param id
      * @return concert with the given id
      */
-    @GetMapping("/concerts/{id}")
-    public Concert getConcert(@PathVariable Long id){
-        Concert concert = concertService.getConcert(id);
+    @GetMapping("/concerts/byId/{id}")
+    public Concert getConcertById(@PathVariable Long id){
+        Concert concert = concertService.getConcertById(id);
 
         // Need to handle "concert not found" error using proper HTTP status code
         // In this case it should be HTTP 404
         if(concert == null) throw new ConcertNotFoundException(id);
-        return concertService.getConcert(id);
+        return concertService.getConcertById(id);
 
     }
+
+
+    /**
+     * Search for concerts containing the given name
+     * @param concertName
+     * @return list of concerts containing the given name
+     */
+    @GetMapping("/concerts/byName/{concertName}")
+    public List<Concert> getConcertsByNameContaining(@PathVariable String concertName) {
+        List<Concert> concerts = concertService.getConcertsByName(concertName);
+
+        if(concerts.size() == 0) throw new ConcertNotFoundException(concertName);
+        // Handles an empty list by throwing a HTTP 404 exception
+        return concerts;
+    }
+
+
     /**
      * Add a new concert with POST request to "/concerts"
      * Note the use of @RequestBody
