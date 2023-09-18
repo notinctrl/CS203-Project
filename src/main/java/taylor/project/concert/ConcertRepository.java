@@ -13,5 +13,5 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface ConcertRepository extends JpaRepository <Concert, Long> {
-    List<Concert> findByConcertNameContaining(String concertName);
+    List<Concert> findByConcertNameContainingIgnoreCase(String concertName);
 }

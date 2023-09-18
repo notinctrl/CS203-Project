@@ -28,7 +28,7 @@ public class ConcertServiceImpl implements ConcertService {
     
     @Override
     public List<Concert> getConcertsByName(String concertName) {
-        return concerts.findByConcertNameContaining(concertName);
+        return concerts.findByConcertNameContainingIgnoreCase(concertName);
     }
 
     @Override
