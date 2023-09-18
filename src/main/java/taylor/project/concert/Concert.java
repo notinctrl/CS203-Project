@@ -1,9 +1,9 @@
 package taylor.project.concert;
 
-import java.io.IOException;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.List;
+import java.util.*;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -35,7 +35,7 @@ public class Concert {
     private boolean isSoldOut = false;
     //for handling gallery uploads
     @Column(nullable = true, length = 10000000)
-    private byte[] photo;
+    private File photo;
 
     @NotNull(message = "Error: Concert name cannot be empty.")
     // null elements are considered valid, so we need a size constraints too
@@ -50,11 +50,12 @@ public class Concert {
     //     this.ticketQuantity = ticketQuantity;
     // }
 
-    public Concert(String concertName, int ticketQuantity, byte[] photo) throws IOException{
+    public Concert(String concertName, int ticketQuantity, String photoPath) throws IOException{
         this.concertName = concertName;
         this.ticketQuantity = ticketQuantity;
-        if (photo == null || photo.length == 0) this.photo = Files.readAllBytes(Paths.get("src/main/resources/static/concert_posters/Poster_Placeholder.png"));
-        else this.photo = photo;
+        if (photoPath == null || photoPath.length() == 0) this.photo = new File("src/main/resources/static/concert_posters/Poster_Placeholder.png");
+        else this.photo = new File(photoPath);
     }
+    
     
 }
