@@ -94,7 +94,7 @@
 		</div>
 
 	</div>
-
+<!-- img src="images/img_1.jpg" -->
 	<div id="concerts"></div>
 	<div class="section bg-light">
 		<div class="container">
@@ -102,11 +102,12 @@
 				<div class="col-lg-4 mb-4 mb-lg-0" data-aos="fade-up" data-aos-delay="0">
 					<div class="service grayscale">
 						<div class="service-img">
-							<a href="#"><img src="images/img_1.jpg" alt="Image" class="img-fluid"></a>
+							<a href="#"><img th:src="${Concert1Image}" width="200px"></a>
 						</div>
 						<div class="service-inner">
 							<span></span>
-							<h3>Collaborate</h3>
+							<h3 th:text="${Concert_1_Name}">Concert Name</h3>
+							<p th:text="${Concert1Image}">sdvv</p>
 							<p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
 							<p class="mb-0"><a href="#" class="more">Learn more</a></p>
 						</div>
