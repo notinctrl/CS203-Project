@@ -32,26 +32,37 @@ public class UploadController {
     @GetMapping("/index")
     public String index(Model model) {
         List<Concert> concerts = concertService.listConcerts(); 
-        Concert c1 = concerts.get(0);
-        model.addAttribute("Concert_1_Name", c1.getConcertName());
-        StringBuilder sb1 = new StringBuilder(c1.getPhoto().getPath());
-        sb1.delete(0, 25);
-        String correctPath1 = sb1.toString();
-        model.addAttribute("Concert1Image", correctPath1);
+        // Concert c1 = concerts.get(0);
+        // model.addAttribute("Concert_1_Name", c1.getConcertName());
+        // StringBuilder sb1 = new StringBuilder(c1.getPhoto().getPath());
+        // sb1.delete(0, 25);
+        // String correctPath1 = sb1.toString();
+        // model.addAttribute("Concert1Image", correctPath1);
 
-        Concert c2 = concerts.get(1);
-        model.addAttribute("Concert_2_Name", c2.getConcertName());
-        StringBuilder sb2 = new StringBuilder(c2.getPhoto().getPath());
-        sb2.delete(0, 25);
-        String correctPath2 = sb2.toString();
-        model.addAttribute("Concert2Image", correctPath2);
+        // Concert c2 = concerts.get(1);
+        // model.addAttribute("Concert_2_Name", c2.getConcertName());
+        // StringBuilder sb2 = new StringBuilder(c2.getPhoto().getPath());
+        // sb2.delete(0, 25);
+        // String correctPath2 = sb2.toString();
+        // model.addAttribute("Concert2Image", correctPath2);
 
-        Concert c3 = concerts.get(2);
-        model.addAttribute("Concert_3_Name", c3.getConcertName());
-        StringBuilder sb3 = new StringBuilder(c3.getPhoto().getPath());
-        sb3.delete(0, 25);
-        String correctPath3 = sb3.toString();
-        model.addAttribute("Concert3Image", correctPath3);
+        // Concert c3 = concerts.get(2);
+        // model.addAttribute("Concert_3_Name", c3.getConcertName());
+        // StringBuilder sb3 = new StringBuilder(c3.getPhoto().getPath());
+        // sb3.delete(0, 25);
+        // String correctPath3 = sb3.toString();
+        // model.addAttribute("Concert3Image", correctPath3);
+
+        int num = 1;
+        for (Concert c : concerts){
+            model.addAttribute("Concert" + num + "Name", c.getConcertName());
+            StringBuilder sb = new StringBuilder(c.getPhoto().getPath());
+            sb.delete(0, 25);
+            String correctPath = sb.toString();
+            model.addAttribute("Concert" + num + "Image", correctPath);
+            model.addAttribute("Concert" + num + "Date", c.getDate());
+            num++;
+        }
         return "index";
     }
 

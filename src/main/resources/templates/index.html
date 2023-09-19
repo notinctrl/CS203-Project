@@ -29,7 +29,7 @@
 	<link rel="stylesheet" href="css/glightbox.min.css">
 	<link rel="stylesheet" href="css/style.css">
 
-	<title>Medio &mdash; Free Bootstrap 5 Website Template by Untree.co</title>
+	<title>TTTicket &mdash; Ticket for You</title>
 </head>
 <body>
 
@@ -87,7 +87,7 @@
 <!-- <a href="#" class="btn btn-primary-outline white me-4">Find concert now</a> -->
 				<div class="col-lg-10 col-xxl-6">
 					<h1 class="heading-2 text-white mb-5" data-aos="fade-up">See your stars live seamlessly.</h1>
-					<p data-aos="fade-up" class="d-flex" data-aos-delay="200"><input class="btn btn-primary-outline white me-4" value="Find a concert now!" type="button" onClick="document.getElementById('concerts').scrollIntoView();" /> <a href="https://www.youtube.com/watch?v=mwtbEGNABWU" class="glightbox d-inline-flex align-items-center playvid"><span class="icon-play me-2"></span><span>Watch our video</span></a></p>
+					<p data-aos="fade-up" class="d-flex" data-aos-delay="200"><input class="btn btn-primary-outline white me-4" value="Find a concert now!" type="button" onClick="document.getElementById('concerts2').scrollIntoView();" /> <a href="https://www.youtube.com/watch?v=mwtbEGNABWU" class="glightbox d-inline-flex align-items-center playvid"><span class="icon-play me-2"></span><span>Watch our video</span></a></p>
 				</div>
 
 			</div>
@@ -95,19 +95,19 @@
 
 	</div>
 <!-- img src="images/img_1.jpg" -->
-	<div id="concerts"></div>
+	<div id="concerts1"></div>
 	<div class="section bg-light">
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-4 mb-4 mb-lg-0" data-aos="fade-up" data-aos-delay="0">
 					<div class="service grayscale">
 						<div class="service-img">
-							<a href="#"><img th:src="${Concert1Image}" width="200px"></a>
+							<!-- <h3>Connect</h3> -->
+							<a href="#"><img th:src="${Concert1Image}" class="container-fluid"></a>
 						</div>
 						<div class="service-inner">
 							<span></span>
-							<h3 th:text="${Concert_1_Name}">Concert Name</h3>
-							<p th:text="${Concert1Image}">sdvv</p>
+							<h3 th:text="${Concert1Name}">Concert Name</h3>
 							<p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
 							<p class="mb-0"><a href="#" class="more">Learn more</a></p>
 						</div>
@@ -147,11 +147,13 @@
 	</div>
 
 	<div class="section">
+		<div id = "concerts2">
 		<div class="container">
 			<div class="row justify-content-center mb-5">
 				<div class="col-lg-6 text-center" data-aos="fade-up" data-aos-delay="100">
-					<span class="subheading mb-2 d-inline-block">Awesome Portfolio</span>
-					<h2 class="mb-4">Our Portfolio</h2>
+					<!-- <span class="subheading mb-2 d-inline-block">Awesome Portfolio</span> -->
+					<!-- <h2 class="mb-4">Our Portfolio</h2> -->
+					<h2 class="mb-4">Concerts Happening Now</h2>
 				</div>
 			</div>
 
@@ -160,19 +162,26 @@
 					<div class="row">
 						<div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="200">
 							<a href="images/img_v_1-min.jpg" class="media-1 glightbox">
-								<img src="images/img_v_1-min.jpg" alt="Image" class="img-fluid">
+								<!-- <img src="images/img_v_1-min.jpg" alt="Image" class="img-fluid"> -->
+								<img th:src="${Concert2Image}" alt="Image" width="320px" class="container-fluid">
 								<div class="media-1-content">
-									<h2>Bonzai Tree</h2>
+									<!-- <h2>Bonzai Tree</h2> -->
+									<h2 th:text="${Concert2Name}">Concert Name</h2>
+									<span th:text="${Concert2Date}" class="category">Branding</span>
 									<span class="category">Web Application</span>
 								</div>
 							</a>
 						</div>
 						<div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="300">
-							<a href="images/img_v_2-min.jpg" class="media-1 glightbox">
-								<img src="images/img_v_2-min.jpg" alt="Image" class="img-fluid">
+							<a th:href="${Concert1Image}" class="media-1 glightbox">
+							<!-- <a href="images/img_v_2-min.jpg" class="media-1 glightbox"> -->
+								<!-- <img src="images/img_v_2-min.jpg" alt="Image" class="img-fluid"> -->
+								<img th:src="${Concert1Image}" alt="Image" width="340px" class="container-fluid">
 								<div class="media-1-content">
-									<h2>Simple Woman</h2>
-									<span class="category">Branding</span>
+									<!-- <h2>Simple Woman</h2> -->
+									<h2 th:text="${Concert1Name}">Concert Name</h2>
+									<span th:text="${Concert1Date}" class="category">Branding</span>
+									<!-- <span class="category">Branding</span> -->
 								</div>
 							</a>
 						</div>
