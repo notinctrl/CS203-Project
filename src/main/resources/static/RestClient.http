@@ -77,6 +77,8 @@ Authorization: Basic admin goodpassword
 
 ###unauthorised for non-admins
 GET http://localhost:8080/users
+Content-Type: application/json
+Authorization: Basic admin goodpassword
 
 ###
 POST http://localhost:8080/users
@@ -99,3 +101,14 @@ Authorization: Basic admin goodpassword
     "authorities": "ROLE_USER"
 }
 
+###
+POST http://localhost:8080/users
+Content-Type: application/json
+Authorization: basic admin goodpassword
+# To test with delete user function
+
+{
+    "username": "spambot",
+    "password": "ezpassword",
+    "authorities": "ROLE_USER"
+}
