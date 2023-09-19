@@ -15,7 +15,8 @@ Authorization: Basic admin goodpassword
 
 {
     "concertName": "Coldplay Singapore 2023",
-    "ticketQuantity": 8000
+    "ticketQuantity": 8000,
+    "photo":"src/main/resources/static/concert_posters/Coldplay_Concert_Poster.jpg"
 }
 
 ###
@@ -32,7 +33,7 @@ Authorization: Basic admin goodpassword
 POST http://localhost:8080/concerts
 Content-Type: application/json
 Authorization: Basic admin goodpassword
-# Validation failed - book title is null. wrong attribute!
+# Validation failed - concertName is null. wrong attribute name!
 
 {
     "eventName": "HOTplay Singapore 2023",
