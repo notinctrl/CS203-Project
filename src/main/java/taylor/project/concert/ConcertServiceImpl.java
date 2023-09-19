@@ -36,6 +36,8 @@ public class ConcertServiceImpl implements ConcertService {
         return concerts.findById(id).map(concert -> {concert.setConcertName(newConcertInfo.getConcertName());
                                                     concert.setTicketQuantity(newConcertInfo.getTicketQuantity());
                                                     concert.setPhoto(newConcertInfo.getPhoto());
+                                                    concert.setSoldOut(newConcertInfo.isSoldOut());
+                                                    concert.setDate(newConcertInfo.getDate());
             return concerts.save(concert);
     }).orElse(null);
 

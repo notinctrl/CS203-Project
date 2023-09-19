@@ -29,8 +29,8 @@ public class BookingApp {
 
         // JPA concert repository init. default settings
         ConcertRepository concerts = ctx.getBean(ConcertRepository.class);
-        System.out.println("[Add concert]: " + concerts.save(new Concert("Taylor Swift Singapore 2023", 10000, "src/main/resources/static/concert_posters/Taylor_Swift_Concert_Poster.jpg")).getConcertName());
-        System.out.println("[Add concert]: " + concerts.save(new Concert("BTS Singapore 2024", 20000, null)).getConcertName());
+        System.out.println("[Add concert]: " + concerts.save(new Concert("Taylor Swift Singapore 2023", 10000, "5 - 6 December 2023", "src/main/resources/static/concert_posters/Taylor_Swift_Concert_Poster.jpg")).getConcertName());
+        System.out.println("[Add concert]: " + concerts.save(new Concert("BTS Singapore 2024", 20000, "TBC", null)).getConcertName());
 
         // JPA user repository init
         UserRepository users = ctx.getBean(UserRepository.class);
