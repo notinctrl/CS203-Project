@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,6 +33,19 @@ public class UserController {
     public User addUser(@Valid @RequestBody User user){
         user.setPassword(encoder.encode(user.getPassword()));
         return users.save(user);
+    }
+
+    /**
+    * @param id
+     * @return
+     */
+    @DeleteMapping("/users/{id}")
+    public void deleteUser(@PathVariable Long id){
+        try{
+            users.deleteById(id);
+        } catch(EmptyResultDataAccessException e) {
+            throw new UserNotFoundException(id);
+        }
     }
    
 }

@@ -106,9 +106,16 @@ POST http://localhost:8080/users
 Content-Type: application/json
 Authorization: basic admin goodpassword
 # To test with delete user function
+# IDs are not repeated; deletion does not affect increment
 
 {
     "username": "spambot",
     "password": "ezpassword",
     "authorities": "ROLE_USER"
 }
+
+###
+DELETE http://localhost:8080/users/3
+Content-Type: application/json
+Authorization: basic admin goodpassword
+# UserNotFoundException works
