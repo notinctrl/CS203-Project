@@ -12,12 +12,14 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -52,26 +54,19 @@ public class User implements UserDetails{
     // We define two roles/authorities: ROLE_USER or ROLE_ADMIN
     private String authorities;
 
+    @JsonFormat(pattern="yyyy-MM-dd")
     private String birthday;
-
+    
+    @NotNull(message = "Email should not be null") @Email
     private String emailAddress;
 
     private String address;
 
-    public User(String username, String password, String stringBirthday, String emailAddress, String address, String authorities){
-        //DateFormat birthday = new SimpleDateFormat(stringBirthday);
-        String regex = "^(.+)@(.+)$"; 
-        Pattern pattern = Pattern.compile(regex);  
-        Matcher matcher = pattern.matcher(emailAddress);
-        if(matcher.matches() == true){
-            this.emailAddress = emailAddress;
-        }else{
-            System.out.println("Invalid Email Address");
-        }
+    public User(String username, String password, String birthday, String emailAddress, String address, String authorities){
+        this.emailAddress = emailAddress;
         this.username = username;
         this.password = password;
-        //this.birthday = birthday.format(stringBirthday);
-        this.birthday = stringBirthday;
+        this.birthday = birthday;
         this.address = address;
         this.authorities = authorities;
     }
