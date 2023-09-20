@@ -24,7 +24,7 @@ public class BookingApp {
 
 	public static void main(String[] args) throws IOException{
 		
-        new File(FileUploadController.uploadDirectory).mkdir();
+        // new File(FileUploadController.uploadDirectory).mkdir();
 		ApplicationContext ctx = SpringApplication.run(BookingApp.class, args);
 
         // JPA concert repository init. default settings
