@@ -37,8 +37,8 @@ public class Concert {
     private boolean isSoldOut = false;
     //for handling gallery uploads
     @Column(nullable = true, length = 10000000)
-    // private File photo;
-    private byte[] photo;
+    private File photo;
+    // private byte[] photo;
 
     // @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     // private LocalDateTime startDateTime;
@@ -63,8 +63,8 @@ public class Concert {
         this.ticketQuantity = ticketQuantity;
         // this.dateTime = dateTime;
         this.date = date;
-        if (photoPath == null || photoPath.length() == 0) this.photo = FileUtils.readFileToByteArray(new File("src/main/resources/static/concert_posters/Poster_Placeholder.png"));
-        else this.photo = FileUtils.readFileToByteArray(new File(photoPath));
+        if (photoPath == null || photoPath.length() == 0) this.photo = new File("src/main/resources/static/concert_posters/Poster_Placeholder.png");
+        else this.photo = new File(photoPath);
     }
     
     

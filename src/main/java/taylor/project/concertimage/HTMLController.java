@@ -54,28 +54,28 @@ public class HTMLController {
         // String correctPath3 = sb3.toString();
         // model.addAttribute("Concert3Image", correctPath3);
 
-        //     int num = 1;
-        //     for (Concert c : concerts){
-        //     model.addAttribute("Concert" + num + "Name", c.getConcertName());
-        //     StringBuilder sb = new StringBuilder(c.getPhoto().getPath());
-        //     sb.delete(0, 25);
-        //     String correctPath = sb.toString();
-        //     model.addAttribute("Concert" + num + "Image", correctPath);
-        //     model.addAttribute("Concert" + num + "Date", c.getDate());
-        //     num++;
-        // }
-
         int num = 1;
-
         for (Concert c : concerts){
             model.addAttribute("Concert" + num + "Name", c.getConcertName());
-            String createPoster = "src/main/resources/static/concert_posters/concert" + num + "poster.jpg";
-            FileUtils.writeByteArrayToFile(new File(createPoster), c.getPhoto());
-            String accessPoster = "concert_posters/concert" + num + "poster.jpg";
-            model.addAttribute("Concert" + num + "Image", accessPoster);
+            StringBuilder sb = new StringBuilder(c.getPhoto().getPath());
+            sb.delete(0, 25);
+            String correctPath = sb.toString();
+            model.addAttribute("Concert" + num + "Image", correctPath);
             model.addAttribute("Concert" + num + "Date", c.getDate());
             num++;
         }
+
+        // int num = 1;
+
+        // for (Concert c : concerts){
+        //     model.addAttribute("Concert" + num + "Name", c.getConcertName());
+        //     String createPoster = "src/main/resources/static/concert_posters/concert" + num + "poster.jpg";
+        //     FileUtils.writeByteArrayToFile(new File(createPoster), c.getPhoto());
+        //     String accessPoster = "concert_posters/concert" + num + "poster.jpg";
+        //     model.addAttribute("Concert" + num + "Image", accessPoster);
+        //     model.addAttribute("Concert" + num + "Date", c.getDate());
+        //     num++;
+        // }
         
         return "index";
     }
