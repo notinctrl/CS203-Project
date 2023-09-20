@@ -1,11 +1,13 @@
 package taylor.project.concertimage;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
 
+import org.apache.commons.io.FileUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,15 +16,16 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import ch.qos.logback.core.util.FileUtil;
 import taylor.project.concert.Concert;
 import taylor.project.concert.ConcertService;
 
 @Controller
-public class UploadController {
+public class HTMLController {
 
     private ConcertService concertService;
 
-    public UploadController(ConcertService cs){
+    public HTMLController(ConcertService cs){
         this.concertService = cs;
     }
 
@@ -30,7 +33,7 @@ public class UploadController {
     private static String UPLOADED_FOLDER = "F://temp//";
 
     @GetMapping("/index")
-    public String index(Model model) {
+    public String index(Model model) throws IOException{
         List<Concert> concerts = concertService.listConcerts(); 
         // Concert c1 = concerts.get(0);
         // model.addAttribute("Concert_1_Name", c1.getConcertName());
@@ -53,16 +56,28 @@ public class UploadController {
         // String correctPath3 = sb3.toString();
         // model.addAttribute("Concert3Image", correctPath3);
 
+        //     int num = 1;
+        //     for (Concert c : concerts){
+        //     model.addAttribute("Concert" + num + "Name", c.getConcertName());
+        //     StringBuilder sb = new StringBuilder(c.getPhoto().getPath());
+        //     sb.delete(0, 25);
+        //     String correctPath = sb.toString();
+        //     model.addAttribute("Concert" + num + "Image", correctPath);
+        //     model.addAttribute("Concert" + num + "Date", c.getDate());
+        //     num++;
+        // }
+
         int num = 1;
+
         for (Concert c : concerts){
             model.addAttribute("Concert" + num + "Name", c.getConcertName());
-            StringBuilder sb = new StringBuilder(c.getPhoto().getPath());
-            sb.delete(0, 25);
-            String correctPath = sb.toString();
-            model.addAttribute("Concert" + num + "Image", correctPath);
+            String posterPath = "/concert_posters/concert" + num + "poster.jpg";
+            FileUtils.writeByteArrayToFile(new File(posterPath), c.getPhoto());
+            model.addAttribute("Concert" + num + "Image", posterPath);
             model.addAttribute("Concert" + num + "Date", c.getDate());
             num++;
         }
+        
         return "index";
     }
 
