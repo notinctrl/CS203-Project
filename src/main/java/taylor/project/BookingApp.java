@@ -1,5 +1,8 @@
 package taylor.project;
 
+import java.time.LocalDateTime;
+
+import org.apache.tomcat.jni.Local;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
@@ -18,8 +21,12 @@ public class BookingApp {
 
         // JPA concert repository init. default settings
         ConcertRepository concerts = ctx.getBean(ConcertRepository.class);
-        System.out.println("[Add concert]: " + concerts.save(new Concert("Taylor Swift Singapore 2023", 10000)).getConcertName());
-        System.out.println("[Add concert]: " + concerts.save(new Concert("BTS Singapore 2024", 20000)).getConcertName());
+        System.out.println("[Add concert]: " + concerts.save(new Concert("Taylor Swift Singapore 2023", 10000,
+                            LocalDateTime.parse("2024-03-02T19:00"), LocalDateTime.parse("2024-03-02T22:00"),
+                            "Singapore National Stadium")).getConcertName());
+        System.out.println("[Add concert]: " + concerts.save(new Concert("BTS Singapore 2024", 20000,
+                            LocalDateTime.parse("2024-01-29T20:00"), LocalDateTime.parse("2024-01-20T23:00"),
+                            "Singapore Indoor Stadium")).getConcertName());
 
         // JPA user repository init
         UserRepository users = ctx.getBean(UserRepository.class);

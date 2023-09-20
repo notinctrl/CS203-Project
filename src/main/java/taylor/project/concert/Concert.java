@@ -1,6 +1,7 @@
 package taylor.project.concert;
 
 import java.util.List;
+import java.time.*;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -34,13 +35,27 @@ public class Concert {
     // null elements are considered valid, so we need a size constraints too
     @Size(min = 5, max = 200, message = "Error: Concert name should be at least 5 characters long")
     private String concertName;
+
+    @NotNull(message = "Error: Concert start date time cannot be empty.")
+    private LocalDateTime startDateTime;
+
+    @NotNull(message = "Error: Concert end date time cannot be empty.")
+    private LocalDateTime endDateTime;
+
+    @NotNull(message = "Error: Concert venue cannot be empty.")
+    @Size(min = 5, max = 200, message = "Error: Concert venue should be at least 5 characters long")
+    private String concertVenue;
     
     
     //@JsonIgnore
 
-    public Concert(String concertName, int ticketQuantity) {
+    public Concert(String concertName, int ticketQuantity, LocalDateTime startDateTime, LocalDateTime endDateTime, String concertVenue) {
         this.concertName = concertName;
         this.ticketQuantity = ticketQuantity;
+        this.startDateTime = startDateTime;
+        this.endDateTime = endDateTime;
+        this.concertVenue = concertVenue;
+
     }
     
 }
