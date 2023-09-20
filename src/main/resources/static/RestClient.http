@@ -17,8 +17,13 @@ Authorization: Basic admin goodpassword
     "concertName": "Coldplay Singapore 2023",
     "ticketQuantity": 8000,
     "date": "5 - 6 May 2024",
-    "photo":"src/main/resources/static/concert_posters/Coldplay_Concert_Poster.jpg"
+    "photo": "src/main/resources/static/concert_posters/Coldplay_Concert_Poster1.jpg"
 }
+
+###deleting concert works under admin privileges
+DELETE http://localhost:8080/concerts/3
+Content-Type: application/json
+Authorization: Basic admin goodpassword
 
 ###
 POST http://localhost:8080/concerts
@@ -72,11 +77,6 @@ Authorization: Basic dt goodpassword
 # {
 #     "review": "Should be bad!"
 # }
-
-###deleting concert works under admin privileges
-DELETE http://localhost:8080/concerts/3
-Content-Type: application/json
-Authorization: Basic admin goodpassword
 
 ###unauthorised for non-admins
 GET http://localhost:8080/users
