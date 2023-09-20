@@ -15,7 +15,10 @@ Authorization: Basic admin goodpassword
 
 {
     "concertName": "Coldplay Singapore 2023",
-    "ticketQuantity": 8000
+    "ticketQuantity": 8000,
+    "startDateTime": "2024-03-03T19:30",
+    "endDateTime": "2024-03-03T22:30",
+    "concertVenue": "Singapore National Stadium"
 }
 ###
 POST http://localhost:8080/concerts
@@ -25,7 +28,10 @@ Authorization: Basic admin goodpassword
 
 {
     "eventName": "HOTplay Singapore 2023",
-    "ticketQuantity": 8000
+    "ticketQuantity": 8000,
+    "startDateTime": "2024-03-03T19:30",
+    "endDateTime": "2024-03-03T22:30",
+    "concertVenue": "Singapore National Stadium"
 }
 ###
 PUT http://localhost:8080/concerts/1
@@ -35,7 +41,10 @@ Authorization: Basic dt goodpassword
 
 {
     "concertName": "Taylor Swift Singapore 2023",
-    "ticketQuantity": 999000
+    "ticketQuantity": 999000,
+    "startDateTime": "2024-03-03T19:30",
+    "endDateTime": "2024-03-03T22:30",
+    "concertVenue": "Singapore National Stadium"
 }
 
 ###

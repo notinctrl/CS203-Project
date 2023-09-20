@@ -12,6 +12,8 @@ import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.*;
@@ -49,11 +51,11 @@ public class Concert {
     
     //@JsonIgnore
 
-    public Concert(String concertName, int ticketQuantity, LocalDateTime startDateTime, LocalDateTime endDateTime, String concertVenue) {
+    public Concert(String concertName, int ticketQuantity, String startDateTime, String endDateTime, String concertVenue) {
         this.concertName = concertName;
         this.ticketQuantity = ticketQuantity;
-        this.startDateTime = startDateTime;
-        this.endDateTime = endDateTime;
+        this.startDateTime = LocalDateTime.parse(startDateTime);
+        this.endDateTime = LocalDateTime.parse(endDateTime);
         this.concertVenue = concertVenue;
 
     }

@@ -22,10 +22,10 @@ public class BookingApp {
         // JPA concert repository init. default settings
         ConcertRepository concerts = ctx.getBean(ConcertRepository.class);
         System.out.println("[Add concert]: " + concerts.save(new Concert("Taylor Swift Singapore 2023", 10000,
-                            LocalDateTime.parse("2024-03-02T19:00"), LocalDateTime.parse("2024-03-02T22:00"),
+                            "2024-03-02T19:00", "2024-03-02T22:00",
                             "Singapore National Stadium")).getConcertName());
         System.out.println("[Add concert]: " + concerts.save(new Concert("BTS Singapore 2024", 20000,
-                            LocalDateTime.parse("2024-01-29T20:00"), LocalDateTime.parse("2024-01-20T23:00"),
+                            "2024-01-29T20:00", "2024-01-20T23:00",
                             "Singapore Indoor Stadium")).getConcertName());
 
         // JPA user repository init
