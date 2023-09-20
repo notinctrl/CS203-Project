@@ -2,9 +2,7 @@ package taylor.project.concertimage;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.nio.file.*;
 import java.util.*;
 
 import org.apache.commons.io.FileUtils;
@@ -71,9 +69,10 @@ public class HTMLController {
 
         for (Concert c : concerts){
             model.addAttribute("Concert" + num + "Name", c.getConcertName());
-            String posterPath = "/concert_posters/concert" + num + "poster.jpg";
-            FileUtils.writeByteArrayToFile(new File(posterPath), c.getPhoto());
-            model.addAttribute("Concert" + num + "Image", posterPath);
+            String createPoster = "src/main/resources/static/concert_posters/concert" + num + "poster.jpg";
+            FileUtils.writeByteArrayToFile(new File(createPoster), c.getPhoto());
+            String accessPoster = "concert_posters/concert" + num + "poster.jpg";
+            model.addAttribute("Concert" + num + "Image", accessPoster);
             model.addAttribute("Concert" + num + "Date", c.getDate());
             num++;
         }
