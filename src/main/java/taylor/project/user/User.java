@@ -2,6 +2,9 @@ package taylor.project.user;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.concurrent.atomic.AtomicLong;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter; // Import the DateTimeFormatter class  
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -42,6 +45,7 @@ e.g., what authorities (roles) are granted to the user and whether the account i
 public class User implements UserDetails{
 
     private static final long serialVersionUID = 1L;
+    private static final AtomicLong counter = new AtomicLong();
     private @Id @GeneratedValue(strategy = GenerationType.IDENTITY) Long id;
     
     @NotNull(message = "Username should not be null")
@@ -61,6 +65,9 @@ public class User implements UserDetails{
     private LocalDate birthday;
     
     @NotNull(message = "Email should not be null") @Email(message = "Please provide a valid email")
+
+    @Email(message = "Invalid email address")
+    @NotNull(message = "Password should not be null")
     private String emailAddress;
 
     @NotNull(message = "Address should not be null")
@@ -71,6 +78,11 @@ public class User implements UserDetails{
         this.username = username;
         this.password = password;
         this.birthday = LocalDate.parse(birthday, DateTimeFormatter.ofPattern("dd-MM-yyyy"));
+        this.id = counter.incrementAndGet();
+        this.username = username;
+        this.password = password;
+        this.birthday = LocalDate.parse(birthday, DateTimeFormatter.ofPattern("dd-MM-yyyy"));
+        this.emailAddress=emailAddress;
         this.address = address;
         this.authorities = authorities;
     }

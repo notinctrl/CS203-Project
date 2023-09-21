@@ -3,6 +3,8 @@ package taylor.project;
 import java.time.LocalDateTime;
 
 import org.apache.tomcat.jni.Local;
+import java.time.LocalDate;
+
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
@@ -37,6 +39,7 @@ public class BookingApp {
             System.out.println("[Add user]: " + users.save(
             new User("normaluser", encoder.encode("goodpassword"),"23-10-2001", 
             "dsasdgsdf@sfs.com", "dsdfsdsd", "ROLE_USER")).getEmailAddress());
+            new User("admin", encoder.encode("goodpassword"), "19-03-2003" , "hello123@gmail.com" ,"1234", "ROLE_ADMIN")).getUsername());
         
         // Test the RestTemplate client with authentication
         /**
