@@ -1,5 +1,6 @@
 package taylor.project.user;
 
+import java.security.Principal;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -64,6 +65,18 @@ public class UserController {
     public User addUser(@Valid @RequestBody User user){
         user.setPassword(encoder.encode(user.getPassword()));
         return userService.addUser(user);
+    }
+
+    @ResponseStatus(HttpStatus.CREATED)
+    @PostMapping("/adminUsers")
+    public User addAdminUser(@Valid @RequestBody User user){
+        user.setPassword(encoder.encode(user.getPassword()));
+        return userService.addUser(user);
+    }
+
+    @GetMapping("/currentDetail")
+    public Principal currentDetail(Principal principal){
+        return principal;
     }
    
 }
