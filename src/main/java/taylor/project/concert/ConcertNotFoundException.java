@@ -12,4 +12,7 @@ public class ConcertNotFoundException extends RuntimeException{
         super("Could not find concert with id " + id);
     }
     
+    public ConcertNotFoundException(String concertName) {
+        super("Could not find concerts with " + concertName);
+    }
 }

@@ -2,7 +2,17 @@ GET http://localhost:8080/concerts
 Accept: application/json
 
 ###
-GET http://localhost:8080/concerts/1
+GET http://localhost:8080/concerts/byId/1
+
+###
+GET http://localhost:8080/concerts/byName/taylor%20swift
+# Should return 2 concerts containing the name "Taylor Swift"
+# %20 is used to replace spaces in query
+# Should be non-case sensitive
+
+###
+GET http://localhost:8080/concerts/byName/BST
+# Should throw a 404 exception because there are no concerts whose name contains "BST"
 
 ###
 DELETE http://localhost:8080/concerts/3
@@ -82,6 +92,8 @@ Authorization: Basic admin goodpassword
 GET http://localhost:8080/users/admin
 Authorization: Basic admin goodpassword
 
+Content-Type: application/json
+Authorization: Basic admin goodpassword
 
 ###
 GET http://localhost:8080/currentDetail
@@ -112,3 +124,21 @@ Content-Type: application/json
     "emailAddress": "hellohi@gmail.com"
 }
 
+###
+POST http://localhost:8080/users
+Content-Type: application/json
+Authorization: basic admin goodpassword
+# To test with delete user function
+# IDs are not repeated; deletion does not affect increment
+
+{
+    "username": "spambot",
+    "password": "ezpassword",
+    "authorities": "ROLE_USER"
+}
+
+###
+DELETE http://localhost:8080/users/3
+Content-Type: application/json
+Authorization: basic admin goodpassword
+# UserNotFoundException works

@@ -27,6 +27,9 @@ public class BookingApp {
         System.out.println("[Add concert]: " + concerts.save(new Concert("BTS Singapore 2024", 20000,
                             "2024-01-29T20:00", "2024-01-20T23:00",
                             "Singapore Indoor Stadium")).getConcertName());
+        System.out.println("[Add concert]: " + concerts.save(new Concert("Taylor Swift Singapore 2023", 10000)).getConcertName());
+        System.out.println("[Add concert]: " + concerts.save(new Concert("Taylor Swift Singapore 2024", 10000)).getConcertName());
+        System.out.println("[Add concert]: " + concerts.save(new Concert("BTS Singapore 2024", 20000)).getConcertName());
 
         // JPA user repository init
         UserRepository users = ctx.getBean(UserRepository.class);

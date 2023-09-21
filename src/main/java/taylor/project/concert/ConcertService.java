@@ -4,7 +4,8 @@ import java.util.List;
 
 public interface ConcertService {
     List<Concert> listConcerts();
-    Concert getConcert(Long id);
+    Concert getConcertById(Long id);
+    List<Concert> getConcertsByName(String concertName);
     Concert addConcert(Concert concert);
     Concert updateConcert(Long id, Concert concert);
 
