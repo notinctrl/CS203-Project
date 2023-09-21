@@ -5,7 +5,8 @@ import java.util.Collection;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.regex.*;    
 
 import javax.persistence.Entity;
@@ -14,6 +15,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
 import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -54,8 +56,9 @@ public class User implements UserDetails{
     // We define two roles/authorities: ROLE_USER or ROLE_ADMIN
     private String authorities;
 
-    @JsonFormat(pattern="yyyy-MM-dd")
-    private String birthday;
+    @Past(message = "Invalid date. Use format \"dd-MM-yyyy\"")
+    @NotNull(message = "Birthday should not be null")
+    private LocalDate birthday;
     
     @NotNull(message = "Email should not be null") @Email
     private String emailAddress;
@@ -66,7 +69,7 @@ public class User implements UserDetails{
         this.emailAddress = emailAddress;
         this.username = username;
         this.password = password;
-        this.birthday = birthday;
+        this.birthday = LocalDate.parse(birthday, DateTimeFormatter.ofPattern("dd-MM-yyyy"));
         this.address = address;
         this.authorities = authorities;
     }
