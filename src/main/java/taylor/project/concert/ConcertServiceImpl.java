@@ -22,10 +22,15 @@ public class ConcertServiceImpl implements ConcertService {
 
     
     @Override
-    public Concert getConcert(Long id){
+    public Concert getConcertById(Long id){
         return concerts.findById(id).orElse(null);
     }
     
+    @Override
+    public List<Concert> getConcertsByName(String concertName) {
+        return concerts.findByConcertNameContainingIgnoreCase(concertName);
+    }
+
     @Override
     public Concert addConcert(Concert concert) {
         return concerts.save(concert);
@@ -38,6 +43,9 @@ public class ConcertServiceImpl implements ConcertService {
                                                     concert.setStartDateTime(newConcertInfo.getStartDateTime());
                                                     concert.setEndDateTime(newConcertInfo.getEndDateTime());
                                                     concert.setConcertVenue(newConcertInfo.getConcertVenue());
+                                                    concert.setPhoto(newConcertInfo.getPhoto());
+                                                    concert.setSoldOut(newConcertInfo.isSoldOut());
+                                                    concert.setDate(newConcertInfo.getDate());
             return concerts.save(concert);
     }).orElse(null);
 

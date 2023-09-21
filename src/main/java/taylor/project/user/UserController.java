@@ -7,6 +7,7 @@ import javax.validation.Valid;
 
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
@@ -77,6 +78,19 @@ public class UserController {
     @GetMapping("/currentDetail")
     public Principal currentDetail(Principal principal){
         return principal;
+    }
+
+    /**
+    * @param id
+     * @return
+     */
+    @DeleteMapping("/users/{id}")
+    public void deleteUser(@PathVariable Long id){
+        try{
+            users.deleteById(id);
+        } catch(EmptyResultDataAccessException e) {
+            throw new UserNotFoundException(id);
+        }
     }
    
 }

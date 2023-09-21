@@ -20,17 +20,10 @@ import java.util.Map;
 /**
  * Centralize exception handling in this class.
  * 
- * TODO: Activity 1 - Uncomment the line below (@ControllerAdvice) to designate that 
- * this class is a central place to handle exceptions across your app
+ * Designated class to handle exceptions across the app
  */
- @ControllerAdvice
+@ControllerAdvice
 public class RestExceptionHandler extends ResponseEntityExceptionHandler {
-
-    /**
-     * TODO - Activity 1
-     * Uncomment the below code to implement consistent exception handling
-     * 
-     */
     /**
      * Construct a new ResponseEntity to customize the Http error messages
      * This method handles the case in which validation failed for
@@ -57,11 +50,10 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
     }
 
-    /**
+    /*
      * Handle the case in which arguments for controller's methods did not match the type.
      * E.g., bookId passed in is not a number
      */
-    
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
     public void handleTypeMismatch(HttpServletResponse response) throws IOException {
         response.sendError(HttpStatus.BAD_REQUEST.value());
