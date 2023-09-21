@@ -60,9 +60,10 @@ public class User implements UserDetails{
     @NotNull(message = "Birthday should not be null")
     private LocalDate birthday;
     
-    @NotNull(message = "Email should not be null") @Email
+    @NotNull(message = "Email should not be null") @Email(message = "Please provide a valid email")
     private String emailAddress;
 
+    @NotNull(message = "Address should not be null")
     private String address;
 
     public User(String username, String password, String birthday, String emailAddress, String address, String authorities){
