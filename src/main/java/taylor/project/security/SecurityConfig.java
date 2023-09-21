@@ -67,14 +67,18 @@ public class SecurityConfig {
             .antMatchers(HttpMethod.PUT, "/concerts/**").authenticated()
             .antMatchers(HttpMethod.DELETE, "/concerts/**").authenticated()
 
-            .antMatchers(HttpMethod.POST, "/users", "/users/").authenticated()
-            .antMatchers(HttpMethod.DELETE, "/users", "/users/").authenticated()
+            .antMatchers(HttpMethod.POST, "/users").permitAll()
+            .antMatchers(HttpMethod.DELETE, "/users", "/users/").permitAll()
+            .antMatchers(HttpMethod.GET, "/users/*").hasRole("ADMIN")
+            .antMatchers(HttpMethod.GET, "/users").hasRole("ADMIN")
+            .antMatchers(HttpMethod.GET, "/currentDetail").permitAll()
+            .antMatchers(HttpMethod.POST, "/adminUsers").hasRole("ADMIN")
 
             .antMatchers(HttpMethod.POST, "/concerts/**").hasAnyRole("USER", "ADMIN")
             .antMatchers(HttpMethod.PUT, "/concerts/**").hasRole("ADMIN")
             .antMatchers(HttpMethod.DELETE, "/concerts/**").hasRole("ADMIN")
-            .antMatchers(HttpMethod.POST, "/users", "/users/").hasRole("ADMIN")
-            .antMatchers(HttpMethod.GET, "/users", "/users/").hasRole("ADMIN")
+            //.antMatchers(HttpMethod.POST, "/users", "/users/").hasRole("ADMIN")
+            .antMatchers(HttpMethod.GET, "/users").hasRole("ADMIN")
             .and()
         .authenticationProvider(authenticationProvider()) //specifies the authentication provider for HttpSecurity
         .csrf().disable()

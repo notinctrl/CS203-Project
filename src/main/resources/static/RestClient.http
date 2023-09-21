@@ -76,25 +76,39 @@ Authorization: Basic admin goodpassword
 
 ###unauthorised for non-admins
 GET http://localhost:8080/users
+Authorization: Basic admin goodpassword
+
+###unauthorised for non-admins
+GET http://localhost:8080/users/admin
+Authorization: Basic admin goodpassword
+
 
 ###
-POST http://localhost:8080/users
+GET http://localhost:8080/currentDetail
+Authorization: Basic normaluser goodpassword
+
+
+###only admins can create admin
+POST http://localhost:8080/adminUsers
+Authorization: Basic admin goodpassword
 Content-Type: application/json
 
 {
     "username": "donta",
     "password": "goodpassword",
-    "authorities": "ROLE_ADMIN"
+    "authorities": "ROLE_ADMIN",
+    "emailAddress": "hello@gmail.com",
+    "birthday": "123"
 }
 
 ###
 POST http://localhost:8080/users
 Content-Type: application/json
-Authorization: Basic admin goodpassword
 
 {
     "username": "gooduser",
     "password": "goodpassword",
-    "authorities": "ROLE_USER"
+    "authorities": "ROLE_USER",
+    "emailAddress": "hellohi@gmail.com"
 }
 
