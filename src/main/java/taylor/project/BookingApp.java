@@ -38,17 +38,17 @@ public class BookingApp {
         ConcertRepository concerts = ctx.getBean(ConcertRepository.class);
         System.out.println("[Add concert]: " + concerts.save(new Concert("Taylor Swift Singapore 2023", 10000,
                             "2024-03-02T19:00", "2024-03-02T22:00",
-                            "Singapore National Stadium")).getConcertName());
-        System.out.println("[Add concert]: " + concerts.save(new Concert("Taylor Swift Singapore 2023", 10000, "5 - 6 December 2023", "src/main/resources/static/concert_posters/Taylor_Swift_Concert_Poster.jpg")).getConcertName());
-        System.out.println("[Add concert]: " + concerts.save(new Concert("BTS Singapore 2024", 20000, "TBC", null)).getConcertName());
+                            "Singapore National Stadium", "src/main/resources/static/concert_posters/Taylor_Swift_Concert_Poster.jpg")).getConcertName());
+        // System.out.println("[Add concert]: " + concerts.save(new Concert("Taylor Swift Singapore 2023", 10000, "5 - 6 December 2023", "src/main/resources/static/concert_posters/Taylor_Swift_Concert_Poster.jpg")).getConcertName());
+        // System.out.println("[Add concert]: " + concerts.save(new Concert("BTS Singapore 2024", 20000, "TBC", null)).getConcertName());
 
         System.out.println("[Add concert]: " + concerts.save(new Concert("Taylor Swift Singapore 2024", 10000,
                             "2024-03-02T19:00", "2024-03-02T22:00",
-                            "Singapore National Stadium")).getConcertName());
+                            "Singapore National Stadium", null)).getConcertName());
                             
         System.out.println("[Add concert]: " + concerts.save(new Concert("BTS Singapore 2024", 20000,
                             "2024-01-29T20:00", "2024-01-20T23:00",
-                            "Singapore Indoor Stadium")).getConcertName());
+                            "Singapore Indoor Stadium", null)).getConcertName());
        
         // JPA user repository init
         UserRepository users = ctx.getBean(UserRepository.class);
@@ -59,7 +59,7 @@ public class BookingApp {
             System.out.println("[Add user]: " + users.save(
             new User("normaluser", encoder.encode("goodpassword"),"23-10-2001", 
             "dsasdgsdf@sfs.com", "dsdfsdsd", "ROLE_USER")).getEmailAddress());
-            new User("admin", encoder.encode("goodpassword"), "19-03-2003" , "hello123@gmail.com" ,"1234", "ROLE_ADMIN")).getUsername());
+            new User("admin", encoder.encode("goodpassword"), "19-03-2003" , "hello123@gmail.com" ,"1234", "ROLE_ADMIN").getUsername();
         
         // JPA shopping cart repository init. default settings
         ShoppingCartRepository shoppingCarts = ctx.getBean(ShoppingCartRepository.class);

@@ -45,9 +45,6 @@ public class Concert {
     private File photo;
     // private byte[] photo;
 
-    // @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
-    // private LocalDateTime startDateTime;
-    // private LocalDateTime endDateTime;
     private String date;
 
     @NotNull(message = "Error: Concert name cannot be empty.")
@@ -64,30 +61,34 @@ public class Concert {
     @NotNull(message = "Error: Concert venue cannot be empty.")
     @Size(min = 5, max = 200, message = "Error: Concert venue should be at least 5 characters long")
     private String concertVenue;
+
     
     
     //@JsonIgnore
 
-    public Concert(String concertName, int ticketQuantity, String startDateTime, String endDateTime, String concertVenue) {
+    public Concert(String concertName, int ticketQuantity, String startDateTime, String endDateTime, String concertVenue, String photoPath) {
         this.concertName = concertName;
         this.ticketQuantity = ticketQuantity;
         this.startDateTime = LocalDateTime.parse(startDateTime);
         this.endDateTime = LocalDateTime.parse(endDateTime);
         this.concertVenue = concertVenue;
+        if (photoPath == null || photoPath.length() == 0) this.photo = new File("src/main/resources/static/concert_posters/Poster_Placeholder.png");
+        else this.photo = new File(photoPath);
+    }
 
     // public Concert(String concertName, int ticketQuantity) {
     //     this.concertName = concertName;
     //     this.ticketQuantity = ticketQuantity;
     // }
 
-    public Concert(String concertName, int ticketQuantity, String date, String photoPath) throws IOException{
-        this.concertName = concertName;
-        this.ticketQuantity = ticketQuantity;
-        // this.dateTime = dateTime;
-        this.date = date;
-        if (photoPath == null || photoPath.length() == 0) this.photo = new File("src/main/resources/static/concert_posters/Poster_Placeholder.png");
-        else this.photo = new File(photoPath);
-    }
+    // public Concert(String concertName, int ticketQuantity, String date, String photoPath) throws IOException{
+    //     this.concertName = concertName;
+    //     this.ticketQuantity = ticketQuantity;
+    //     // this.dateTime = dateTime;
+    //     this.date = date;
+    //     if (photoPath == null || photoPath.length() == 0) this.photo = new File("src/main/resources/static/concert_posters/Poster_Placeholder.png");
+    //     else this.photo = new File(photoPath);
+    // }
     
     
 }
