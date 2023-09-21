@@ -43,6 +43,9 @@ public class ConcertServiceImpl implements ConcertService {
                                                     concert.setStartDateTime(newConcertInfo.getStartDateTime());
                                                     concert.setEndDateTime(newConcertInfo.getEndDateTime());
                                                     concert.setConcertVenue(newConcertInfo.getConcertVenue());
+                                                    concert.setPhoto(newConcertInfo.getPhoto());
+                                                    concert.setSoldOut(newConcertInfo.isSoldOut());
+                                                    concert.setDate(newConcertInfo.getDate());
             return concerts.save(concert);
     }).orElse(null);
 

@@ -1,5 +1,6 @@
 package taylor.project.concert;
 
+import java.io.IOException;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -7,6 +8,7 @@ import javax.validation.Valid;
 
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,8 +16,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.view.RedirectView;
 
 @RestController
 public class ConcertController {
@@ -75,8 +81,7 @@ public class ConcertController {
      */
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/concerts")
-    public Concert addconcert(@Valid @RequestBody Concert concert) {
-        //return concertService.addConcert(concert);
+    public Concert addConcert(@Valid @RequestBody Concert concert) {
         return concertService.addConcert(concert);
     }
 
@@ -87,7 +92,7 @@ public class ConcertController {
      * @return the updated, or newly added concert
      */
     @PutMapping("/concerts/{id}")
-    public Concert updateconcert(@PathVariable Long id, @Valid @RequestBody Concert newconcertInfo){
+    public Concert updateConcert(@PathVariable Long id, @Valid @RequestBody Concert newconcertInfo){
         Concert concert = concertService.updateConcert(id, newconcertInfo);
         if(concert == null) throw new ConcertNotFoundException(id);
         
@@ -100,7 +105,7 @@ public class ConcertController {
      * @param id
      */
     @DeleteMapping("/concerts/{id}")
-    public void deleteconcert(@PathVariable Long id){
+    public void deleteConcert(@PathVariable Long id){
         try{
             concertService.deleteConcert(id);
          }catch(EmptyResultDataAccessException e) {

@@ -38,9 +38,8 @@ public class SecurityConfig {
     }
 
     /**
-     * TODO: Only authenticated admins would be able to create/update/delete Concerts
+     * TODO: Only authenticated ticket sellers would be able to create/update/delete Concerts
      * 
-     * TODO: Activity 2b - Authorization
      * Add roles to specify permissions for each endpoint
      * User role: can add concerts to cart.
      * Admin role: can add/delete/update concerts/reviews, and add/list users
@@ -57,7 +56,7 @@ public class SecurityConfig {
         .httpBasic()
             .and() //  "and()"" method allows us to continue configuring the parent
         .authorizeRequests()
-            .antMatchers(HttpMethod.GET, "/concerts", "/concerts/**").permitAll() // Anyone can view concerts and reviews
+            .antMatchers(HttpMethod.GET, "/concerts", "/concerts/**").permitAll() // Anyone can view concerts
             .antMatchers(HttpMethod.POST, "/concerts", "concerts/").authenticated()
             .antMatchers(HttpMethod.PUT, "/concerts/**").authenticated()
             .antMatchers(HttpMethod.DELETE, "/concerts/*").authenticated()
@@ -74,7 +73,7 @@ public class SecurityConfig {
             .antMatchers(HttpMethod.GET, "/currentDetail").permitAll()
             .antMatchers(HttpMethod.POST, "/adminUsers").hasRole("ADMIN")
 
-            .antMatchers(HttpMethod.POST, "/concerts/**").hasAnyRole("USER", "ADMIN")
+            .antMatchers(HttpMethod.POST, "/concerts/**").hasRole("ADMIN")
             .antMatchers(HttpMethod.PUT, "/concerts/**").hasRole("ADMIN")
             .antMatchers(HttpMethod.DELETE, "/concerts/**").hasRole("ADMIN")
             //.antMatchers(HttpMethod.POST, "/users", "/users/").hasRole("ADMIN")

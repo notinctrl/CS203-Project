@@ -29,12 +29,30 @@ Authorization: Basic admin goodpassword
     "startDateTime": "2024-03-03T19:30",
     "endDateTime": "2024-03-03T22:30",
     "concertVenue": "Singapore National Stadium"
+    "date": "5 - 6 May 2024",
+    "photo": "src/main/resources/static/concert_posters/Coldplay_Concert_Poster.jpg"
+}
+
+###deleting concert works under admin privileges
+DELETE http://localhost:8080/concerts/3
+Content-Type: application/json
+Authorization: Basic admin goodpassword
+
+###
+POST http://localhost:8080/concerts
+Content-Type: application/json
+Authorization: Basic admin goodpassword
+# doesn't work because of short concert name
+
+{
+    "concertName": "Cold",
+    "ticketQuantity": 8000
 }
 ###
 POST http://localhost:8080/concerts
 Content-Type: application/json
 Authorization: Basic admin goodpassword
-# Validation failed - book title is null. wrong attribute!
+# Validation failed - concertName is null. wrong attribute name!
 
 {
     "eventName": "HOTplay Singapore 2023",
@@ -78,11 +96,6 @@ Authorization: Basic dt goodpassword
 # {
 #     "review": "Should be bad!"
 # }
-
-###deleting concert works under admin privileges
-DELETE http://localhost:8080/concerts/3
-Content-Type: application/json
-Authorization: Basic admin goodpassword
 
 ###unauthorised for non-admins
 GET http://localhost:8080/users

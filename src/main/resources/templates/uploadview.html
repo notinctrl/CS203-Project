@@ -1,0 +1,40 @@
+<!-- <!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+    <head>
+    <meta charset="UTF-8"></meta>
+    <title>"title here"</title>
+    </head>
+    <body>
+        <form th:action="@{/users/save}"
+            th:object="${user}" method="post"
+            enctype="multipart/form-data"
+            >
+            ...
+            <div>
+            
+            <label>Photos: </label>
+            <input type="file" name="image" accept="image/png, image/jpeg" />
+            
+            </div>
+            ...
+        </form>
+    </body>
+</html> -->
+
+
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+    <h4>Concert Poster Upload</h4>
+    <head>
+    <!-- <meta charset="UTF-8"></meta> -->
+    <title>Create a Concert</title>
+    </head>
+    <body>
+        <img src="../static/concert_posters/Taylor_Swift_Concert_Poster.jpg"
+        style="float:left;height:640px;" th:src="@{concert_posters/Taylor_Swift_Concert_Poster.jpg}"/>
+        <form action="/upload" method="post" enctype="multipart/form-data">
+            <input type="file" name="files" multiple>
+            <input type="submit" value="Upload Files"></input>
+        </form>
+    </body>
+</html>
