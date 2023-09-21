@@ -8,6 +8,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import taylor.project.client.RestTemplateClient;
 import taylor.project.concert.*;
 import taylor.project.user.*;
+import taylor.project.shoppingCart.*;
 
 @SpringBootApplication
 public class BookingApp {
@@ -27,6 +28,13 @@ public class BookingApp {
         System.out.println("[Add user]: " + users.save(
             new User("admin", encoder.encode("goodpassword"), "ROLE_ADMIN")).getUsername());
         
+        // JPA shopping cart repository init. default settings
+        ShoppingCartRepository shoppingCarts = ctx.getBean(ShoppingCartRepository.class);
+        System.out.println("[Add shopping cart]: User ID = " + shoppingCarts.save(new ShoppingCart(1, 5)).getUserID() + 
+                                                ", Cart ID = " + shoppingCarts.save(new ShoppingCart(1, 5)).getCartID());
+        System.out.println("[Add shopping cart]: User ID = " + shoppingCarts.save(new ShoppingCart(3, 2)).getUserID() +
+                                                ", Cart ID = " + shoppingCarts.save(new ShoppingCart(3, 2)).getCartID());
+
         // Test the RestTemplate client with authentication
         /**
          * TODO: Activity 3 (after class)
