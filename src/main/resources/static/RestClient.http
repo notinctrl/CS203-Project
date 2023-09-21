@@ -17,7 +17,7 @@ Authorization: Basic admin goodpassword
     "concertName": "Coldplay Singapore 2023",
     "ticketQuantity": 8000,
     "date": "5 - 6 May 2024",
-    "photo": "src/main/resources/static/concert_posters/Coldplay_Concert_Poster1.jpg"
+    "photo": "src/main/resources/static/concert_posters/Coldplay_Concert_Poster.jpg"
 }
 
 ###deleting concert works under admin privileges
