@@ -61,7 +61,8 @@ public class HTMLController {
             sb.delete(0, 25);
             String correctPath = sb.toString();
             model.addAttribute("Concert" + num + "Image", correctPath);
-            model.addAttribute("Concert" + num + "Date", c.getDate());
+            model.addAttribute("Concert" + num + "Date", c.getDateRange());
+            model.addAttribute("Concert" + num + "Time", c.getStartTime().toString());
             num++;
         }
 

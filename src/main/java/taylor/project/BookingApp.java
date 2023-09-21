@@ -37,18 +37,18 @@ public class BookingApp {
         // JPA concert repository init. default settings
         ConcertRepository concerts = ctx.getBean(ConcertRepository.class);
         System.out.println("[Add concert]: " + concerts.save(new Concert("Taylor Swift Singapore 2023", 10000,
-                            "2024-03-02T19:00", "2024-03-02T22:00",
-                            "Singapore National Stadium", "src/main/resources/static/concert_posters/Taylor_Swift_Concert_Poster.jpg")).getConcertName());
+                            "2 - 4 March, 2024", "19:00", "Singapore National Stadium", 
+                            "src/main/resources/static/concert_posters/Taylor_Swift_Concert_Poster.jpg")).getConcertName());
         // System.out.println("[Add concert]: " + concerts.save(new Concert("Taylor Swift Singapore 2023", 10000, "5 - 6 December 2023", "src/main/resources/static/concert_posters/Taylor_Swift_Concert_Poster.jpg")).getConcertName());
         // System.out.println("[Add concert]: " + concerts.save(new Concert("BTS Singapore 2024", 20000, "TBC", null)).getConcertName());
 
         System.out.println("[Add concert]: " + concerts.save(new Concert("Taylor Swift Singapore 2024", 10000,
-                            "2024-03-02T19:00", "2024-03-02T22:00",
-                            "Singapore National Stadium", null)).getConcertName());
+                            "9 - 11 April, 2025", "19:00", "Singapore National Stadium",
+                             null)).getConcertName());
                             
         System.out.println("[Add concert]: " + concerts.save(new Concert("BTS Singapore 2024", 20000,
-                            "2024-01-29T20:00", "2024-01-20T23:00",
-                            "Singapore Indoor Stadium", null)).getConcertName());
+                            "21 - 22 September, 2024", "20:00", "Singapore Indoor Stadium", 
+                            null)).getConcertName());
        
         // JPA user repository init
         UserRepository users = ctx.getBean(UserRepository.class);
