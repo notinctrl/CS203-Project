@@ -30,10 +30,13 @@ public class BookingApp {
         
         // JPA shopping cart repository init. default settings
         ShoppingCartRepository shoppingCarts = ctx.getBean(ShoppingCartRepository.class);
-        System.out.println("[Add shopping cart]: User ID = " + shoppingCarts.save(new ShoppingCart(1, 5)).getUserID() + 
-                                                ", Cart ID = " + shoppingCarts.save(new ShoppingCart(1, 5)).getCartID());
-        System.out.println("[Add shopping cart]: User ID = " + shoppingCarts.save(new ShoppingCart(3, 2)).getUserID() +
-                                                ", Cart ID = " + shoppingCarts.save(new ShoppingCart(3, 2)).getCartID());
+        ShoppingCart testShoppingCart1 = new ShoppingCart(1, 5);
+        ShoppingCart testShoppingCart2 = new ShoppingCart(324, 21);
+
+        System.out.println("[Add shopping cart]: User ID = " + shoppingCarts.save(testShoppingCart1).getUserID() + 
+                                                ", Cart ID = " + shoppingCarts.save(testShoppingCart1).getCartID());
+        System.out.println("[Add shopping cart]: User ID = " + shoppingCarts.save(testShoppingCart2).getUserID() +
+                                                ", Cart ID = " + shoppingCarts.save(testShoppingCart2).getCartID());
 
         // Test the RestTemplate client with authentication
         /**
