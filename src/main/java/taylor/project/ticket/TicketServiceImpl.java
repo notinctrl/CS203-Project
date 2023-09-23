@@ -27,6 +27,15 @@ public class TicketServiceImpl implements TicketService {
     }
     
     @Override
+    public Character getTicketStatus(Long id) {
+        Ticket ticket = tickets.findById(id).orElse(null);
+        if(ticket != null) {
+            return ticket.getTicketStatus();
+        }
+        return null;
+    }
+
+    @Override
     public Ticket addTicket(Ticket ticket) {
         return tickets.save(ticket);
     }
@@ -35,17 +44,9 @@ public class TicketServiceImpl implements TicketService {
     public Ticket updateTicket(Long id, Ticket newTicketInfo){
         return tickets.findById(id).map(ticket -> {ticket.setTicketType(newTicketInfo.getTicketType());
                                                     ticket.setSeatDetails(newTicketInfo.getSeatDetails());
+                                                     ticket.setTicketStatus(newTicketInfo.getTicketStatus());
             return tickets.save(ticket);
     }).orElse(null);
-
-    @Override
-    public Character getTicketStatus(Long id) {
-        Ticket ticket = tickets.findById(id).orElse(null);
-        if(ticket != null) {
-            return ticket.getStatus();
-        }
-        return null;
-    }
 
     }
 
