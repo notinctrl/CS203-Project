@@ -17,6 +17,7 @@ import taylor.project.concert.*;
 import taylor.project.user.*;
 import taylor.project.client.RestTemplateClient;
 import taylor.project.shoppingCart.*;
+import taylor.project.venue.*;
 
 @SpringBootApplication
 @ComponentScan({"taylor.project","taylor.project.fileupload"})
@@ -89,6 +90,12 @@ public class BookingApp {
         result.add(new User("normaluser", encoder.encode("goodpassword"),"23-10-2001", 
             "dsasdgsdf@sfs.com", "dsdfsdsd", "ROLE_USER"));
         result.add(new User("admin", encoder.encode("goodpassword"), "19-03-2003" , "hello123@gmail.com" ,"1234", "ROLE_ADMIN"));
+        return result;
+    }
+
+    public static List<Venue> iniVenues(){
+        List<Venue> result = new ArrayList<>();
+        result.add(new Venue("Singapore National Stadium", 0, null, null))
         return result;
     }
 }
