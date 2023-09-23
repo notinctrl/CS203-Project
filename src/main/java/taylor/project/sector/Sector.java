@@ -1,5 +1,6 @@
 package taylor.project.sector;
 
+import java.util.*;
 import java.io.File;
 import java.util.ArrayList;
 
@@ -28,11 +29,12 @@ public class Sector {
     @Id
     private Long id;
 
+    private Float ticketPrice;
     private int sectorSize;
     @Column(nullable = true, length = 10000000)
     @NotNull(message = "Error: You must provide a seat layout for the sector.")
     private File seatLayout;
-    private ArrayList<ArrayList<Boolean>> seats;
+    private TreeMap<String, ArrayList<Boolean>> seats;
 
     // @NotNull(message = "Error: Concert name cannot be empty.")
     // @Size(min = 5, max = 200, message = "Error: Concert name should be at least 5 characters long")
@@ -44,9 +46,11 @@ public class Sector {
     
     //@JsonIgnore
 
-    public Sector(Long id, int[] totalSeatsInRow, String seatLayoutPath) {
+    public Sector(Long id, Float price, String[] rowNames, int[] totalSeatsInRow, String seatLayoutPath) {
         this.id = id;
-        seats = new ArrayList<ArrayList<Boolean>>();
+        ticketPrice = price;
+        seats = new TreeMap<String, ArrayList<Boolean>>();
+        int rowidx = 0;
         for (int row : totalSeatsInRow){
             int i = 0;
             ArrayList<Boolean> seatAvailability = new ArrayList<>();
@@ -54,9 +58,9 @@ public class Sector {
                 seatAvailability.add(false);
                 i++;
             }
-            seats.add(seatAvailability);
+            seats.put(rowNames[rowidx++], seatAvailability);
         }
-        if (seatLayoutPath == null || seatLayoutPath.length() == 0) ;
+        if (seatLayoutPath == null || seatLayoutPath.length() == 0); //do some error
         else this.seatLayout = new File(seatLayoutPath);
     }
     
