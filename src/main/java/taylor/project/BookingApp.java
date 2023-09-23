@@ -93,9 +93,9 @@ public class BookingApp {
         return result;
     }
 
-    public static List<Venue> iniVenues(){
+    public static List<Venue> iniVenues() throws Exception{
         List<Venue> result = new ArrayList<>();
-        result.add(new Venue("Singapore National Stadium", 0, null, null))
+        result.add(new Venue("Singapore National Stadium", 10, null, "src/main/resources/static/seating_plan/Taylor_Swift_Seating_Plan.jpg"));
         return result;
     }
 }
