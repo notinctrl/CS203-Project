@@ -157,7 +157,7 @@ Authorization: basic admin goodpassword
 # UserNotFoundException works
 
 ###
-PUT http://localhost:8080/tickets
+POST http://localhost:8080/tickets
 Content-Type: application/json
 Authorization: basic admin goodpassword
 
@@ -166,3 +166,6 @@ Authorization: basic admin goodpassword
     "seatDetails": "V4",
     "ticketStatus": "A"
 }
+
+###
+GET http://localhost:8080/tickets/1/status
