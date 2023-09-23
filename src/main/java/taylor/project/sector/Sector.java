@@ -27,7 +27,7 @@ import lombok.ToString;
 public class Sector {
     //ID tagged to all sectors
     @Id
-    private Long id;
+    private String id;
 
     private Float ticketPrice;
     private int sectorSize;
@@ -46,7 +46,7 @@ public class Sector {
     
     //@JsonIgnore
 
-    public Sector(Long id, Float price, String[] rowNames, int[] totalSeatsInRow, String seatLayoutPath) {
+    public Sector(String id, Float price, String[] rowNames, int[] totalSeatsInRow, String seatLayoutPath) {
         this.id = id;
         ticketPrice = price;
         seats = new TreeMap<String, ArrayList<Boolean>>();

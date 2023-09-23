@@ -22,13 +22,8 @@ public class SectorServiceImpl implements SectorService {
 
     
     @Override
-    public Sector getSectorById(Long id){
+    public Sector getSectorById(String id){
         return sectors.findById(id).orElse(null);
-    }
-    
-    @Override
-    public List<Sector> getSectorsByName(String sectorName) {
-        return sectors.findBySectorNameContainingIgnoreCase(sectorName);
     }
 
     @Override
@@ -37,7 +32,7 @@ public class SectorServiceImpl implements SectorService {
     }
     
     @Override
-    public Sector updateSector(Long id, Sector newSectorInfo){
+    public Sector updateSector(String id, Sector newSectorInfo){
         return sectors.findById(id).map(sector -> {sector.setId(newSectorInfo.getId());
                                                     sector.setSeatLayout(newSectorInfo.getSeatLayout());
                                                     sector.setSeats(newSectorInfo.getSeats());
@@ -52,7 +47,7 @@ public class SectorServiceImpl implements SectorService {
      * Cascading: removing a sector will also remove all its associated reviews
      */
     @Override
-    public void deleteSector(Long id){
+    public void deleteSector(String id){
         sectors.deleteById(id);
     }
 }
