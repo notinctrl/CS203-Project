@@ -38,6 +38,15 @@ public class TicketServiceImpl implements TicketService {
             return tickets.save(ticket);
     }).orElse(null);
 
+    @Override
+    public Character getTicketStatus(Long id) {
+        Ticket ticket = tickets.findById(id).orElse(null);
+        if(ticket != null) {
+            return ticket.getStatus();
+        }
+        return null;
+    }
+
     }
 
     /**
