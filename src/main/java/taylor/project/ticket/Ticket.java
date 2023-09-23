@@ -32,6 +32,7 @@ public class Ticket {
     */
     private String ticketType;
     private String seatDetails;
+    private Character status;
 
     public Ticket(String ticketType, String seatDetails) {
         this.ticketType = ticketType;
