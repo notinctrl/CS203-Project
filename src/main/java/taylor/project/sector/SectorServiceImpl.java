@@ -32,19 +32,15 @@ public class SectorServiceImpl implements SectorService {
     }
 
     @Override
-    public Sector addsector(Sector sector) {
+    public Sector addSector(Sector sector) {
         return sectors.save(sector);
     }
     
     @Override
-    public Sector updatesector(Long id, Sector newsectorInfo){
-        return sectors.findById(id).map(sector -> {sector.setsectorName(newsectorInfo.getsectorName());
-                                                    sector.setTicketQuantity(newsectorInfo.getTicketQuantity());
-                                                    sector.setStartTime(newsectorInfo.getStartTime());
-                                                    sector.setDateRange(newsectorInfo.getDateRange());
-                                                    sector.setsectorSector(newsectorInfo.getsectorSector());
-                                                    sector.setPhoto(newsectorInfo.getPhoto());
-                                                    sector.setSoldOut(newsectorInfo.isSoldOut());
+    public Sector updateSector(Long id, Sector newSectorInfo){
+        return sectors.findById(id).map(sector -> {sector.setId(newSectorInfo.getId());
+                                                    sector.setSeatLayout(newSectorInfo.getSeatLayout());
+                                                    sector.setSeats(newSectorInfo.getSeats());
             return sectors.save(sector);
     }).orElse(null);
 

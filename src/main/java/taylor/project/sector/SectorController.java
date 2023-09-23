@@ -47,7 +47,7 @@ public class SectorController {
      * @return sector with the given id
      */
     @GetMapping("/sectors/byId/{id}")
-    public Sector getsectorById(@PathVariable Long id){
+    public Sector getSectorById(@PathVariable Long id){
         Sector sector = sectorService.getSectorById(id);
 
         // Need to handle "sector not found" error using proper HTTP status code
@@ -57,22 +57,6 @@ public class SectorController {
 
     }
 
-
-    /**
-     * Search for sectors containing the given name
-     * @param sectorName
-     * @return list of sectors containing the given name
-     */
-    @GetMapping("/sectors/byName/{sectorName}")
-    public List<Sector> getsectorsByNameContaining(@PathVariable String sectorName) {
-        List<Sector> sectors = sectorService.getSectorsByName(sectorName);
-
-        if(sectors.size() == 0) throw new SectorNotFoundException(sectorName);
-        // Handles an empty list by throwing a HTTP 404 exception
-        return sectors;
-    }
-
-
     /**
      * Add a new sector with POST request to "/sectors"
      * Note the use of @RequestBody
@@ -81,7 +65,7 @@ public class SectorController {
      */
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/sectors")
-    public Sector addsector(@Valid @RequestBody Sector sector) {
+    public Sector addSector(@Valid @RequestBody Sector sector) {
         return sectorService.addSector(sector);
     }
 
@@ -92,7 +76,7 @@ public class SectorController {
      * @return the updated, or newly added sector
      */
     @PutMapping("/sectors/{id}")
-    public Sector updatesector(@PathVariable Long id, @Valid @RequestBody Sector newsectorInfo){
+    public Sector updateSector(@PathVariable Long id, @Valid @RequestBody Sector newsectorInfo){
         Sector sector = sectorService.updateSector(id, newsectorInfo);
         if(sector == null) throw new SectorNotFoundException(id);
         
@@ -105,7 +89,7 @@ public class SectorController {
      * @param id
      */
     @DeleteMapping("/sectors/{id}")
-    public void deletesector(@PathVariable Long id){
+    public void deleteSector(@PathVariable Long id){
         try{
             sectorService.deleteSector(id);
          }catch(EmptyResultDataAccessException e) {

@@ -11,8 +11,4 @@ public class SectorNotFoundException extends RuntimeException{
     public SectorNotFoundException(Long id) {
         super("Could not find sector with id " + id);
     }
-    
-    public SectorNotFoundException(String sectorName) {
-        super("Could not find sectors with " + sectorName);
-    }
 }
