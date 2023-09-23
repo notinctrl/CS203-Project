@@ -32,28 +32,7 @@ public class HTMLController {
 
     @GetMapping("/index")
     public String index(Model model) throws IOException{
-        List<Concert> concerts = concertService.listConcerts(); 
-        // Concert c1 = concerts.get(0);
-        // model.addAttribute("Concert_1_Name", c1.getConcertName());
-        // StringBuilder sb1 = new StringBuilder(c1.getPhoto().getPath());
-        // sb1.delete(0, 25);
-        // String correctPath1 = sb1.toString();
-        // model.addAttribute("Concert1Image", correctPath1);
-
-        // Concert c2 = concerts.get(1);
-        // model.addAttribute("Concert_2_Name", c2.getConcertName());
-        // StringBuilder sb2 = new StringBuilder(c2.getPhoto().getPath());
-        // sb2.delete(0, 25);
-        // String correctPath2 = sb2.toString();
-        // model.addAttribute("Concert2Image", correctPath2);
-
-        // Concert c3 = concerts.get(2);
-        // model.addAttribute("Concert_3_Name", c3.getConcertName());
-        // StringBuilder sb3 = new StringBuilder(c3.getPhoto().getPath());
-        // sb3.delete(0, 25);
-        // String correctPath3 = sb3.toString();
-        // model.addAttribute("Concert3Image", correctPath3);
-
+        List<Concert> concerts = concertService.listConcerts();
         int num = 1;
         for (Concert c : concerts){
             model.addAttribute("Concert" + num + "Name", c.getConcertName());
@@ -65,20 +44,28 @@ public class HTMLController {
             model.addAttribute("Concert" + num + "Time", c.getStartTime().toString());
             num++;
         }
-
-        // int num = 1;
-
-        // for (Concert c : concerts){
-        //     model.addAttribute("Concert" + num + "Name", c.getConcertName());
-        //     String createPoster = "src/main/resources/static/concert_posters/concert" + num + "poster.jpg";
-        //     FileUtils.writeByteArrayToFile(new File(createPoster), c.getPhoto());
-        //     String accessPoster = "concert_posters/concert" + num + "poster.jpg";
-        //     model.addAttribute("Concert" + num + "Image", accessPoster);
-        //     model.addAttribute("Concert" + num + "Date", c.getDate());
-        //     num++;
-        // }
         
         return "index";
+    }
+
+    @GetMapping("/seattest")
+    public String seattest(){
+        return "seattest";
+    }
+
+    @GetMapping("/contact")
+    public String contact(Model model){
+        return "contact";
+    }
+
+    @GetMapping("/portfolio")
+    public String portfolio(Model model){
+        return "portfolio";
+    }
+
+    @GetMapping("/services")
+    public String services(Model model){
+        return "services";
     }
 
     @GetMapping("/test")
@@ -119,3 +106,38 @@ public class HTMLController {
     }
 
 }
+
+// hard code: retrieval of concert attributes
+        // Concert c1 = concerts.get(0);
+        // model.addAttribute("Concert_1_Name", c1.getConcertName());
+        // StringBuilder sb1 = new StringBuilder(c1.getPhoto().getPath());
+        // sb1.delete(0, 25);
+        // String correctPath1 = sb1.toString();
+        // model.addAttribute("Concert1Image", correctPath1);
+
+        // Concert c2 = concerts.get(1);
+        // model.addAttribute("Concert_2_Name", c2.getConcertName());
+        // StringBuilder sb2 = new StringBuilder(c2.getPhoto().getPath());
+        // sb2.delete(0, 25);
+        // String correctPath2 = sb2.toString();
+        // model.addAttribute("Concert2Image", correctPath2);
+
+        // Concert c3 = concerts.get(2);
+        // model.addAttribute("Concert_3_Name", c3.getConcertName());
+        // StringBuilder sb3 = new StringBuilder(c3.getPhoto().getPath());
+        // sb3.delete(0, 25);
+        // String correctPath3 = sb3.toString();
+        // model.addAttribute("Concert3Image", correctPath3);
+
+
+        // int num = 1;
+
+        // for (Concert c : concerts){
+        //     model.addAttribute("Concert" + num + "Name", c.getConcertName());
+        //     String createPoster = "src/main/resources/static/concert_posters/concert" + num + "poster.jpg";
+        //     FileUtils.writeByteArrayToFile(new File(createPoster), c.getPhoto());
+        //     String accessPoster = "concert_posters/concert" + num + "poster.jpg";
+        //     model.addAttribute("Concert" + num + "Image", accessPoster);
+        //     model.addAttribute("Concert" + num + "Date", c.getDate());
+        //     num++;
+        // }
