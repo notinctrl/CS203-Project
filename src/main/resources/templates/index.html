@@ -80,7 +80,7 @@
 
 	<div class="hero v-h-full overlay">
 		<div class="img-bg rellax">
-			<img src="../static/images/hero_1.jpg" alt="Image" class="img-fluid" th:src="@{/images/hero_1.jpg}"/>
+			<img src="../static/images/Main_Background.jpg" alt="Image" class="img-fluid" th:src="@{/images/Main_Background.jpg}"/>
 		</div>
 		<div class="container">
 			<div class="row align-items-center v-h-full">
@@ -159,7 +159,7 @@
 				<div class="col-lg-6 text-center" data-aos="fade-up" data-aos-delay="100">
 					<!-- <span class="subheading mb-2 d-inline-block">Awesome Portfolio</span> -->
 					<!-- <h2 class="mb-4">Our Portfolio</h2> -->
-					<h2 class="mb-4">Concerts Happening Now</h2>
+					<h2 class="mb-4">Coming Soon</h2>
 				</div>
 			</div>
 
@@ -169,7 +169,7 @@
 						<div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="200">
 							<a href="images/img_v_1-min.jpg" class="media-1 glightbox">
 								<!-- <img src="images/img_v_1-min.jpg" alt="Image" class="img-fluid"> -->
-								<img th:src="${Concert2Image}" alt="Image" width="320px" class="container-fluid">
+								<img th:src="${Concert1Image}" alt="Image" width="320px" class="container-fluid">
 								<div class="media-1-content">
 									<!-- <h2>Bonzai Tree</h2> -->
 									<h2 th:text="${Concert2Name}">Concert Name</h2>
@@ -192,21 +192,25 @@
 							</a>
 						</div>
 						<div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="400">
-							<a href="images/img_v_3-min.jpg" class="media-1 glightbox">
-								<img src="images/img_v_3-min.jpg" alt="Image" class="img-fluid">
+							<a th:href="${Concert3Image}" class="media-1 glightbox">
+								<img th:src="${Concert3Image}" alt="Image" width="340px" class="container-fluid">
 								<div class="media-1-content">
-									<h2>Fruits</h2>
-									<span class="category">Website</span>
+									<!-- <h2>Fruits</h2>
+									<span class="category">Website</span> -->
+									<h2 th:text="${Concert3Name}">Concert Name</h2>
+									<span th:text="${Concert3Date}" class="category">Branding</span>
 								</div>
 							</a>
 						</div>
 
 						<div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="100">
-							<a href="images/img_v_4-min.jpg" class="media-1 glightbox">
-								<img src="images/img_v_4-min.jpg" alt="Image" class="img-fluid">
+							<a th:href="${Concert4Image}" class="media-1 glightbox">
+								<img th:src="${Concert4Image}" alt="Image" width="340px" class="container-fluid">
 								<div class="media-1-content">
-									<h2>Design Material</h2>
-									<span class="category">Web Application</span>
+									<!-- <h2>Design Material</h2>
+									<span class="category">Web Application</span> -->
+									<h2 th:text="${Concert4Name}">Concert Name</h2>
+									<span th:text="${Concert4Date}" class="category">Branding</span>
 								</div>
 							</a>
 						</div>
