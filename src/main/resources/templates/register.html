@@ -11,31 +11,31 @@
   <div class="container">
     <div class="title">Registration</div>
     <div class="content">
-      <form action="@{register}" method="POST" th:object="${user}">
+      <form action="save" method="POST">
         <div class="user-details">
           <div class="input-box">
             <span class="details">Full Name</span>
-            <input type="text" th:field = "*{username}" placeholder="Enter your name" required >
+            <input type="text"  placeholder="Enter your name" required name = "username">
           </div>
           <div class="input-box">
             <span class="details">Address</span>
-            <input type="text" th:field = "*{address}" placeholder="Enter your address" required > 
+            <input type="text"  placeholder="Enter your address" required name = "address" > 
           </div>
           <div class="input-box">
             <span class="details">Email</span>
-            <input type="text" required th:field = "*{emailAddress}" placeholder="Enter your email" >
+            <input type="text"  placeholder="Enter your email" required name = "emailAddress" >
           </div>
           <div class="input-box">
             <span class="details">Birthday</span>
-            <input th:field = "*{birthday}" placeholder="Enter your date of birth" required >
+            <input type="text" placeholder="Enter your date of birth" required name = "birthday">
           </div>
           <div class="input-box">
             <span class="details">Authorities</span>
-            <input placeholder="Enter your authorities" required>
+            <input placeholder="Enter your authorities" required name = "authorities">
           </div>
           <div class="input-box">
             <span class="details">Confirm Password</span>
-            <input th:field = "*{password}" placeholder="Confirm your password" required >
+            <input type="password" placeholder="Confirm your password" required name = "password">
           </div>
         </div>
         <!-- <div class="gender-details">
