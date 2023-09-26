@@ -81,8 +81,9 @@ public class SecurityConfig {
             .and()
         .authenticationProvider(authenticationProvider()) //specifies the authentication provider for HttpSecurity
         .csrf().disable()
-        .formLogin().disable()
-        .headers().disable(); // Disable the security headers, as we do not return HTML in our service
+        .formLogin()
+        .usernameParameter("username").permitAll()
+        ; // Disable the security headers, as we do not return HTML in our service
         return http.build();
     }
 
