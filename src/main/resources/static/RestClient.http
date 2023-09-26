@@ -128,27 +128,33 @@ Content-Type: application/json
 }
 
 ###
-POST http://localhost:8080/users
+POST http://localhost:8080/save
 Content-Type: application/json
+Authorization: basic admin goodpassword
 
 {
     "username": "gooduser",
     "password": "goodpassword",
+    "birthday": "2001-04-04",
     "authorities": "ROLE_USER",
-    "emailAddress": "hellohi@gmail.com"
+    "emailAddress": "hellohi@gmail.com",
+    "address": "sdfdsf"
 }
 
 ###
-POST http://localhost:8080/users
+POST http://localhost:8080/addUser
 Content-Type: application/json
 Authorization: basic admin goodpassword
 # To test with delete user function
 # IDs are not repeated; deletion does not affect increment
 
 {
-    "username": "spambot",
-    "password": "ezpassword",
-    "authorities": "ROLE_USER"
+    "username": "gooduser",
+    "password": "goodpassword",
+    "birthday": "2001-04-04",
+    "authorities": "ROLE_USER",
+    "emailAddress": "hellohi@gmail.com",
+    "address": "sdfdsf"
 }
 
 ###
