@@ -119,7 +119,7 @@ public class HTMLController {
         return "uploadStatus";
     }
 
-    @RequestMapping("/shoppingcart")
+    @RequestMapping("/shoppingcart.html")
     public String viewShoppingCart(){
         return "shoppingcart";
     }
