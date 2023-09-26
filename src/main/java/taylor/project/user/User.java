@@ -63,11 +63,9 @@ public class User implements UserDetails{
     @Past(message = "Invalid date. Use format \"dd-MM-yyyy\"")
     @NotNull(message = "Birthday should not be null")
     private LocalDate birthday;
-    
-    @NotNull(message = "Email should not be null") @Email(message = "Please provide a valid email")
 
-    @Email(message = "Invalid email address")
-    @NotNull(message = "Password should not be null")
+    @Email(message = "Please provide a valid email")
+    @NotNull(message = "Email address should not be null")
     private String emailAddress;
 
     @NotNull(message = "Address should not be null")
