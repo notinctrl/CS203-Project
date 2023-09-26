@@ -30,15 +30,21 @@ public class Ticket {
     /*TODO: make ticket a weak entity by having its partial identifiers to concertID.
         follow business logic in google docs.
     */
+    private Long userId;
     private String ticketType;
+    
     private Long sector;
     private String seatDetails;
     private Double price;
+
     private Character ticketStatus;
 
-    public Ticket(String ticketType, String seatDetails, Character ticketStatus) {
+    public Ticket(Long userId, String ticketType, Long sector, String seatDetails, Double price, Character ticketStatus) {
+        this.userId = userId;
         this.ticketType = ticketType;
+        this.sector = sector;
         this.seatDetails = seatDetails;
+        this.price = price;
         this.ticketStatus = ticketStatus;
     }
     
