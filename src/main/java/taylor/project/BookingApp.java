@@ -101,7 +101,7 @@ public class BookingApp {
         ArrayList<Sector> sects = new ArrayList<>();
         sects.add(newSect);
         result.add(new Venue("Singapore National Stadium", 10000, sects, "src/main/resources/static/seating_plan/Taylor_Swift_Seating_Plan.jpg"));
-        result.add(new Venue("Singapore Indoor Stadium", 10000, sects, "src/main/resources/static/seating_plan/Taylor_Swift_Seating_Plan.jpg"));
+        result.add(new Venue("Singapore Indoor Stadium", 10000, sects, "src/main/resources/static/seating_plan/Charlie_Puth_Seating_Plan.jpg"));
         return result;
     }
 }
