@@ -37,11 +37,12 @@ public class Venue {
     //for handling gallery uploads
     private File venueOverview;
 
-    public Venue(String vName, int vSize, ArrayList<Sector> sectors, String photoPath) throws Exception{
+    public Venue(String vName, int vSize, ArrayList<Sector> sectors, String photoPath){
         venueName = vName;
         venueSize = vSize;
         this.sectors = sectors;
-        if (photoPath == null || photoPath.length() == 0) throw new Exception("Please provide a photo for the venue showing the seat sectors.");
+        if (photoPath == null || photoPath.length() == 0);
+        // throw new Exception("Please provide a photo for the venue showing the seat sectors.");
         else venueOverview = new File(photoPath);
     }
     
