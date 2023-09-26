@@ -119,12 +119,14 @@
 				<div class="col-lg-4 mb-4 mb-lg-0" data-aos="fade-up" data-aos-delay="100">
 					<div class="service grayscale">
 						<div class="service-img">
-							<a href="#"><img src="images/img_2.jpg" alt="Image" class="img-fluid"></a>
+							<a href="#"><img th:src="${Concert4Image}" class="container-fluid"></a>
 						</div>
 						<div class="service-inner">
 							<span></span>
-							<h3>Connect</h3>
-							<p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
+							<h3 th:text="${Concert4Name}">Concert Name</h3>
+							<h3 th:text="${Concert4Date}">Concert Date</h3>
+							<h3 th:text="${Concert4Time}">Concert Time</h3>
+							<p>Following the spectacular sellout success of Coldplay’s newly announced January and February 2024 dates in Asia, the band have today announced additional dates as part of their record-breaking Music Of The Spheres World Tour.</p>
 							<p class="mb-0"><a href="#" class="more">Learn more</a></p>
 						</div>
 

@@ -52,7 +52,7 @@ public class BookingApp {
 
         System.out.println("[Add concert]: " + concerts.save(new Concert("Coldplay Music of the Spheres 2024", 20000,
                             "23 - 27 January, 2024", "20:00", "Singapore National Stadium", 
-                            null)).getConcertName());
+                            "src/main/resources/static/concert_posters/Coldplay_Concert_Poster.jpg")).getConcertName());
        
         // JPA user repository init
         UserRepository users = ctx.getBean(UserRepository.class);
