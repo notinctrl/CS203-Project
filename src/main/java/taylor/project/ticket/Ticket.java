@@ -31,7 +31,9 @@ public class Ticket {
         follow business logic in google docs.
     */
     private String ticketType;
+    private Long sector;
     private String seatDetails;
+    private Double price;
     private Character ticketStatus;
 
     public Ticket(String ticketType, String seatDetails, Character ticketStatus) {
