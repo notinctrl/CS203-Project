@@ -72,14 +72,14 @@ public class BookingApp {
     public static List<Concert> iniConcerts(List<Venue> vList){
         List<Concert> result = new ArrayList<>();
         result.add(new Concert("Taylor Swift Singapore 2023", 10000,
-                            "2 - 4 March, 2024", "19:00", "Singapore National Stadium", 
+                            "2 - 4 March, 2024", "19:00", vList.get(0), 
                             "src/main/resources/static/concert_posters/Taylor_Swift_Concert_Poster.jpg"));
 
         result.add(new Concert("Red Hot Chili Peppers 2024", 10000,
-                            "9 - 11 April, 2025", "19:00", "Singapore National Stadium",
+                            "9 - 11 April, 2025", "19:00", vList.get(0),
                              null));
         result.add(new Concert("BTS Singapore 2024", 20000,
-                            "21 - 22 September, 2024", "20:00", "Singapore Indoor Stadium", 
+                            "21 - 22 September, 2024", "20:00", vList.get(0), 
                             null));
         return result;
     }
@@ -101,6 +101,7 @@ public class BookingApp {
         ArrayList<Sector> sects = new ArrayList<>();
         sects.add(newSect);
         result.add(new Venue("Singapore National Stadium", 10000, sects, "src/main/resources/static/seating_plan/Taylor_Swift_Seating_Plan.jpg"));
+        result.add(new Venue("Singapore Indoor Stadium", 10000, sects, "src/main/resources/static/seating_plan/Taylor_Swift_Seating_Plan.jpg"));
         return result;
     }
 }
