@@ -27,6 +27,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
+import taylor.project.venue.*;
+
 @Entity
 @Getter
 @Setter
@@ -66,13 +68,13 @@ public class Concert {
 
     @NotNull(message = "Error: Concert venue cannot be empty.")
     @Size(min = 5, max = 200, message = "Error: Concert venue should be at least 5 characters long")
-    private String concertVenue;
+    private Venue concertVenue;
 
     
     
     //@JsonIgnore
 
-    public Concert(String concertName, int ticketQuantity, String dateRange, String startTime, String concertVenue, String photoPath) {
+    public Concert(String concertName, int ticketQuantity, String dateRange, String startTime, Venue concertVenue, String photoPath) {
         this.concertName = concertName;
         this.ticketQuantity = ticketQuantity;
         this.dateRange = dateRange;

@@ -8,7 +8,7 @@ public class SectorNotFoundException extends RuntimeException{
 
     private static final long serialVersionUID = 1L;
 
-    public SectorNotFoundException(Long id) {
+    public SectorNotFoundException(String id) {
         super("Could not find sector with id " + id);
     }
 }

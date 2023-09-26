@@ -10,5 +10,5 @@ import org.springframework.stereotype.Repository;
  * JpaRepository provides more features by extending PagingAndSortingRepository, which in turn extends CrudRepository
  */
 @Repository
-public interface SectorRepository extends JpaRepository <Sector, Long> {
+public interface SectorRepository extends JpaRepository <Sector, String> {
 }

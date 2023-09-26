@@ -27,14 +27,14 @@ import lombok.ToString;
 public class Sector {
     //ID tagged to all sectors
     @Id
-    private Long id;
+    private String id;
 
-    private Float ticketPrice;
+    private double ticketPrice;
     private int sectorSize;
     @Column(nullable = true, length = 10000000)
     @NotNull(message = "Error: You must provide a seat layout for the sector.")
     private File seatLayout;
-    private TreeMap<String, ArrayList<Boolean>> seats;
+    private TreeMap<String, ArrayList<Character>> seats;
 
     // @NotNull(message = "Error: Concert name cannot be empty.")
     // @Size(min = 5, max = 200, message = "Error: Concert name should be at least 5 characters long")
@@ -46,16 +46,16 @@ public class Sector {
     
     //@JsonIgnore
 
-    public Sector(Long id, Float price, String[] rowNames, int[] totalSeatsInRow, String seatLayoutPath) {
+    public Sector(String id, double price, String[] rowNames, int[] totalSeatsInRow, String seatLayoutPath) {
         this.id = id;
         ticketPrice = price;
-        seats = new TreeMap<String, ArrayList<Boolean>>();
+        seats = new TreeMap<String, ArrayList<Character>>();
         int rowidx = 0;
         for (int row : totalSeatsInRow){
             int i = 0;
-            ArrayList<Boolean> seatAvailability = new ArrayList<>();
+            ArrayList<Character> seatAvailability = new ArrayList<>();
             while (i < row){
-                seatAvailability.add(false);
+                seatAvailability.add('A');
                 i++;
             }
             seats.put(rowNames[rowidx++], seatAvailability);
