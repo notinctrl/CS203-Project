@@ -30,16 +30,16 @@ public class Venue {
     @Size(min = 5, max = 200, message = "Error: Venue should be at least 5 characters long")
     private String venueName;
 
-    private int ticketQuantity;
+    private int venueSize;
 
     private ArrayList<Sector> sectors;
 
     //for handling gallery uploads
     private File venueOverview;
 
-    public Venue(String vName, int tQuant, ArrayList<Sector> sectors, String photoPath) throws Exception{
+    public Venue(String vName, int vSize, ArrayList<Sector> sectors, String photoPath) throws Exception{
         venueName = vName;
-        ticketQuantity = tQuant;
+        venueSize = vSize;
         this.sectors = sectors;
         if (photoPath == null || photoPath.length() == 0) throw new Exception("Please provide a photo for the venue showing the seat sectors.");
         else venueOverview = new File(photoPath);
