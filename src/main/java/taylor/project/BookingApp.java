@@ -18,6 +18,7 @@ import taylor.project.user.*;
 import taylor.project.client.RestTemplateClient;
 import taylor.project.shoppingCart.*;
 import taylor.project.venue.*;
+import taylor.project.sector.*;
 
 @SpringBootApplication
 @ComponentScan({"taylor.project","taylor.project.fileupload"})
@@ -30,7 +31,8 @@ public class BookingApp {
         // JPA concert repository init. default settings
         ConcertRepository concerts = ctx.getBean(ConcertRepository.class);
         // refer to below psvm for initialised concerts.
-        List<Concert> cList = iniConcerts();
+        List<Venue> vList = iniVenues();
+        List<Concert> cList = iniConcerts(vList);
         System.out.println("[Add concert]: " + concerts.save(cList.get(0)).getConcertName());
         System.out.println("[Add concert]: " + concerts.save(cList.get(1)).getConcertName());
         System.out.println("[Add concert]: " + concerts.save(cList.get(2)).getConcertName());
@@ -67,7 +69,7 @@ public class BookingApp {
         // System.out.println("[Get concert]: " + client.getConcertEntity("http://localhost:8080/concerts", 1L).getBody().getConcertName());
     }
     
-    public static List<Concert> iniConcerts(){
+    public static List<Concert> iniConcerts(List<Venue> vList){
         List<Concert> result = new ArrayList<>();
         result.add(new Concert("Taylor Swift Singapore 2023", 10000,
                             "2 - 4 March, 2024", "19:00", "Singapore National Stadium", 
@@ -93,9 +95,12 @@ public class BookingApp {
         return result;
     }
 
-    public static List<Venue> iniVenues() throws Exception{
+    public static List<Venue> iniVenues(){
         List<Venue> result = new ArrayList<>();
-        result.add(new Venue("Singapore National Stadium", 10, null, "src/main/resources/static/seating_plan/Taylor_Swift_Seating_Plan.jpg"));
+        Sector newSect = new Sector("634", 348.0, new String[]{"A", "B", "C"}, new int[]{20,20,20}, "src/main/resources/static/seating_plan/sector_seating.png");
+        ArrayList<Sector> sects = new ArrayList<>();
+        sects.add(newSect);
+        result.add(new Venue("Singapore National Stadium", 10000, sects, "src/main/resources/static/seating_plan/Taylor_Swift_Seating_Plan.jpg"));
         return result;
     }
 }
