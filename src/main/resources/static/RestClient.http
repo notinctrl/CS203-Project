@@ -26,10 +26,9 @@ Authorization: Basic admin goodpassword
 {
     "concertName": "Coldplay Singapore 2023",
     "ticketQuantity": 8000,
-    "startDateTime": "2024-03-03T19:30",
-    "endDateTime": "2024-03-03T22:30",
-    "concertVenue": "Singapore National Stadium"
-    "date": "5 - 6 May 2024",
+    "dateRange": "3 March, 2023",
+    "startTime": "20:30",
+    "concertVenue": "Singapore National Stadium",
     "photo": "src/main/resources/static/concert_posters/Coldplay_Concert_Poster.jpg"
 }
 
@@ -55,11 +54,12 @@ Authorization: Basic admin goodpassword
 # Validation failed - concertName is null. wrong attribute name!
 
 {
-    "eventName": "HOTplay Singapore 2023",
+    "concertName": "HOTplay Singapore 2023",
     "ticketQuantity": 8000,
-    "startDateTime": "2024-03-03T19:30",
-    "endDateTime": "2024-03-03T22:30",
-    "concertVenue": "Singapore National Stadium"
+    "dateRange": "3 March, 2023",
+    "startTime": "20:30",
+    "concertVenue": "Singapore National Stadium",
+    "photo": "src/main/resources/static/concert_posters/Coldplay_Concert_Poster.jpg"
 }
 ###
 PUT http://localhost:8080/concerts/1
@@ -68,11 +68,12 @@ Content-Type: application/json
 Authorization: Basic dt goodpassword
 
 {
-    "concertName": "Taylor Swift Singapore 2023",
-    "ticketQuantity": 999000,
-    "startDateTime": "2024-03-03T19:30",
-    "endDateTime": "2024-03-03T22:30",
-    "concertVenue": "Singapore National Stadium"
+    "concertName": "HOTplay Singapore 2023",
+    "ticketQuantity": 8000,
+    "dateRange": "3 March, 2023",
+    "startTime": "20:30",
+    "concertVenue": "Singapore National Stadium",
+    "photo": "src/main/resources/static/concert_posters/Coldplay_Concert_Poster.jpg"
 }
 
 ###

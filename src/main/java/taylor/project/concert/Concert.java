@@ -45,18 +45,24 @@ public class Concert {
     private File photo;
     // private byte[] photo;
 
-    private String date;
-
     @NotNull(message = "Error: Concert name cannot be empty.")
     // null elements are considered valid, so we need a size constraints too
     @Size(min = 5, max = 200, message = "Error: Concert name should be at least 5 characters long")
     private String concertName;
 
-    @NotNull(message = "Error: Concert start date time cannot be empty.")
-    private LocalDateTime startDateTime;
+    // for which day of the concert
+    @NotNull(message = "Error: Concert date range cannot be empty.")
+    private String dateRange;
 
-    @NotNull(message = "Error: Concert end date time cannot be empty.")
-    private LocalDateTime endDateTime;
+    // @NotNull(message = "Error: Concert start date time cannot be empty.")
+    // private LocalDateTime startDateTime;
+
+    // @NotNull(message = "Error: Concert end date time cannot be empty.")
+    // private LocalDateTime endDateTime;
+
+    // starting time for concert
+    @NotNull(message =  "Error: Concert time cannot be empty.")
+    private LocalTime startTime;
 
     @NotNull(message = "Error: Concert venue cannot be empty.")
     @Size(min = 5, max = 200, message = "Error: Concert venue should be at least 5 characters long")
@@ -66,11 +72,11 @@ public class Concert {
     
     //@JsonIgnore
 
-    public Concert(String concertName, int ticketQuantity, String startDateTime, String endDateTime, String concertVenue, String photoPath) {
+    public Concert(String concertName, int ticketQuantity, String dateRange, String startTime, String concertVenue, String photoPath) {
         this.concertName = concertName;
         this.ticketQuantity = ticketQuantity;
-        this.startDateTime = LocalDateTime.parse(startDateTime);
-        this.endDateTime = LocalDateTime.parse(endDateTime);
+        this.dateRange = dateRange;
+        this.startTime = LocalTime.parse(startTime);
         this.concertVenue = concertVenue;
         if (photoPath == null || photoPath.length() == 0) this.photo = new File("src/main/resources/static/concert_posters/Poster_Placeholder.png");
         else this.photo = new File(photoPath);
