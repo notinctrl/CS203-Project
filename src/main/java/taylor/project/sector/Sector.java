@@ -29,7 +29,7 @@ public class Sector {
     @Id
     private String id;
 
-    private Float ticketPrice;
+    private double ticketPrice;
     private int sectorSize;
     @Column(nullable = true, length = 10000000)
     @NotNull(message = "Error: You must provide a seat layout for the sector.")
@@ -46,7 +46,7 @@ public class Sector {
     
     //@JsonIgnore
 
-    public Sector(String id, Float price, String[] rowNames, int[] totalSeatsInRow, String seatLayoutPath) {
+    public Sector(String id, double price, String[] rowNames, int[] totalSeatsInRow, String seatLayoutPath) {
         this.id = id;
         ticketPrice = price;
         seats = new TreeMap<String, ArrayList<Character>>();
