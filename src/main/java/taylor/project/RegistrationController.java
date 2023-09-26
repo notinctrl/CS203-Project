@@ -5,22 +5,26 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
-
+import org.springframework.web.client.RestTemplate;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import taylor.project.user.User;
 import taylor.project.user.UserService;
 import taylor.project.user.UserServiceImpl;
+import taylor.project.user.UserController;
 
 import java.util.Arrays;
 import java.util.List;
 
 import javax.validation.Valid;
+
 
 @Controller
 
@@ -39,25 +43,16 @@ public class RegistrationController {
     }
 
     @GetMapping("/register")
-    public String addNewUserPage(Model model) {
-        User user = new User();
-        model.addAttribute("user", user);
+    public String registrationPage() {
+
         return "register";
     }
  
-    @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/save")
-    public User saveUser(@Valid @RequestBody User user) {
-        
-
-        return userServiceImpl.addUser(user);
+    public String userRegistration(@ModelAttribute User user) {
+    
+        return "index.html";
     }
-
-    // @ResponseStatus(HttpStatus.CREATED)
-    // @PostMapping("/addUser")
-    // public User addUser(@Valid @RequestBody User user){
-    //     user.setPassword(encoder.encode(user.getPassword()));
-    //     return userService.addUser(user);
-    // }
+    
 
 }
