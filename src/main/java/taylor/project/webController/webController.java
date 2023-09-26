@@ -4,7 +4,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
-public class LoginPageController {
+public class webController {
 
     @GetMapping("/login")
     public String showLoginPage() {
@@ -38,5 +38,16 @@ public class LoginPageController {
 
         // return "redirect:/";
         return "index";
+    }
+
+    @GetMapping("/concert1")
+    public String showConcert1Page() {
+        // Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        // if (authentication==null||authentication instanceof AnonymousAuthenticationToken) {
+        //     return  "login";
+        // }
+
+        // return "redirect:/";
+        return "concert1";
     }
 }
