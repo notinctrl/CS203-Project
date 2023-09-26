@@ -48,7 +48,7 @@ public class BookingApp {
                             
         System.out.println("[Add concert]: " + concerts.save(new Concert("BTS Singapore 2024", 20000,
                             "21 - 22 September, 2024", "20:00", "Singapore Indoor Stadium", 
-                            null)).getConcertName());
+                            "src/main/resources/static/concert_posters/BTS_Concert_Poster.jpg")).getConcertName());
 
         System.out.println("[Add concert]: " + concerts.save(new Concert("Coldplay Music of the Spheres 2024", 20000,
                             "23 - 27 January, 2024", "20:00", "Singapore National Stadium", 

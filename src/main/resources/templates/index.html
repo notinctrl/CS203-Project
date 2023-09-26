@@ -135,12 +135,14 @@
 				<div class="col-lg-4 mb-4 mb-lg-0" data-aos="fade-up" data-aos-delay="200">
 					<div class="service grayscale">
 						<div class="service-img">
-							<a href="#"><img src="images/img_3.jpg" alt="Image" class="img-fluid"></a>
+							<a href="#"><img th:src="${Concert3Image}" class="container-fluid"></a>
 						</div>
 						<div class="service-inner">
 							<span></span>
-							<h3>Grow</h3>
-							<p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
+							<h3 th:text="${Concert3Name}">Concert Name</h3>
+							<h3 th:text="${Concert3Date}">Concert Date</h3>
+							<h3 th:text="${Concert3Time}">Concert Time</h3>
+							<p>In 2013, BTS (aka the Bangtan Boys) stepped onto the K-pop scene thanks to record label Big Hit Entertainment. Members Kim Namjoon (RM), Kim Seokjin (Jin), Min Yoongi (Suga), Jung Hoseok (J-Hope), Park Jimin, Kim Taehyung (V), and Jeon Jungkook.</p>
 							<p class="mb-0"><a href="#" class="more">Learn more</a></p>
 						</div>
 
