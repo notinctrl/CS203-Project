@@ -50,7 +50,7 @@ public class RegistrationController {
  
     @PostMapping("/save")
     public String userRegistration(@ModelAttribute User user) {
-    
+        userService.addUser(user);
         return "index.html";
     }
     
