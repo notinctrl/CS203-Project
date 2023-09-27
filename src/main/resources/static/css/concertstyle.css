@@ -1,0 +1,15 @@
+.header {
+    padding: 40px;
+    text-align: center;
+    background: #000000;
+    color: white;
+    font-size: 30px;
+  }
+
+  .box {
+    padding: 25px;
+    text-align: center;
+    background: #399fce;
+    color: white;
+    font-size: 30px;
+  }
