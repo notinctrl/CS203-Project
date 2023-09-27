@@ -61,4 +61,15 @@ public class webController {
         // return "redirect:/";
         return "concert2";
     }
+
+    @GetMapping("/concert3")
+    public String showConcert3Page() {
+        // Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        // if (authentication==null||authentication instanceof AnonymousAuthenticationToken) {
+        //     return  "login";
+        // }
+
+        // return "redirect:/";
+        return "concert3";
+    }
 }
