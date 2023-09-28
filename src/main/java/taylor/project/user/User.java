@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.concurrent.atomic.AtomicLong;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter; // Import the DateTimeFormatter class  
+import java.util.ArrayList;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -30,6 +31,8 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import lombok.*;
+import taylor.project.ticket.*;
+import taylor.project.shoppingCart.*;
 
 @Entity
 @Getter
@@ -73,7 +76,10 @@ public class User implements UserDetails{
     @NotNull(message = "Address should not be null")
     private String address;
 
-    public User(String username, String password, String birthday, String emailAddress, String address, String authorities){
+    private ArrayList<Ticket> purchasedTickets;
+    private ShoppingCart shoppingCart;
+
+    public User(String username, String password, String birthday, String emailAddress, String address, String authorities, ArrayList<Ticket> purchasedTickets, ShoppingCart shoppingCart){
         this.emailAddress = emailAddress;
         this.username = username;
         this.password = password;
@@ -85,6 +91,9 @@ public class User implements UserDetails{
         this.emailAddress=emailAddress;
         this.address = address;
         this.authorities = authorities;
+
+        this.purchasedTickets = purchasedTickets;
+        this.shoppingCart = shoppingCart;
     }
 
 
