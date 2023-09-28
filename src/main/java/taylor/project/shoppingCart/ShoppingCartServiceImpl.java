@@ -34,6 +34,8 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     @Override
     public ShoppingCart updateShoppingCart(Long id, ShoppingCart newShoppingCartInfo){
         return shoppingCarts.findById(id).map(shoppingCart -> {shoppingCart.setUserID(newShoppingCartInfo.getUserID());
+                                                                shoppingCart.setTicketList(newShoppingCartInfo.getTicketList());
+                                                                 shoppingCart.setTotalPrice(newShoppingCartInfo.getTotalPrice());
             return shoppingCarts.save(shoppingCart);
     }).orElse(null);
 
