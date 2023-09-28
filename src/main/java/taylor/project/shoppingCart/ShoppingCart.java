@@ -46,7 +46,7 @@ public class ShoppingCart {
 
     @NotNull(message = "Error: User ID cannot be empty.")
     @Min(value = 1, message = "Error: User ID should be greater than or equal to 1.")
-    private int userID;
+    private Long userID;
 
     @NotNull(message = "Error: Cart ID cannot be empty.")
     @Min(value = 1, message = "Error: Cart ID should be greater than or equal to 1.")
@@ -57,9 +57,8 @@ public class ShoppingCart {
     // private boolean isGuestCart;
     // private boolean isPurchased;
 
-    public ShoppingCart(int userID, int cartID) {
+    public ShoppingCart(Long userID) {
         this.userID = userID;
-        this.cartID = cartID;
         ticketList = new ArrayList<Ticket>();
         totalPrice = 0.0;
     }
