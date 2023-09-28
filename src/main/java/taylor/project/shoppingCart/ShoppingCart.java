@@ -48,10 +48,6 @@ public class ShoppingCart {
     @Min(value = 1, message = "Error: User ID should be greater than or equal to 1.")
     private Long userID;
 
-    @NotNull(message = "Error: Cart ID cannot be empty.")
-    @Min(value = 1, message = "Error: Cart ID should be greater than or equal to 1.")
-    private int cartID;
-
     private ArrayList<Ticket> ticketList;
     private double totalPrice;
     // private boolean isGuestCart;
