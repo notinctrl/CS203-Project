@@ -29,14 +29,14 @@ public class LoginPageController {
     }
 
     
-    @GetMapping("/index.html")
-    public String showIndexPage() {
-        // Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        // if (authentication==null||authentication instanceof AnonymousAuthenticationToken) {
-        //     return  "login";
-        // }
+//     @GetMapping("/index")
+//     public String showIndexPage() {
+//         // Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//         // if (authentication==null||authentication instanceof AnonymousAuthenticationToken) {
+//         //     return  "login";
+//         // }
 
-        // return "redirect:/";
-        return "index";
-    }
+//         // return "redirect:/";
+//         return "index";
+//     }
 }
