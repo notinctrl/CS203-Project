@@ -88,10 +88,11 @@ public class BookingApp {
         BCryptPasswordEncoder encoder = ctx.getBean(BCryptPasswordEncoder.class);
         List<User> result = new ArrayList<>();
         result.add(new User("admin", encoder.encode("goodpassword"),"19-03-2003", 
-            "dsasdgsdf@sfs.com", "dsdfsdsd", "ROLE_ADMIN"));
+            "dsasdgsdf@sfs.com", "dsdfsdsd", "ROLE_ADMIN", new ArrayList<Ticket>(), new ShoppingCart()));
         result.add(new User("normaluser", encoder.encode("goodpassword"),"23-10-2001", 
-            "dsasdgsdf@sfs.com", "dsdfsdsd", "ROLE_USER"));
-        result.add(new User("admin", encoder.encode("goodpassword"), "19-03-2003" , "hello123@gmail.com" ,"1234", "ROLE_ADMIN"));
+            "dsasdgsdf@sfs.com", "dsdfsdsd", "ROLE_USER", new ArrayList<Ticket>(), new ShoppingCart()));
+        result.add(new User("admin", encoder.encode("goodpassword"), "19-03-2003" ,
+            "hello123@gmail.com" ,"1234", "ROLE_ADMIN", new ArrayList<Ticket>(), new ShoppingCart()));
         return result;
     }
 
