@@ -39,7 +39,7 @@ public class VenueServiceImpl implements VenueService {
     @Override
     public Venue updateVenue(Long id, Venue newVenueInfo){
         return venues.findById(id).map(venue -> {venue.setVenueName(newVenueInfo.getVenueName());
-                                                    venue.setTicketQuantity(newVenueInfo.getTicketQuantity());
+                                                    venue.setVenueSize(newVenueInfo.getVenueSize());
                                                     venue.setVenueOverview(newVenueInfo.getVenueOverview());
                                                     venue.setSectors(newVenueInfo.getSectors());
             return venues.save(venue);
