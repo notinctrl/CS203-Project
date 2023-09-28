@@ -79,7 +79,7 @@ public class User implements UserDetails{
     private ArrayList<Ticket> purchasedTickets;
     private ShoppingCart shoppingCart;
 
-    public User(String username, String password, String birthday, String emailAddress, String address, String authorities, ArrayList<Ticket> purchasedTickets, ShoppingCart shoppingCart){
+    public User(String username, String password, String birthday, String emailAddress, String address, String authorities){
         this.emailAddress = emailAddress;
         this.username = username;
         this.password = password;
@@ -92,8 +92,7 @@ public class User implements UserDetails{
         this.address = address;
         this.authorities = authorities;
 
-        this.purchasedTickets = purchasedTickets;
-        this.shoppingCart = shoppingCart;
+        this.purchasedTickets = new ArrayList<Ticket>();
     }
 
 

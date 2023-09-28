@@ -55,8 +55,8 @@ public class ShoppingCart {
 
     public ShoppingCart(Long userID) {
         this.userID = userID;
-        ticketList = new ArrayList<Ticket>();
-        totalPrice = 0.0;
+        this.ticketList = new ArrayList<Ticket>();
+        this.totalPrice = 0.0;
     }
     
     //@JsonIgnore

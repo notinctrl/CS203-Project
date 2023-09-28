@@ -19,6 +19,7 @@ import taylor.project.client.RestTemplateClient;
 import taylor.project.shoppingCart.*;
 import taylor.project.venue.*;
 import taylor.project.sector.*;
+import taylor.project.ticket.*;
 
 @SpringBootApplication
 @ComponentScan({"taylor.project","taylor.project.fileupload"})
@@ -48,13 +49,11 @@ public class BookingApp {
         
         // JPA shopping cart repository init. default settings
         ShoppingCartRepository shoppingCarts = ctx.getBean(ShoppingCartRepository.class);
-        ShoppingCart testShoppingCart1 = new ShoppingCart(1, 5);
-        ShoppingCart testShoppingCart2 = new ShoppingCart(324, 21);
+        ShoppingCart testShoppingCart1 = new ShoppingCart((long) 1);
+        ShoppingCart testShoppingCart2 = new ShoppingCart((long) 324);
 
-        System.out.println("[Add shopping cart]: User ID = " + shoppingCarts.save(testShoppingCart1).getUserID() + 
-                                                ", Cart ID = " + shoppingCarts.save(testShoppingCart1).getCartID());
-        System.out.println("[Add shopping cart]: User ID = " + shoppingCarts.save(testShoppingCart2).getUserID() +
-                                                ", Cart ID = " + shoppingCarts.save(testShoppingCart2).getCartID());
+        System.out.println("[Add shopping cart]: User ID = " + shoppingCarts.save(testShoppingCart1).getUserID());
+        System.out.println("[Add shopping cart]: User ID = " + shoppingCarts.save(testShoppingCart2).getUserID());
 
         // Test the RestTemplate client with authentication
         /**
@@ -88,11 +87,11 @@ public class BookingApp {
         BCryptPasswordEncoder encoder = ctx.getBean(BCryptPasswordEncoder.class);
         List<User> result = new ArrayList<>();
         result.add(new User("admin", encoder.encode("goodpassword"),"19-03-2003", 
-            "dsasdgsdf@sfs.com", "dsdfsdsd", "ROLE_ADMIN", new ArrayList<Ticket>(), new ShoppingCart()));
+            "dsasdgsdf@sfs.com", "dsdfsdsd", "ROLE_ADMIN"));
         result.add(new User("normaluser", encoder.encode("goodpassword"),"23-10-2001", 
-            "dsasdgsdf@sfs.com", "dsdfsdsd", "ROLE_USER", new ArrayList<Ticket>(), new ShoppingCart()));
+            "dsasdgsdf@sfs.com", "dsdfsdsd", "ROLE_USER"));
         result.add(new User("admin", encoder.encode("goodpassword"), "19-03-2003" ,
-            "hello123@gmail.com" ,"1234", "ROLE_ADMIN", new ArrayList<Ticket>(), new ShoppingCart()));
+            "hello123@gmail.com" ,"1234", "ROLE_ADMIN"));
         return result;
     }
 
