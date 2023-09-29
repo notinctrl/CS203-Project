@@ -1,24 +1,17 @@
 package taylor.project.concert;
 
-import java.util.List;
-import java.time.*;
 import java.io.File;
-import java.io.IOException;
-import java.time.LocalDateTime;
-import org.apache.commons.io.*;
+import java.time.LocalTime;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-
-import org.springframework.format.annotation.DateTimeFormat;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonFormat;
 
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -26,8 +19,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-
-import taylor.project.venue.*;
+import taylor.project.venue.Venue;
 
 @Entity
 @Getter
@@ -56,18 +48,13 @@ public class Concert {
     @NotNull(message = "Error: Concert date range cannot be empty.")
     private String dateRange;
 
-    // @NotNull(message = "Error: Concert start date time cannot be empty.")
-    // private LocalDateTime startDateTime;
-
-    // @NotNull(message = "Error: Concert end date time cannot be empty.")
-    // private LocalDateTime endDateTime;
-
     // starting time for concert
     @NotNull(message =  "Error: Concert time cannot be empty.")
     private LocalTime startTime;
 
-    @NotNull(message = "Error: Concert venue cannot be empty.")
-    @Size(min = 5, max = 200, message = "Error: Concert venue should be at least 5 characters long")
+    // @NotNull(message = "Error: Concert venue cannot be empty.")
+    @OneToOne(mappedBy="concert",
+            cascade = CascadeType.ALL)
     private Venue concertVenue;
 
     
