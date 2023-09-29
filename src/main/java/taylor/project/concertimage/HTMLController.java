@@ -50,7 +50,7 @@ public class HTMLController {
 
     @GetMapping("/seattest")
     public String seattest(){
-        return "seattest";
+        return "test2";
     }
 
     @GetMapping("/contact")
