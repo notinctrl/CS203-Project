@@ -36,7 +36,7 @@ public class VenueController {
      * @return list of all venues
      */
     @GetMapping("/venues")
-    public List<Venue> getvenues(){
+    public List<Venue> getVenues(){
         return venueService.listVenues();
     }
 
@@ -47,7 +47,7 @@ public class VenueController {
      * @return venue with the given id
      */
     @GetMapping("/venues/byId/{id}")
-    public Venue getvenueById(@PathVariable Long id){
+    public Venue getVenueById(@PathVariable Long id){
         Venue venue = venueService.getVenueById(id);
 
         // Need to handle "venue not found" error using proper HTTP status code
@@ -64,7 +64,7 @@ public class VenueController {
      * @return list of venues containing the given name
      */
     @GetMapping("/venues/byName/{venueName}")
-    public List<Venue> getvenuesByNameContaining(@PathVariable String venueName) {
+    public List<Venue> getVenuesByNameContaining(@PathVariable String venueName) {
         List<Venue> venues = venueService.getVenuesByName(venueName);
 
         if(venues.size() == 0) throw new VenueNotFoundException(venueName);
@@ -81,7 +81,7 @@ public class VenueController {
      */
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/venues")
-    public Venue addvenue(@Valid @RequestBody Venue venue) {
+    public Venue addVenue(@Valid @RequestBody Venue venue) {
         return venueService.addVenue(venue);
     }
 
@@ -92,7 +92,7 @@ public class VenueController {
      * @return the updated, or newly added venue
      */
     @PutMapping("/venues/{id}")
-    public Venue updatevenue(@PathVariable Long id, @Valid @RequestBody Venue newvenueInfo){
+    public Venue updateVenue(@PathVariable Long id, @Valid @RequestBody Venue newvenueInfo){
         Venue venue = venueService.updateVenue(id, newvenueInfo);
         if(venue == null) throw new VenueNotFoundException(id);
         
@@ -105,7 +105,7 @@ public class VenueController {
      * @param id
      */
     @DeleteMapping("/venues/{id}")
-    public void deletevenue(@PathVariable Long id){
+    public void deleteVenue(@PathVariable Long id){
         try{
             venueService.deleteVenue(id);
          }catch(EmptyResultDataAccessException e) {
