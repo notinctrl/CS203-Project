@@ -19,6 +19,7 @@ import taylor.project.client.RestTemplateClient;
 import taylor.project.shoppingCart.*;
 import taylor.project.venue.*;
 import taylor.project.sector.*;
+import taylor.project.sector.exceptions.SectorExistsException;
 
 @SpringBootApplication
 @ComponentScan({"taylor.project","taylor.project.fileupload"})
@@ -33,7 +34,11 @@ public class BookingApp {
         // refer to below psvm for initialised concerts.
         List<Venue> vList = iniVenues();
         List<Concert> cList = iniConcerts(vList);
-        System.out.println("[Add concert]: " + concerts.save(cList.get(0)).getConcertName());
+        System.out.println("[Add concert]: " + concerts.save(cList.get(0)).getConcertName() 
+                + " and Sector " +  cList.get(0).getConcertVenue().getSectors().get(0).getSectorName()
+                + ", row " + cList.get(0).getConcertVenue().getSectors().get(0).getRowNames().get(0) 
+                + " has the following seats available = " + cList.get(0).getConcertVenue().getSectors().get(0).getSeats().get(0));
+
         System.out.println("[Add concert]: " + concerts.save(cList.get(1)).getConcertName());
         System.out.println("[Add concert]: " + concerts.save(cList.get(2)).getConcertName());
        
@@ -76,10 +81,10 @@ public class BookingApp {
                             "src/main/resources/static/concert_posters/Taylor_Swift_Concert_Poster.jpg"));
 
         result.add(new Concert("Red Hot Chili Peppers 2024", 10000,
-                            "9 - 11 April, 2025", "19:00", vList.get(0),
+                            "9 - 11 April, 2025", "19:00", vList.get(1),
                              null));
         result.add(new Concert("BTS Singapore 2024", 20000,
-                            "21 - 22 September, 2024", "20:00", vList.get(0), 
+                            "21 - 22 September, 2024", "20:00", vList.get(2), 
                             null));
         return result;
     }
@@ -97,11 +102,26 @@ public class BookingApp {
 
     public static List<Venue> iniVenues(){
         List<Venue> result = new ArrayList<>();
-        Sector newSect = new Sector("634", 348.0, new String[]{"A", "B", "C"}, new int[]{20,20,20}, "src/main/resources/static/seating_plan/sector_seating.png");
-        ArrayList<Sector> sects = new ArrayList<>();
-        sects.add(newSect);
-        result.add(new Venue("Singapore National Stadium", 10000, sects, "src/main/resources/static/seating_plan/Taylor_Swift_Seating_Plan.jpg"));
-        result.add(new Venue("Singapore Indoor Stadium", 10000, sects, "src/main/resources/static/seating_plan/Charlie_Puth_Seating_Plan.jpg"));
+        Venue v1 = new Venue("Singapore National Stadium", 10000,"src/main/resources/static/seating_plan/Taylor_Swift_Seating_Plan.jpg");
+        Venue v2 = new Venue("Singapore Indoor Stadium", 10000, "src/main/resources/static/seating_plan/Charlie_Puth_Seating_Plan.jpg");
+        Venue v3 = new Venue("Esplanade Theatre A", 10000, "src/main/resources/static/seating_plan/Charlie_Puth_Seating_Plan.jpg");
+        Sector newSect1 = new Sector(v1, "634", 348.0, new String[]{"A","B","C"}, new Integer[]{20,30,40}, "src/main/resources/static/seating_plan/sector_seating.png");
+        Sector newSect1a = new Sector(v1, "635", 348.0, new String[]{"D","E","F"}, new Integer[]{50,60,70}, "src/main/resources/static/seating_plan/sector_seating.png");
+        Sector newSect2 = new Sector(v2, "634", 348.0, new String[]{"A"}, new Integer[]{20}, "src/main/resources/static/seating_plan/sector_seating.png");
+        Sector newSect3 = new Sector(v3, "634", 348.0, new String[]{"A"}, new Integer[]{20}, "src/main/resources/static/seating_plan/sector_seating.png");
+        ArrayList<Sector> sects1 = new ArrayList<>();
+        ArrayList<Sector> sects2 = new ArrayList<>();
+        ArrayList<Sector> sects3 = new ArrayList<>();
+        sects1.add(newSect1);
+        sects1.add(newSect1a);
+        sects2.add(newSect2);
+        sects3.add(newSect3);
+        v1.setSectors(sects1);
+        v2.setSectors(sects2);
+        v3.setSectors(sects3);
+        result.add(v1);
+        result.add(v2);
+        result.add(v3);
         return result;
     }
 }
