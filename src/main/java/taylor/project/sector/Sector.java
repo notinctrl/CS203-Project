@@ -1,14 +1,19 @@
 package taylor.project.sector;
 
-import java.util.*;
 import java.io.File;
-import java.util.ArrayList;
+import java.util.*;
 
-import javax.persistence.Column;
+import javax.persistence.CollectionTable;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.IdClass;
+import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
+import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -17,51 +22,70 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
+import taylor.project.venue.Venue;
+import taylor.project.concert.Concert;
+
 @Entity
 @Getter
 @Setter
-@ToString
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode
-public class Sector {
+
+// @IdClass(SectorId.class)
+public class Sector{
     //ID tagged to all sectors
     @Id
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    //sectorName != id.
+    private String sectorName;
 
     private double ticketPrice;
     private int sectorSize;
-    @Column(nullable = true, length = 10000000)
+    // @Column(nullable = true, length = 10000000)
     @NotNull(message = "Error: You must provide a seat layout for the sector.")
     private File seatLayout;
-    private TreeMap<String, ArrayList<Character>> seats;
 
-    // @NotNull(message = "Error: Concert name cannot be empty.")
-    // @Size(min = 5, max = 200, message = "Error: Concert name should be at least 5 characters long")
+    @ElementCollection
+    @CollectionTable(name="listOfRows")
+    private List<String> rowNames;
 
-    // @NotNull(message = "Error: Concert venue cannot be empty.")
-    // @Size(min = 5, max = 200, message = "Error: Concert venue should be at least 5 characters long")
+    @ElementCollection
+    @CollectionTable(name="seatAvailability")
+    private List<String> seats;
 
-    
-    
+    @ManyToOne
+    @JoinColumn(name = "venue_id")
+    private Venue venue;
+
     //@JsonIgnore
 
-    public Sector(String id, double price, String[] rowNames, int[] totalSeatsInRow, String seatLayoutPath) {
-        this.id = id;
-        ticketPrice = price;
-        seats = new TreeMap<String, ArrayList<Character>>();
-        int rowidx = 0;
+    public Sector(Venue v, String sectorName, double ticketPrice, String[] rowNames, Integer[] totalSeatsInRow, String seatLayoutPath){
+        venue = v;
+        this.sectorName = sectorName;
+        this.ticketPrice = ticketPrice;
+        this.rowNames = Arrays.asList(rowNames);
+
+        this.seats = new ArrayList<>();
+
         for (int row : totalSeatsInRow){
             int i = 0;
-            ArrayList<Character> seatAvailability = new ArrayList<>();
+            String avail = "";
             while (i < row){
-                seatAvailability.add('A');
+                avail += "A";
                 i++;
             }
-            seats.put(rowNames[rowidx++], seatAvailability);
+            seats.add(avail);
         }
-        if (seatLayoutPath == null || seatLayoutPath.length() == 0); //do some error
-        else this.seatLayout = new File(seatLayoutPath);
+
+        this.seatLayout = new File(seatLayoutPath);
+    }
+
+    //for testing
+    public String toString(){
+        return getSectorName();
     }
     
 }
