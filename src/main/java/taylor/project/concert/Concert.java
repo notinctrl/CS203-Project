@@ -33,17 +33,13 @@ public class Concert {
     //ID tagged to all concerts
     private @Id @GeneratedValue (strategy = GenerationType.IDENTITY) Long id;
 
-    private int ticketQuantity;
-
-    private boolean isSoldOut = false;
-
-    //for handling gallery uploads
-    @Column(nullable = true, length = 10000000)
-    private File photo;
-
     @NotNull(message = "Error: Concert name cannot be empty.")
     @Size(min = 5, max = 200, message = "Error: Concert name should be at least 5 characters long")
     private String concertName;
+
+    private int ticketQuantity;
+
+    private boolean isSoldOut = false;
 
     // for which day of the concert
     @NotNull(message = "Error: Concert date range cannot be empty.")
@@ -53,10 +49,14 @@ public class Concert {
     @NotNull(message =  "Error: Concert time cannot be empty.")
     private LocalTime startTime;
 
-    // @NotNull(message = "Error: Concert venue cannot be empty.")
+    @NotNull(message = "Error: Concert venue cannot be empty.")
     @OneToOne(mappedBy="concert",
             cascade = CascadeType.ALL)
     private Venue concertVenue;
+
+    //for handling gallery uploads
+    @Column(nullable = true, length = 10000000)
+    private File photo;
 
     
     
