@@ -8,7 +8,6 @@ import javax.validation.Valid;
 
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,8 +19,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.view.RedirectView;
+
+import taylor.project.sector.exceptions.SectorExistsException;
+import taylor.project.sector.exceptions.SectorNotFoundException;
 
 @RestController
 public class SectorController {
@@ -66,7 +66,14 @@ public class SectorController {
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/sectors")
     public Sector addSector(@Valid @RequestBody Sector sector) {
-        return sectorService.addSector(sector);
+        Sector s = null;
+        try {
+            s = sectorService.addSector(sector);
+        } catch (SectorExistsException e){
+            System.out.println(e.getMessage());
+            return null;
+        }
+        return s;
     }
 
     /**
