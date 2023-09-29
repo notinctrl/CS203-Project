@@ -112,7 +112,6 @@ public class HTMLController {
     }
 
 }
-}
 
 // hard code: retrieval of concert attributes
         // Concert c1 = concerts.get(0);
