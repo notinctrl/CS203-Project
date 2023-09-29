@@ -38,18 +38,6 @@ public class BookingApp {
                 + " and Sector " +  cList.get(0).getConcertVenue().getSectors().get(0).getSectorName()
                 + ", row " + cList.get(0).getConcertVenue().getSectors().get(0).getRowNames().get(0) 
                 + " has the following seats available = " + cList.get(0).getConcertVenue().getSectors().get(0).getSeats().get(0));
-
-        System.out.println("[Add concert]: " + concerts.save(new Concert("Taylor Swift Singapore 2024", 10000,
-                            "9 - 11 April, 2025", "19:00", "Singapore National Stadium",
-                             null)).getConcertName());
-                            
-        System.out.println("[Add concert]: " + concerts.save(new Concert("BTS Singapore 2024", 20000,
-                            "21 - 22 September, 2024", "20:00", "Singapore Indoor Stadium", 
-                            "src/main/resources/static/concert_posters/BTS_Concert_Poster.jpg")).getConcertName());
-
-        System.out.println("[Add concert]: " + concerts.save(new Concert("Coldplay Music of the Spheres 2024", 20000,
-                            "23 - 27 January, 2024", "20:00", "Singapore National Stadium", 
-                            "src/main/resources/static/concert_posters/Coldplay_Concert_Poster.jpg")).getConcertName());
         System.out.println("[Add concert]: " + concerts.save(cList.get(1)).getConcertName());
         System.out.println("[Add concert]: " + concerts.save(cList.get(2)).getConcertName());
        
@@ -136,3 +124,8 @@ public class BookingApp {
         return result;
     }
 }
+
+
+        // System.out.println("[Add concert]: " + concerts.save(new Concert("Coldplay Music of the Spheres 2024", 20000,
+        //                     "23 - 27 January, 2024", "20:00", "Singapore National Stadium", 
+        //                     "src/main/resources/static/concert_posters/Coldplay_Concert_Poster.jpg")).getConcertName());
