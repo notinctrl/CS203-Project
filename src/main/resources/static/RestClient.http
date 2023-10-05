@@ -162,3 +162,23 @@ DELETE http://localhost:8080/users/3
 Content-Type: application/json
 Authorization: basic admin goodpassword
 # UserNotFoundException works
+
+###
+GET http://localhost:8080/tickets
+Authorization: Basic admin goodpassword
+Content-Type: application/json
+
+###
+GET http://localhost:8080/tickets/12
+Authorization: Basic admin goodpassword
+Content-Type: application/json
+
+###
+POST http://localhost:8080/tickets
+Authorization: Basic admin goodpassword
+Content-Type: application/json
+
+{
+    "ticketType": "NORMAL",
+    "seatNumber": 13
+}
