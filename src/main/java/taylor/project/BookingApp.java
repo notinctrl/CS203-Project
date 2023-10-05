@@ -31,8 +31,9 @@ public class BookingApp {
 
         // JPA concert repository init. default settings
         ConcertRepository concerts = ctx.getBean(ConcertRepository.class);
+        VenueRepository venues = ctx.getBean(VenueRepository.class);
         // refer to below psvm for initialised concerts.
-        List<Venue> vList = iniVenues();
+        List<Venue> vList = iniVenues(ctx, venues);
         List<Concert> cList = iniConcerts(vList);
         System.out.println("[Add concert]: " + concerts.save(cList.get(0)).getConcertName() 
                 + " and Sector " +  cList.get(0).getConcertVenue().getSectors().get(0).getSectorName()
@@ -40,7 +41,11 @@ public class BookingApp {
                 + " has the following seats available = " + cList.get(0).getConcertVenue().getSectors().get(0).getSeats().get(0));
         System.out.println("[Add concert]: " + concerts.save(cList.get(1)).getConcertName());
         System.out.println("[Add concert]: " + concerts.save(cList.get(2)).getConcertName());
-       
+
+for (Venue v : vList){
+    venues.save(v);
+}
+
         // JPA user repository init
         UserRepository users = ctx.getBean(UserRepository.class);
         // refer to below psvm for initialised users.
@@ -85,6 +90,9 @@ public class BookingApp {
         result.add(new Concert("BTS Singapore 2024", 20000,
                             "21 - 22 September, 2024", "20:00", vList.get(2), 
                             null));
+        vList.get(0).setConcert(result.get(0));
+        vList.get(1).setConcert(result.get(1));
+        vList.get(2).setConcert(result.get(2));
         return result;
     }
 
@@ -99,7 +107,7 @@ public class BookingApp {
         return result;
     }
 
-    public static List<Venue> iniVenues(){
+    public static List<Venue> iniVenues(ApplicationContext ctx, VenueRepository venues){
         List<Venue> result = new ArrayList<>();
         Venue v1 = new Venue("Singapore National Stadium", 10000,"src/main/resources/static/seating_plan/Taylor_Swift_Seating_Plan.jpg");
         Venue v2 = new Venue("Singapore Indoor Stadium", 10000, "src/main/resources/static/seating_plan/Charlie_Puth_Seating_Plan.jpg");

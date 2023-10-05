@@ -1,4 +1,7 @@
 GET http://localhost:8080/concerts
+
+###
+GET http://localhost:8080/venues
 Accept: application/json
 
 ###
@@ -13,6 +16,9 @@ GET http://localhost:8080/concerts/byName/taylor%20swift
 ###
 GET http://localhost:8080/concerts/byName/BST
 # Should throw a 404 exception because there are no concerts whose name contains "BST"
+
+###
+GET http://localhost:8080/getSeatData/1
 
 ###
 DELETE http://localhost:8080/concerts/3
@@ -75,28 +81,6 @@ Authorization: Basic dt goodpassword
     "concertVenue": "Singapore National Stadium",
     "photo": "src/main/resources/static/concert_posters/Coldplay_Concert_Poster.jpg"
 }
-
-###
-# GET http://localhost:8080/concerts/1/
-
-
-###
-# POST http://localhost:8080/concerts/2
-# Content-Type: application/json
-# # User role
-# Authorization: Basic gooduser:goodpassword
-
-# {
-#     "review": "Terrible book :)"
-# }
-
-###
-# PUT http://localhost:8080/concerts/2
-# Content-Type: application/json
-
-# {
-#     "review": "Should be bad!"
-# }
 
 ###unauthorised for non-admins
 GET http://localhost:8080/users

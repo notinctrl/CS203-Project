@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.nio.file.*;
 import java.util.*;
 
-import org.apache.commons.io.FileUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import ch.qos.logback.core.util.FileUtil;
 import taylor.project.concert.Concert;
 import taylor.project.concert.ConcertService;
 
