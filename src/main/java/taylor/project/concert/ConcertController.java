@@ -1,6 +1,7 @@
 package taylor.project.concert;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -8,6 +9,7 @@ import javax.validation.Valid;
 
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -22,6 +24,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.view.RedirectView;
+
+import taylor.project.sector.*;
 
 @RestController
 public class ConcertController {
@@ -83,6 +87,31 @@ public class ConcertController {
     @PostMapping("/concerts")
     public Concert addConcert(@Valid @RequestBody Concert concert) {
         return concertService.addConcert(concert);
+    }
+
+    @GetMapping("/getSeatData/{concertId}")
+    public List<String> getSeatData(@PathVariable Long concertId) {
+        // Fetch the Concert entity based on the concertId (you should implement this logic)
+        Concert concert = concertService.getConcertById(concertId); // Replace with your service/repository logic
+
+        // if (concert == null) {
+        //     return ResponseEntity.notFound().build();
+        // }
+
+        List<Sector> sectors = concert.getConcertVenue().getSectors();
+
+        List<String> seatData = new ArrayList<>();
+        for (Sector s : sectors){
+            List<String> seats = s.getSeats();
+            List<String> rowNames = s.getRowNames();
+            int i = 0;
+            for (String rowName : rowNames) {
+                seatData.add(s.getSectorName() + ":" + rowName + ":" + seats.get(i++));
+            }
+        }
+
+
+        return seatData;
     }
 
     /**
