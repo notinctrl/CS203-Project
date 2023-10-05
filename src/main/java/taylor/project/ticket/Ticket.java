@@ -31,14 +31,14 @@ public class Ticket {
         follow business logic in google docs.
     */
     private String ticketType;
-    private String seatDetails;
+    private int seatNumber;
 
-    public Ticket(String ticketType, String seatDetails) {
+    public Ticket(String ticketType, int seatNumber) {
         this.ticketType = ticketType;
-        this.seatDetails = seatDetails;
+        this.seatNumber = seatNumber;
     }
     
-    
+     
     //@JsonIgnore
     
     
