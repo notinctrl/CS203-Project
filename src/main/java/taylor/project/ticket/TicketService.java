@@ -4,7 +4,9 @@ import java.util.List;
 
 public interface TicketService {
     List<Ticket> listTickets();
-    Ticket getTicket(Long id);
+    //Ticket getTicketbySeatNumber(int seatNumber);
+    List<Ticket> getTicketListbySeatNumber(int seatNumber);
+   //Ticket getTicket(Long id);
     Ticket addTicket(Ticket ticket);
     Ticket updateTicket(Long id, Ticket ticket);
 
