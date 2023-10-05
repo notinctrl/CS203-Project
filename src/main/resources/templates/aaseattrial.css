@@ -7,9 +7,9 @@ body {
   .theatre {
     display: flex;
     position: absolute;
-    top: 70%;
+    top: 50%;
     left: 50%;
-    /* transform: rotate(-90deg); */
+    transform: rotate(-90deg);
   }
 
   .cinema-seats {
@@ -53,38 +53,35 @@ body {
       background: #fbfbfb;
       margin-bottom: 10px;
       transform: skew(0deg);
-      margin-top: -7px;
+      margin-top: -3px;
+      box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+    }
+
+    .seatPend{
+      width: 35px;
+      height: 35px;
+      border-radius: 7px;
+      background: #fbee00;
+      margin-bottom: 10px;
+      transform: skew(0deg);
+      margin-top: -3px;
+      box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+    }
+
+    .seatUnavail{
+      width: 35px;
+      height: 35px;
+      border-radius: 7px;
+      background: #fb0000;
+      margin-bottom: 10px;
+      transform: skew(0deg);
+      margin-top: -3px;
       box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
     }
   }
   
   
-    .row2{
-      .seatAvail {
-        width: 35px;
-        height: 35px;
-        border-radius: 7px;
-        background: #fbfbfb;
-        box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
-      }
-      .seatUnavail {
-        width: 35px;
-        height: 35px;
-        border-radius: 7px;
-        background: linear-gradient(
-          to top,
-          #761818,
-          #761818,
-          #761818,
-          #761818,
-          #761818,
-          #b54041,
-          #f3686a
-        );
-        box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
-      }
-    }
-  
+
     
 
 
