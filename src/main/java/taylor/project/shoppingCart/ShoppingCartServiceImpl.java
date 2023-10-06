@@ -2,14 +2,23 @@ package taylor.project.shoppingCart;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import taylor.project.ticket.Ticket;
+import taylor.project.ticket.TicketRepository;
 
 
 @Service
 public class ShoppingCartServiceImpl implements ShoppingCartService {
    
     private ShoppingCartRepository shoppingCarts;
-    
+    private TicketRepository ticketRepository;
+
+    @Autowired
+    public ShoppingCartServiceImpl(TicketRepository ticketRepository) {
+        this.ticketRepository = ticketRepository;
+    }
 
     public ShoppingCartServiceImpl(ShoppingCartRepository shoppingCarts){
         this.shoppingCarts = shoppingCarts;
@@ -39,6 +48,15 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
             return shoppingCarts.save(shoppingCart);
     }).orElse(null);
 
+    }
+
+    @Override
+    public void addTicketById(Long id, Ticket ticket) {
+        ShoppingCart shoppingCart = shoppingCarts.findById(id).orElse(null);
+        if (shoppingCart != null) {
+            shoppingCart.getTicketList().add(ticket);
+            shoppingCarts.save(shoppingCart);
+        }
     }
 
     /**
