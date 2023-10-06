@@ -5,8 +5,12 @@
 <!-- <script src="aaseatclick.js"></script> -->
 <body>
     <div class="theatre">
-        <div class="cinema-seats rows" id="seating-container">
-        </div>
+        
+        <div class="cinema-seats rows" id="seating-container"></div>
+
+            <button id="confirm-button">Confirm Selection</button>
+            <div id="selected-seats-message" style="display: none;"></div>
+            <button id="final-confirm-button" style="display: none;">Final Confirm?</button>
     </div>
 
     <script>
@@ -15,6 +19,7 @@
         .then(data => {
             const seatingContainer = document.getElementById('seating-container');
 
+            // initialising the rows of seats
             data.forEach(seatInfo => {
             const [row, seats] = seatInfo.split(':'); // Split the row and seat information
             
@@ -44,7 +49,7 @@
 
         let selectedSeats = []; // Initialize as an empty array
 
-        console.log("JavaScript file is being executed.");
+        // console.log("JavaScript file is being executed.");
         $(document).ready(function() {
             $('#seating-container').on('click', '.seat', function() {
                 if (selectedSeats.length < 4){
@@ -93,6 +98,23 @@
                     console.log("You can only select up to 4 seats. Please deselect some seats to select new ones.");
                 }
             });
+
+            $('#confirm-button').on('click', function() {
+                // Display the selected seats message
+                const selectedSeatsMessage = selectedSeats.join(', '); // Create a comma-separated string
+                $('#selected-seats-message').text(`Selected Seats: ${selectedSeatsMessage}`);
+                $('#selected-seats-message').show();
+
+                // Display the final confirm button
+                $('#final-confirm-button').show();
+            });
+
+            // Add a click event handler for the final confirm button
+            $('#final-confirm-button').on('click', function() {
+                // Call the function to send the selected seats to the backend
+                sendSelectedSeatsToBackend(selectedSeats);
+            });
+
         });
 
         // Function to send the selected seat to the backend

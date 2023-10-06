@@ -1,16 +1,23 @@
 body {
-    margin: 60px;
-    background: #111;
-  }
+  margin: 60px;
+  background: #111;
+}
   
   /*position of the whole theatre*/
-  .theatre {
+.theatre {
     display: flex;
-    position:static;
-    top: 50%;
+    /*flex-direction: column;*/ /*Stack the seating container and buttons vertically */
+    align-items: center; /*Center the content horizontally*/
+    position: relative;
+    bottom: 1000%;
     left: 50%;
-    transform: rotate(-90deg);
-  }
+    transform: rotate(-90deg) translate(-50%, -50%); /* Rotate and center the entire container */
+}
+
+#seating-container {
+  position: relative;
+  right: -120%; /* Shift the seats up by 20 pixels (adjust the value as needed) */
+}
 
   .cinema-seats {
     display: flex;
@@ -76,3 +83,37 @@ body {
       box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
     }
   }
+  
+ .button-container {
+    display: flex;
+    /*flex-direction: column; *//*Stack the buttons vertically*/
+    /*align-items: center;*/ /* Center the buttons horizontally*/
+    position: absolute;
+    /* controls buttton vertical */
+    right: -20%;
+    /* controls buttton horizontal */
+    bottom: 50%
+}
+
+
+#confirm-button {
+    width: 190px; 
+    height: 20px;
+    position:absolute;
+    /* controls buttton horizontal */
+    bottom:10%;
+    /* controls buttton vertical */
+    right:-20%;
+    transform: rotate(90deg); 
+}
+
+#final-confirm-button {
+    width: 190px; 
+    height: 20px; 
+    position:absolute;
+    /* controls buttton horizontal */
+    bottom:10%;
+    /* controls buttton vertical */
+    right:-18%;
+    transform: rotate(90deg); 
+}
