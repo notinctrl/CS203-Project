@@ -6,7 +6,7 @@ body {
   /*position of the whole theatre*/
   .theatre {
     display: flex;
-    position: absolute;
+    position:static;
     top: 50%;
     left: 50%;
     transform: rotate(-90deg);
@@ -27,7 +27,7 @@ body {
         border-radius: 7px;
       }
   
-      &.active {      }
+      &.active {}
   
       &.active:before {
         content: "";
@@ -51,9 +51,8 @@ body {
       height: 35px;
       border-radius: 7px;
       background: #fbfbfb;
-      margin-bottom: 10px;
+      margin-top: 5px;
       transform: skew(0deg);
-      margin-top: -3px;
       box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
     }
 
@@ -62,9 +61,8 @@ body {
       height: 35px;
       border-radius: 7px;
       background: #fbee00;
-      margin-bottom: 10px;
+      margin-top: 5px;
       transform: skew(0deg);
-      margin-top: -3px;
       box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
     }
 
@@ -73,15 +71,8 @@ body {
       height: 35px;
       border-radius: 7px;
       background: #fb0000;
-      margin-bottom: 10px;
+      margin-top: 5px;
       transform: skew(0deg);
-      margin-top: -3px;
       box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
     }
   }
-  
-  
-
-    
-
-

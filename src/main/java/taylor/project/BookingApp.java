@@ -112,7 +112,7 @@ for (Venue v : vList){
         Venue v1 = new Venue("Singapore National Stadium", 10000,"src/main/resources/static/seating_plan/Taylor_Swift_Seating_Plan.jpg");
         Venue v2 = new Venue("Singapore Indoor Stadium", 10000, "src/main/resources/static/seating_plan/Charlie_Puth_Seating_Plan.jpg");
         Venue v3 = new Venue("Esplanade Theatre A", 10000, "src/main/resources/static/seating_plan/Charlie_Puth_Seating_Plan.jpg");
-        Sector newSect1 = new Sector(v1, "634", 348.0, new String[]{"A","B","C"}, new Integer[]{20,30,40}, "src/main/resources/static/seating_plan/sector_seating.png");
+        Sector newSect1 = new Sector(v1, "634", 348.0, new String[]{"A","B","C"}, new Integer[]{20,30,18}, "src/main/resources/static/seating_plan/sector_seating.png");
         Sector newSect1a = new Sector(v1, "635", 348.0, new String[]{"D","E","F"}, new Integer[]{50,60,70}, "src/main/resources/static/seating_plan/sector_seating.png");
         Sector newSect2 = new Sector(v2, "634", 348.0, new String[]{"A"}, new Integer[]{20}, "src/main/resources/static/seating_plan/sector_seating.png");
         Sector newSect3 = new Sector(v3, "634", 348.0, new String[]{"A"}, new Integer[]{20}, "src/main/resources/static/seating_plan/sector_seating.png");

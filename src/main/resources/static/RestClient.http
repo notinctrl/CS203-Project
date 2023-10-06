@@ -18,7 +18,8 @@ GET http://localhost:8080/concerts/byName/BST
 # Should throw a 404 exception because there are no concerts whose name contains "BST"
 
 ###
-GET http://localhost:8080/getSeatData/1
+GET http://localhost:8080/getSectorRowAvailability/1/634
+Accept: application/json
 
 ###
 DELETE http://localhost:8080/concerts/3

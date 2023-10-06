@@ -89,8 +89,8 @@ public class ConcertController {
         return concertService.addConcert(concert);
     }
 
-    @GetMapping("/getSeatData/{concertId}")
-    public List<String> getSeatData(@PathVariable Long concertId) {
+    @GetMapping("/getSectorRowAvailability/{concertId}/{sectorName}")
+    public List<String> getSectorRowAvailability(@PathVariable Long concertId, @PathVariable String sectorName) {
         // Fetch the Concert entity based on the concertId (you should implement this logic)
         Concert concert = concertService.getConcertById(concertId); // Replace with your service/repository logic
 
@@ -102,11 +102,13 @@ public class ConcertController {
 
         List<String> seatData = new ArrayList<>();
         for (Sector s : sectors){
-            List<String> seats = s.getSeats();
-            List<String> rowNames = s.getRowNames();
-            int i = 0;
-            for (String rowName : rowNames) {
-                seatData.add(s.getSectorName() + ":" + rowName + ":" + seats.get(i++));
+            if (s.getSectorName().equals(sectorName)){
+                List<String> seats = s.getSeats();
+                List<String> rowNames = s.getRowNames();
+                int i = 0;
+                for (String rowName : rowNames) {
+                    seatData.add(rowName + ":" + seats.get(i++));
+                }
             }
         }
 
