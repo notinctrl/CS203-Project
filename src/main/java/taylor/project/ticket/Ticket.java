@@ -44,6 +44,9 @@ public class Ticket {
         this.ticketStatus = 'A';
     }
     
+    public void setSector(Long sectorNo) {
+        this.sector = sectorNo;
+    }
     
     //@JsonIgnore
     
