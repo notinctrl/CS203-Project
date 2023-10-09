@@ -52,6 +52,16 @@ public class HTMLController {
         return "test2";
     }
 
+    @GetMapping("/sectortest")
+    public String sectortest(){
+        return "sectortest";
+    }
+
+    @GetMapping("/sectortest2")
+    public String sectortest2(){
+        return "sectortest2";
+    }
+
     @GetMapping("/contact")
     public String contact(Model model){
         return "contact";

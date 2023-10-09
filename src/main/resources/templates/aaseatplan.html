@@ -120,7 +120,7 @@
         // Function to send the selected seat to the backend
         function sendSelectedSeatToBackend() {
             if (selectedSeat) {
-                fetch('', {
+                fetch('http://localhost:8080/bookingSuccessful/1', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -139,9 +139,6 @@
                 });
             }
         }
-
-        // Call the function when you want to send the selected seat to the backend (e.g., after a button click)
-        // sendSelectedSeatToBackend();
     </script>
 </body>
 </html>
