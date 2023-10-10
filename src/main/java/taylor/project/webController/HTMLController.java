@@ -16,6 +16,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import taylor.project.concert.Concert;
 import taylor.project.concert.ConcertService;
+import taylor.project.sector.*;
 
 @Controller
 public class HTMLController {
@@ -47,9 +48,9 @@ public class HTMLController {
         return "index";
     }
 
-    @GetMapping("/seattest")
-    public String seattest(){
-        return "test2";
+    @GetMapping("/seatplan")
+    public String seatplan(){
+        return "aaseatplan";
     }
 
     @GetMapping("/sectortest")
@@ -58,7 +59,32 @@ public class HTMLController {
     }
 
     @GetMapping("/sectortest2")
-    public String sectortest2(){
+    public String sectortest2(Model model){
+        List<Sector> sectors = concertService.getConcertById(1L).getConcertVenue().getSectors();
+        for (Sector s : sectors){
+            // find how many seats are avail
+            List<String> rowAvailability = s.getSeats();
+            char sectorStatus = ' ';
+            int total = 0;
+            double available = 0;
+            for (String row : rowAvailability){
+                total += row.length();
+                char[] seats = row.toCharArray();
+                for (char seat : seats) {
+                    if (seat == 'A') available++;
+                }
+            }
+
+            if (available / total > 0.66) sectorStatus = 'H';
+            else if (available / total > 0.33) sectorStatus = 'M';
+            else if (available / total > 0) sectorStatus = 'L';
+            else sectorStatus = 'Z';
+
+            model.addAttribute("sector-" + s.getSectorName() + "-total", total);
+            model.addAttribute("sector-" + s.getSectorName() + "-avail", available);
+            model.addAttribute("sector-" + s.getSectorName() + "-status", sectorStatus);
+System.out.println("model has " + model);
+        }
         return "sectortest2";
     }
 
