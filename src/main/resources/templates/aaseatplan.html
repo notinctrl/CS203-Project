@@ -1,16 +1,19 @@
 <!DOCTYPE html>
 <html xmlns:th="https://www.thymeleaf.org">
-<link rel="stylesheet" href="aaseattrial.css">
+<link rel="stylesheet" href="css/sector-related/aaseattrial.css">
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<!-- <script src="aaseatclick.js"></script> -->
+
 <body>
     <div class="theatre">
         
         <div class="cinema-seats rows" id="seating-container"></div>
 
+        <div class="button-container">
             <button id="confirm-button">Confirm Selection</button>
             <div id="selected-seats-message" style="display: none;"></div>
             <button id="final-confirm-button" style="display: none;">Final Confirm?</button>
+            <button id="cancel-button" style="display: none;">Cancel</button>
+        </div>
     </div>
 
     <script>
@@ -22,8 +25,14 @@
             // initialising the rows of seats
             data.forEach(seatInfo => {
             const [row, seats] = seatInfo.split(':'); // Split the row and seat information
-            
+
             const rowElement = document.createElement('div');
+
+            const rowNameElement = document.createElement('div');
+            rowNameElement.classList.add('row-name');
+            rowNameElement.textContent = row[0]; // Set the row name text
+
+            rowElement.appendChild(rowNameElement);
             rowElement.classList.add('cinema-row');
             rowElement.classList.add('row1');
             // console.log([row,seats]);
@@ -101,18 +110,28 @@
 
             $('#confirm-button').on('click', function() {
                 // Display the selected seats message
-                const selectedSeatsMessage = selectedSeats.join(', '); // Create a comma-separated string
-                $('#selected-seats-message').text(`Selected Seats: ${selectedSeatsMessage}`);
-                $('#selected-seats-message').show();
+                if (selectedSeats.length != 0){
+                    const selectedSeatsMessage = selectedSeats.join(', '); // Create a comma-separated string
+                    $('#selected-seats-message').text(`Selected Seats: ${selectedSeatsMessage}`);
+                    $('#selected-seats-message').show();
 
-                // Display the final confirm button
-                $('#final-confirm-button').show();
+                    // Display the final confirm button
+                    $('#final-confirm-button').show();
+                    $('#cancel-button').show();
+                } else console.log("Please select at least one seat.");
+                
             });
 
             // Add a click event handler for the final confirm button
             $('#final-confirm-button').on('click', function() {
                 // Call the function to send the selected seats to the backend
                 sendSelectedSeatsToBackend(selectedSeats);
+            });
+
+            $('#cancel-button').on('click', function() {
+                $('#final-confirm-button').hide();
+                $('#cancel-button').hide();
+                $('#confirm-button').show();
             });
 
         });
