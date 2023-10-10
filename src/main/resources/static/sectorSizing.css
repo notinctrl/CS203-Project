@@ -1,0 +1,9 @@
+/* Apply styles to the container */
+.center-container {
+    display: flex;
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+    height: 100vh; /* 100% of the viewport height */
+    position: relative;
+    /* background-color: #13ff00; */
+}

@@ -2,32 +2,25 @@
 <!-- <html lang="en"> -->
 
 <html xmlns:th="https://www.thymeleaf.org">
-
-<head>
-    <style>
-        /* Apply styles to the container */
-        .center-container {
-            display: flex;
-            justify-content: center; /* Center horizontally */
-            align-items: center; /* Center vertically */
-            height: 100vh; /* 100% of the viewport height */
-            position: relative;
-        }
-    </style>
-</head>
+<link rel="stylesheet" href="sectorSizing.css">
+<head></head>
 
 <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
 <!-- Maphighlight Script -->
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/maphilight/1.4.0/jquery.maphilight.min.js"></script>
+<script type="text/javascript" src="jquery.maphilight.js"></script>
 <script type="text/javascript" src="https://raw.githubusercontent.com/davidjbradshaw/imagemap-resizer/master/js/imageMapResizer.min.js"></script>
 
 <body>
     <div class="center-container">
         <img th:src="@{/seating_plan/Taylor_Swift_Seating_Plan(updated).jpg}" id="image" usemap="#image-map" class="maparea" height="100%" >
     </div>
+    <!-- sectors are grouped by their proximity. if they
+    are closely next to each other, they are in the same group.
+    group layout here: todo -->
     <map name="image-map" id="image-map">
-        <area target="_self" alt="sector634" title="sector634" href="" coords="736,244,645,276,706,322,778,293" shape="poly">
-        <area target="_self" alt="sector635" title="sector635" href="" coords="640,276,554,310,630,369,710,324" shape="poly">
+        <!-- Group 1: Sectors 634-645 -->
+        <area target="_self" alt="sector634" title="sector634" href="seatplan" coords="736,244,645,276,706,322,778,293" shape="poly" status-id="L">
+        <!-- <area target="_self" alt="sector635" title="sector635" href="" coords="640,276,554,310,630,369,710,324" shape="poly">
         <area target="_self" alt="sector636" title="sector636" href="" coords="549,308,466,352,555,411,626,369" shape="poly">
         <area target="_self" alt="sector637" title="sector637" href="" coords="460,353,386,396,485,457,551,414" shape="poly">
         <area target="_self" alt="sector638" title="sector638" href="" coords="383,400,313,448,404,499,469,451" shape="poly">
@@ -37,14 +30,23 @@
         <area target="_self" alt="sector642" title="sector642" href="" coords="174,709,218,661,137,628,118,655,100,692" shape="poly">
         <area target="_self" alt="sector643" title="sector643" href="" coords="97,696,75,755,142,767,174,714" shape="poly">
         <area target="_self" alt="sector644" title="sector644" href="" coords="137,770,70,760,60,821,118,826" shape="poly">
-        <area target="_self" alt="sector645" title="sector645" href="" coords="108,877,57,877,60,826,113,829" shape="poly">
-        <area target="_self" alt="sector434" title="sector434" href="" coords="817,303,737,338,782,382,857,349" shape="poly">
+        <area target="_self" alt="sector645" title="sector645" href="" coords="108,877,57,877,60,826,113,829" shape="poly"> -->
+
+        <!-- Group 2: Sectors 434-446 -->
+        <!-- <area target="_self" alt="sector434" title="sector434" href="" coords="817,303,737,338,782,382,857,349" shape="poly">
         <area target="_self" alt="sector435" title="sector435" href="" coords="657,381,734,338,777,382,707,418" shape="poly">
         <area target="_self" alt="sector436" title="sector436" href="" coords="653,382,584,421,632,458,702,422" shape="poly">
         <area target="_self" alt="sector437" title="sector437" href="" coords="511,468,579,424,630,463,560,506" shape="poly">
         <area target="_self" alt="sector438" title="sector438" href="" coords="504,469,440,513,496,549,559,504" shape="poly">
         <area target="_self" alt="sector439" title="sector439" href="" coords="440,514,373,568,429,600,493,551" shape="poly">
-        <!-- --->
+        <area target="_self" alt="sector440" title="sector440" href="" coords="370,569,314,618,380,647,432,602" shape="poly">
+        <area target="_self" alt="sector441" title="sector441" href="" coords="309,620,255,669,325,698,372,647" shape="poly">
+        <area target="_self" alt="sector442" title="sector442" href="" coords="255,672,207,725,281,739,316,701" shape="poly">
+        <area target="_self" alt="sector443" title="sector443" href="" coords="202,730,171,781,247,792,276,746" shape="poly">
+        <area target="_self" alt="sector444" title="sector444" href="" coords="169,786,150,837,226,843,242,795" shape="poly">
+        <area target="_self" alt="sector445" title="sector445" href="" coords="148,840,142,895,217,890,225,848" shape="poly">
+        <area target="_self" alt="sector446" title="sector446" href="" coords="147,946,217,935,217,893,143,896" shape="poly"> -->
+
 </map>
 
     </map>
@@ -52,13 +54,20 @@
 </body>
 
 <script>
-$(function() {
-    $('.maparea').maphilight();
-});
-$(function() {
-    $('#image-map').imageMapResize();
-    console.log("called");
-});
+    var sectorSeatData = [];
+
+    $('area[status-id]').each(function() {
+        var status = $(this).attr('status-id');
+console.log("status is " + status);
+        sectorSeatData.push(status);
+    });
+console.log(sectorSeatData.toString());
+    $(function() {
+        $('.maparea').maphilight({}, sectorSeatData);
+    });
+    $(function() {
+        $('#image-map').imageMapResize();
+    });
 </script>
 
 <script>
@@ -99,6 +108,17 @@ $(function() {
     </script>
 
 </html>
+
+
+
+
+
+
+
+
+
+
+
 
 <!--coordinates for the original taylor swift concert layout 
     <area target="" alt="sector635" title="sector635" href="" coords="556,312,637,279,711,330,634,370" shape="poly">
