@@ -1,6 +1,5 @@
 package taylor.project.webController;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.*;
 import java.util.*;
@@ -8,6 +7,7 @@ import java.util.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -48,44 +48,34 @@ public class HTMLController {
         return "index";
     }
 
-    @GetMapping("/seatplan")
-    public String seatplan(){
-        return "aaseatplan";
+    @GetMapping("concerts/{concertId}/sectorLayout/selectSeat/{sectorName}")
+    public String seatplan(@PathVariable("concertId") Long concertId, @PathVariable("sectorName") String sectorName, Model model){
+        model.addAttribute("concertId", concertId);
+        model.addAttribute("sectorName", sectorName);
+        return "concertStorage/seatLayout.html";
     }
 
-    @GetMapping("/sectortest")
-    public String sectortest(){
-        return "sectortest";
-    }
+    // @GetMapping("/sectortest")
+    // public String sectortest(){
+    //     return "sectortest";
+    // }
 
-    @GetMapping("/sectortest2")
-    public String sectortest2(Model model){
+    @GetMapping("concerts/{concertId}/sectorLayout")
+    public String getSectorLayout(@PathVariable("concertId") Long concertId, Model model){
         List<Sector> sectors = concertService.getConcertById(1L).getConcertVenue().getSectors();
         for (Sector s : sectors){
+
             // find how many seats are avail
-            List<String> rowAvailability = s.getSeats();
-            char sectorStatus = ' ';
-            int total = 0;
-            double available = 0;
-            for (String row : rowAvailability){
-                total += row.length();
-                char[] seats = row.toCharArray();
-                for (char seat : seats) {
-                    if (seat == 'A') available++;
-                }
-            }
+            List<String> sectorInfo = getSectorInfo(s.getSeats());            
 
-            if (available / total > 0.66) sectorStatus = 'H';
-            else if (available / total > 0.33) sectorStatus = 'M';
-            else if (available / total > 0) sectorStatus = 'L';
-            else sectorStatus = 'Z';
+            model.addAttribute("sector" + s.getSectorName() + "avail", sectorInfo.get(0));
+            model.addAttribute("sector" + s.getSectorName() + "total", sectorInfo.get(1));
+            model.addAttribute("sector" + s.getSectorName() + "status", sectorInfo.get(2));
 
-            model.addAttribute("sector-" + s.getSectorName() + "-total", total);
-            model.addAttribute("sector-" + s.getSectorName() + "-avail", available);
-            model.addAttribute("sector-" + s.getSectorName() + "-status", sectorStatus);
-System.out.println("model has " + model);
+// checker for what the model contains
+// System.out.println("model has " + model);
         }
-        return "sectortest2";
+        return "concertStorage/" + concertId + "/sectorLayout.html";
     }
 
     @GetMapping("/contact")
@@ -144,6 +134,42 @@ System.out.println("model has " + model);
     public String viewShoppingCart(){
         return "shoppingcart";
     }
+
+
+/**
+ * 
+ * @param seatAvailability contains all the rows in a sector and each string's character represents a seat.
+ * @return Information about the sector in list form: {<number of avail seats>, <total seats in this sector>, sectorStatus}
+ */
+public static List<String> getSectorInfo(List<String> seatAvailability){
+    double totalSeats = 0;
+    double availSeats = 0;
+
+    for (String row : seatAvailability){
+        totalSeats += row.length();
+        char[] seats = row.toCharArray();
+        for (char seat : seats) {
+            if (seat == 'A') availSeats++;
+        }
+    }
+
+    List<String> result = new ArrayList<>(List.of(Double.toString(availSeats), Double.toString(totalSeats)));
+
+    double seatAvailPercent =  availSeats / totalSeats;
+
+    /* status reference:
+		H (High)    = 66% to 100% seats available (green)
+		M (Medium)  = 33% to 65% seats available (blue)
+		L (Low)     = (non-zero)% to 32% seats available (orange)
+		U (Unavail) = 0% seats available (red)
+	*/
+    if (seatAvailPercent > 0.66) result.add("H");
+    else if (seatAvailPercent > 0.33) result.add("M");
+    else if (seatAvailPercent > 0) result.add("L");
+    else result.add("U");
+
+    return result;
+}
 
 }
 

@@ -5,7 +5,8 @@ body {
   justify-content: center;
   align-items: center; /* Vertically and horizontally center the theater */
   height: 100vh; /* Set the body height to the viewport height */
-  overflow: hidden; /* Hide overflow content */
+  /* overflow: hidden; Hide overflow content */
+  position: relative;
 }
 
 /* Position of the whole theater */
@@ -19,7 +20,7 @@ body {
 
 #seating-container {
   display: flex;
-  transform: scaleY(-1);
+  /* transform: scaleY(-1); */
 }
 
   .cinema-seats {
@@ -103,8 +104,8 @@ body {
     justify-content: center; /* Center the buttons vertically */
     align-items: flex-end; /* Align the buttons to the right */
     position: absolute;
-    right: -45%; /* Adjust the right position as needed */
-    bottom: 100%; /* Adjust the bottom position as needed */
+    right: -140px; /* Vertical control : -- down ++ up*/
+    bottom: 95%; /* Horizontal control : -- left ++ right*/
 }
 
 
@@ -113,10 +114,8 @@ body {
     width: 190px; 
     height: 20px;
     position:absolute;
-    /* controls buttton horizontal */
-    bottom:10%;
-    /* controls buttton vertical */
-    right:-20%;
+    right:0px; /* Vertical control : -- down ++ up*/
+    bottom:10%; /* Horizontal control : -- left ++ right*/    
     transform: rotate(-90deg); 
 }
 
@@ -124,10 +123,8 @@ body {
   width: 190px; 
   height: 20px;
   position:absolute;
-  /* controls buttton horizontal */
-  bottom:10%;
-  /* controls buttton vertical */
-  right:-25%;
+  right:-30px; /* Vertical control : -- down ++ up*/
+  bottom:10%; /* Horizontal control : -- left ++ right*/    
   transform: rotate(-90deg); 
 }
 

@@ -1,3 +1,50 @@
+/**
+ * @param {sectorName, sectorStatus} sectorAvailPercentArray An array that stores the name and status (percentage of avail seats)
+ * 															 of every sector.
+ * @param {*} sectorName 									The sector that needs its strokeColour (outline colour) determined.
+ * @returns the strokeColour of the sector in the map overview that tells of the percentage of seats left
+ * 			in that specific sector.
+ */
+var getStrokeColour = function(sectorAvailPercentArray, sectorName) {
+
+// checker for getStrokeColour input sectorName
+// console.log(sectorName);
+
+	// loop through the array to retrieve the sector's seat quantity status
+	for (var i = 0; i < sectorAvailPercentArray.length; i++){
+
+		// when a sector's name has been found in the array, retrieve its status
+		if (sectorName.localeCompare(sectorAvailPercentArray[i].sectorName) === 0){
+			var status = String(sectorAvailPercentArray[i].sectorStatus);
+// console.log("percentage of seats is " + status);  
+
+			/* status reference:
+				H (High)    = 66% to 100% seats available (green)
+				M (Medium)  = 33% to 65% seats available (blue)
+				L (Low)     = (non-zero)% to 32% seats available (orange)
+				U (Unavail) = 0% seats available (red)
+			*/
+			if (status.localeCompare("H") === 0) return '13fa02';
+			else if (status.localeCompare("M") === 0) return '02faf2'; 
+			else if (status.localeCompare("L") === 0) return 'ff8c03';
+			else if (status.localeCompare("U") === 0) return 'ff0000';
+			
+		}
+	}
+//old yellow: fcf003
+// checker for failed loop
+// console.log("invoked");
+
+// Black stroke colour created null cases
+	return 'fff';
+
+};
+
+/**
+ * maphilight. contains functions of drawing each area on the image map and placing them on the html canvas.
+ * i think it also resizes the canvas accordingly.
+ * Credit: https://github.com/kemayo/maphilight
+ */
 (function(root, factory) {
 	if (typeof define === 'function' && define.amd) {
 		define(['jquery'], factory);
@@ -6,7 +53,7 @@
 	}
 })(this, function($) {
 	var has_VML, has_canvas, create_canvas_for, add_shape_to, clear_canvas, shape_from_area,
-		canvas_style, hex_to_decimal, css3color, is_image_loaded, options_from_area;
+		canvas_style, hex_to_decimal, css3colour, is_image_loaded, options_from_area;
 
 	has_canvas = !!document.createElement('canvas').getContext;
 
@@ -28,8 +75,8 @@
 		hex_to_decimal = function(hex) {
 			return Math.max(0, Math.min(parseInt(hex, 16), 255));
 		};
-		css3color = function(color, opacity) {
-			return 'rgba('+hex_to_decimal(color.substr(0,2))+','+hex_to_decimal(color.substr(2,2))+','+hex_to_decimal(color.substr(4,2))+','+opacity+')';
+		css3colour = function(colour, opacity) {
+			return 'rgba('+hex_to_decimal(colour.substr(0,2))+','+hex_to_decimal(colour.substr(2,2))+','+hex_to_decimal(colour.substr(4,2))+','+opacity+')';
 		};
 		create_canvas_for = function(img) {
 			var c = $('<canvas style="width:'+$(img).width()+'px;height:'+$(img).height()+'px;"></canvas>').get(0);
@@ -57,6 +104,7 @@
 		};
 		add_shape_to = function(canvas, shape, coords, options, name) {
 			var i, context = canvas.getContext('2d');
+			highlighted_area = name;
 
 			// Because I don't want to worry about setting things back to a base state
 
@@ -80,7 +128,7 @@
 				context.shadowOffsetX = options.shadowX - x_shift;
 				context.shadowOffsetY = options.shadowY - y_shift;
 				context.shadowBlur = options.shadowRadius;
-				context.shadowColor = css3color(options.shadowColor, options.shadowOpacity);
+				context.shadowColour = css3colour(options.shadowColour, options.shadowOpacity);
 
 				// Now, work out where to cast the shadow from! It looks better if it's cast
 				// from a fill when it's an outside shadow or a stroke when it's an interior
@@ -121,13 +169,15 @@
 			// fill has to come after shadow, otherwise the shadow will be drawn over the fill,
 			// which mostly looks weird when the shadow has a high opacity
 			if(options.fill) {
-				context.fillStyle = css3color(options.fillColor, options.fillOpacity);
+				context.fillStyle = css3colour(options.fillColour, options.fillOpacity);
 				context.fill();
 			}
 			// Likewise, stroke has to come at the very end, or it'll wind up under bits of the
 			// shadow or the shadow-background if it's present.
 			if(options.stroke) {
-				context.strokeStyle = css3color(options.strokeColor, options.strokeOpacity);
+				// set the stroke colour to the correct percentage colour
+				// options.strokeColour = getStrokeColour(sectorAvailPercentArray, options.sectorName);
+				context.strokeStyle = css3colour(options.strokeColour, options.strokeOpacity);
 				context.lineWidth = options.strokeWidth;
 				context.stroke();
 			}
@@ -148,8 +198,8 @@
 		add_shape_to = function(canvas, shape, coords, options, name) {
 			var fill, stroke, opacity, e;
 			for (var i in coords) { coords[i] = parseInt(coords[i], 10); }
-			fill = '<v:fill color="#'+options.fillColor+'" opacity="'+(options.fill ? options.fillOpacity : 0)+'" />';
-			stroke = (options.stroke ? 'strokeweight="'+options.strokeWidth+'" stroked="t" strokecolor="#'+options.strokeColor+'"' : 'stroked="f"');
+			fill = '<v:fill colour="#'+options.fillColour+'" opacity="'+(options.fill ? options.fillOpacity : 0)+'" />';
+			stroke = (options.stroke ? 'strokeweight="'+options.strokeWidth+'" stroked="t" strokecolour="#'+options.strokeColour+'"' : 'stroked="f"');
 			opacity = '<v:stroke opacity="'+options.strokeOpacity+'"/>';
 			if(shape == 'rect') {
 				e = $('<v:rect name="'+name+'" filled="t" '+stroke+' style="zoom:1;margin:0;padding:0;display:block;position:absolute;left:'+coords[0]+'px;top:'+coords[1]+'px;width:'+(coords[2] - coords[0])+'px;height:'+(coords[3] - coords[1])+'px;"></v:rect>');
@@ -183,7 +233,13 @@
 
 	options_from_area = function(area, options) {
 		var $area = $(area);
-		return $.extend({}, options, $.metadata ? $area.metadata() : false, $area.data('maphilight'));
+
+		// my addition to the code
+		// add sectorAvailPercentArray as an argument/attribute to options_from_area
+		// so that i can call it into getStrokeColour
+		var sectorAvailPercentArray = $area.data('sectorAvailPercentArray');
+
+        return $.extend({}, options, $.metadata ? $area.metadata() : false, $area.data('maphilight'), { sectorAvailPercentArray: sectorAvailPercentArray });
 	};
 
 	is_image_loaded = function(img) {
@@ -201,8 +257,8 @@
 	};
 
 	var ie_hax_done = false;
-	$.fn.maphilight = function(opts, seatData) {
-		opts = $.extend({}, $.fn.maphilight.defaults, opts);
+	$.fn.maphilight = function(opts, sectorAvailPercentArray) {
+		opts = $.extend({}, $.fn.maphilight.defaults, opts, sectorAvailPercentArray);
 
 		if(!has_canvas && !ie_hax_done) {
 			$(window).ready(function() {
@@ -229,15 +285,6 @@
 				}, 200);
 			}
 
-			// Function to get the stroke color based on seat availability
-			function getStrokeColor() {
-				var availability = seatData[0];
-				if (availability === 'H') return '13ff00';
-				else if (availability === 'M') return 'ff0000'; 
-				else if (availability === 'L') return 'ff8c03'
-				// Default stroke color for other cases
-				return 'ff0000';
-			}
 
 			options = $.extend({}, opts, $.metadata ? img.metadata() : false, img.data('maphilight'));
 
@@ -342,7 +389,19 @@
 					if (!shape) {
 						return;
 					}
-area_options.strokeColor = getStrokeColor(area);
+
+				// my addition to the code
+		        // Add the sectorName to area_options to change the sector's stroke colour
+				var sectorName = area_options.sectorName || $(area).attr('title');
+				if (sectorName) {
+					// Call getStrokeColour and set the stroke color based on the result
+					var strokeColor = getStrokeColour(sectorAvailPercentArray, sectorName);
+					if (strokeColor) {
+						area_options.strokeColour = strokeColor;
+					}
+				}
+		
+				add_shape_to(canvas, shape[0], shape[1], area_options, "highlighted", strokeColor);
 					add_shape_to(canvas, shape[0], shape[1], area_options, "highlighted");
 					if(area_options.groupBy) {
 						if(typeof area_options.groupBy == 'string') {
@@ -374,7 +433,9 @@ area_options.strokeColor = getStrokeColor(area);
 						$(canvas).append('<v:rect></v:rect>');
 					}
 				}
-			}).bind('mouseout.maphilight focusout.maphilight', function(e) { clear_canvas(canvas); });
+			}).bind('mouseout.maphilight focusout.maphilight', function(e) { 
+				clear_canvas(canvas);
+			});
 
 			img.before(canvas); // if we put this after, the mouseover events wouldn't fire.
 
@@ -383,13 +444,14 @@ area_options.strokeColor = getStrokeColor(area);
 	};
 	$.fn.maphilight.defaults = {
 		fill: true,
-		fillColor: '000000',
+		fillColour: '000000',
 		fillOpacity: 0.2,
 		stroke: true,
-		strokeColor: '13ff00',
+		strokeColour: 'fff',
 		strokeOpacity: 1,
 		strokeWidth: 3,
 		fade: true,
+		sectorName: '',
 		alwaysOn: false,
 		neverOn: false,
 		groupBy: false,
@@ -399,57 +461,10 @@ area_options.strokeColor = getStrokeColor(area);
 		shadowX: 0,
 		shadowY: 0,
 		shadowRadius: 6,
-		shadowColor: '000000',
-		shadowOpacity: 0.8,
-		shadowPosition: 'outside',
-		shadowFrom: false
-	};
-
-	$.fn.maphilight.sellingFast = {
-		fill: true,
-		fillColor: '000000',
-		fillOpacity: 0.2,
-		stroke: true,
-		strokeColor: 'ebf300',
-		strokeOpacity: 1,
-		strokeWidth: 3,
-		fade: true,
-		alwaysOn: false,
-		neverOn: false,
-		groupBy: false,
-		wrapClass: true,
-		// plenty of shadow:
-		shadow: false,
-		shadowX: 0,
-		shadowY: 0,
-		shadowRadius: 6,
-		shadowColor: '000000',
-		shadowOpacity: 0.8,
-		shadowPosition: 'outside',
-		shadowFrom: false
-	};
-
-	$.fn.maphilight.soldOut = {
-		fill: true,
-		fillColor: 'ff0303',
-		fillOpacity: 0.2,
-		stroke: true,
-		strokeColor: 'ff0303',
-		strokeOpacity: 1,
-		strokeWidth: 3,
-		fade: true,
-		alwaysOn: false,
-		neverOn: false,
-		groupBy: false,
-		wrapClass: true,
-		// plenty of shadow:
-		shadow: false,
-		shadowX: 0,
-		shadowY: 0,
-		shadowRadius: 6,
-		shadowColor: '000000',
+		shadowColour: '000000',
 		shadowOpacity: 0.8,
 		shadowPosition: 'outside',
 		shadowFrom: false
 	};
 });
+
