@@ -16,17 +16,23 @@
         </div>
     </div>
 
+    <div class="tooltip">
+        <!-- Tooltip content will go here -->
+    </div>
+
     <script th:inline="javascript">
         var concertId = /*[[${concertId}]]*/ null;
         var sectorName = /*[[${sectorName}]]*/ null;
         let maxSeats = 0;
         let numRows = 0;
+
+        // obtaining the data required to create the seat plan
         fetch('http://localhost:8080/getSectorRowAvailability/' + concertId + '/' + sectorName)
         .then(response => response.json())
         .then(data => {
             const seatingContainer = document.getElementById('seating-container');
 
-            // initialising the rows of seats
+            // Function to create the clickable seat objects and rows.
             data.forEach(seatInfo => {
             const [row, seats] = seatInfo.split(':'); // Split the row and seat information
 
@@ -59,7 +65,7 @@
             seatingContainer.appendChild(rowElement);
             numRows = numRows + 1;
             });
-console.log(maxSeats, numRows);
+
             var scaleFactor = calculateScaleFactor(maxSeats, numRows);
         
             // Apply the scale to the seating container
@@ -69,9 +75,33 @@ console.log(maxSeats, numRows);
             console.error('Error fetching seat data:', error);
         });
 
-        let selectedSeats = []; // Initialize as an empty array
+        // Function to attach a mouseover event to a seat, displaying the seat number.
+        // Assuming your seats are inside a container with class "seating-container"
+        const seatingContainer = document.querySelector('#seating-container');
+        const tooltip = document.querySelector('.tooltip');
 
-        // console.log("JavaScript file is being executed.");
+        // Attach a mouseover event listener to the seating container
+        seatingContainer.addEventListener('mouseover', (event) => {
+            const target = event.target;
+
+            // Check if the event target has the class "seat"
+            if (target.classList.contains('seat')) {
+                // Show tooltip
+                tooltip.style.display = 'block';
+
+                // You can add content to the tooltip based on the seat or any other relevant information
+                tooltip.innerHTML = 'Seat Info: ' + target.getAttribute('id');
+            }
+        });
+
+        // Attach a mouseout event listener to hide the tooltip
+        seatingContainer.addEventListener('mouseout', () => {
+            // Hide the tooltip
+            tooltip.style.display = 'none';
+        });
+
+        // function to track seats clicked.
+        let selectedSeats = []; // Initialize as an empty array
         $(document).ready(function() {
             $('#seating-container').on('click', '.seat', function() {
                 if (selectedSeats.length < 4){
@@ -91,7 +121,10 @@ console.log(maxSeats, numRows);
                         selectedSeats.splice(index, 1);
                     }
 
-                    console.log("selected seats are: " + selectedSeats);
+// console.log("selected seats are: " + selectedSeats);
+                    const selectedSeatsMessage = selectedSeats.join(', '); // Create a comma-separated string
+                    $('#selected-seats-message').text(`Selected Seats: ${selectedSeatsMessage}`);
+                    $('#selected-seats-message').show();
                 }
                 else if (selectedSeats.length === 4) {
 
@@ -113,7 +146,10 @@ console.log(maxSeats, numRows);
                         selectedSeats.splice(index, 1);
                     }
 
-                    console.log("selected seats are: " + selectedSeats);
+// console.log("selected seats are: " + selectedSeats);
+                    const selectedSeatsMessage = selectedSeats.join(', '); // Create a comma-separated string
+                    $('#selected-seats-message').text(`Selected Seats: ${selectedSeatsMessage}`);
+                    $('#selected-seats-message').show();
                 }
                 else {
                     // when the array size exceeds 4, deny addition of seats to array 
@@ -124,10 +160,6 @@ console.log(maxSeats, numRows);
             $('#confirm-button').on('click', function() {
                 // Display the selected seats message
                 if (selectedSeats.length != 0){
-                    const selectedSeatsMessage = selectedSeats.join(', '); // Create a comma-separated string
-                    $('#selected-seats-message').text(`Selected Seats: ${selectedSeatsMessage}`);
-                    $('#selected-seats-message').show();
-
                     // Display the final confirm button
                     $('#final-confirm-button').show();
                     $('#cancel-button').show();
@@ -171,8 +203,8 @@ console.log(maxSeats, numRows);
                 });
             }
         }
-        // Calculate the scale factor based on the total number of elements
         
+        // function to scale seat plan based on number of seats and rows
         function calculateScaleFactor(maxSeats, numRows) {
         // Your logic to calculate the scale factor based on the total number of elements
         // Adjust this logic as needed for your specific use case

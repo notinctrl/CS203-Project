@@ -101,9 +101,10 @@ body {
   .button-container {
     display: flex;
     flex-direction: column; /* Stack the buttons vertically */
-    justify-content: center; /* Center the buttons vertically */
+    justify-content: right; /* Center the buttons vertically */
     align-items: flex-end; /* Align the buttons to the right */
     position: absolute;
+    width: 900px;
     right: -140px; /* Vertical control : -- down ++ up*/
     bottom: 95%; /* Horizontal control : -- left ++ right*/
 }
@@ -111,7 +112,7 @@ body {
 
 #confirm-button,
 #final-confirm-button{
-    width: 190px; 
+    width: 160px; 
     height: 20px;
     position:absolute;
     right:0px; /* Vertical control : -- down ++ up*/
@@ -120,7 +121,7 @@ body {
 }
 
 #cancel-button {
-  width: 190px; 
+  width: 160px; 
   height: 20px;
   position:absolute;
   right:-30px; /* Vertical control : -- down ++ up*/
@@ -130,5 +131,23 @@ body {
 
 #final-confirm-button,
 #cancel-button {
+  display: none;
+}
+
+#selected-seats-message {
+  position: absolute;
+  width: 400px;
+  right:-80px; /* Vertical control : -- down ++ up*/
+  bottom:1000%; /* Horizontal control : -- left ++ right*/    
+  transform: rotate(-90deg);
+}
+
+.tooltip {
+  position: fixed;
+  top: 0;
+  right: 0;
+  background: #fff;
+  border: 1px solid #ccc;
+  padding: 10px;
   display: none;
 }
