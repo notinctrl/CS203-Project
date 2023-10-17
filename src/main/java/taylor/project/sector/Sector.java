@@ -50,13 +50,16 @@ public class Sector{
     @NotNull(message = "Error: You must provide a seat layout for the sector.")
     private File seatLayout;
 
+    // due to sql limitations, a map cannot be inserted into a database.
+    // as a result, the rowNames (key) and the seats in each row (value)
+    // have to be stored as separate attributes.
     @ElementCollection
     @CollectionTable(name="listOfRows")
-    private List<String> rowNames;
+    private List<String> rowNames; // key
 
     @ElementCollection
     @CollectionTable(name="seatAvailability")
-    private List<String> seats;
+    private List<String> seats; // value
 
     @ManyToOne
     @JoinColumn(name = "venue_id")

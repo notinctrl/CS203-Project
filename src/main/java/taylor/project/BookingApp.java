@@ -119,18 +119,31 @@ public class BookingApp {
         List<Venue> result = new ArrayList<>(List.of(v1, v2, v3));
 
         Sector newSect1 = new Sector(v1, "634", 348.0, new String[]{"A","B","C","D"}, new Integer[]{18,18,18,18}, "src/main/resources/static/seating_plan/sector_seating.png");
-        for(int i = 0; i < newSect1.getRowNames().size(); i++) {
-            String rowName = newSect1.getRowNames().get(i);
-            String seats = newSect1.getSeats().get(i);
-
-            for(int seatNo = 1; seatNo <= seats.length(); seatNo++) {
-                System.out.println("Added ticket:" + tickets.save(new Ticket(newSect1.getSectorName(), (rowName + seatNo), newSect1.getTicketPrice())));
-            }
-        }
         Sector newSect1a = new Sector(v1, "635", 348.0, new String[]{"D", "E", "F"}, new Integer[]{50,50,50}, "src/main/resources/static/seating_plan/sector_seating.png");
         Sector newSect2 = new Sector(v2, "634", 348.0, new String[]{"A"}, new Integer[]{20}, "src/main/resources/static/seating_plan/sector_seating.png");
         Sector newSect3 = new Sector(v3, "634", 348.0, new String[]{"A"}, new Integer[]{20}, "src/main/resources/static/seating_plan/sector_seating.png");
         List<Sector> newSects = new ArrayList<>(List.of(newSect1, newSect1a, newSect2, newSect3));
+
+        // initialise the ticketRepository and fill it with tickets
+        for (Sector sect : newSects){
+            // ini all variables required.
+            String sectName = sect.getSectorName();
+            List<String> rowNames = sect.getRowNames();
+            List<String> allSeats = sect.getSeats();
+
+            // go thru every sector's rows
+            for (int i = 0; i < rowNames.size(); i++) {
+                String rowName = rowNames.get(i);
+                String seatsInRow = allSeats.get(i);
+
+                // go thru this specific row and create a ticket for every seat 
+                for(int seatNo = 1; seatNo <= seatsInRow.length(); seatNo++) {
+                    // System.out.println("Added ticket:" + tickets.save(new Ticket(sectName, (rowName + seatNo), newSect1.getTicketPrice())));
+                    tickets.save(new Ticket(sectName, (rowName + seatNo), newSect1.getTicketPrice()));
+                }
+            }
+        }
+        
 
         for (Venue v : result){
             ArrayList<Sector> vSectors = new ArrayList<>();
