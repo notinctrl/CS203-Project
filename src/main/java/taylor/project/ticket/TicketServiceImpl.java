@@ -42,7 +42,7 @@ public class TicketServiceImpl implements TicketService {
     
     @Override
     public Ticket updateTicket(Long id, Ticket newTicketInfo){
-        return tickets.findById(id).map(ticket -> {ticket.setSector(newTicketInfo.getSector());
+        return tickets.findById(id).map(ticket -> {ticket.setSector(newTicketInfo.getSectorName());
                                                        ticket.setSeatDetails(newTicketInfo.getSeatDetails());
                                                         ticket.setPrice(newTicketInfo.getPrice());
                                                          ticket.setTicketStatus(newTicketInfo.getTicketStatus());

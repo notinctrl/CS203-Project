@@ -31,21 +31,21 @@ public class Ticket {
         follow business logic in google docs.
     */
     
-    private Long sector;
+    private String sectorName;
     private String seatDetails;
     private Double price;
 
     private Character ticketStatus;
 
-    public Ticket(Long sector, String seatDetails, Double price) {
-        this.sector = sector;
+    public Ticket(String sectorName, String seatDetails, Double price) {
+        this.sectorName = sectorName;
         this.seatDetails = seatDetails;
         this.price = price;
         this.ticketStatus = 'A';
     }
     
-    public void setSector(Long sectorNo) {
-        this.sector = sectorNo;
+    public void setSector(String sectorName) {
+        this.sectorName = sectorName;
     }
     
     //@JsonIgnore
