@@ -40,7 +40,6 @@ public class VenueServiceImpl implements VenueService {
     public Venue updateVenue(Long id, Venue newVenueInfo){
         return venues.findById(id).map(venue -> {venue.setVenueName(newVenueInfo.getVenueName());
                                                     venue.setVenueSize(newVenueInfo.getVenueSize());
-                                                    venue.setVenueOverview(newVenueInfo.getVenueOverview());
                                                     venue.setOverviewPhoto(newVenueInfo.getOverviewPhoto());
                                                     venue.setSectors(newVenueInfo.getSectors());
                                                     venue.setConcert(newVenueInfo.getConcert());

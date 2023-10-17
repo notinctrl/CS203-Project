@@ -1,0 +1,15 @@
+2023-10-17 20:42:29 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "VENUE" not found; SQL statement:
+select venue0_.id as id1_7_1_, venue0_.concert_id as concert_5_7_1_, venue0_.overview_photo as overview2_7_1_, venue0_.venue_name as venue_na3_7_1_, venue0_.venue_size as venue_si4_7_1_, sectors1_.venue_id as venue_id6_3_3_, sectors1_.id as id1_3_3_, sectors1_.id as id1_3_0_, sectors1_.seat_layout as seat_lay2_3_0_, sectors1_.sector_name as sector_n3_3_0_, sectors1_.sector_size as sector_s4_3_0_, sectors1_.ticket_price as ticket_p5_3_0_, sectors1_.venue_id as venue_id6_3_0_ from venue venue0_ left outer join sector sectors1_ on venue0_.id=sectors1_.venue_id where venue0_.id=? [42102-214]
+2023-10-17 20:42:33 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "CONCERT" not found; SQL statement:
+alter table venue add constraint FKl3exk11lkmbp83wbxisjcpv39 foreign key (concert_id) references concert [42102-214]
+2023-10-17 20:42:33 jdbc[4]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "CONCERT" not found (this database is empty); SQL statement:
+insert into concert (id, concert_name, date_range, is_sold_out, photo, start_time, ticket_quantity) values (default, ?, ?, ?, ?, ?, ?) [42104-214]
+2023-10-17 20:42:37 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "CONCERT" not found (this database is empty); SQL statement:
+select concert0_.id as id1_0_2_, concert0_.concert_name as concert_2_0_2_, concert0_.date_range as date_ran3_0_2_, concert0_.is_sold_out as is_sold_4_0_2_, concert0_.photo as photo5_0_2_, concert0_.start_time as start_ti6_0_2_, concert0_.ticket_quantity as ticket_q7_0_2_, venue1_.id as id1_7_0_, venue1_.concert_id as concert_5_7_0_, venue1_.overview_photo as overview2_7_0_, venue1_.venue_name as venue_na3_7_0_, venue1_.venue_size as venue_si4_7_0_, sectors2_.venue_id as venue_id6_3_4_, sectors2_.id as id1_3_4_, sectors2_.id as id1_3_1_, sectors2_.seat_layout as seat_lay2_3_1_, sectors2_.sector_name as sector_n3_3_1_, sectors2_.sector_size as sector_s4_3_1_, sectors2_.ticket_price as ticket_p5_3_1_, sectors2_.venue_id as venue_id6_3_1_ from concert concert0_ left outer join venue venue1_ on concert0_.id=venue1_.concert_id left outer join sector sectors2_ on venue1_.id=sectors2_.venue_id where concert0_.id=? [42104-214]
+2023-10-17 20:44:45 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "USER" not found (this database is empty); SQL statement:
+select user0_.id as id1_6_1_, user0_.address as address2_6_1_, user0_.authorities as authorit3_6_1_, user0_.birthday as birthday4_6_1_, user0_.email_address as email_ad5_6_1_, user0_.password as password6_6_1_, user0_.purchased_tickets as purchase7_6_1_, user0_.username as username8_6_1_, shoppingca1_.id as id1_4_0_, shoppingca1_.ticket_list as ticket_l2_4_0_, shoppingca1_.total_price as total_pr3_4_0_, shoppingca1_.user_id as user_id5_4_0_, shoppingca1_.userid as userid4_4_0_ from user user0_ left outer join shopping_cart shoppingca1_ on user0_.id=shoppingca1_.user_id where user0_.id=? [42104-214]
