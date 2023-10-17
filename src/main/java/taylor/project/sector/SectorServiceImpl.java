@@ -3,6 +3,7 @@ package taylor.project.sector;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
+import taylor.project.sector.exceptions.SectorExistsException;
 
 
 @Service
@@ -28,6 +29,12 @@ public class SectorServiceImpl implements SectorService {
 
     @Override
     public Sector addSector(Sector sector) {
+        // Check if a sector with the same name and venue already exists
+        if (sectors.existsBySectorNameAndVenue(sector.getSectorName(), sector.getVenue())) {
+            throw new SectorExistsException(sector);
+        }
+
+        // If no duplicate, save the sector
         return sectors.save(sector);
     }
     

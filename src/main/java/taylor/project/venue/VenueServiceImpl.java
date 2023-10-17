@@ -41,6 +41,9 @@ public class VenueServiceImpl implements VenueService {
         return venues.findById(id).map(venue -> {venue.setVenueName(newVenueInfo.getVenueName());
                                                     venue.setVenueSize(newVenueInfo.getVenueSize());
                                                     venue.setVenueOverview(newVenueInfo.getVenueOverview());
+                                                    venue.setOverviewPhoto(newVenueInfo.getOverviewPhoto());
+                                                    venue.setSectors(newVenueInfo.getSectors());
+                                                    venue.setConcert(newVenueInfo.getConcert());
                                                     venue.setSectors(newVenueInfo.getSectors());
             return venues.save(venue);
     }).orElse(null);

@@ -1,0 +1,153 @@
+body {
+  margin: 0; /* Remove unnecessary margin */
+  /* background: #111; */
+  display: flex;
+  justify-content: center;
+  align-items: center; /* Vertically and horizontally center the theater */
+  height: 100vh; /* Set the body height to the viewport height */
+  /* overflow: hidden; Hide overflow content */
+  position: relative;
+}
+
+/* Position of the whole theater */
+.theatre {
+  display: flex;
+  justify-content: space-evenly;
+  flex-direction: column; /* Stack the seating container and buttons vertically */
+  align-items: center; /* Center the content horizontally */
+  transform: rotate(90deg); /* Rotate and center the entire container */
+}
+
+#seating-container {
+  display: flex;
+  /* transform: scaleY(-1); */
+}
+
+  .cinema-seats {
+    display: flex;
+    .seat {
+      cursor: pointer;
+  
+      &:hover:before {
+        content: "";
+        position: absolute;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background: rgb(248, 255, 145);
+        border-radius: 7px;
+      }
+  
+      &.active {}
+  
+      &.active:before {
+        content: "";
+        position: absolute;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 255, 94, 0.6);
+        border-radius: 7px;
+      }
+    }
+  }
+
+
+  .rows {
+    .cinema-row{
+      margin: 0 6px;
+    }
+    .seat {
+      width: 35px;
+      height: 35px;
+      border-radius: 7px;
+      background: #fbfbfb;
+      margin-top: 5px;
+      transform: skew(0deg);
+      box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+    }
+
+    .seatPend{
+      width: 35px;
+      height: 35px;
+      border-radius: 7px;
+      background: #fbee00;
+      margin-top: 5px;
+      transform: skew(0deg);
+      box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+    }
+
+    .seatUnavail{
+      width: 35px;
+      height: 35px;
+      border-radius: 7px;
+      background: #fb0000;
+      margin-top: 5px;
+      transform: skew(0deg);
+      box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+    }
+  }
+
+  .row-name {
+    /* Add styling for the row name */
+    position: relative;
+    transform-origin: left center; /* Set the rotation origin to the left center */
+    transform: rotate(-90deg) scaleX(-1) translate(-10%); /* Rotate the row name by -90 degrees (counter-clockwise) rotate(-90deg)*/
+    white-space: nowrap; /* Prevent text from wrapping */
+    width: 20px; /* Adjust the width as needed */
+    top: -5px; /* Adjust the top position as needed */
+}
+  
+  .button-container {
+    display: flex;
+    flex-direction: column; /* Stack the buttons vertically */
+    justify-content: right; /* Center the buttons vertically */
+    align-items: flex-end; /* Align the buttons to the right */
+    position: absolute;
+    width: 900px;
+    right: -140px; /* Vertical control : -- down ++ up*/
+    bottom: 95%; /* Horizontal control : -- left ++ right*/
+}
+
+
+#confirm-button,
+#final-confirm-button{
+    width: 160px; 
+    height: 20px;
+    position:absolute;
+    right:0px; /* Vertical control : -- down ++ up*/
+    bottom:10%; /* Horizontal control : -- left ++ right*/    
+    transform: rotate(-90deg); 
+}
+
+#cancel-button {
+  width: 160px; 
+  height: 20px;
+  position:absolute;
+  right:-30px; /* Vertical control : -- down ++ up*/
+  bottom:10%; /* Horizontal control : -- left ++ right*/    
+  transform: rotate(-90deg); 
+}
+
+#final-confirm-button,
+#cancel-button {
+  display: none;
+}
+
+#selected-seats-message {
+  position: absolute;
+  width: 400px;
+  right:-80px; /* Vertical control : -- down ++ up*/
+  bottom:1000%; /* Horizontal control : -- left ++ right*/    
+  transform: rotate(-90deg);
+}
+
+.tooltip {
+  position: fixed;
+  top: 0;
+  right: 0;
+  background: #fff;
+  border: 1px solid #ccc;
+  padding: 10px;
+  display: none;
+}

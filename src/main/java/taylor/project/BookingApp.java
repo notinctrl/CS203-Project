@@ -20,6 +20,7 @@ import taylor.project.shoppingCart.*;
 import taylor.project.venue.*;
 import taylor.project.sector.*;
 import taylor.project.ticket.*;
+import taylor.project.sector.exceptions.SectorExistsException;
 
 @SpringBootApplication
 @ComponentScan({"taylor.project","taylor.project.fileupload"})
@@ -31,13 +32,23 @@ public class BookingApp {
 
         // JPA concert repository init. default settings
         ConcertRepository concerts = ctx.getBean(ConcertRepository.class);
+        VenueRepository venues = ctx.getBean(VenueRepository.class);
         // refer to below psvm for initialised concerts.
-        List<Venue> vList = iniVenues();
+        List<Venue> vList = iniVenues(ctx, venues);
         List<Concert> cList = iniConcerts(vList);
         System.out.println("[Add concert]: " + concerts.save(cList.get(0)).getConcertName());
+
+                // tester for sector seats and information is being added to concert successfully.
+                // + " and Sector " +  cList.get(0).getConcertVenue().getSectors().get(0).getSectorName()
+                // + ", row " + cList.get(0).getConcertVenue().getSectors().get(0).getRowNames().get(0) 
+                // + " has the following seats available = " + cList.get(0).getConcertVenue().getSectors().get(0).getSeats().get(0));
         System.out.println("[Add concert]: " + concerts.save(cList.get(1)).getConcertName());
         System.out.println("[Add concert]: " + concerts.save(cList.get(2)).getConcertName());
-       
+
+        for (Venue v : vList){
+            venues.save(v);
+        }
+
         // JPA user repository init
         UserRepository users = ctx.getBean(UserRepository.class);
         // refer to below psvm for initialised users.
@@ -75,11 +86,15 @@ public class BookingApp {
                             "src/main/resources/static/concert_posters/Taylor_Swift_Concert_Poster.jpg"));
 
         result.add(new Concert("Red Hot Chili Peppers 2024", 10000,
-                            "9 - 11 April, 2025", "19:00", vList.get(0),
+                            "9 - 11 April, 2025", "19:00", vList.get(1),
                              null));
         result.add(new Concert("BTS Singapore 2024", 20000,
-                            "21 - 22 September, 2024", "20:00", vList.get(0), 
+                            "21 - 22 September, 2024", "20:00", vList.get(2), 
                             null));
+
+        for (int i = 0; i < vList.size(); i++){
+             vList.get(i).setConcert(result.get(i));
+        }
         return result;
     }
 
@@ -95,13 +110,31 @@ public class BookingApp {
         return result;
     }
 
-    public static List<Venue> iniVenues(){
-        List<Venue> result = new ArrayList<>();
-        Sector newSect = new Sector("634", 348.0, new String[]{"A", "B", "C"}, new int[]{20,20,20}, "src/main/resources/static/seating_plan/sector_seating.png");
-        ArrayList<Sector> sects = new ArrayList<>();
-        sects.add(newSect);
-        result.add(new Venue("Singapore National Stadium", 10000, sects, "src/main/resources/static/seating_plan/Taylor_Swift_Seating_Plan.jpg"));
-        result.add(new Venue("Singapore Indoor Stadium", 10000, sects, "src/main/resources/static/seating_plan/Charlie_Puth_Seating_Plan.jpg"));
+    public static List<Venue> iniVenues(ApplicationContext ctx, VenueRepository venues){
+        
+        Venue v1 = new Venue("Singapore National Stadium", 10000,"src/main/resources/static/seating_plan/Taylor_Swift_Seating_Plan.jpg");
+        Venue v2 = new Venue("Singapore Indoor Stadium", 10000, "src/main/resources/static/seating_plan/Charlie_Puth_Seating_Plan.jpg");
+        Venue v3 = new Venue("Esplanade Theatre A", 10000, "src/main/resources/static/seating_plan/Charlie_Puth_Seating_Plan.jpg");
+        List<Venue> result = new ArrayList<>(List.of(v1, v2, v3));
+
+        Sector newSect1 = new Sector(v1, "634", 348.0, new String[]{"A","B","C","D"}, new Integer[]{18,18,18,18}, "src/main/resources/static/seating_plan/sector_seating.png");
+        Sector newSect1a = new Sector(v1, "635", 348.0, new String[]{"D", "E", "F"}, new Integer[]{50,50,50}, "src/main/resources/static/seating_plan/sector_seating.png");
+        Sector newSect2 = new Sector(v2, "634", 348.0, new String[]{"A"}, new Integer[]{20}, "src/main/resources/static/seating_plan/sector_seating.png");
+        Sector newSect3 = new Sector(v3, "634", 348.0, new String[]{"A"}, new Integer[]{20}, "src/main/resources/static/seating_plan/sector_seating.png");
+        List<Sector> newSects = new ArrayList<>(List.of(newSect1, newSect1a, newSect2, newSect3));
+
+        for (Venue v : result){
+            ArrayList<Sector> vSectors = new ArrayList<>();
+            for (Sector s : newSects){
+                if (s.getVenue().equals(v)) vSectors.add(s);
+            }
+            v.setSectors(vSectors);
+        }
         return result;
     }
 }
+
+
+        // System.out.println("[Add concert]: " + concerts.save(new Concert("Coldplay Music of the Spheres 2024", 20000,
+        //                     "23 - 27 January, 2024", "20:00", "Singapore National Stadium", 
+        //                     "src/main/resources/static/concert_posters/Coldplay_Concert_Poster.jpg")).getConcertName());

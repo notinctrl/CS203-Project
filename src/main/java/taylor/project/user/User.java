@@ -63,14 +63,14 @@ public class User implements UserDetails{
     // We define two roles/authorities: ROLE_USER or ROLE_ADMIN
     private String authorities;
 
-    @Past(message = "Invalid date. Use format \"dd-MM-yyyy\"")
+    //@Past(message = "Invalid date. Use format \"dd-MM-yyyy\"")
     @NotNull(message = "Birthday should not be null")
-    private LocalDate birthday;
+    private String birthday;
     
     @NotNull(message = "Email should not be null") @Email(message = "Please provide a valid email")
 
-    @Email(message = "Invalid email address")
-    @NotNull(message = "Password should not be null")
+    @Email(message = "Please provide a valid email")
+    @NotNull(message = "Email address should not be null")
     private String emailAddress;
 
     @NotNull(message = "Address should not be null")
@@ -80,14 +80,15 @@ public class User implements UserDetails{
     private ShoppingCart shoppingCart;
 
     public User(String username, String password, String birthday, String emailAddress, String address, String authorities){
-        this.emailAddress = emailAddress;
-        this.username = username;
-        this.password = password;
-        this.birthday = LocalDate.parse(birthday, DateTimeFormatter.ofPattern("dd-MM-yyyy"));
+        // this.emailAddress = emailAddress;
+        // this.username = username;
+        // this.password = password;
+        // this.birthday = LocalDate.parse(birthday, DateTimeFormatter.ofPattern("dd-MM-yyyy"));
         this.id = counter.incrementAndGet();
         this.username = username;
         this.password = password;
-        this.birthday = LocalDate.parse(birthday, DateTimeFormatter.ofPattern("dd-MM-yyyy"));
+        //this.birthday = LocalDate.parse(birthday, DateTimeFormatter.ofPattern("dd-MM-yyyy"));
+        this.birthday = birthday;
         this.emailAddress=emailAddress;
         this.address = address;
         this.authorities = authorities;

@@ -1,0 +1,24 @@
+/* Apply styles to the container */
+.site-nav {
+    position:relative;
+}
+.center-container {
+    display: flex;
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+    height: 80vh; /* 100% of the viewport height */
+    position: absolute;
+    left: 5%; /* lateral movement. ++ == left, -- == right*/
+    top: 17%; /* vertical movement. ++ == down, -- == up*/
+    /* background-color: #13ff00; */
+}
+
+.tooltip {
+    position: fixed;
+    top: 0;
+    right: 0;
+    background: #fff;
+    border: 1px solid #ccc;
+    padding: 10px;
+    display: none;
+  }
