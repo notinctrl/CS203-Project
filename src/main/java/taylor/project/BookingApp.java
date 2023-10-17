@@ -121,10 +121,10 @@ public class BookingApp {
         Sector newSect1 = new Sector(v1, "634", 348.0, new String[]{"A","B","C","D"}, new Integer[]{18,18,18,18}, "src/main/resources/static/seating_plan/sector_seating.png");
         for(int i = 0; i < newSect1.getRowNames().size(); i++) {
             String rowName = newSect1.getRowNames().get(i);
-            String seat = newSect1.getSeats().get(i);
+            String seats = newSect1.getSeats().get(i);
 
-            for(int ticketId = 1; ticketId <= newSect1.getSeats().size(); ticketId++) {
-                tickets.save(new Ticket(rowName, seats, newSect1.getTicketPrice()));
+            for(int seatNo = 1; seatNo <= seats.length(); seatNo++) {
+                System.out.println("Added ticket:" + tickets.save(new Ticket(newSect1.getSectorName(), (rowName + seatNo), newSect1.getTicketPrice())));
             }
         }
         Sector newSect1a = new Sector(v1, "635", 348.0, new String[]{"D", "E", "F"}, new Integer[]{50,50,50}, "src/main/resources/static/seating_plan/sector_seating.png");
