@@ -33,8 +33,9 @@ public class BookingApp {
         // JPA concert repository init. default settings
         ConcertRepository concerts = ctx.getBean(ConcertRepository.class);
         VenueRepository venues = ctx.getBean(VenueRepository.class);
+        TicketRepository tickets = ctx.getBean(TicketRepository.class);
         // refer to below psvm for initialised concerts.
-        List<Venue> vList = iniVenues(ctx, venues);
+        List<Venue> vList = iniVenues(ctx, venues, tickets);
         List<Concert> cList = iniConcerts(vList);
         System.out.println("[Add concert]: " + concerts.save(cList.get(0)).getConcertName());
 
@@ -110,7 +111,7 @@ public class BookingApp {
         return result;
     }
 
-    public static List<Venue> iniVenues(ApplicationContext ctx, VenueRepository venues){
+    public static List<Venue> iniVenues(ApplicationContext ctx, VenueRepository venues, TicketRepository tickets){
         
         Venue v1 = new Venue("Singapore National Stadium", 10000,"src/main/resources/static/seating_plan/Taylor_Swift_Seating_Plan.jpg");
         Venue v2 = new Venue("Singapore Indoor Stadium", 10000, "src/main/resources/static/seating_plan/Charlie_Puth_Seating_Plan.jpg");
@@ -118,6 +119,14 @@ public class BookingApp {
         List<Venue> result = new ArrayList<>(List.of(v1, v2, v3));
 
         Sector newSect1 = new Sector(v1, "634", 348.0, new String[]{"A","B","C","D"}, new Integer[]{18,18,18,18}, "src/main/resources/static/seating_plan/sector_seating.png");
+        for(int i = 0; i < newSect1.getRowNames().size(); i++) {
+            String rowName = newSect1.getRowNames().get(i);
+            String seat = newSect1.getSeats().get(i);
+
+            for(int ticketId = 1; ticketId <= newSect1.getSeats().size(); ticketId++) {
+                tickets.save(new Ticket(rowName, seats, newSect1.getTicketPrice()));
+            }
+        }
         Sector newSect1a = new Sector(v1, "635", 348.0, new String[]{"D", "E", "F"}, new Integer[]{50,50,50}, "src/main/resources/static/seating_plan/sector_seating.png");
         Sector newSect2 = new Sector(v2, "634", 348.0, new String[]{"A"}, new Integer[]{20}, "src/main/resources/static/seating_plan/sector_seating.png");
         Sector newSect3 = new Sector(v3, "634", 348.0, new String[]{"A"}, new Integer[]{20}, "src/main/resources/static/seating_plan/sector_seating.png");
