@@ -47,7 +47,7 @@ public class TicketController {
 
     @GetMapping("/tickets/{seatNumber}")
     public List<Ticket> getTicketbySeatNumber(@PathVariable int seatNumber){
-        return ticketService.getTicketListbySeatNumber(seatNumber);
+        return ticketService.getTicketListbySeatNo(seatNumber);
 
     }
 
@@ -72,7 +72,7 @@ public class TicketController {
     
     
 
-    }
+    
 
     /*
      * @param id

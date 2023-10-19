@@ -32,8 +32,8 @@ public class TicketServiceImpl implements TicketService {
     // }
 
     @Override
-    public List<Ticket> getTicketListbySeatNumber(int seatNumber) {
-        return tickets.findTicketBySeatNumber(seatNumber);
+    public List<Ticket> getTicketListbySeatNo(Integer seatNo) {
+        return tickets.findTicketBySeatNo(seatNo);
     }
 
     
