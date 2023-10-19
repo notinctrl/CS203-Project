@@ -32,10 +32,12 @@ public class Ticket {
     */
     private String ticketType;
     private String seatDetails;
+    private Character ticketStatus;
 
-    public Ticket(String ticketType, String seatDetails) {
+    public Ticket(String ticketType, String seatDetails, Character ticketStatus) {
         this.ticketType = ticketType;
         this.seatDetails = seatDetails;
+        this.ticketStatus = ticketStatus;
     }
     
     

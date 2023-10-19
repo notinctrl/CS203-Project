@@ -50,6 +50,17 @@ public class TicketController {
         return ticketService.getTicket(id);
 
     }
+
+    /*
+     * @param id
+     */
+    @GetMapping("tickets/{id}/status")
+    public Character getTicketStatus(@PathVariable Long id) {
+        Character ticket = ticketService.getTicketStatus(id);
+        if(ticket == null) throw new TicketNotFoundException(id);
+        return ticketService.getTicketStatus(id);
+    }
+
     /**
      * Add a new ticket with POST request to "/tickets"
      * Note the use of @RequestBody
