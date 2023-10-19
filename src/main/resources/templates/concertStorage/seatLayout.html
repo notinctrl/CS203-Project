@@ -47,12 +47,14 @@
             rowElement.classList.add('row1');
             // console.log([row,seats]);
 
+            // sizing factor. find out max number of seats in a row
             if (seats.length > maxSeats) maxSeats = seats.length;
 
             for (let i = 0; i < seats.length; i++) {
                 const seatElement = document.createElement('div');
 
-                seatElement.setAttribute('id', row[0] + ':' + i);
+                let seatNo = i + 1;
+                seatElement.setAttribute('id', row[0] + ':' + seatNo);
 
                 if (seats[i] === 'A')   seatElement.classList.add('seat');
                 else if (seats[i] === 'P') seatElement.classList.add('seatPend');
@@ -170,7 +172,7 @@
             // Add a click event handler for the final confirm button
             $('#final-confirm-button').on('click', function() {
                 // Call the function to send the selected seats to the backend
-                sendSelectedSeatsToBackend(selectedSeats);
+                sendSelectedSeatsToBackend(concertId, sectorName, selectedSeats);
             });
 
             $('#cancel-button').on('click', function() {
@@ -182,14 +184,22 @@
         });
 
         // Function to send the selected seat to the backend
-        function sendSelectedSeatToBackend() {
-            if (selectedSeat) {
-                fetch('http://localhost:8080/bookingSuccessful/1', {
+        function sendSelectedSeatsToBackend(concertId, sectorName, selectedSeats) {
+// console.log(selectedSeats.toString());
+
+            const data = {
+                concertId: concertId,
+                sectorName: sectorName,
+                selectedSeats: selectedSeats
+            };
+
+            if (selectedSeats) {
+                fetch('http://localhost:8080/bookingSuccess', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify({ selectedSeat }), // Send the selected seat as JSON data
+                    body: JSON.stringify(data), // Send the selected seat as JSON data
                 })
                 .then(response => {
                     if (response.ok) {

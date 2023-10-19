@@ -4,11 +4,14 @@ import java.io.IOException;
 import java.nio.file.*;
 import java.util.*;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
@@ -77,6 +80,17 @@ public class HTMLController {
         }
         return "concertStorage/" + concertId + "/sectorLayout.html";
     }
+
+    @PostMapping("/bookingSuccess")
+    public ResponseEntity<String> handleSeatSelection(@RequestBody Map<String, Object> requestBody) {
+        Long concertId = Long.valueOf((Integer) requestBody.get("concertId"));
+        String sectorName = (String) requestBody.get("sectorName");
+        List<String> selectedSeats = (List<String>) requestBody.get("selectedSeats");
+        System.out.println("concertid: " + concertId + " sectName:" + sectorName);
+        String responseMessage = "Received the following seats: " + selectedSeats.toString();
+        return ResponseEntity.ok(responseMessage);
+    }
+
 
     @GetMapping("/contact")
     public String contact(Model model){
