@@ -106,6 +106,11 @@ public class HTMLController {
         return "uploadStatus";
     }
 
+    @RequestMapping("/concerts.html")
+    public String viewConcerts(){
+        return "concerts";
+    }
+
     @RequestMapping("/shoppingcart.html")
     public String viewShoppingCart(){
         return "shoppingcart";
