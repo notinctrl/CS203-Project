@@ -203,6 +203,7 @@
                 })
                 .then(response => {
                     if (response.ok) {
+                        window.location.href = '/bookingSuccessDetails';
                         console.log('Selected seat sent to backend successfully.');
                     } else {
                         console.error('Failed to send selected seat to backend.');

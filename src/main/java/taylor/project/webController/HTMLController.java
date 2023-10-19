@@ -25,6 +25,9 @@ import taylor.project.sector.*;
 public class HTMLController {
 
     private ConcertService concertService;
+    private Long concertId;
+    private String sectorName;
+    private List<String> selectedSeats;
 
     public HTMLController(ConcertService cs){
         this.concertService = cs;
@@ -83,14 +86,24 @@ public class HTMLController {
 
     @PostMapping("/bookingSuccess")
     public ResponseEntity<String> handleSeatSelection(@RequestBody Map<String, Object> requestBody) {
-        Long concertId = Long.valueOf((Integer) requestBody.get("concertId"));
-        String sectorName = (String) requestBody.get("sectorName");
-        List<String> selectedSeats = (List<String>) requestBody.get("selectedSeats");
-        System.out.println("concertid: " + concertId + " sectName:" + sectorName);
+        this.concertId = Long.valueOf((Integer) requestBody.get("concertId"));
+        this.sectorName = (String) requestBody.get("sectorName");
+        this.selectedSeats = (List<String>) requestBody.get("selectedSeats");
+
+// System.out.println("concertid: " + concertId + " sectName:" + sectorName);
         String responseMessage = "Received the following seats: " + selectedSeats.toString();
         return ResponseEntity.ok(responseMessage);
     }
 
+    @GetMapping("/bookingSuccessDetails")
+    public String showBookingDetails(Model model) {
+
+        // Now you can use these attributes in your view or processing logic
+        model.addAttribute("concertId", concertId);
+        model.addAttribute("sectorName", sectorName);
+        model.addAttribute("selectedSeats", selectedSeats);
+        return "yay.html"; // Return the view where you want to display the data
+    }
 
     @GetMapping("/contact")
     public String contact(Model model){
