@@ -15,6 +15,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.*;
 import taylor.project.concert.*;
+import taylor.project.user.*;
 
 @Entity
 @Getter
@@ -31,6 +32,8 @@ public class Ticket {
         follow business logic in google docs.
     */
     
+    private User userId;
+
     private String sectorName;
     private String seatDetails;
     private Double price;
@@ -38,6 +41,7 @@ public class Ticket {
     private Character ticketStatus;
 
     public Ticket(String sectorName, String seatDetails, Double price) {
+        this.userId = null;
         this.sectorName = sectorName;
         this.seatDetails = seatDetails;
         this.price = price;
