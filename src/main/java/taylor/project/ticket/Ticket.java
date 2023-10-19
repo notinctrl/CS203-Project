@@ -32,7 +32,7 @@ public class Ticket {
         follow business logic in google docs.
     */
     
-    private User userId;
+    private Long userId;
 
     private String sectorName;
     private String seatRowName;
@@ -50,8 +50,9 @@ public class Ticket {
         this.ticketStatus = 'A';
     }
     
-    public void setSector(String sectorName) {
-        this.sectorName = sectorName;
+    public void setIdAndStatus(Long id) {
+        this.userId = id;
+        this.ticketStatus = 'P';
     }
     
     //@JsonIgnore

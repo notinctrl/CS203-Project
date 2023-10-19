@@ -66,6 +66,10 @@ public class ShoppingCart {
         this.ticketList = new ArrayList<Ticket>();
         this.totalPrice = 0.0;
     }
+
+    public Long getShoppingCartUserId() {
+        return this.userID;
+    }
     
     //@JsonIgnore
 }

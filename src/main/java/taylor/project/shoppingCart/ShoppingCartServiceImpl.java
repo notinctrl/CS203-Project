@@ -63,6 +63,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     public void addTicketBySeatRowNameAndSeatNo(Long id, String seatRowName, Integer seatNo) {
         ShoppingCart shoppingCart = shoppingCarts.findById(id).orElse(null);
         Ticket ticket = ticketRepository.findBySeatRowNameAndSeatNo(seatRowName, seatNo);
+        ticket.setIdAndStatus(shoppingCart.getUserID());
         if(shoppingCart != null && ticket != null) {
             shoppingCart.getTicketList().add(ticket);
             shoppingCarts.save(shoppingCart);
