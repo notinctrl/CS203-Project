@@ -1,7 +1,24 @@
 $('.cinema-seats .seat').on('click', function() {
     $(this).toggleClass('active');
+    console.log("we are meeming");
   });
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
     // Identify the clicked seat (for example, by getting its unique ID or data attributes)
     // const seatId = $(this).data('seat-id');
     // const seatRow = $(this).data('seat-row');

@@ -19,6 +19,7 @@ import taylor.project.client.RestTemplateClient;
 import taylor.project.shoppingCart.*;
 import taylor.project.venue.*;
 import taylor.project.sector.*;
+import taylor.project.ticket.*;
 import taylor.project.sector.exceptions.SectorExistsException;
 
 @SpringBootApplication
@@ -31,16 +32,24 @@ public class BookingApp {
 
         // JPA concert repository init. default settings
         ConcertRepository concerts = ctx.getBean(ConcertRepository.class);
+        VenueRepository venues = ctx.getBean(VenueRepository.class);
+        TicketRepository tickets = ctx.getBean(TicketRepository.class);
         // refer to below psvm for initialised concerts.
-        List<Venue> vList = iniVenues();
+        List<Venue> vList = iniVenues(ctx, venues, tickets);
         List<Concert> cList = iniConcerts(vList);
-        System.out.println("[Add concert]: " + concerts.save(cList.get(0)).getConcertName() 
-                + " and Sector " +  cList.get(0).getConcertVenue().getSectors().get(0).getSectorName()
-                + ", row " + cList.get(0).getConcertVenue().getSectors().get(0).getRowNames().get(0) 
-                + " has the following seats available = " + cList.get(0).getConcertVenue().getSectors().get(0).getSeats().get(0));
+        System.out.println("[Add concert]: " + concerts.save(cList.get(0)).getConcertName());
+
+                // tester for sector seats and information is being added to concert successfully.
+                // + " and Sector " +  cList.get(0).getConcertVenue().getSectors().get(0).getSectorName()
+                // + ", row " + cList.get(0).getConcertVenue().getSectors().get(0).getRowNames().get(0) 
+                // + " has the following seats available = " + cList.get(0).getConcertVenue().getSectors().get(0).getSeats().get(0));
         System.out.println("[Add concert]: " + concerts.save(cList.get(1)).getConcertName());
         System.out.println("[Add concert]: " + concerts.save(cList.get(2)).getConcertName());
-       
+
+        for (Venue v : vList){
+            venues.save(v);
+        }
+
         // JPA user repository init
         UserRepository users = ctx.getBean(UserRepository.class);
         // refer to below psvm for initialised users.
@@ -52,13 +61,11 @@ public class BookingApp {
         
         // JPA shopping cart repository init. default settings
         ShoppingCartRepository shoppingCarts = ctx.getBean(ShoppingCartRepository.class);
-        ShoppingCart testShoppingCart1 = new ShoppingCart(1, 5);
-        ShoppingCart testShoppingCart2 = new ShoppingCart(324, 21);
+        ShoppingCart testShoppingCart1 = new ShoppingCart((long) 1);
+        ShoppingCart testShoppingCart2 = new ShoppingCart((long) 324);
 
-        System.out.println("[Add shopping cart]: User ID = " + shoppingCarts.save(testShoppingCart1).getUserID() + 
-                                                ", Cart ID = " + shoppingCarts.save(testShoppingCart1).getCartID());
-        System.out.println("[Add shopping cart]: User ID = " + shoppingCarts.save(testShoppingCart2).getUserID() +
-                                                ", Cart ID = " + shoppingCarts.save(testShoppingCart2).getCartID());
+        System.out.println("[Add shopping cart]: User ID = " + shoppingCarts.save(testShoppingCart1).getUserID());
+        System.out.println("[Add shopping cart]: User ID = " + shoppingCarts.save(testShoppingCart2).getUserID());
 
         // Test the RestTemplate client with authentication
         /**
@@ -86,6 +93,10 @@ public class BookingApp {
         result.add(new Concert("BTS Singapore 2024", 20000,
                             "21 - 22 September, 2024", "20:00", vList.get(2), 
                             "src/main/resources/static/concert_posters/BTS_Concert_Poster.jpg"));
+
+        for (int i = 0; i < vList.size(); i++){
+             vList.get(i).setConcert(result.get(i));
+        }
         return result;
     }
 
@@ -96,32 +107,39 @@ public class BookingApp {
             "dsasdgsdf@sfs.com", "dsdfsdsd", "ROLE_ADMIN"));
         result.add(new User("normaluser", encoder.encode("goodpassword"),"23-10-2001", 
             "dsasdgsdf@sfs.com", "dsdfsdsd", "ROLE_USER"));
-        result.add(new User("admin", encoder.encode("goodpassword"), "19-03-2003" , "hello123@gmail.com" ,"1234", "ROLE_ADMIN"));
+        result.add(new User("admin", encoder.encode("goodpassword"), "19-03-2003" ,
+            "hello123@gmail.com" ,"1234", "ROLE_ADMIN"));
         return result;
     }
 
-    public static List<Venue> iniVenues(){
-        List<Venue> result = new ArrayList<>();
+    public static List<Venue> iniVenues(ApplicationContext ctx, VenueRepository venues, TicketRepository tickets){
+        
         Venue v1 = new Venue("Singapore National Stadium", 10000,"src/main/resources/static/seating_plan/Taylor_Swift_Seating_Plan.jpg");
         Venue v2 = new Venue("Singapore Indoor Stadium", 10000, "src/main/resources/static/seating_plan/Charlie_Puth_Seating_Plan.jpg");
         Venue v3 = new Venue("Esplanade Theatre A", 10000, "src/main/resources/static/seating_plan/Charlie_Puth_Seating_Plan.jpg");
-        Sector newSect1 = new Sector(v1, "634", 348.0, new String[]{"A","B","C"}, new Integer[]{20,30,40}, "src/main/resources/static/seating_plan/sector_seating.png");
-        Sector newSect1a = new Sector(v1, "635", 348.0, new String[]{"D","E","F"}, new Integer[]{50,60,70}, "src/main/resources/static/seating_plan/sector_seating.png");
+        List<Venue> result = new ArrayList<>(List.of(v1, v2, v3));
+
+        Sector newSect1 = new Sector(v1, "634", 348.0, new String[]{"A","B","C","D"}, new Integer[]{18,18,18,18}, "src/main/resources/static/seating_plan/sector_seating.png");
+        for(int i = 0; i < newSect1.getRowNames().size(); i++) {
+            String rowName = newSect1.getRowNames().get(i);
+            String seats = newSect1.getSeats().get(i);
+
+            for(int seatNo = 1; seatNo <= seats.length(); seatNo++) {
+                System.out.println("Added ticket:" + tickets.save(new Ticket(newSect1.getSectorName(), rowName, seatNo, newSect1.getTicketPrice())));
+            }
+        }
+        Sector newSect1a = new Sector(v1, "635", 348.0, new String[]{"D", "E", "F"}, new Integer[]{50,50,50}, "src/main/resources/static/seating_plan/sector_seating.png");
         Sector newSect2 = new Sector(v2, "634", 348.0, new String[]{"A"}, new Integer[]{20}, "src/main/resources/static/seating_plan/sector_seating.png");
         Sector newSect3 = new Sector(v3, "634", 348.0, new String[]{"A"}, new Integer[]{20}, "src/main/resources/static/seating_plan/sector_seating.png");
-        ArrayList<Sector> sects1 = new ArrayList<>();
-        ArrayList<Sector> sects2 = new ArrayList<>();
-        ArrayList<Sector> sects3 = new ArrayList<>();
-        sects1.add(newSect1);
-        sects1.add(newSect1a);
-        sects2.add(newSect2);
-        sects3.add(newSect3);
-        v1.setSectors(sects1);
-        v2.setSectors(sects2);
-        v3.setSectors(sects3);
-        result.add(v1);
-        result.add(v2);
-        result.add(v3);
+        List<Sector> newSects = new ArrayList<>(List.of(newSect1, newSect1a, newSect2, newSect3));
+
+        for (Venue v : result){
+            ArrayList<Sector> vSectors = new ArrayList<>();
+            for (Sector s : newSects){
+                if (s.getVenue().equals(v)) vSectors.add(s);
+            }
+            v.setSectors(vSectors);
+        }
         return result;
     }
 }

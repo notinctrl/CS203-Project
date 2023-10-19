@@ -15,6 +15,8 @@ import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -58,9 +60,8 @@ public class Sector{
 
     @ManyToOne
     @JoinColumn(name = "venue_id")
+    @JsonIgnore
     private Venue venue;
-
-    //@JsonIgnore
 
     public Sector(Venue v, String sectorName, double ticketPrice, String[] rowNames, Integer[] totalSeatsInRow, String seatLayoutPath){
         venue = v;

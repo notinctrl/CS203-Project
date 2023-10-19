@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+<link rel="stylesheet" href="/css/sector-related/seatSettings.css">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<body>
+    <div class="theatre">
+        
+        <div class="cinema-seats rows" id="seating-container"></div>
+
+        <div class="button-container">
+            <button id="confirm-button">Confirm Selection</button>
+            <div id="selected-seats-message" style="display: none;"></div>
+            <button id="final-confirm-button" style="display: none;">Final Confirm?</button>
+            <button id="cancel-button" style="display: none;">Cancel</button>
+        </div>
+    </div>
+
+    <div class="tooltip">
+        <!-- Tooltip content will go here -->
+    </div>
+
+    <script th:inline="javascript">
+        var concertId = /*[[${concertId}]]*/ null;
+        var sectorName = /*[[${sectorName}]]*/ null;
+        let maxSeats = 0;
+        let numRows = 0;
+
+        // obtaining the data required to create the seat plan
+        fetch('http://localhost:8080/getSectorRowAvailability/' + concertId + '/' + sectorName)
+        .then(response => response.json())
+        .then(data => {
+            const seatingContainer = document.getElementById('seating-container');
+
+            // Function to create the clickable seat objects and rows.
+            data.forEach(seatInfo => {
+            const [row, seats] = seatInfo.split(':'); // Split the row and seat information
+
+            const rowElement = document.createElement('div');
+
+            const rowNameElement = document.createElement('div');
+            rowNameElement.classList.add('row-name');
+            rowNameElement.textContent = row[0]; // Set the row name text
+
+            rowElement.appendChild(rowNameElement);
+            rowElement.classList.add('cinema-row');
+            rowElement.classList.add('row1');
+            // console.log([row,seats]);
+
+            if (seats.length > maxSeats) maxSeats = seats.length;
+
+            for (let i = 0; i < seats.length; i++) {
+                const seatElement = document.createElement('div');
+
+                seatElement.setAttribute('id', row[0] + ':' + i);
+
+                if (seats[i] === 'A')   seatElement.classList.add('seat');
+                else if (seats[i] === 'P') seatElement.classList.add('seatPend');
+                else                        seatElement.classList.add('seatUnavail');
+
+                rowElement.appendChild(seatElement);
+            }
+
+            // Add the row to the container
+            seatingContainer.appendChild(rowElement);
+            numRows = numRows + 1;
+            });
+
+            var scaleFactor = calculateScaleFactor(maxSeats, numRows);
+        
+            // Apply the scale to the seating container
+            $("#seating-container").css("transform", "scale(" + scaleFactor + ")" + " scaleY(-1)");
+        })
+        .catch(error => {
+            console.error('Error fetching seat data:', error);
+        });
+
+        // Function to attach a mouseover event to a seat, displaying the seat number.
+        // Assuming your seats are inside a container with class "seating-container"
+        const seatingContainer = document.querySelector('#seating-container');
+        const tooltip = document.querySelector('.tooltip');
+
+        // Attach a mouseover event listener to the seating container
+        seatingContainer.addEventListener('mouseover', (event) => {
+            const target = event.target;
+
+            // Check if the event target has the class "seat"
+            if (target.classList.contains('seat')) {
+                // Show tooltip
+                tooltip.style.display = 'block';
+
+                // You can add content to the tooltip based on the seat or any other relevant information
+                tooltip.innerHTML = 'Seat Info: ' + target.getAttribute('id');
+            }
+        });
+
+        // Attach a mouseout event listener to hide the tooltip
+        seatingContainer.addEventListener('mouseout', () => {
+            // Hide the tooltip
+            tooltip.style.display = 'none';
+        });
+
+        // function to track seats clicked.
+        let selectedSeats = []; // Initialize as an empty array
+        $(document).ready(function() {
+            $('#seating-container').on('click', '.seat', function() {
+                if (selectedSeats.length < 4){
+                    console.log("Seat clicked!"); // Check if this message appears in the console
+                    $(this).toggleClass('active');
+                    
+                    // Get the seat ID
+                    const seatId = $(this).attr('id');
+                    // Check if the seat is already selected
+                    const index = selectedSeats.indexOf(seatId);
+                    if (index === -1) {
+                    // If not selected, add it to the selectedSeats array
+                        selectedSeats.push(seatId);
+                        
+                    } else {
+                    // If already selected, remove it from the selectedSeats array
+                        selectedSeats.splice(index, 1);
+                    }
+
+// console.log("selected seats are: " + selectedSeats);
+                    const selectedSeatsMessage = selectedSeats.join(', '); // Create a comma-separated string
+                    $('#selected-seats-message').text(`Selected Seats: ${selectedSeatsMessage}`);
+                    $('#selected-seats-message').show();
+                }
+                else if (selectedSeats.length === 4) {
+
+                    console.log("Seat clicked! (limit at 4)");
+
+                    // Get the seat ID
+                    const seatId = $(this).attr('id');
+
+                    // Check if the seat is already selected
+                    const index = selectedSeats.indexOf(seatId);
+
+                    if (index === -1) {
+                    // If not selected, deny adding seat to array
+                        console.log("You can only select up to 4 seats. Please deselect some seats to select new ones.");
+                        
+                    } else {
+                    // If already selected, remove it from the selectedSeats array
+                        $(this).toggleClass('active');
+                        selectedSeats.splice(index, 1);
+                    }
+
+// console.log("selected seats are: " + selectedSeats);
+                    const selectedSeatsMessage = selectedSeats.join(', '); // Create a comma-separated string
+                    $('#selected-seats-message').text(`Selected Seats: ${selectedSeatsMessage}`);
+                    $('#selected-seats-message').show();
+                }
+                else {
+                    // when the array size exceeds 4, deny addition of seats to array 
+                    console.log("You can only select up to 4 seats. Please deselect some seats to select new ones.");
+                }
+            });
+
+            $('#confirm-button').on('click', function() {
+                // Display the selected seats message
+                if (selectedSeats.length != 0){
+                    // Display the final confirm button
+                    $('#final-confirm-button').show();
+                    $('#cancel-button').show();
+                } else console.log("Please select at least one seat.");
+                
+            });
+
+            // Add a click event handler for the final confirm button
+            $('#final-confirm-button').on('click', function() {
+                // Call the function to send the selected seats to the backend
+                sendSelectedSeatsToBackend(selectedSeats);
+            });
+
+            $('#cancel-button').on('click', function() {
+                $('#final-confirm-button').hide();
+                $('#cancel-button').hide();
+                $('#confirm-button').show();
+            });
+
+        });
+
+        // Function to send the selected seat to the backend
+        function sendSelectedSeatToBackend() {
+            if (selectedSeat) {
+                fetch('http://localhost:8080/bookingSuccessful/1', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ selectedSeat }), // Send the selected seat as JSON data
+                })
+                .then(response => {
+                    if (response.ok) {
+                        console.log('Selected seat sent to backend successfully.');
+                    } else {
+                        console.error('Failed to send selected seat to backend.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error sending selected seat to backend:', error);
+                });
+            }
+        }
+        
+        // function to scale seat plan based on number of seats and rows
+        function calculateScaleFactor(maxSeats, numRows) {
+        // Your logic to calculate the scale factor based on the total number of elements
+        // Adjust this logic as needed for your specific use case
+        var maxScale = 0.7; // A default scale value
+        var baseScale = 1.0; // The maximum scale you want
+        
+        if (maxSeats > 34 || numRows >= 14) {
+            return maxScale;
+        } else {
+            return baseScale;
+        }
+        }
+    </script>
+</body>
+</html>
+

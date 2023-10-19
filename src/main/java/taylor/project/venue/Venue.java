@@ -6,6 +6,7 @@ import java.io.*;
 import javax.persistence.*;
 import javax.validation.constraints.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.*;
 
@@ -31,6 +32,7 @@ public class Venue {
 
     @OneToOne
     @JoinColumn (name = "concert_id")
+    @JsonIgnore
     private Concert concert;
 
     @OneToMany(mappedBy = "venue",
