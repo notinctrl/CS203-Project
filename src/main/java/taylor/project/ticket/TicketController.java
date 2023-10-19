@@ -34,22 +34,56 @@ public class TicketController {
         return ticketService.listTickets();
     }
 
+    // @GetMapping("/tickets/{seatNumber}")
+    // public Ticket getTicketbySeatNumber(@PathVariable int seatNumber){
+    //     Ticket ticket = ticketService.getTicketbySeatNumber(seatNumber);
+
+    //     // Need to handle "ticket not found" error using proper HTTP status code
+    //     // In this case it should be HTTP 404
+    //     if(ticket == null) throw new TicketNotFoundException(seatNumber);
+    //     return ticketService.getTicketbySeatNumber(seatNumber);
+
+    // }
+
+    @GetMapping("/tickets/{seatNumber}")
+    public List<Ticket> getTicketbySeatNumber(@PathVariable int seatNumber){
+        return ticketService.getTicketListbySeatNo(seatNumber);
+
+    }
+
+    
+
     /**
      * Search for ticket with the given id
      * If there is no ticket with the given "id", throw a ticketNotFoundException
      * @param id
      * @return ticket with the given id
      */
-    @GetMapping("/tickets/{id}")
-    public Ticket getTicket(@PathVariable Long id){
-        Ticket ticket = ticketService.getTicket(id);
+    // @GetMapping("/tickets/{id}")
+    // public Ticket getTicket(@PathVariable Long id){
+    //     Ticket ticket = ticketService.getTicket(id);
 
-        // Need to handle "ticket not found" error using proper HTTP status code
-        // In this case it should be HTTP 404
+    //     // Need to handle "ticket not found" error using proper HTTP status code
+    //     // In this case it should be HTTP 404
+    //     if(ticket == null) throw new TicketNotFoundException(id);
+    //     return ticketService.getTicket(id);
+
+    // }
+    
+    
+
+    
+
+    /*
+     * @param id
+     */
+    @GetMapping("tickets/{id}/status")
+    public Character getTicketStatus(@PathVariable Long id) {
+        Character ticket = ticketService.getTicketStatus(id);
         if(ticket == null) throw new TicketNotFoundException(id);
-        return ticketService.getTicket(id);
-
+        return ticketService.getTicketStatus(id);
     }
+
     /**
      * Add a new ticket with POST request to "/tickets"
      * Note the use of @RequestBody
