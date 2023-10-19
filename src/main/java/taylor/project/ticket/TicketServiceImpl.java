@@ -21,10 +21,21 @@ public class TicketServiceImpl implements TicketService {
     }
 
     
+    // @Override
+    // public Ticket getTicket(Long id){
+    //     return tickets.findById(id).orElse(null);
+    // }
+
+    // @Override
+    // public Ticket getTicketbySeatNumber(int seatNumber){
+    //     return tickets.findBySeatNumber(seatNumber).orElse(null);
+    // }
+
     @Override
-    public Ticket getTicket(Long id){
-        return tickets.findById(id).orElse(null);
+    public List<Ticket> getTicketListbySeatNumber(int seatNumber) {
+        return tickets.findTicketBySeatNumber(seatNumber);
     }
+
     
     @Override
     public Ticket getTicketBySeatRowNameAndSeatNo(String seatRowName, Integer seatNo) {
