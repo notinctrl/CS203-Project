@@ -35,15 +35,17 @@ public class Ticket {
     private User userId;
 
     private String sectorName;
-    private String seatDetails;
+    private String seatRowName;
+    private Integer seatNo;
     private Double price;
 
     private Character ticketStatus;
 
-    public Ticket(String sectorName, String seatDetails, Double price) {
+    public Ticket(String sectorName, String seatRowName, Integer seatNo, Double price) {
         this.userId = null;
         this.sectorName = sectorName;
-        this.seatDetails = seatDetails;
+        this.seatRowName = seatRowName;
+        this.seatNo = seatNo;
         this.price = price;
         this.ticketStatus = 'A';
     }

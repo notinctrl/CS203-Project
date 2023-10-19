@@ -124,7 +124,7 @@ public class BookingApp {
             String seats = newSect1.getSeats().get(i);
 
             for(int seatNo = 1; seatNo <= seats.length(); seatNo++) {
-                System.out.println("Added ticket:" + tickets.save(new Ticket(newSect1.getSectorName(), (rowName + seatNo), newSect1.getTicketPrice())));
+                System.out.println("Added ticket:" + tickets.save(new Ticket(newSect1.getSectorName(), rowName, seatNo, newSect1.getTicketPrice())));
             }
         }
         Sector newSect1a = new Sector(v1, "635", 348.0, new String[]{"D", "E", "F"}, new Integer[]{50,50,50}, "src/main/resources/static/seating_plan/sector_seating.png");

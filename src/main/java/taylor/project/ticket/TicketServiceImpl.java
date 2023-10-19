@@ -44,9 +44,10 @@ public class TicketServiceImpl implements TicketService {
     public Ticket updateTicket(Long id, Ticket newTicketInfo){
         return tickets.findById(id).map(ticket -> {ticket.setUserId(newTicketInfo.getUserId());
                                                      ticket.setSector(newTicketInfo.getSectorName());
-                                                       ticket.setSeatDetails(newTicketInfo.getSeatDetails());
-                                                        ticket.setPrice(newTicketInfo.getPrice());
-                                                         ticket.setTicketStatus(newTicketInfo.getTicketStatus());
+                                                       ticket.setSeatRowName(newTicketInfo.getSeatRowName());
+                                                        ticket.setSeatNo(newTicketInfo.getSeatNo());
+                                                         ticket.setPrice(newTicketInfo.getPrice());
+                                                          ticket.setTicketStatus(newTicketInfo.getTicketStatus());
             return tickets.save(ticket);
     }).orElse(null);
 
