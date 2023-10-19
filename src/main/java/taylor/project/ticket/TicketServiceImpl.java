@@ -27,6 +27,11 @@ public class TicketServiceImpl implements TicketService {
     }
     
     @Override
+    public Ticket getTicketBySeatRowNameAndSeatNo(String seatRowName, Integer seatNo) {
+        return tickets.findBySeatRowNameAndSeatNo(seatRowName, seatNo);
+    }
+
+    @Override
     public Character getTicketStatus(Long id) {
         Ticket ticket = tickets.findById(id).orElse(null);
         if(ticket != null) {

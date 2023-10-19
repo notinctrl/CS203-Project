@@ -5,6 +5,7 @@ import java.util.List;
 public interface TicketService {
     List<Ticket> listTickets();
     Ticket getTicket(Long id);
+    Ticket getTicketBySeatRowNameAndSeatNo(String seatRowName, Integer seatNo);
     Ticket addTicket(Ticket ticket);
     Ticket updateTicket(Long id, Ticket ticket);
     Character getTicketStatus(Long id);

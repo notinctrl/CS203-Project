@@ -59,6 +59,16 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
         }
     }
 
+    @Override
+    public void addTicketBySeatRowNameAndSeatNo(Long id, String seatRowName, Integer seatNo) {
+        ShoppingCart shoppingCart = shoppingCarts.findById(id).orElse(null);
+        Ticket ticket = ticketRepository.findBySeatRowNameAndSeatNo(seatRowName, seatNo);
+        if(shoppingCart != null && ticket != null) {
+            shoppingCart.getTicketList().add(ticket);
+            shoppingCarts.save(shoppingCart);
+        }
+    }
+
     /**
      * Remove a ticket with the given id
      * Spring Data JPA does not return a value for delete operation

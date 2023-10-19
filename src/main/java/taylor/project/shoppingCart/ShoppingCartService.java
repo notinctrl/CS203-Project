@@ -10,6 +10,7 @@ public interface ShoppingCartService {
     ShoppingCart updateShoppingCart(Long id, ShoppingCart shoppingCart);
 
     void addTicketById(Long id, Ticket ticket);
+    void addTicketBySeatRowNameAndSeatNo(Long id, String seatRowName, Integer seatNo);
 
     /**
      * Change method's signature: do not return a value for delete operation
