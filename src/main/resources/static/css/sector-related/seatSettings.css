@@ -1,6 +1,6 @@
 body {
   margin: 0; /* Remove unnecessary margin */
-  /* background: #111; */
+  background: #111;
   display: flex;
   justify-content: center;
   align-items: center; /* Vertically and horizontally center the theater */
@@ -9,10 +9,14 @@ body {
   position: relative;
 }
 
+.site-nav {
+  position:fixed;
+}
+
 /* Position of the whole theater */
 .theatre {
   display: flex;
-  justify-content: space-evenly;
+  position: absolute;
   flex-direction: column; /* Stack the seating container and buttons vertically */
   align-items: center; /* Center the content horizontally */
   transform: rotate(90deg); /* Rotate and center the entire container */
@@ -96,6 +100,7 @@ body {
     white-space: nowrap; /* Prevent text from wrapping */
     width: 20px; /* Adjust the width as needed */
     top: -5px; /* Adjust the top position as needed */
+    color: rgb(255, 255, 255);
 }
   
   

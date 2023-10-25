@@ -1,11 +1,79 @@
 <!DOCTYPE html>
 <html xmlns:th="https://www.thymeleaf.org">
-<link rel="stylesheet" href="/css/sector-related/seatSettings.css">
-<link rel="stylesheet" href="/css/sector-related/tooltip.css">
-<link rel="stylesheet" href="/css/sector-related/buttons.css">
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<head>
+	<!-- Required meta tags -->
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	
+	<meta name="author" content="Untree.co">
+	<link rel="shortcut icon" href="favicon.png">
 
-<body>
+	<meta name="description" content="" />
+	<meta name="keywords" content="bootstrap, bootstrap5" />
+
+	<link rel="preconnect" href="https://fonts.gstatic.com">
+	<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Roboto:wght@300;400&display=swap" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="/fonts/icomoon/style.css">
+	<link rel="stylesheet" type="text/css" href="/fonts/feather/style.css">
+
+	<link rel="stylesheet" type="text/css" href="/css/tiny-slider.css">
+	<link rel="stylesheet" type="text/css" href="/css/aos.css">
+	<link rel="stylesheet" type="text/css" href="/css/glightbox.min.css">
+	<link rel="stylesheet" type="text/css" href="/css/followme.css">
+
+    <title>TTTicket &mdash; Select Seat</title>
+</head>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="/css/sector-related/seatSettings.css">
+    <link rel="stylesheet" href="/css/sector-related/tooltip.css">
+    <link rel="stylesheet" href="/css/sector-related/buttons.css">
+	
+<body style="background-color:black;">
+    <div class="site-mobile-menu site-navbar-target">
+		<div class="site-mobile-menu-header">
+			<div class="site-mobile-menu-close">
+				<span class="icofont-close js-menu-toggle"></span>
+			</div>
+		</div>
+		<div class="site-mobile-menu-body"></div>
+	</div>
+    <nav class="site-nav">
+		<div class="container">
+			<div class="site-navigation">
+				<a href="/../../../../index" class="logo m-0">TTTicket</a>
+
+				<ul class="js-clone-nav d-none d-lg-inline-block text-start site-menu float-end">
+					<li><a href="/../../../../index">Home</a></li>
+					<li class="has-children">
+						<a href="#">Dropdown</a>
+						<ul class="dropdown">
+							<li><a href="#">Menu One</a></li>
+							<li class="has-children">
+								<a href="#">Menu Two</a>
+								<ul class="dropdown">
+									<li><a href="#">Sub Menu One</a></li>
+									<li><a href="#">Sub Menu Two</a></li>
+									<li><a href="#">Sub Menu Three</a></li>
+								</ul>
+							</li>
+							<li><a href="#">Menu Three</a></li>
+						</ul>
+					</li>
+					<li><a href="/../../../../services">Services</a></li>
+					<li><a href="/../../../../portfolio">Portfolio</a></li>
+					<li><a href="/../../../../about">About</a></li>
+					<li><a href="/../../../../contact">Contact</a></li>
+					<li><a href="/../../../../shoppingcart">Shopping Cart</a></li>
+					<li><a href="/../../../../login">Login/Signup</a></li>
+				</ul>
+
+				<a href="#" class="burger ms-auto float-end site-menu-toggle mt-2 js-menu-toggle d-inline-block d-lg-none light" data-toggle="collapse" data-target="#main-navbar">
+					<span></span>
+				</a>
+			</div>
+		</div>
+	</nav>
     <div class="theatre">
         
         <div class="cinema-seats rows" id="seating-container"></div>
@@ -18,9 +86,7 @@
         </div>
     </div>
 
-    <div class="tooltip">
-        <!-- Tooltip content will go here -->
-    </div>
+    <div class="tooltip"></div>
 
     <script th:inline="javascript">
         var concertId = /*[[${concertId}]]*/ null;
@@ -94,7 +160,7 @@
                 tooltip.style.display = 'block';
 
                 // You can add content to the tooltip based on the seat or any other relevant information
-                tooltip.innerHTML = 'Seat Info: ' + target.getAttribute('id');
+                tooltip.innerHTML = 'Seat Number: ' + target.getAttribute('id');
             }
         });
 
@@ -127,7 +193,7 @@
 
 // console.log("selected seats are: " + selectedSeats);
                     const selectedSeatsMessage = selectedSeats.join(', '); // Create a comma-separated string
-                    $('#selected-seats-message').text(`Selected Seats: ${selectedSeatsMessage}`);
+                    $('#selected-seats-message').text(`Selected Seats: ${selectedSeatsMessage}`).css('color', '#FFF', 'font-family', 'Arial');
                     $('#selected-seats-message').show();
                 }
                 else if (selectedSeats.length === 4) {
