@@ -1,0 +1,17 @@
+.tooltip {
+    position: fixed;
+    top: 0;
+    right: 0;
+    background: #fff;
+    border: 1px solid #ccc;
+    padding: 10px;
+    display: none;
+  }
+
+  #selected-seats-message {
+    position: absolute;
+    width: 400px;
+    right:-80px; /* Vertical control : -- down ++ up*/
+    bottom:1000%; /* Horizontal control : -- left ++ right*/    
+    transform: rotate(-90deg);
+  }

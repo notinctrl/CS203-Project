@@ -50,12 +50,12 @@ public class SectorController {
      */
     @GetMapping("/sectors/byId/{id}")
     public Sector getSectorById(@PathVariable String id){
-        Sector sector = sectorService.getSectorById(id);
+        Sector sector = sectorService.getSectorById(Long.parseLong(id));
 
         // Need to handle "sector not found" error using proper HTTP status code
         // In this case it should be HTTP 404
         if(sector == null) throw new SectorNotFoundException(id);
-        return sectorService.getSectorById(id);
+        return sectorService.getSectorById(Long.parseLong(id));
 
     }
 
@@ -86,7 +86,7 @@ public class SectorController {
      */
     @PutMapping("/sectors/{id}")
     public Sector updateSector(@PathVariable String id, @Valid @RequestBody Sector newsectorInfo){
-        Sector sector = sectorService.updateSector(id, newsectorInfo);
+        Sector sector = sectorService.updateSector(Long.parseLong(id), newsectorInfo);
         if(sector == null) throw new SectorNotFoundException(id);
         
         return sector;
@@ -100,7 +100,7 @@ public class SectorController {
     @DeleteMapping("/sectors/{id}")
     public void deleteSector(@PathVariable String id){
         try{
-            sectorService.deleteSector(id);
+            sectorService.deleteSector(Long.parseLong(id));
          }catch(EmptyResultDataAccessException e) {
             throw new SectorNotFoundException(id);
          }

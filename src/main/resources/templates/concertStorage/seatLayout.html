@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html xmlns:th="https://www.thymeleaf.org">
 <link rel="stylesheet" href="/css/sector-related/seatSettings.css">
+<link rel="stylesheet" href="/css/sector-related/tooltip.css">
+<link rel="stylesheet" href="/css/sector-related/buttons.css">
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <body>
@@ -203,6 +205,10 @@
                 })
                 .then(response => {
                     if (response.ok) {
+                        // Redirect to a new URL
+                        // window.location.replace('ticket-carted-success.html');
+                        // Reload the current page
+                        window.location.reload();
                         window.location.href = '/bookingSuccessDetails';
                         console.log('Selected seat sent to backend successfully.');
                     } else {
@@ -217,16 +223,16 @@
         
         // function to scale seat plan based on number of seats and rows
         function calculateScaleFactor(maxSeats, numRows) {
-        // Your logic to calculate the scale factor based on the total number of elements
-        // Adjust this logic as needed for your specific use case
-        var maxScale = 0.7; // A default scale value
-        var baseScale = 1.0; // The maximum scale you want
-        
-        if (maxSeats > 34 || numRows >= 14) {
-            return maxScale;
-        } else {
-            return baseScale;
-        }
+            // Your logic to calculate the scale factor based on the total number of elements
+            // Adjust this logic as needed for your specific use case
+            var maxScale = 0.7; // A default scale value
+            var baseScale = 1.0; // The maximum scale you want
+            
+            if (maxSeats > 34 || numRows >= 14) {
+                return maxScale;
+            } else {
+                return baseScale;
+            }
         }
     </script>
 </body>

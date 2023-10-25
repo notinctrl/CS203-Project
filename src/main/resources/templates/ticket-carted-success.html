@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Ticket added to Cart!</title>
+</head>
+<body>
+    <div>
+        <h1>Concert Details</h1>
+        <p>Concert ID: <span th:text="${concertId}"></span></p>
+        <p>Sector Name: <span th:text="${sectorName}"></span></p>
+        <p>Selected Seats: <span th:text="${selectedSeats}"></span></p>
+    </div>
+
+    <div class="button-container">
+        <button id="confirm-button">Confirm Selection</button>
+        <div id="selected-seats-message" style="display: none;"></div>
+        <button id="final-confirm-button" style="display: none;">Final Confirm?</button>
+        <button id="cancel-button" style="display: none;">Cancel</button>
+    </div>
+</body>
+</html>

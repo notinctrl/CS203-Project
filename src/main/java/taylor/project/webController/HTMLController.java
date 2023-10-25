@@ -20,17 +20,20 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import taylor.project.concert.Concert;
 import taylor.project.concert.ConcertService;
 import taylor.project.sector.*;
+import taylor.project.venue.*;
 
 @Controller
 public class HTMLController {
 
     private ConcertService concertService;
+    private SectorService sectorService;
     private Long concertId;
     private String sectorName;
     private List<String> selectedSeats;
 
-    public HTMLController(ConcertService cs){
+    public HTMLController(ConcertService cs, SectorService ss){
         this.concertService = cs;
+        sectorService = ss;
     }
 
     //Save the uploaded file to this folder
@@ -54,6 +57,24 @@ public class HTMLController {
         return "index";
     }
 
+    @GetMapping("concerts/{concertId}/sectorLayout")
+    public String getSectorLayout(@PathVariable("concertId") Long concertId, Model model){
+        List<Sector> sectors = concertService.getConcertById(1L).getConcertVenue().getSectors();
+        for (Sector s : sectors){
+
+            // find how many seats are avail
+            List<String> sectorInfo = iniSectorSeats(s.getSeats());            
+
+            model.addAttribute("sector" + s.getSectorName() + "avail", sectorInfo.get(0));
+            model.addAttribute("sector" + s.getSectorName() + "total", sectorInfo.get(1));
+            model.addAttribute("sector" + s.getSectorName() + "status", sectorInfo.get(2));
+
+// checker for what the model contains
+// System.out.println("model has " + model);
+        }
+        return "concertStorage/" + concertId + "/sectorLayout.html";
+    }
+
     @GetMapping("concerts/{concertId}/sectorLayout/selectSeat/{sectorName}")
     public String seatplan(@PathVariable("concertId") Long concertId, @PathVariable("sectorName") String sectorName, Model model){
         model.addAttribute("concertId", concertId);
@@ -66,24 +87,6 @@ public class HTMLController {
     //     return "sectortest";
     // }
 
-    @GetMapping("concerts/{concertId}/sectorLayout")
-    public String getSectorLayout(@PathVariable("concertId") Long concertId, Model model){
-        List<Sector> sectors = concertService.getConcertById(1L).getConcertVenue().getSectors();
-        for (Sector s : sectors){
-
-            // find how many seats are avail
-            List<String> sectorInfo = getSectorInfo(s.getSeats());            
-
-            model.addAttribute("sector" + s.getSectorName() + "avail", sectorInfo.get(0));
-            model.addAttribute("sector" + s.getSectorName() + "total", sectorInfo.get(1));
-            model.addAttribute("sector" + s.getSectorName() + "status", sectorInfo.get(2));
-
-// checker for what the model contains
-// System.out.println("model has " + model);
-        }
-        return "concertStorage/" + concertId + "/sectorLayout.html";
-    }
-
     @PostMapping("/bookingSuccess")
     public ResponseEntity<String> handleSeatSelection(@RequestBody Map<String, Object> requestBody) {
         this.concertId = Long.valueOf((Integer) requestBody.get("concertId"));
@@ -92,6 +95,12 @@ public class HTMLController {
 
 // System.out.println("concertid: " + concertId + " sectName:" + sectorName);
         String responseMessage = "Received the following seats: " + selectedSeats.toString();
+        System.out.println("now changing concert's selected seats to pending...");
+        Venue venue = concertService.getConcertById(concertId).getConcertVenue();
+        
+        sectorService.updateSelectedSectorSeatsToStatus(venue, selectedSeats, sectorName, 'P');
+
+        System.out.println("all done!");
         return ResponseEntity.ok(responseMessage);
     }
 
@@ -102,7 +111,7 @@ public class HTMLController {
         model.addAttribute("concertId", concertId);
         model.addAttribute("sectorName", sectorName);
         model.addAttribute("selectedSeats", selectedSeats);
-        return "yay.html"; // Return the view where you want to display the data
+        return "ticket-carted-success.html"; // Return the view where you want to display the data
     }
 
     @GetMapping("/contact")
@@ -168,7 +177,7 @@ public class HTMLController {
  * @param seatAvailability contains all the rows in a sector and each string's character represents a seat.
  * @return Information about the sector in list form: {<number of avail seats>, <total seats in this sector>, sectorStatus}
  */
-public static List<String> getSectorInfo(List<String> seatAvailability){
+public static List<String> iniSectorSeats(List<String> seatAvailability){
     double totalSeats = 0;
     double availSeats = 0;
 
