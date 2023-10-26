@@ -48,6 +48,24 @@ public class HTMLController {
         return "index";
     }
 
+    @GetMapping("/concerts.html")
+    public String concerts(Model model) throws IOException{
+        List<Concert> concerts = concertService.listConcerts();
+        int num = 1;
+        for (Concert c : concerts){
+            model.addAttribute("Concert" + num + "Name", c.getConcertName());
+            StringBuilder sb = new StringBuilder(c.getPhoto().getPath());
+            sb.delete(0, 25);
+            String correctPath = sb.toString();
+            model.addAttribute("Concert" + num + "Image", correctPath);
+            model.addAttribute("Concert" + num + "Date", c.getDateRange());
+            model.addAttribute("Concert" + num + "Time", c.getStartTime().toString());
+            num++;
+        }
+        
+        return "concerts";
+    }
+
     @GetMapping("concerts/{concertId}/sectorLayout/selectSeat/{sectorName}")
     public String seatplan(@PathVariable("concertId") Long concertId, @PathVariable("sectorName") String sectorName, Model model){
         model.addAttribute("concertId", concertId);
