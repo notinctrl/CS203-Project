@@ -1,0 +1,12 @@
+body {
+    margin: 0; /* Remove unnecessary margin */
+    color: white;
+    background: #111;
+    display: flex;
+    justify-content: center;
+    align-items: center; /* Vertically and horizontally center the theater */
+    height: 100vh; /* Set the body height to the viewport height */
+    /* overflow: hidden; Hide overflow content */
+    position: relative;
+  }
+  

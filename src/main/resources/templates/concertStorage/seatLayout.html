@@ -19,7 +19,6 @@
 	<link rel="stylesheet" type="text/css" href="/css/tiny-slider.css">
 	<link rel="stylesheet" type="text/css" href="/css/aos.css">
 	<link rel="stylesheet" type="text/css" href="/css/glightbox.min.css">
-	<link rel="stylesheet" type="text/css" href="/css/followme.css">
 
     <title>TTTicket &mdash; Select Seat</title>
 </head>
@@ -28,6 +27,7 @@
     <link rel="stylesheet" href="/css/sector-related/seatSettings.css">
     <link rel="stylesheet" href="/css/sector-related/tooltip.css">
     <link rel="stylesheet" href="/css/sector-related/buttons.css">
+    <link rel="stylesheet" type="text/css" href="/css/sector-related/style-shortened.css">
 	
 <body style="background-color:black;">
     <div class="site-mobile-menu site-navbar-target">
@@ -89,12 +89,16 @@
     <div class="tooltip"></div>
 
     <script th:inline="javascript">
+
+        // obtain data from model
         var concertId = /*[[${concertId}]]*/ null;
         var sectorName = /*[[${sectorName}]]*/ null;
+
+        // for container scaling and size readjustment.
         let maxSeats = 0;
         let numRows = 0;
 
-        // obtaining the data required to create the seat plan
+        // Function to obtain the seat status data from server to create the seat plan
         fetch('http://localhost:8080/getSectorRowAvailability/' + concertId + '/' + sectorName)
         .then(response => response.json())
         .then(data => {
@@ -170,7 +174,7 @@
             tooltip.style.display = 'none';
         });
 
-        // function to track seats clicked.
+        // Function to track seats clicked.
         let selectedSeats = []; // Initialize as an empty array
         $(document).ready(function() {
             $('#seating-container').on('click', '.seat', function() {
@@ -252,8 +256,8 @@
         });
 
         // Function to send the selected seat to the backend
+        // Also redirects people the booking success page
         function sendSelectedSeatsToBackend(concertId, sectorName, selectedSeats) {
-// console.log(selectedSeats.toString());
 
             const data = {
                 concertId: concertId,
@@ -287,7 +291,7 @@
             }
         }
         
-        // function to scale seat plan based on number of seats and rows
+        // Function to scale seat plan based on number of seats and rows
         function calculateScaleFactor(maxSeats, numRows) {
             // Your logic to calculate the scale factor based on the total number of elements
             // Adjust this logic as needed for your specific use case
