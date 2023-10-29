@@ -4,7 +4,12 @@ import java.io.IOException;
 import java.nio.file.*;
 import java.util.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.web.server.csrf.CsrfToken;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,6 +18,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -57,8 +63,59 @@ public class HTMLController {
         return "index";
     }
 
+    // @PostMapping("/selectSectorButton")
+    // public String selectSectorButton(@RequestParam String token, HttpSession session) {
+    //     // Get the generated one-time token for this session
+    //     String sessionToken = (String) session.getAttribute("selectSectorButtonToken");
+
+    //     // Verify that the provided token matches the one from the session
+    //     if (sessionToken != null && sessionToken.equals(token)) {
+    //         // Token is valid, set the session attribute
+    //         session.setAttribute("selectSectorButtonClicked", true);
+    //         // Redirect to the select sector page
+    //         return "redirect:/concerts/1/sectorLayout";
+    //     } else {
+    //         // Invalid token, handle accordingly
+    //         // For added security, you can invalidate the token here
+    //         // and/or log suspicious activity
+    //         return "redirect:/error";
+    //     }
+    // }
+
+    // @GetMapping("/generateToken")
+    // public String generateToken(HttpSession session) {
+    //     String oneTimeToken = UUID.randomUUID().toString(); // Generate a random token
+    //     session.setAttribute("selectSectorButtonToken", oneTimeToken);
+    //     return "redirect:/index"; // Redirect back to your index page
+    // }
+
+    // @GetMapping("/checkToken")
+    // public String checkToken(HttpSession session) {
+    //     String sessionToken = (String) session.getAttribute("selectSectorButtonToken");
+    //     System.out.println("Generated Token: " + sessionToken);
+    //     return "redirect:/index"; // Redirect to the index page or any other page
+    // }
+
+    @RequestMapping(value = "/submit-form", method = RequestMethod.POST)
+    public String submitForm(CsrfToken csrfToken) {
+        // Check the CSRF token
+        if (csrfToken != null) {
+            // Process the form data here
+            // Redirect to a success page or return a response as needed
+            return "success";
+        } else {
+            // Handle the case where the token is missing or invalid
+            return "error";
+        }
+    }
+
     @GetMapping("concerts/{concertId}/sectorLayout")
-    public String getSectorLayout(@PathVariable("concertId") Long concertId, Model model){
+    public String getSectorLayout(@PathVariable("concertId") Long concertId, Model model, HttpSession session){
+        if (session.getAttribute("selectSectorButtonClicked") == null || !(boolean) session.getAttribute("selectSectorButtonClicked")) {
+            // If the session attribute is not set or is false, redirect the user back to the previous page
+            return "redirect:/../../../login"; // Replace with the URL of the previous page
+        }
+        session.setAttribute("selectSectorButtonClicked", null);
         List<Sector> sectors = concertService.getConcertById(1L).getConcertVenue().getSectors();
         for (Sector s : sectors){
 
@@ -72,11 +129,23 @@ public class HTMLController {
 // checker for what the model contains
 // System.out.println("model has " + model);
         }
+        session.setAttribute("seatSelectAllowed", true);
         return "concertStorage/" + concertId + "/sectorLayout.html";
     }
 
+    @PostMapping("/setSelectSectorButtonClicked")
+    public ResponseEntity<String> setSelectSectorButtonClicked(HttpSession session) {
+        session.setAttribute("selectSectorButtonClicked", true);
+        return ResponseEntity.ok("Attribute set to true");
+    }
+
+    @GetMapping("error")
+    public String errorPage(){
+        return "error.html";
+    }
+
     @GetMapping("concerts/{concertId}/sectorLayout/selectSeat/{sectorName}")
-    public String seatplan(@PathVariable("concertId") Long concertId, @PathVariable("sectorName") String sectorName, Model model){
+    public String seatplan(@PathVariable("concertId") Long concertId, @PathVariable("sectorName") String sectorName, Model model, HttpSession session){
         model.addAttribute("concertId", concertId);
         model.addAttribute("sectorName", sectorName);
         return "concertStorage/seatLayout.html";
@@ -88,25 +157,31 @@ public class HTMLController {
     // }
 
     @PostMapping("/bookingSuccess")
-    public ResponseEntity<String> handleSeatSelection(@RequestBody Map<String, Object> requestBody) {
-        this.concertId = Long.valueOf((Integer) requestBody.get("concertId"));
-        this.sectorName = (String) requestBody.get("sectorName");
-        this.selectedSeats = (List<String>) requestBody.get("selectedSeats");
+    public ResponseEntity<String> handleSeatSelection(HttpServletRequest request, @RequestBody Map<String, Object> requestBody) {
+        CsrfToken csrfToken = (CsrfToken) request.getAttribute(CsrfToken.class.getName());
 
-// System.out.println("concertid: " + concertId + " sectName:" + sectorName);
-        String responseMessage = "Received the following seats: " + selectedSeats.toString();
-        System.out.println("now changing concert's selected seats to pending...");
-        Venue venue = concertService.getConcertById(concertId).getConcertVenue();
-        
-        sectorService.updateSelectedSectorSeatsToStatus(venue, selectedSeats, sectorName, 'P');
+        if (csrfToken != null && csrfToken.getToken().equals(requestBody.get("_csrf"))) {
+            this.concertId = Long.valueOf((Integer) requestBody.get("concertId"));
+            this.sectorName = (String) requestBody.get("sectorName");
+            this.selectedSeats = (List<String>) requestBody.get("selectedSeats");
 
-        System.out.println("all done!");
-        return ResponseEntity.ok(responseMessage);
+    // System.out.println("concertid: " + concertId + " sectName:" + sectorName);
+            String responseMessage = "Received the following seats: " + selectedSeats.toString();
+            System.out.println("now changing concert's selected seats to pending...");
+            Venue venue = concertService.getConcertById(concertId).getConcertVenue();
+            
+            sectorService.updateSelectedSectorSeatsToStatus(venue, selectedSeats, sectorName, 'P');
+
+        // System.out.println("all done!");
+            return ResponseEntity.ok(responseMessage);
+        } else {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("CSRF Token Validation Failed");
+        }
     }
 
     @GetMapping("/bookingSuccessDetails")
-    public String showBookingDetails(Model model) {
-
+    public String showBookingDetails(Model model, HttpSession session) {
+        session.setAttribute("seatSelectAllowed", false);
         // Now you can use these attributes in your view or processing logic
         model.addAttribute("concertId", concertId);
         model.addAttribute("sectorName", sectorName);

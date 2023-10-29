@@ -81,7 +81,12 @@
         <div class="button-container">
             <button id="confirm-button">Confirm Selection</button>
             <div id="selected-seats-message" style="display: none;"></div>
-            <button id="final-confirm-button" style="display: none;">Final Confirm?</button>
+            <form method="post" action="/submit-form">
+                <!-- Your form fields here, such as hidden input fields for concertId, sectorName, selectedSeats -->
+                
+                <button type="submit">Submit</button>
+                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+            </form>
             <button id="cancel-button" style="display: none;">Cancel</button>
         </div>
     </div>

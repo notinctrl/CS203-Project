@@ -56,18 +56,28 @@ public class SecurityConfig {
         .httpBasic()
             .and() //  "and()"" method allows us to continue configuring the parent
         .authorizeRequests()
-            .antMatchers(HttpMethod.GET, "/concerts", "/concerts/**").permitAll() // Anyone can view concerts
+
+            /** Concert access settings.
+             *  permitAll: GET
+             *  authenticated (login required): POST, PUT, DELETE (FIXTHIS WHEN DEPLOYING)
+             */
+            .antMatchers("/", "/index").permitAll()
+            .antMatchers("/login").permitAll()
+            .antMatchers(HttpMethod.GET, "/concerts", "/concerts/*").permitAll() // Anyone can view concerts
             .antMatchers(HttpMethod.POST, "/concerts", "concerts/").authenticated()
             .antMatchers(HttpMethod.PUT, "/concerts/**").authenticated()
             .antMatchers(HttpMethod.DELETE, "/concerts/*").authenticated()
-            
-            // your code here
-            .antMatchers(HttpMethod.POST, "/concerts/**/reviews/", "/concerts/**/reviews").authenticated()
-            .antMatchers(HttpMethod.PUT, "/concerts/**").authenticated()
-            .antMatchers(HttpMethod.DELETE, "/concerts/**").authenticated()
+            .antMatchers(HttpMethod.POST, "/concerts/**").hasRole("ADMIN")
+            .antMatchers(HttpMethod.PUT, "/concerts/**").hasRole("ADMIN")
+            .antMatchers(HttpMethod.DELETE, "/concerts/**").hasRole("ADMIN")            
 
             .antMatchers(HttpMethod.GET, "/tickets/**/status").authenticated()
 
+            /** User access settings.
+             *  permitAll: POST, DELETE (???)
+             *  authenticated (login required): POST, PUT, DELETE (FIXTHIS WHEN DEPLOYING)
+             *  ADMIN ONLY: GET, 
+             */
             .antMatchers(HttpMethod.POST, "/users").permitAll()
             .antMatchers(HttpMethod.DELETE, "/users", "/users/").permitAll()
             .antMatchers(HttpMethod.GET, "/users/*").hasRole("ADMIN")
@@ -75,15 +85,14 @@ public class SecurityConfig {
             .antMatchers(HttpMethod.GET, "/currentDetail").permitAll()
             .antMatchers(HttpMethod.POST, "/adminUsers").hasRole("ADMIN")
 
-            .antMatchers(HttpMethod.POST, "/concerts/**").hasRole("ADMIN")
-            .antMatchers(HttpMethod.PUT, "/concerts/**").hasRole("ADMIN")
-            .antMatchers(HttpMethod.DELETE, "/concerts/**").hasRole("ADMIN")
             //.antMatchers(HttpMethod.POST, "/users", "/users/").hasRole("ADMIN")
             .antMatchers(HttpMethod.GET, "/users").hasRole("ADMIN")
 
             .antMatchers(HttpMethod.GET, "/tickets/**/status").hasAnyRole("ADMIN", "USER")
 
-            .and()
+            .antMatchers(HttpMethod.GET, "/concerts/**/sectorLayout").authenticated() // New security rule for getSectorLayout
+            
+        .and()
         .authenticationProvider(authenticationProvider()) //specifies the authentication provider for HttpSecurity
         .csrf().disable()
         .formLogin()
@@ -91,8 +100,14 @@ public class SecurityConfig {
         .usernameParameter("username").permitAll()
         .defaultSuccessUrl("/index", true)
         .and()
-        .logout().permitAll()
+        .logout()
+            .logoutUrl("/custom-logout") // Specify a custom logout URL
+            .logoutSuccessUrl("/index") // Redirect to this URL after successful logout
+            .invalidateHttpSession(true) // Invalidate the HTTP session
+            .deleteCookies("JSESSIONID") // Delete cookies on logout
         ; // Disable the security headers, as we do not return HTML in our service
+
+        
         return http.build();
     }
 

@@ -85,6 +85,16 @@
 				<div class="col-lg-10 col-xxl-6">
 					<h1 class="heading-2 text-white mb-5" data-aos="fade-up">See your stars live seamlessly.</h1>
 					<p data-aos="fade-up" class="d-flex" data-aos-delay="200"><input class="btn btn-primary-outline white me-4" value="Find a concert now!" type="button" onClick="document.getElementById('concerts2').scrollIntoView();" /> <a href="https://www.youtube.com/watch?v=mwtbEGNABWU" class="glightbox d-inline-flex align-items-center playvid"><span class="icon-play me-2"></span><span>Watch our video</span></a></p>
+					<p data-aos="fade-up" class="d-flex" data-aos-delay="200">
+						<a href="/concerts/1/sectorLayout" class="btn btn-primary-outline white me-4"
+						   th:if="${#request.isUserInRole('ROLE_USER')}">
+							Take me to Sector
+						</a>
+						<a href="/login" class="btn btn-primary-outline white me-4"
+						   th:unless="${#request.isUserInRole('ROLE_USER')}">
+							Take me to Sector
+						</a>
+					</p>
 				</div>
 
 			</div>
@@ -471,6 +481,31 @@
 		</div>
 	</div>
 
+	<script>
+		function generateAndVerifyToken() {
+			// Generate a random token
+			var oneTimeToken = generateRandomToken();
+			
+			// Set the generated token in the hidden input field
+			document.getElementById("tokenInput").value = oneTimeToken;
+		
+			// Log the generated token for debugging
+			console.log("Generated Token: " + oneTimeToken);
+			
+			// You can also set the token in the session if needed
+			// For example: sessionStorage.setItem("selectSectorButtonToken", oneTimeToken);
+			
+			// Continue with the form submission
+			return true;
+		}
+		
+		function generateRandomToken() {
+			// Generate a random token here, e.g., using a library or Math.random()
+			return 'GENERATED_ONE_TIME_TOKEN'; // Replace with actual token generation logic
+		}
+		</script>
+		
+
 
 	<script src="js/bootstrap.bundle.min.js"></script>
 	<script src="js/tiny-slider.js"></script>
@@ -479,5 +514,21 @@
 	<script src="js/glightbox.min.js"></script>
 	<script src="js/rellax.min.js"></script>
 	<script src="js/custom.js"></script>
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<script>
+		document.getElementById("sectorButton").addEventListener("click", function(event) {
+		event.preventDefault(); // Prevent the default behavior of the anchor element
+	
+		// Make an AJAX request to set the attribute
+		$.post("/setSelectSectorButtonClicked", function(data) {
+			// Handle the response, if needed
+			console.log(data); // Log the response for debugging
+			// After the attribute is set, you can navigate to the desired URL
+			window.location.href = "/concerts/1/sectorLayout";
+		});
+	});
+	</script>
 </body>
+
+
 </html>
