@@ -59,11 +59,11 @@
 							<li><a href="#">Menu Three</a></li>
 						</ul>
 					</li>
-					<li><a href="services.html">Services</a></li>
-					<li><a href="portfolio.html">Portfolio</a></li>
-					<li><a href="about.html">About</a></li>
-					<li><a href="contact.html">Contact</a></li>
-					<li><a href="shoppingcart.html">Shopping Cart</a></li>
+					<li><a href="services">Services</a></li>
+					<li><a href="portfolio">Portfolio</a></li>
+					<li><a href="about">About</a></li>
+					<li><a href="contact">Contact</a></li>
+					<li><a href="shoppingcart">Shopping Cart</a></li>
 					<li><a href="login">Login/Signup</a></li>
 				</ul>
 
@@ -86,14 +86,14 @@
 					<h1 class="heading-2 text-white mb-5" data-aos="fade-up">See your stars live seamlessly.</h1>
 					<p data-aos="fade-up" class="d-flex" data-aos-delay="200"><input class="btn btn-primary-outline white me-4" value="Find a concert now!" type="button" onClick="document.getElementById('concerts2').scrollIntoView();" /> <a href="https://www.youtube.com/watch?v=mwtbEGNABWU" class="glightbox d-inline-flex align-items-center playvid"><span class="icon-play me-2"></span><span>Watch our video</span></a></p>
 					<p data-aos="fade-up" class="d-flex" data-aos-delay="200">
-						<a href="/concerts/1/sectorLayout" class="btn btn-primary-outline white me-4"
+						<!-- <a href="/concerts/1/sectorLayout" class="btn btn-primary-outline white me-4 sector-button"
 						   th:if="${#request.isUserInRole('ROLE_USER')}">
 							Take me to Sector
-						</a>
-						<a href="/login" class="btn btn-primary-outline white me-4"
+						</a> -->
+						<!-- <a href="/login" class="btn btn-primary-outline white me-4 sector-button"
 						   th:unless="${#request.isUserInRole('ROLE_USER')}">
-							Take me to Sector
-						</a>
+							Login to see Sector
+						</a> -->
 					</p>
 				</div>
 

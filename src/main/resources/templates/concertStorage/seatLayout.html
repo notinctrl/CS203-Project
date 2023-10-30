@@ -81,12 +81,11 @@
         <div class="button-container">
             <button id="confirm-button">Confirm Selection</button>
             <div id="selected-seats-message" style="display: none;"></div>
-            <form method="post" action="/submit-form">
-                <!-- Your form fields here, such as hidden input fields for concertId, sectorName, selectedSeats -->
+            <!-- <form method="post" action="/submit-form">
                 
-                <button type="submit">Submit</button>
+                <button type="final-confirm-button">Submit</button>
                 <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
-            </form>
+            </form> -->
             <button id="cancel-button" style="display: none;">Cancel</button>
         </div>
     </div>
@@ -310,6 +309,13 @@
             }
         }
     </script>
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <script src="js/tiny-slider.js"></script>
+    <script src="js/aos.js"></script>
+    <script src="js/navbar.js"></script>
+    <script src="js/glightbox.min.js"></script>
+    <script src="js/rellax.min.js"></script>
+    <script src="js/custom.js"></script>
 </body>
 </html>
 

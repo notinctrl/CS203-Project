@@ -61,8 +61,8 @@ public class SecurityConfig {
              *  permitAll: GET
              *  authenticated (login required): POST, PUT, DELETE (FIXTHIS WHEN DEPLOYING)
              */
-            .antMatchers("/", "/index").permitAll()
-            .antMatchers("/login").permitAll()
+            // .antMatchers("/", "/index").permitAll()
+            // .antMatchers("/login").permitAll()
             .antMatchers(HttpMethod.GET, "/concerts", "/concerts/*").permitAll() // Anyone can view concerts
             .antMatchers(HttpMethod.POST, "/concerts", "concerts/").authenticated()
             .antMatchers(HttpMethod.PUT, "/concerts/**").authenticated()
@@ -88,23 +88,24 @@ public class SecurityConfig {
             //.antMatchers(HttpMethod.POST, "/users", "/users/").hasRole("ADMIN")
             .antMatchers(HttpMethod.GET, "/users").hasRole("ADMIN")
 
-            .antMatchers(HttpMethod.GET, "/tickets/**/status").hasAnyRole("ADMIN", "USER")
+            // .antMatchers(HttpMethod.GET, "/tickets/**/status").hasAnyRole("ADMIN", "USER")
 
-            .antMatchers(HttpMethod.GET, "/concerts/**/sectorLayout").authenticated() // New security rule for getSectorLayout
+            // .antMatchers(HttpMethod.GET, "/concerts/**/sectorLayout").authenticated() // New security rule for getSectorLayout
             
         .and()
         .authenticationProvider(authenticationProvider()) //specifies the authentication provider for HttpSecurity
         .csrf().disable()
         .formLogin()
         .loginPage("/login")
-        .usernameParameter("username").permitAll()
-        .defaultSuccessUrl("/index", true)
+        // .usernameParameter("username").permitAll()
+        // .defaultSuccessUrl("/index", true)
         .and()
         .logout()
-            .logoutUrl("/custom-logout") // Specify a custom logout URL
-            .logoutSuccessUrl("/index") // Redirect to this URL after successful logout
-            .invalidateHttpSession(true) // Invalidate the HTTP session
-            .deleteCookies("JSESSIONID") // Delete cookies on logout
+        .permitAll()
+            // .logoutUrl("/custom-logout") // Specify a custom logout URL
+            // .logoutSuccessUrl("/index") // Redirect to this URL after successful logout
+            // .invalidateHttpSession(true) // Invalidate the HTTP session
+            // .deleteCookies("JSESSIONID") // Delete cookies on logout
         ; // Disable the security headers, as we do not return HTML in our service
 
         

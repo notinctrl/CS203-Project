@@ -96,26 +96,26 @@ public class HTMLController {
     //     return "redirect:/index"; // Redirect to the index page or any other page
     // }
 
-    @RequestMapping(value = "/submit-form", method = RequestMethod.POST)
-    public String submitForm(CsrfToken csrfToken) {
-        // Check the CSRF token
-        if (csrfToken != null) {
-            // Process the form data here
-            // Redirect to a success page or return a response as needed
-            return "success";
-        } else {
-            // Handle the case where the token is missing or invalid
-            return "error";
-        }
-    }
+    // @RequestMapping(value = "/submit-form", method = RequestMethod.POST)
+    // public String submitForm(CsrfToken csrfToken) {
+    //     // Check the CSRF token
+    //     if (csrfToken != null) {
+    //         // Process the form data here
+    //         // Redirect to a success page or return a response as needed
+    //         return "success";
+    //     } else {
+    //         // Handle the case where the token is missing or invalid
+    //         return "error";
+    //     }
+    // }
 
     @GetMapping("concerts/{concertId}/sectorLayout")
     public String getSectorLayout(@PathVariable("concertId") Long concertId, Model model, HttpSession session){
-        if (session.getAttribute("selectSectorButtonClicked") == null || !(boolean) session.getAttribute("selectSectorButtonClicked")) {
-            // If the session attribute is not set or is false, redirect the user back to the previous page
-            return "redirect:/../../../login"; // Replace with the URL of the previous page
-        }
-        session.setAttribute("selectSectorButtonClicked", null);
+        // if (session.getAttribute("selectSectorButtonClicked") == null || !(boolean) session.getAttribute("selectSectorButtonClicked")) {
+        //     // If the session attribute is not set or is false, redirect the user back to the previous page
+        //     return "redirect:/../../../login"; // Replace with the URL of the previous page
+        // }
+        // session.setAttribute("selectSectorButtonClicked", null);
         List<Sector> sectors = concertService.getConcertById(1L).getConcertVenue().getSectors();
         for (Sector s : sectors){
 
@@ -129,7 +129,7 @@ public class HTMLController {
 // checker for what the model contains
 // System.out.println("model has " + model);
         }
-        session.setAttribute("seatSelectAllowed", true);
+        // session.setAttribute("seatSelectAllowed", true);
         return "concertStorage/" + concertId + "/sectorLayout.html";
     }
 
@@ -204,9 +204,9 @@ public class HTMLController {
         return "services";
     }
 
-    @GetMapping("/test")
-    public String test() {
-        return "test";
+    @GetMapping("/about")
+    public String about() {
+        return "about";
     }
 
 
