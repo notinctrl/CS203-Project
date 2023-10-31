@@ -22,7 +22,7 @@
 	<link rel="stylesheet" type="text/css" href="/css/tiny-slider.css">
 	<link rel="stylesheet" type="text/css" href="/css/aos.css">
 	<link rel="stylesheet" type="text/css" href="/css/glightbox.min.css">
-	<link rel="stylesheet" type="text/css" href="/css/style.css">
+	<link rel="stylesheet" type="text/css" href="/css/sector-related/style-shortened.css">
     <link rel="stylesheet" type="text/css" href="/css/sector-related/sectorImageSizing.css">
 	<title>TTTicket &mdash; Select Sector</title>
 </head>
@@ -78,6 +78,10 @@
 <!-- Maphighlight Script -->
 <script type="text/javascript" src="/js/sector-related/jquery.maphilight.js"></script>
 <script type="text/javascript" src="https://raw.githubusercontent.com/davidjbradshaw/imagemap-resizer/master/js/imageMapResizer.min.js"></script>
+
+<div class="tooltip-container">
+    <div class="tooltip"></div>
+</div>
 
 <body>
     <div class="center-container">
@@ -252,9 +256,7 @@
     $(function() {
         $('#image-map').imageMapResize();
     });
-</script>
 
-<script>
     // Function to adjust image map coordinates
     function adjustImageMapCoordinates() {
         // Get a reference to the image element
@@ -285,11 +287,51 @@
             area.setAttribute('coords', coords.join(','));
         });
     }
-    
+
     // Call the adjustImageMapCoordinates function when the window loads and when it resizes
     window.addEventListener('load', adjustImageMapCoordinates);
     window.addEventListener('resize', adjustImageMapCoordinates);
-    </script>
+
+</script>
+
+<script th:inline="javascript">
+const sName = 'sector634';
+const attributeName = sName + 'avail';
+const map = /*[[${attributeMap}]]*/ 'N/A';
+console.log(map[attributeName]);
+
+    const areas = document.querySelectorAll('area');
+    // Add event listeners to each area
+    areas.forEach((area) => {
+        area.addEventListener('mouseover', (event) => {
+            const sectorName = event.target.getAttribute('title');
+            const availability = parseInt(map[sectorName + 'avail']);
+            // Find the corresponding attributes in the model based on sectorName
+            const total = parseInt(map[sectorName + 'total']);
+            const status = map[sectorName + 'status'];
+
+            showTooltip(sectorName, availability, total, status);
+        });
+
+        area.addEventListener('mouseout', () => {
+            hideTooltip();
+        });
+    });
+
+    const tooltip = document.querySelector('.tooltip');
+
+    function showTooltip(sectorName, avail, total, status) {
+        tooltip.style.display = 'block';
+        tooltip.innerHTML = `Sector: ${sectorName}<br>Seats Left: ${avail}<br>Total: ${total}<br>Status: ${status}`;
+    }
+
+    function hideTooltip() {
+        tooltip.style.display = 'none';
+        tooltip.innerHTML = '';
+    }
+</script>
+
+    
 
 </html>
 

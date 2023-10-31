@@ -25,7 +25,7 @@
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link rel="stylesheet" href="/css/sector-related/seatSettings.css">
-    <link rel="stylesheet" href="/css/sector-related/tooltip.css">
+    <!-- <link rel="stylesheet" href="/css/sector-related/tooltip.css"> -->
     <link rel="stylesheet" href="/css/sector-related/buttons.css">
     <link rel="stylesheet" type="text/css" href="/css/sector-related/style-shortened.css">
 	
@@ -74,6 +74,12 @@
 			</div>
 		</div>
 	</nav>
+    <div class="seat-view-container">
+        <img alt="Image" height=300px class="seat-view-img" th:src="@{/seating_plan/concert-view.png}"/>
+    </div>
+    <div class="sector-name-container">
+        <h1 class="heading-2 text-white mb-3" th:text="'Sector ' + ${sectorName}"></p>
+    </div>
     <div class="theatre">
         
         <div class="cinema-seats rows" id="seating-container"></div>
@@ -81,6 +87,7 @@
         <div class="button-container">
             <button id="confirm-button">Confirm Selection</button>
             <div id="selected-seats-message" style="display: none;"></div>
+            <button id="final-confirm-button" style="display: none;">Final Confirm?</button>
             <!-- <form method="post" action="/submit-form">
                 
                 <button type="final-confirm-button">Submit</button>
@@ -201,7 +208,7 @@
 
 // console.log("selected seats are: " + selectedSeats);
                     const selectedSeatsMessage = selectedSeats.join(', '); // Create a comma-separated string
-                    $('#selected-seats-message').text(`Selected Seats: ${selectedSeatsMessage}`).css('color', '#FFF', 'font-family', 'Arial');
+                    $('#selected-seats-message').text(`Selected Seats: ${selectedSeatsMessage}`);
                     $('#selected-seats-message').show();
                 }
                 else if (selectedSeats.length === 4) {

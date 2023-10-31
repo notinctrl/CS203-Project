@@ -98,9 +98,9 @@ public class SecurityConfig {
         .formLogin()
         .loginPage("/login")
         // .usernameParameter("username").permitAll()
-        // .defaultSuccessUrl("/index", true)
+        .defaultSuccessUrl("/index", true)
         .and()
-        .logout()
+        .logout()   
         .permitAll()
             // .logoutUrl("/custom-logout") // Specify a custom logout URL
             // .logoutSuccessUrl("/index") // Redirect to this URL after successful logout

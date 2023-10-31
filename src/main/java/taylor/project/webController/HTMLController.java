@@ -117,18 +117,19 @@ public class HTMLController {
         // }
         // session.setAttribute("selectSectorButtonClicked", null);
         List<Sector> sectors = concertService.getConcertById(1L).getConcertVenue().getSectors();
+        Map<String, Object> attributeMap = new HashMap<>();
         for (Sector s : sectors){
 
             // find how many seats are avail
             List<String> sectorInfo = iniSectorSeats(s.getSeats());            
 
-            model.addAttribute("sector" + s.getSectorName() + "avail", sectorInfo.get(0));
-            model.addAttribute("sector" + s.getSectorName() + "total", sectorInfo.get(1));
-            model.addAttribute("sector" + s.getSectorName() + "status", sectorInfo.get(2));
+            model = addSectorAttributes(model, s, sectorInfo);
+            attributeMap = addSectorAttributeMap(attributeMap, s, sectorInfo);
 
 // checker for what the model contains
 // System.out.println("model has " + model);
         }
+        model.addAttribute("attributeMap", attributeMap);
         // session.setAttribute("seatSelectAllowed", true);
         return "concertStorage/" + concertId + "/sectorLayout.html";
     }
@@ -150,11 +151,6 @@ public class HTMLController {
         model.addAttribute("sectorName", sectorName);
         return "concertStorage/seatLayout.html";
     }
-
-    // @GetMapping("/sectortest")
-    // public String sectortest(){
-    //     return "sectortest";
-    // }
 
     @PostMapping("/bookingSuccess")
     public ResponseEntity<String> handleSeatSelection(HttpServletRequest request, @RequestBody Map<String, Object> requestBody) {
@@ -194,9 +190,9 @@ public class HTMLController {
         return "contact";
     }
 
-    @GetMapping("/portfolio")
+    @GetMapping("/purchasedtickets")
     public String portfolio(Model model){
-        return "portfolio";
+        return "purchased-tickets";
     }
 
     @GetMapping("/services")
@@ -252,36 +248,49 @@ public class HTMLController {
  * @param seatAvailability contains all the rows in a sector and each string's character represents a seat.
  * @return Information about the sector in list form: {<number of avail seats>, <total seats in this sector>, sectorStatus}
  */
-public static List<String> iniSectorSeats(List<String> seatAvailability){
-    double totalSeats = 0;
-    double availSeats = 0;
+    public static List<String> iniSectorSeats(List<String> seatAvailability){
+        double totalSeats = 0;
+        double availSeats = 0;
 
-    for (String row : seatAvailability){
-        totalSeats += row.length();
-        char[] seats = row.toCharArray();
-        for (char seat : seats) {
-            if (seat == 'A') availSeats++;
+        for (String row : seatAvailability){
+            totalSeats += row.length();
+            char[] seats = row.toCharArray();
+            for (char seat : seats) {
+                if (seat == 'A') availSeats++;
+            }
         }
+
+        List<String> result = new ArrayList<>(List.of(Double.toString(availSeats), Double.toString(totalSeats)));
+
+        double seatAvailPercent =  availSeats / totalSeats;
+
+        /* status reference:
+            H (High)    = 66% to 100% seats available (green)
+            M (Medium)  = 33% to 65% seats available (blue)
+            L (Low)     = (non-zero)% to 32% seats available (orange)
+            U (Unavail) = 0% seats available (red)
+        */
+        if (seatAvailPercent > 0.66) result.add("H");
+        else if (seatAvailPercent > 0.33) result.add("M");
+        else if (seatAvailPercent > 0) result.add("L");
+        else result.add("U");
+
+        return result;
     }
 
-    List<String> result = new ArrayList<>(List.of(Double.toString(availSeats), Double.toString(totalSeats)));
+    public static Model addSectorAttributes(Model m, Sector s, List<String> sectorInfo){
+        m.addAttribute("sector" + s.getSectorName() + "avail", sectorInfo.get(0));
+        m.addAttribute("sector" + s.getSectorName() + "total", sectorInfo.get(1));
+        m.addAttribute("sector" + s.getSectorName() + "status", sectorInfo.get(2));
+        return m;
+    }
 
-    double seatAvailPercent =  availSeats / totalSeats;
-
-    /* status reference:
-		H (High)    = 66% to 100% seats available (green)
-		M (Medium)  = 33% to 65% seats available (blue)
-		L (Low)     = (non-zero)% to 32% seats available (orange)
-		U (Unavail) = 0% seats available (red)
-	*/
-    if (seatAvailPercent > 0.66) result.add("H");
-    else if (seatAvailPercent > 0.33) result.add("M");
-    else if (seatAvailPercent > 0) result.add("L");
-    else result.add("U");
-
-    return result;
-}
-
+    public static Map<String, Object> addSectorAttributeMap(Map<String, Object> m, Sector s, List<String> sectorInfo){
+        m.put("sector" + s.getSectorName() + "avail", sectorInfo.get(0));
+        m.put("sector" + s.getSectorName() + "total", sectorInfo.get(1));
+        m.put("sector" + s.getSectorName() + "status", sectorInfo.get(2));
+        return m;
+    }
 }
 
 // hard code: retrieval of concert attributes
