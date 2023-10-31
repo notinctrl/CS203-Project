@@ -86,12 +86,13 @@ public class BookingApp {
                             "2 - 4 March, 2024", "19:00", vList.get(0), 
                             "src/main/resources/static/concert_posters/Taylor_Swift_Concert_Poster.jpg"));
 
-        result.add(new Concert("Red Hot Chili Peppers 2024", 10000,
-                            "9 - 11 April, 2025", "19:00", vList.get(1),
-                             null));
+        result.add(new Concert("Coldplay Music of the Spheres 2024", 10000,
+                            "23 - 27 January, 2024", "20:00", vList.get(1),
+                             "src/main/resources/static/concert_posters/Coldplay_Concert_Poster.jpg"));
+                             
         result.add(new Concert("BTS Singapore 2024", 20000,
                             "21 - 22 September, 2024", "20:00", vList.get(2), 
-                            null));
+                            "src/main/resources/static/concert_posters/BTS_Concert_Poster.jpg"));
 
         for (int i = 0; i < vList.size(); i++){
              vList.get(i).setConcert(result.get(i));

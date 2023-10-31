@@ -15,6 +15,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.*;
 import taylor.project.concert.*;
+import taylor.project.user.*;
 
 @Entity
 @Getter
@@ -31,21 +32,27 @@ public class Ticket {
         follow business logic in google docs.
     */
     
+    private Long userId;
+
     private String sectorName;
-    private String seatDetails;
+    private String seatRowName;
+    private Integer seatNo;
     private Double price;
 
     private Character ticketStatus;
 
-    public Ticket(String sectorName, String seatDetails, Double price) {
+    public Ticket(String sectorName, String seatRowName, Integer seatNo, Double price) {
+        this.userId = null;
         this.sectorName = sectorName;
-        this.seatDetails = seatDetails;
+        this.seatRowName = seatRowName;
+        this.seatNo = seatNo;
         this.price = price;
         this.ticketStatus = 'A';
     }
     
-    public void setSector(String sectorName) {
-        this.sectorName = sectorName;
+    public void setIdAndStatus(Long id) {
+        this.userId = id;
+        this.ticketStatus = 'P';
     }
     
     //@JsonIgnore
