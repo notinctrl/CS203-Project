@@ -32,38 +32,4 @@
 
 </body>
 
-<!-- <script>
-  function sendLoginDetailsToBackend(username, password) {
-
-    const data = {
-        username: username,
-        password: password,
-    };
-
-    if (selectedSeats) {
-        fetch('http://localhost:8080/bookingSuccess', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(data), // Send the selected seat as JSON data
-        })
-        .then(response => {
-            if (response.ok) {
-                // Redirect to a new URL
-                // window.location.replace('ticket-carted-success.html');
-                // Reload the current page
-                window.location.reload();
-                window.location.href = '/bookingSuccessDetails';
-                console.log('Selected seat sent to backend successfully.');
-            } else {
-                console.error('Failed to send selected seat to backend.');
-            }
-        })
-        .catch(error => {
-            console.error('Error sending selected seat to backend:', error);
-        });
-    }
-  }
-</script> -->
 </html>
