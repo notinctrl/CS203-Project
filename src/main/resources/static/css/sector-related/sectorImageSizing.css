@@ -16,12 +16,12 @@
 .tooltip-container{
     position: absolute;
     width: 25%;
-    top: 0%; /* ++ == down, -- == up */
-    right: 0%; /*++ == left, -- == right*/
+    top: 20%; /* ++ == down, -- == up */
+    right: 70%; /*++ == left, -- == right*/
 }
 
 .tooltip {
-    width: 10%;
+    width: 45%;
     font-weight: bold;
     background: #fff;
     border: 1px solid #ccc;
