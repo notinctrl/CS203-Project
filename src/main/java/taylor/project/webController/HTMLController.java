@@ -154,9 +154,9 @@ public class HTMLController {
 
     @PostMapping("/bookingSuccess")
     public ResponseEntity<String> handleSeatSelection(HttpServletRequest request, @RequestBody Map<String, Object> requestBody) {
-        CsrfToken csrfToken = (CsrfToken) request.getAttribute(CsrfToken.class.getName());
+        // CsrfToken csrfToken = (CsrfToken) request.getAttribute(CsrfToken.class.getName());
 
-        if (csrfToken != null && csrfToken.getToken().equals(requestBody.get("_csrf"))) {
+        // if (csrfToken != null && csrfToken.getToken().equals(requestBody.get("_csrf"))) {
             this.concertId = Long.valueOf((Integer) requestBody.get("concertId"));
             this.sectorName = (String) requestBody.get("sectorName");
             this.selectedSeats = (List<String>) requestBody.get("selectedSeats");
@@ -170,9 +170,9 @@ public class HTMLController {
 
         // System.out.println("all done!");
             return ResponseEntity.ok(responseMessage);
-        } else {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("CSRF Token Validation Failed");
-        }
+        // } else {
+        //     return ResponseEntity.status(HttpStatus.FORBIDDEN).body("CSRF Token Validation Failed");
+        // }
     }
 
     @GetMapping("/bookingSuccessDetails")
@@ -190,8 +190,9 @@ public class HTMLController {
         return "contact";
     }
 
-    @GetMapping("/purchasedtickets")
-    public String portfolio(Model model){
+    @GetMapping("user/{userId}/purchasedtickets")
+    public String portfolio(@PathVariable("userId") Long userId, Model model){
+        model.addAttribute("userId", userId);
         return "purchased-tickets";
     }
 

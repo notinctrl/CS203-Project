@@ -5,8 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import taylor.project.ticket.Ticket;
-import taylor.project.ticket.TicketRepository;
+import taylor.project.ticket.*;
 
 
 @Service
@@ -14,14 +13,13 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
    
     private ShoppingCartRepository shoppingCarts;
     private TicketRepository ticketRepository;
+    private TicketService ticketService;
 
     @Autowired
-    public ShoppingCartServiceImpl(TicketRepository ticketRepository) {
-        this.ticketRepository = ticketRepository;
-    }
-
-    public ShoppingCartServiceImpl(ShoppingCartRepository shoppingCarts){
+    public ShoppingCartServiceImpl(ShoppingCartRepository shoppingCarts, TicketRepository ticketRepository, TicketService ticketService) {
         this.shoppingCarts = shoppingCarts;
+        this.ticketRepository = ticketRepository;
+        this.ticketService = ticketService;
     }
 
     @Override
@@ -60,13 +58,18 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     }
 
     @Override
-    public void addTicketBySeatRowNameAndSeatNo(Long id, String seatRowName, Integer seatNo) {
+    public void addTicketBySeatRowNameAndSeatNo(Long id, String seatRowName, Integer seatNo){
         ShoppingCart shoppingCart = shoppingCarts.findById(id).orElse(null);
         Ticket ticket = ticketRepository.findBySeatRowNameAndSeatNo(seatRowName, seatNo);
-        ticket.setIdAndStatus(shoppingCart.getUserID());
-        if(shoppingCart != null && ticket != null) {
-            shoppingCart.getTicketList().add(ticket);
-            shoppingCarts.save(shoppingCart);
+
+        try {
+            ticketService.setUserIdAndStatus(ticket.getId(), shoppingCart.getUserID(), 'P');
+            if(shoppingCart != null && ticket != null) {
+                shoppingCart.getTicketList().add(ticket);
+                shoppingCarts.save(shoppingCart);
+            }
+        } catch (Exception e){
+            System.out.println(e.getMessage());
         }
     }
 
