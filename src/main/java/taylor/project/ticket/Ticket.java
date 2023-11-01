@@ -7,11 +7,14 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import lombok.*;
 import taylor.project.concert.*;
@@ -32,7 +35,15 @@ public class Ticket {
         follow business logic in google docs.
     */
     
-    private Long userId;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    @JsonManagedReference
+    User user;
+
+    @ManyToOne
+    @JoinColumn(name = "concert_id")
+    @JsonManagedReference
+    Concert concert;
 
     private String sectorName;
     private String seatRowName;
@@ -41,8 +52,9 @@ public class Ticket {
 
     private Character ticketStatus;
 
-    public Ticket(String sectorName, String seatRowName, Integer seatNo, Double price) {
-        this.userId = null;
+    public Ticket(Concert concert, String sectorName, String seatRowName, Integer seatNo, Double price) {
+        this.user = null;
+        this.concert = concert;
         this.sectorName = sectorName;
         this.seatRowName = seatRowName;
         this.seatNo = seatNo;
@@ -50,12 +62,6 @@ public class Ticket {
         this.ticketStatus = 'A';
     }
     
-    public void setIdAndStatus(Long id) {
-        this.userId = id;
-        this.ticketStatus = 'P';
-    }
-    
-    //@JsonIgnore
     
     
 }

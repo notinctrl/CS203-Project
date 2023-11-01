@@ -4,7 +4,7 @@ import java.util.List;
 
 public interface TicketService {
     List<Ticket> listTickets();
-    // Ticket getTicket(Long id);
+
     Ticket getTicketBySeatRowNameAndSeatNo(String seatRowName, Integer seatNo);
     //Ticket getTicketbySeatNumber(int seatNumber);
     List<Ticket> getTicketListbySeatNo(Integer seatNo);
@@ -12,6 +12,8 @@ public interface TicketService {
     Ticket addTicket(Ticket ticket);
     Ticket updateTicket(Long id, Ticket ticket);
     Character getTicketStatus(Long id);
+
+    void setUserIdAndStatus(Long ticketid, Long userid, char status);
 
     /**
      * Change method's signature: do not return a value for delete operation
