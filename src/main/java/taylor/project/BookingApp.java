@@ -23,7 +23,6 @@ import taylor.project.ticket.*;
 import taylor.project.sector.exceptions.SectorExistsException;
 
 @SpringBootApplication
-@ComponentScan({"taylor.project","taylor.project.fileupload"})
 public class BookingApp {
 
 	public static void main(String[] args) throws IOException{
@@ -35,20 +34,20 @@ public class BookingApp {
         VenueRepository venues = ctx.getBean(VenueRepository.class);
         TicketRepository tickets = ctx.getBean(TicketRepository.class);
         // refer to below psvm for initialised concerts.
-        List<Venue> vList = iniVenues(ctx, venues, tickets);
+        List<Venue> vList = iniVenues();
         List<Concert> cList = iniConcerts(vList);
+        List<Ticket> tList = iniTickets(vList);
         System.out.println("[Add concert]: " + concerts.save(cList.get(0)).getConcertName());
 
-                // tester for sector seats and information is being added to concert successfully.
-                // + " and Sector " +  cList.get(0).getConcertVenue().getSectors().get(0).getSectorName()
-                // + ", row " + cList.get(0).getConcertVenue().getSectors().get(0).getRowNames().get(0) 
-                // + " has the following seats available = " + cList.get(0).getConcertVenue().getSectors().get(0).getSeats().get(0));
+                
         System.out.println("[Add concert]: " + concerts.save(cList.get(1)).getConcertName());
         System.out.println("[Add concert]: " + concerts.save(cList.get(2)).getConcertName());
 
-        for (Venue v : vList){
-            venues.save(v);
-        }
+        // venues cannot be added into repository in iniVenues.
+        // as a result, i have to save them from the list.
+        // same can be said for the rest of the entities
+        for (Venue v : vList) venues.save(v);
+        for (Ticket t : tList) tickets.save(t);
 
         // JPA user repository init
         UserRepository users = ctx.getBean(UserRepository.class);
@@ -66,6 +65,31 @@ public class BookingApp {
 
         System.out.println("[Add shopping cart]: User ID = " + shoppingCarts.save(testShoppingCart1).getUserID());
         System.out.println("[Add shopping cart]: User ID = " + shoppingCarts.save(testShoppingCart2).getUserID());
+
+        // force initialise ticket to sold, normaluser id 2
+        Optional<Ticket> t = tickets.findById(1L);
+        Optional<User> u = users.findById(2L);
+        User user = u.get();
+
+        Ticket ticket = t.get();
+        ticket.setUser(user);
+        ticket.setTicketStatus('U');
+        tickets.save(ticket);
+
+        t = tickets.findById(2L);
+
+        ticket = t.get();
+        ticket.setUser(user);
+        ticket.setTicketStatus('U');
+        tickets.save(ticket);
+        
+        // System.out.println(user);
+        List<Ticket> list = new ArrayList<>();
+        // System.out.println(list);
+        list.add(ticket);
+        user.setPurchasedTickets(list);
+        users.save(user);
+
 
         // Test the RestTemplate client with authentication
         /**
@@ -111,8 +135,13 @@ public class BookingApp {
             "hello123@gmail.com" ,"1234", "ROLE_ADMIN"));
         return result;
     }
-
-    public static List<Venue> iniVenues(ApplicationContext ctx, VenueRepository venues, TicketRepository tickets){
+    
+    /**
+     * Initialise all the venues and relevant sectors for use in each concert.
+     * 
+     * @return List<Venue> for saving onto the venue repository.
+     */
+    public static List<Venue> iniVenues(){
         
         Venue v1 = new Venue("Singapore National Stadium", 10000,"src/main/resources/static/seating_plan/Taylor_Swift_Seating_Plan.jpg");
         Venue v2 = new Venue("Singapore Indoor Stadium", 10000, "src/main/resources/static/seating_plan/Charlie_Puth_Seating_Plan.jpg");
@@ -124,28 +153,8 @@ public class BookingApp {
         Sector newSect2 = new Sector(v2, "634", 348.0, new String[]{"A"}, new Integer[]{20}, "src/main/resources/static/seating_plan/sector_seating.png");
         Sector newSect3 = new Sector(v3, "634", 348.0, new String[]{"A"}, new Integer[]{20}, "src/main/resources/static/seating_plan/sector_seating.png");
         List<Sector> newSects = new ArrayList<>(List.of(newSect1, newSect1a, newSect2, newSect3));
-
-        // initialise the ticketRepository and fill it with tickets
-        for (Sector sect : newSects){
-            // ini all variables required.
-            String sectName = sect.getSectorName();
-            List<String> rowNames = sect.getRowNames();
-            List<String> allSeats = sect.getSeats();
-
-            // go thru every sector's rows
-            for (int i = 0; i < rowNames.size(); i++) {
-                String rowName = rowNames.get(i);
-                String seatsInRow = allSeats.get(i);
-
-                // go thru this specific row and create a ticket for every seat 
-                for(int seatNo = 1; seatNo <= seatsInRow.length(); seatNo++) {
-                    // System.out.println("Added ticket:" + tickets.save(new Ticket(sectName, (rowName + seatNo), newSect1.getTicketPrice())));
-                    tickets.save(new Ticket(sectName, (rowName + seatNo), newSect1.getTicketPrice()));
-                }
-            }
-        }
         
-
+        // set the venues' sectors to 
         for (Venue v : result){
             ArrayList<Sector> vSectors = new ArrayList<>();
             for (Sector s : newSects){
@@ -155,9 +164,52 @@ public class BookingApp {
         }
         return result;
     }
+
+    /**
+     * Initialise tickets according to the sectors' seats. Mark them as all available, with
+     * a null userid tagged to them
+     * 
+     */
+    public static List<Ticket> iniTickets(List<Venue> venues){
+        List<Ticket> result = new ArrayList<>();
+
+        // get all sectors present in Venues 
+        List<Sector> sectors = new ArrayList<>();
+
+        // iterate through venue list to get all sectors
+        for (Venue v : venues){
+            sectors.addAll(v.getSectors());
+        }
+        // initialise the ticketRepository and fill it with tickets
+        for (Sector sect : sectors){
+            // ini all variables required.
+            String sectName = sect.getSectorName();
+            List<String> rowNames = sect.getRowNames();
+            List<String> allSeats = sect.getSeats();
+
+            // go thru every sector's rows
+            for (int i = 0; i < rowNames.size(); i++) {
+                String rowName = rowNames.get(i);
+                String seatsInRow = allSeats.get(i);
+                Concert concert = sect.getVenue().getConcert();
+
+                // go thru this specific row and create a ticket for every seat 
+                for(int seatNo = 1; seatNo <= seatsInRow.length(); seatNo++) {
+                    // System.out.println("Added ticket:" + tickets.save(new Ticket(sectName, (rowName + seatNo), newSect1.getTicketPrice())));
+                    result.add(new Ticket(concert, sectName, rowName,  seatNo, sect.getTicketPrice()));
+                }
+            }
+        }
+        return result;
+    }
 }
 
-
+        // old concert format
         // System.out.println("[Add concert]: " + concerts.save(new Concert("Coldplay Music of the Spheres 2024", 20000,
         //                     "23 - 27 January, 2024", "20:00", "Singapore National Stadium", 
         //                     "src/main/resources/static/concert_posters/Coldplay_Concert_Poster.jpg")).getConcertName());
+
+        // tester for sector seats and information is being added to concert successfully.
+                // + " and Sector " +  cList.get(0).getConcertVenue().getSectors().get(0).getSectorName()
+                // + ", row " + cList.get(0).getConcertVenue().getSectors().get(0).getRowNames().get(0) 
+                // + " has the following seats available = " + cList.get(0).getConcertVenue().getSectors().get(0).getSeats().get(0));
