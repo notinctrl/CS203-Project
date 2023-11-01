@@ -89,31 +89,13 @@ public class ConcertController {
         return concertService.addConcert(concert);
     }
 
-    @GetMapping("/getSectorRowAvailability/{concertId}/{sectorName}")
-    public List<String> getSectorRowAvailability(@PathVariable Long concertId, @PathVariable String sectorName) {
-        // Fetch the Concert entity based on the concertId (you should implement this logic)
-        Concert concert = concertService.getConcertById(concertId); // Replace with your service/repository logic
-
-        // if (concert == null) {
-        //     return ResponseEntity.notFound().build();
-        // }
-
-        List<Sector> sectors = concert.getConcertVenue().getSectors();
-
-        List<String> seatData = new ArrayList<>();
-        for (Sector s : sectors){
-            if (s.getSectorName().equals(sectorName)){
-                List<String> seats = s.getSeats();
-                List<String> rowNames = s.getRowNames();
-                int i = 0;
-                for (String rowName : rowNames) {
-                    seatData.add(rowName + ":" + seats.get(i++));
-                }
-            }
+    @GetMapping("/sectorRowAvailability/{concertId}/{sectorName}")
+    public ResponseEntity<List<String>> getSectorRowAvailability(@PathVariable Long concertId, @PathVariable String sectorName) {
+        List<String> seatData = concertService.getSectorRowAvailability(concertId, sectorName);
+        if (seatData == null) {
+            return ResponseEntity.notFound().build();
         }
-
-
-        return seatData;
+        return ResponseEntity.ok(seatData);
     }
 
     /**

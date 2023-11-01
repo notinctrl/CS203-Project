@@ -61,10 +61,9 @@
 						</ul>
 					</li>
 					<li><a href="/../../../../services">Services</a></li>
-					<li><a href="/../../../../portfolio">Portfolio</a></li>
-					<li><a href="/../../../../about">About</a></li>
-					<li><a href="/../../../../contact">Contact</a></li>
-					<li><a href="/../../../../shoppingcart">Shopping Cart</a></li>
+                    <li><a href="/../../../../marketplace">Marketplace</a></li>
+					<li><a href="/../../../../user/2/purchasedtickets">My Tickets</a></li>
+					<li><a href="/../../../../shoppingcart.html">Shopping Cart</a></li>
 					<li><a href="/../../../../login">Login/Signup</a></li>
 				</ul>
 
@@ -83,8 +82,11 @@
     <div class="theatre">
         
         <div class="cinema-seats rows" id="seating-container"></div>
-
         <div class="button-container">
+            <!-- <div class="alert">
+                <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+                This is an alert box.
+            </div> -->
             <button id="confirm-button">Confirm Selection</button>
             <div id="selected-seats-message" style="display: none;"></div>
             <button id="final-confirm-button" style="display: none;">Final Confirm?</button>
@@ -110,7 +112,7 @@
         let numRows = 0;
 
         // Function to obtain the seat status data from server to create the seat plan
-        fetch('http://localhost:8080/getSectorRowAvailability/' + concertId + '/' + sectorName)
+        fetch('http://localhost:8080/sectorRowAvailability/' + concertId + '/' + sectorName)
         .then(response => response.json())
         .then(data => {
             const seatingContainer = document.getElementById('seating-container');
@@ -190,7 +192,7 @@
         $(document).ready(function() {
             $('#seating-container').on('click', '.seat', function() {
                 if (selectedSeats.length < 4){
-                    console.log("Seat clicked!"); // Check if this message appears in the console
+                    // console.log("Seat clicked!"); // Check if this message appears in the console
                     $(this).toggleClass('active');
                     
                     // Get the seat ID
@@ -213,7 +215,7 @@
                 }
                 else if (selectedSeats.length === 4) {
 
-                    console.log("Seat clicked! (limit at 4)");
+                    // console.log("Seat clicked! (limit at 4)");
 
                     // Get the seat ID
                     const seatId = $(this).attr('id');
@@ -223,7 +225,8 @@
 
                     if (index === -1) {
                     // If not selected, deny adding seat to array
-                        console.log("You can only select up to 4 seats. Please deselect some seats to select new ones.");
+                        // console.log("You can only select up to 4 seats. Please deselect some seats to select new ones.");
+                        alert("You can only select up to 4 seats. Please deselect some seats to select new ones.");
                         
                     } else {
                     // If already selected, remove it from the selectedSeats array
@@ -237,8 +240,10 @@
                     $('#selected-seats-message').show();
                 }
                 else {
+                    alert("You can only select up to 4 seats. Please deselect some seats to select new ones.");
                     // when the array size exceeds 4, deny addition of seats to array 
-                    console.log("You can only select up to 4 seats. Please deselect some seats to select new ones.");
+                    // console.log("You can only select up to 4 seats. Please deselect some seats to select new ones.");
+                    
                 }
             });
 
@@ -248,7 +253,7 @@
                     // Display the final confirm button
                     $('#final-confirm-button').show();
                     $('#cancel-button').show();
-                } else console.log("Please select at least one seat.");
+                } else alert("Please select at least one seat.");
                 
             });
 
@@ -316,13 +321,13 @@
             }
         }
     </script>
-    <script src="js/bootstrap.bundle.min.js"></script>
-    <script src="js/tiny-slider.js"></script>
-    <script src="js/aos.js"></script>
-    <script src="js/navbar.js"></script>
-    <script src="js/glightbox.min.js"></script>
-    <script src="js/rellax.min.js"></script>
-    <script src="js/custom.js"></script>
+    <script src="/js/bootstrap.bundle.min.js"></script>
+    <script src="/js/tiny-slider.js"></script>
+    <script src="/js/aos.js"></script>
+    <script src="/js/navbar.js"></script>
+    <script src="/js/glightbox.min.js"></script>
+    <script src="/js/rellax.min.js"></script>
+    <script src="/js/custom.js"></script>
 </body>
 </html>
 

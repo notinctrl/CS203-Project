@@ -8,6 +8,7 @@ public interface ConcertService {
     List<Concert> getConcertsByName(String concertName);
     Concert addConcert(Concert concert);
     Concert updateConcert(Long id, Concert concert);
+    List<String> getSectorRowAvailability(Long concertId, String sectorName);
 
     /**
      * Change method's signature: do not return a value for delete operation

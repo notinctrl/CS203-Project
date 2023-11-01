@@ -322,7 +322,23 @@ console.log(map[attributeName]);
 
     function showTooltip(sectorName, avail, total, status) {
         tooltip.style.display = 'block';
-        tooltip.innerHTML = `Sector: ${sectorName}<br>Seats Left: ${avail}<br>Total: ${total}<br>Status: ${status}`;
+        var statusFullForm = "";
+        switch(status) {
+            case 'H':
+                statusFullForm = "High";
+                break;
+            case 'M':
+                statusFullForm = "Medium";
+                break;
+            case 'L':
+                statusFullForm = "Low";
+                break;
+            default:
+                statusFullForm = "Sold Out";
+        }
+        var sectNameRefined = sectorName.slice(6);
+        console.log(sectNameRefined);
+        tooltip.innerHTML = `Sector Name: ` + sectNameRefined + `<br>Seats Left: ${avail}<br>Total: ${total}<br>Availability: ` + statusFullForm;
     }
 
     function hideTooltip() {

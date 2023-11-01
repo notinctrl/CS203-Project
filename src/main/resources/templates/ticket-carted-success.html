@@ -16,15 +16,15 @@
 	<link rel="stylesheet" type="text/css" href="/fonts/icomoon/style.css">
 	<link rel="stylesheet" type="text/css" href="/fonts/feather/style.css">
 
-	<link rel="stylesheet" type="text/css" href="/css/tiny-slider.css">
-	<link rel="stylesheet" type="text/css" href="/css/aos.css">
-	<link rel="stylesheet" type="text/css" href="/css/glightbox.min.css">
-    <link rel="stylesheet" type="text/css" href="/css/sector-related/style-shortened.css">
-    <link rel="stylesheet" type="text/css" href="/css/ticket-carted/containers.css">
+	<link rel="stylesheet" href="/css/tiny-slider.css">
+	<link rel="stylesheet" href="/css/aos.css">
+	<link rel="stylesheet" href="/css/glightbox.min.css">
+	<link rel="stylesheet" href="/css/style.css">
+	<link rel="stylesheet" href="/css/margin-top.css">
     <title>Ticket added to Cart!</title>
 </head>
 
-<body style="background-color:black;">
+<body>
     <div class="site-mobile-menu site-navbar-target">
 		<div class="site-mobile-menu-header">
 			<div class="site-mobile-menu-close">
@@ -56,10 +56,9 @@
 						</ul>
 					</li>
 					<li><a href="/../../../../services">Services</a></li>
-					<li><a href="/../../../../portfolio">Portfolio</a></li>
-					<li><a href="/../../../../about">About</a></li>
-					<li><a href="/../../../../contact">Contact</a></li>
-					<li><a href="/../../../../shoppingcart">Shopping Cart</a></li>
+					<li><a href="/../../../../marketplace">Marketplace</a></li>
+					<li><a href="/../../../../user/2/purchasedtickets">My Tickets</a></li>
+					<li><a href="/../../../../shoppingcart.html">Shopping Cart</a></li>
 					<li><a href="/../../../../login">Login/Signup</a></li>
 				</ul>
 
@@ -69,18 +68,26 @@
 			</div>
 		</div>
 	</nav>
-    <div>
-        <!-- <h1>Concert Details</h1> -->
-        <p>Concert ID: <span th:text="${concertId}"></span></p>
-        <p>Sector Name: <span th:text="${sectorName}"></span></p>
-        <p>Selected Seats: <span th:text="${selectedSeats}"></span></p>
+
+	<div class="title-container mx-auto text-center">
+		<h1 class="heading-2 text-white mb-3" data-aos="fade-up"> Ticket Carted Successfully!</h1>
+		<p data-aos="fade-up" data-aos-delay="200" class="text-white lead mb-4">You have <strong><u>10 minutes</u></strong> to checkout and pay for your ticket(s).</p>
+	</div>
+
+    <div class="content-section-tsucc">
+        <p data-aos="fade-up" data-aos-delay="200" class="text-white lead mb-4"><center><strong>Concert ID: <span th:text="${concertId}"></center></strong></span></p>
+        <p data-aos="fade-up" data-aos-delay="200" class="text-white lead mb-4"><center><strong>Sector Name: <span th:text="${sectorName}"></center></strong></span></p>
+        <p data-aos="fade-up" data-aos-delay="200" class="text-white lead mb-4"><center><strong>Selected Seats: <span th:text="${selectedSeats}"></center></strong></span></p>
     </div>
 
-    <div class="button-container">
-        <button id="confirm-button">Confirm Selection</button>
-        <div id="selected-seats-message" style="display: none;"></div>
-        <button id="final-confirm-button" style="display: none;">Final Confirm?</button>
-        <button id="cancel-button" style="display: none;">Cancel</button>
-    </div>
+	<script src="/js/bootstrap.bundle.min.js"></script>
+	<script src="/js/tiny-slider.js"></script>
+	<script src="/js/aos.js"></script>
+	<script src="/js/navbar.js"></script>
+	<script src="/js/glightbox.min.js"></script>
+	<script src="/js/rellax.min.js"></script>
+	<script src="/js/custom.js"></script>
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 </body>
 </html>
