@@ -72,4 +72,15 @@ public class webController {
         // return "redirect:/";
         return "concert3";
     }
+
+    @GetMapping("/marketplace")
+    public String showmarketplacePage() {
+        // Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        // if (authentication==null||authentication instanceof AnonymousAuthenticationToken) {
+        //     return  "login";
+        // }
+
+        // return "redirect:/";
+        return "marketplace";
+    }
 }
