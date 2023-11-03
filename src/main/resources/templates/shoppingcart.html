@@ -12,7 +12,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	
 	<meta name="author" content="Untree.co">
-	<link rel="shortcut icon" href="favicon.png">
+	<link rel="shortcut icon" href="/favicon.png">
 
 	<meta name="description" content="" />
 	<meta name="keywords" content="bootstrap, bootstrap5" />
@@ -21,17 +21,20 @@
 	<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Roboto:wght@300;400&display=swap" rel="stylesheet">
 
 
-	<link rel="stylesheet" href="fonts/icomoon/style.css">
-	<link rel="stylesheet" href="fonts/feather/style.css">
+	<link rel="stylesheet" href="/fonts/icomoon/style.css">
+	<link rel="stylesheet" href="/fonts/feather/style.css">
 
-	<link rel="stylesheet" href="css/tiny-slider.css">
-	<link rel="stylesheet" href="css/aos.css">
-	<link rel="stylesheet" href="css/glightbox.min.css">
-	<link rel="stylesheet" href="css/style.css">
+	<link rel="stylesheet" href="/css/tiny-slider.css">
+	<link rel="stylesheet" href="/css/aos.css">
+	<link rel="stylesheet" href="/css/glightbox.min.css">
+	<link rel="stylesheet" href="/css/style.css">
+	<link rel="stylesheet" href="/css/ticket-carted/new.css">
+	<link rel="stylesheet" href="/css/margin-top.css">
+
 
 	<title>TTTicket &mdash; Shopping Cart</title>
 </head>
-<body>
+<body style="background-color: black;">
 
 	<div class="site-mobile-menu site-navbar-target">
 		<div class="site-mobile-menu-header">
@@ -45,10 +48,10 @@
 	<nav class="site-nav">
 		<div class="container">
 			<div class="site-navigation">
-				<a href="index" class="logo m-0">TTTicket</a>
+				<a href="/../../index" class="logo m-0">TTTicket</a>
 
 				<ul class="js-clone-nav d-none d-lg-inline-block text-start site-menu float-end">
-					<li><a href="index">Home</a></li>
+					<li><a href="/../../index">Home</a></li>
 					<li class="has-children">
 						<a href="#">Dropdown</a>
 						<ul class="dropdown">
@@ -64,11 +67,11 @@
 							<li><a href="#">Menu Three</a></li>
 						</ul>
 					</li>
-					<li><a href="services.html">Services</a></li>
-					<li><a href="/marketplace">Marketplace</a></li>
-					<li><a href="/user/2/purchasedtickets">My Tickets</a></li>
-					<li class="active"><a href="shoppingcart.html">Shopping Cart</a></li>
-					<li><a href="login">Login/Signup</a></li>
+					<li><a href="/../../services">Services</a></li>
+					<li><a href="/../../marketplace">Marketplace</a></li>
+					<li><a href="purchasedtickets">My Tickets</a></li>
+					<li class="active"><a href="#">Shopping Cart</a></li>
+					<li><a href="/../../login">Login/Signup</a></li>
 				</ul>
 
 				<a href="#" class="burger ms-auto float-end site-menu-toggle mt-2 js-menu-toggle d-inline-block d-lg-none light" data-toggle="collapse" data-target="#main-navbar">
@@ -78,44 +81,51 @@
 		</div>
 	</nav>
 
-
-	<div class="hero v-h-full overlay">
-		<div class="img-bg rellax">
-			<img src="images/img_v_1-min.jpg" alt="Image" class="img-fluid">
-		</div>
-		<div class="container">
-			<div class="row align-items-center v-h-full">
-
-				<div class="col-lg-7 col-xxl-6 mx-auto text-center">
-					<h1 class="heading-2 text-white mb-3" data-aos="fade-up">Shopping Cart</h1>
-					<p data-aos="fade-up" data-aos-delay="200" class="text-white lead mb-4"><br/>Shopping Cart is currently empty.</p>
-					<p data-aos="fade-up" data-aos-delay="300"><a href="index" class="btn btn-primary-outline white me-4">Browse Tickets</a></p>
+	<div class="title-container mx-auto text-center">
+		<h1 class="heading-2 text-white mb-3" data-aos="fade-up"> Shopping Cart</h1>
+		<p data-aos="fade-up" data-aos-delay="200" class="text-white lead mb-4">Checkout now to confirm your tickets!.</p>
+	</div>
+	<div class="container content-section">
+		<div class="row">
+			<div class="container-fluid">
+				<div class="row" id="ticket-container">
+					<div id="overlay" class="overlay"></div>
 				</div>
-
 			</div>
 		</div>
-
 	</div>
 
 
+	<!-- <div class="hero v-h-full overlay">
+		<div class="img-bg rellax">
+			<img src="/../../../images/img_v_1-min.jpg" alt="Image" class="img-fluid">
+		</div>
+		<div class="container content-section">
+			<div class="row content-section v-h-full">
 
-
+				<div class="col-lg-7 col-xxl-6 mx-auto text-center" id="ticket-container">
+					<h1 class="heading-2 text-white mb-3" data-aos="fade-up">Shopping Cart</h1>
+				</div>
+				
+			</div>
+		</div>
+	</div> -->
 	<div class="section">
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-4 pe-lg-5" data-aos="fade-up">
 					<span class="subheading d-inline-block mb-2">TTTicket</span>
-					<h2 class="mb-4">Expressing Diversity through Concerts</h2>
-					<p class="mb-5">We organize and hold concerts of various genres from different countries, providing the opportunity to experience cultural diversity.</p>
+					<h2 class="text-white mb-4">Expressing Diversity through Concerts</h2>
+					<p class="text-white mb-5">We organize and hold concerts of various genres from different countries, providing the opportunity to experience cultural diversity.</p>
 					<p><a href="#" class="btn btn-black">Interested in Upcoming Concerts?</a></p>
 				</div>
 				<div class="col-lg-8">
 					<div class="row">
 						<div class="col-6 col-lg-6 mt-5" data-aos="fade-up" data-aos-delay="100">
-							<img src="concert_posters/BTS_Concert_Poster.jpg" alt="Image" class="img-fluid rounded">
+							<img src="/concert_posters/BTS_Concert_Poster.jpg" alt="Image" class="img-fluid rounded img-border">
 						</div>
 						<div class="col-6 col-lg-6" data-aos="fade-up" data-aos-delay="200">
-							<img src="concert_posters/Coldplay_Concert_Poster.jpg" alt="Image" class="img-fluid rounded">
+							<img src="/concert_posters/Coldplay_Concert_Poster.jpg" alt="Image" class="img-fluid rounded">
 						</div>
 					</div>
 				</div>
@@ -123,7 +133,8 @@
 		</div>
 	</div>
 
-
+	<!-- <p data-aos="fade-up" data-aos-delay="200" class="text-white lead mb-4"><br/>Shopping Cart is currently empty.</p>
+					<p data-aos="fade-up" data-aos-delay="300"><a href="index" class="btn btn-primary-outline white me-4">Browse Tickets</a></p> -->
 
 	<div class="site-footer">
 		<div class="container">
@@ -200,12 +211,130 @@
 	</div>
 
 
-	<script src="js/bootstrap.bundle.min.js"></script>
-	<script src="js/tiny-slider.js"></script>
-	<script src="js/aos.js"></script>
-	<script src="js/navbar.js"></script>
-	<script src="js/glightbox.min.js"></script>
-	<script src="js/rellax.min.js"></script>
-	<script src="js/custom.js"></script>
+	<script src="/js/bootstrap.bundle.min.js"></script>
+	<script src="/js/tiny-slider.js"></script>
+	<script src="/js/aos.js"></script>
+	<script src="/js/navbar.js"></script>
+	<script src="/js/glightbox.min.js"></script>
+	<script src="/js/rellax.min.js"></script>
+	<script src="/js/custom.js"></script>
+
+	<script th:inline="javascript">
+
+		var userId = /*[[${userId}]]*/ null;
+		// console.log(userId);
+		
+		fetch('http://localhost:8080/users/' + userId + '/shoppingcart')
+        .then(response => response.json())
+        .then(data => {
+            const ticketContainer = document.getElementById('ticket-container');
+
+			data.forEach(ticket => {
+				// Create a div for each ticket
+				const ticketElement = document.createElement('div');
+				ticketElement.classList.add('col-md-1', 'col-lg-3');
+				ticketElement.setAttribute('data-aos', 'fade-up');
+				ticketElement.setAttribute('data-aos-delay', '400');
+
+				// Create the <a> element
+				const anchorElement = document.createElement('a');
+				anchorElement.href = '/../../../images/img_v_3-min.jpg';
+				anchorElement.classList.add('media-1', 'glightbox');
+				anchorElement.addEventListener('click', (e) => {
+					e.preventDefault(); // Prevent the default link behavior
+					openOverlay(ticket); // Open the overlay with ticket details
+				});
+
+				// Create the <img> element
+				const imgElement = document.createElement('img');
+				// Set the image source when it becomes available
+				// console.log("\\..\\..\\" + ticket.concert.photo.replace(/.*static\\/, ""));
+				imgElement.classList.add('img-border')
+				imgElement.src = "/../../" + ticket.concert.photo.replace(/.*static\\/, "");
+				imgElement.alt = 'Image';
+				imgElement.classList.add('img-fluid');
+
+				// Create the <div> element for media-1-content
+				const mediaContentElement = document.createElement('div');
+				mediaContentElement.classList.add('media-1-content');
+
+				// Create <h2> element for the title
+				const h2Element = document.createElement('h2');
+				h2Element.textContent = ticket.concert.concertName;
+
+				const dateRangeElement = document.createElement('p');
+				dateRangeElement.classList.add('category');
+				dateRangeElement.textContent = ticket.concert.dateRange;
+				console.log(ticket.concert.dateRange);
+
+				const seatNameElement = document.createElement('p');
+				seatNameElement.classList.add('category');
+				seatNameElement.textContent = "Seat No: " + ticket.seatRowName + ticket.seatNo;
+				seatNameElement.style.color = 'white';
+
+				mediaContentElement.appendChild(h2Element);
+				mediaContentElement.appendChild(dateRangeElement);
+				mediaContentElement.appendChild(seatNameElement);
+				anchorElement.appendChild(imgElement);
+				anchorElement.appendChild(mediaContentElement);
+				ticketElement.appendChild(anchorElement);
+
+
+				ticketContainer.appendChild(ticketElement);
+			});
+
+			// Check if there are no ticket elements
+			if (ticketContainer.childElementCount === 1) {
+				// Display an alternative message
+				const noTicketsMessage = document.createElement('h1');
+				noTicketsMessage.classList.add('text-white', 'lead', 'mb-4', 'aos-init', 'text-center');
+				noTicketsMessage.setAttribute('data-aos', 'fade-up');
+				noTicketsMessage.setAttribute('data-aos-delay', '300');
+				noTicketsMessage.textContent = 'No purchased tickets.';
+				// noTicketsMessage.style.color = 'white';
+				
+				const browseTicketsButton = document.createElement('div');
+				browseTicketsButton.classList.add("col-lg-7",  "col-xxl-6",  "mx-auto",  "text-center");
+				const paraWithin = document.createElement('p');
+				paraWithin.setAttribute('data-aos', 'fade-up');
+				paraWithin.setAttribute('data-aos-delay', '400');
+				const anchorWithin = document.createElement('a');
+				anchorWithin.href = "/../../index";
+				anchorWithin.classList.add("btn",  "btn-primary-outline",  "white");
+				anchorWithin.textContent = "Browse Concerts";
+				paraWithin.appendChild(anchorWithin);
+				browseTicketsButton.appendChild(paraWithin);
+				ticketContainer.appendChild(noTicketsMessage);
+				ticketContainer.appendChild(browseTicketsButton);
+        	}
+
+        })
+        .catch(error => {
+            console.error('Error fetching seat data:', error);
+        });
+	</script>
 </body>
 </html>
+
+<!-- <div class="section">
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-4 pe-lg-5" data-aos="fade-up">
+				<span class="subheading d-inline-block mb-2">TTTicket</span>
+				<h2 class="mb-4">Expressing Diversity through Concerts</h2>
+				<p class="mb-5">We organize and hold concerts of various genres from different countries, providing the opportunity to experience cultural diversity.</p>
+				<p><a href="#" class="btn btn-black">Interested in Upcoming Concerts?</a></p>
+			</div>
+			<div class="col-lg-8">
+				<div class="row">
+					<div class="col-6 col-lg-6 mt-5" data-aos="fade-up" data-aos-delay="100">
+						<img src="concert_posters/BTS_Concert_Poster.jpg" alt="Image" class="img-fluid rounded">
+					</div>
+					<div class="col-6 col-lg-6" data-aos="fade-up" data-aos-delay="200">
+						<img src="concert_posters/Coldplay_Concert_Poster.jpg" alt="Image" class="img-fluid rounded">
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div> -->

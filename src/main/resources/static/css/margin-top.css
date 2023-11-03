@@ -46,3 +46,7 @@ body{
 .close-button:hover {
     color: #ff0000; /* Change color on hover */
 }
+
+.img-border {
+    border: 2px solid #fff;
+  }

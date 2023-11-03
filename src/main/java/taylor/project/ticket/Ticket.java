@@ -34,11 +34,23 @@ public class Ticket {
         follow business logic in google docs.
     */
     
+
+    /*
+     * Tracks which user has this ticket in their cart.
+     * If ticket is avail, MUST BE NULL.
+     * Will be null if boughtUser is NON-NULL. 
+     */
     @ManyToOne
     @JoinColumn(name = "carted_user")
     @JsonManagedReference
     User cartedUser;
 
+    /*
+     * Tracks which user has already bought this ticket.
+     *  If ticket is in marketplace, this field remains non-null until the ticket is sold
+     *  to the new user.
+     * this field can be non-null when . 
+     */
     @ManyToOne
     @JoinColumn(name = "bought_user")
     @JsonManagedReference
