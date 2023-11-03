@@ -44,7 +44,6 @@ public class SectorServiceImpl implements SectorService {
         return sectors.findById(id).map(sector -> 
                                                 {sector.setId(newSectorInfo.getId());
                                                 sector.setSectorSize(newSectorInfo.getSectorSize());
-                                                sector.setSeatLayout(newSectorInfo.getSeatLayout());
                                                 sector.setRowNames(newSectorInfo.getRowNames());
                                                 sector.setSeats(newSectorInfo.getSeats());
                                                 sector.setVenue(newSectorInfo.getVenue());

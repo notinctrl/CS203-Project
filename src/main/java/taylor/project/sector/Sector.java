@@ -47,8 +47,8 @@ public class Sector{
     private double ticketPrice;
     private int sectorSize;
     // @Column(nullable = true, length = 10000000)
-    @NotNull(message = "Error: You must provide a seat layout for the sector.")
-    private File seatLayout;
+    // @NotNull(message = "Error: You must provide a seat layout for the sector.")
+    // private File seatLayout;
 
     // due to sql limitations, a map cannot be inserted into a database.
     // as a result, the rowNames (key) and the seats in each row (value)
@@ -66,7 +66,7 @@ public class Sector{
     @JsonIgnore
     private Venue venue;
 
-    public Sector(Venue v, String sectorName, double ticketPrice, String[] rowNames, Integer[] totalSeatsInRow, String seatLayoutPath){
+    public Sector(Venue v, String sectorName, double ticketPrice, String[] rowNames, Integer[] totalSeatsInRow){
         venue = v;
         this.sectorName = sectorName;
         this.ticketPrice = ticketPrice;
@@ -84,7 +84,7 @@ public class Sector{
             seats.add(avail);
         }
 
-        this.seatLayout = new File(seatLayoutPath);
+        // this.seatLayout = new File(seatLayoutPath);
     }
 
     //for testing

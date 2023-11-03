@@ -13,6 +13,8 @@ import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -52,6 +54,7 @@ public class Concert {
     @NotNull(message = "Error: Concert venue cannot be empty.")
     @OneToOne(mappedBy="concert",
             cascade = CascadeType.ALL)
+    @JsonBackReference
     private Venue concertVenue;
 
     //for handling gallery uploads
