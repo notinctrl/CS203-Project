@@ -4,9 +4,16 @@ GET http://localhost:8080/sectorRowAvailability/1/634
 Accept: application/json
 
 ### Method found in UserServiceImpl.java
-GET http://localhost:8080/users/2/purchasedTickets
+GET http://localhost:8080/users/2/purchasedtickets
 Content-Type: application/json
 Authorization: Basic normaluser goodpassword
+
+### Method found in UserController.java
+GET http://localhost:8080/users/2/shoppingcart
+Content-Type: application/json
+Authorization: Basic normaluser goodpassword
+
+### Ryan End
 
 GET http://localhost:8080/concerts
 

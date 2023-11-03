@@ -1,0 +1,30 @@
+/* Apply styles to the container */
+.site-nav {
+    position:relative;
+}
+.center-container {
+    display: flex;
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+    height: 80vh; /* 100% of the viewport height */
+    position: absolute;
+    left: 26%; /* lateral movement. ++ == right, -- == left*/
+    top: 17%; /* vertical movement. ++ == down, -- == up*/
+    /* background-color: #13ff00; */
+}
+
+.tooltip-container{
+    position: absolute;
+    width: 25%;
+    top: 20%; /* ++ == down, -- == up */
+    right: 70%; /*++ == left, -- == right*/
+}
+
+.tooltip {
+    width: 45%;
+    font-weight: bold;
+    background: #fff;
+    border: 1px solid #ccc;
+    padding: 10px;
+    display: none;
+  }

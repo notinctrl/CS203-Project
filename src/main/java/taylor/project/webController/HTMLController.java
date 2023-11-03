@@ -109,6 +109,11 @@ public class HTMLController {
     //     }
     // }
 
+    @GetMapping("concerts/{concertId}")
+    public String viewConcert(@PathVariable Long concertId){
+        return "concertStorage/" + concertId + "/concert" + concertId + ".html";
+    }
+
     @GetMapping("concerts/{concertId}/sectorLayout")
     public String getSectorLayout(@PathVariable("concertId") Long concertId, Model model, HttpSession session){
         // if (session.getAttribute("selectSectorButtonClicked") == null || !(boolean) session.getAttribute("selectSectorButtonClicked")) {
