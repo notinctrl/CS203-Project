@@ -238,8 +238,14 @@ public class HTMLController {
         return "uploadStatus";
     }
 
-    @RequestMapping("/shoppingcart.html")
-    public String viewShoppingCart(){
+    // @RequestMapping("/shoppingcart.html")
+    // public String viewShoppingCart(){
+    //     return "shoppingcart";
+    // }
+
+    @GetMapping("user/{userId}/shoppingcart")
+    public String getShoppingCart(@PathVariable Long userId, Model model){
+        model.addAttribute("userId", userId);
         return "shoppingcart";
     }
 

@@ -57,7 +57,8 @@ public class TicketServiceImpl implements TicketService {
     
     @Override
     public Ticket updateTicket(Long id, Ticket newTicketInfo){
-        return tickets.findById(id).map(ticket -> {ticket.setUser(newTicketInfo.getUser());
+        return tickets.findById(id).map(ticket -> {ticket.setCartedUser(newTicketInfo.getCartedUser());
+                                                    ticket.setBoughtUser(newTicketInfo.getBoughtUser());
                                                     ticket.setConcert(newTicketInfo.getConcert());
                                                      ticket.setSectorName(newTicketInfo.getSectorName());
                                                        ticket.setSeatRowName(newTicketInfo.getSeatRowName());
@@ -87,13 +88,18 @@ public class TicketServiceImpl implements TicketService {
             User user = u.get();
 
             ticket.setTicketStatus(statusUppercased);
-            ticket.setUser(user);
 
             if (statusUppercased == 'U') {
                 List<Ticket> userPurTickets = user.getPurchasedTickets();
+                ticket.setBoughtUser(user);
+                ticket.setCartedUser(null);
                 userPurTickets.add(ticket);
                 user.setPurchasedTickets(userPurTickets);
             } else if (statusUppercased == 'P'){
+                ticket.setCartedUser(user);
+                List<Ticket> userShoppingCart = user.getShoppingCart();
+                userShoppingCart.add(ticket);
+                user.setPurchasedTickets(userShoppingCart);
             }
 
             // update repo

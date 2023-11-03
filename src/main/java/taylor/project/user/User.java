@@ -8,6 +8,7 @@ import java.util.concurrent.atomic.AtomicLong;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -17,11 +18,13 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -29,7 +32,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-import taylor.project.shoppingCart.ShoppingCart;
+// import taylor.project.shoppingCart.ShoppingCart;
 import taylor.project.ticket.Ticket;
 
 @Entity
@@ -46,7 +49,7 @@ e.g., what authorities (roles) are granted to the user and whether the account i
 public class User implements UserDetails{
 
     private static final long serialVersionUID = 1L;
-    private static final AtomicLong counter = new AtomicLong();
+    // private static final AtomicLong counter = new AtomicLong();
     private @Id @GeneratedValue(strategy = GenerationType.IDENTITY) Long id;
     
     @NotNull(message = "Username should not be null")
@@ -75,20 +78,19 @@ public class User implements UserDetails{
     private String address;
 
     @JsonBackReference
-    @OneToMany(mappedBy = "user",
-                cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "boughtUser")
     private List<Ticket> purchasedTickets;
 
-    @OneToOne(mappedBy="user",
-                cascade = CascadeType.ALL)
-    private ShoppingCart shoppingCart;
+    @OneToMany(mappedBy = "cartedUser")
+    @JsonBackReference
+    private List<Ticket> shoppingCart;
 
     public User(String username, String password, String birthday, String emailAddress, String address, String authorities){
         // this.emailAddress = emailAddress;
         // this.username = username;
         // this.password = password;
         // this.birthday = LocalDate.parse(birthday, DateTimeFormatter.ofPattern("dd-MM-yyyy"));
-        this.id = counter.incrementAndGet();
+        // this.id = counter.incrementAndGet();
         this.username = username;
         this.password = password;
         //this.birthday = LocalDate.parse(birthday, DateTimeFormatter.ofPattern("dd-MM-yyyy"));
@@ -96,8 +98,8 @@ public class User implements UserDetails{
         this.emailAddress=emailAddress;
         this.address = address;
         this.authorities = authorities;
-
         this.purchasedTickets = new ArrayList<Ticket>();
+        this.shoppingCart = new ArrayList<Ticket>();
     }
 
 
@@ -106,6 +108,14 @@ public class User implements UserDetails{
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return Arrays.asList(new SimpleGrantedAuthority(authorities));
+    }
+
+    public List<Ticket> getShoppingCart(){
+        if (shoppingCart == null){
+            this.shoppingCart = new ArrayList<Ticket>();
+        }
+
+        return this.shoppingCart;
     }
     
     /*

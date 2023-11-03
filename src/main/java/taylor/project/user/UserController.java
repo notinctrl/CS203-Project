@@ -38,6 +38,11 @@ public class UserController {
         return userService.listUsers();
     }
 
+    @GetMapping("/users/{userId}")
+    public User getUser(@PathVariable Long userId) {
+        return users.findById(userId).get();
+    }
+
     @GetMapping("/users/{username}")
     public User getUser(@PathVariable String username){
         User user = userService.getUser(username);
@@ -48,7 +53,18 @@ public class UserController {
         return userService.getUser(username);
     }
 
-    @GetMapping("/users/{userId}/purchasedTickets")
+    @GetMapping("/users/{userId}/shoppingcart")
+    public ResponseEntity<List<Ticket>> getShoppingCart(@PathVariable String userId){
+        Optional<User> user = users.findById(Long.parseLong(userId));
+
+        // if no user found, return null
+        if (user == null) return ResponseEntity.notFound().build();
+
+        // retrive purchased tickets
+        return ResponseEntity.ok(user.get().getShoppingCart());
+    }
+
+    @GetMapping("/users/{userId}/purchasedtickets")
     public ResponseEntity<List<Ticket>> purchasedTickets(@PathVariable String userId){
         Optional<User> user = users.findById(Long.parseLong(userId));
 

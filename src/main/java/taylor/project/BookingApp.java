@@ -20,7 +20,6 @@ import taylor.project.shoppingCart.*;
 import taylor.project.venue.*;
 import taylor.project.sector.*;
 import taylor.project.ticket.*;
-import taylor.project.sector.exceptions.SectorExistsException;
 
 @SpringBootApplication
 public class BookingApp {
@@ -59,35 +58,83 @@ public class BookingApp {
         // System.out.println("[Add user]: " + users.save(uList.get(2)).getUsername());    
         
         // JPA shopping cart repository init. default settings
-        ShoppingCartRepository shoppingCarts = ctx.getBean(ShoppingCartRepository.class);
-        ShoppingCart testShoppingCart1 = new ShoppingCart((long) 1);
-        ShoppingCart testShoppingCart2 = new ShoppingCart((long) 324);
+        // ShoppingCartRepository shoppingCarts = ctx.getBean(ShoppingCartRepository.class);
+        // for (User u : uList){
+        //     shoppingCarts.save(u.getShoppingCart());
+        // }
+        // ShoppingCart testShoppingCart1 = new ShoppingCart((long) 1);
+        // ShoppingCart testShoppingCart2 = new ShoppingCart((long) 324);
 
-        System.out.println("[Add shopping cart]: User ID = " + shoppingCarts.save(testShoppingCart1).getUserID());
-        System.out.println("[Add shopping cart]: User ID = " + shoppingCarts.save(testShoppingCart2).getUserID());
+        // System.out.println("[Add shopping cart]: User ID = " + shoppingCarts.save(testShoppingCart1).getUserID());
+        // System.out.println("[Add shopping cart]: User ID = " + shoppingCarts.save(testShoppingCart2).getUserID());
 
         // force initialise ticket to sold, normaluser id 2
-        Optional<Ticket> t = tickets.findById(1L);
+        // Optional<Ticket> t = tickets.findById(1L);
+        // Optional<User> u = users.findById(2L);
+        // User user = u.get();
+        // List<Ticket> list = new ArrayList<>();
+
+        // Ticket ticket = t.get();
+        // ticket.setBoughtUser(user);
+        // ticket.setTicketStatus('U');
+        // list.add(ticket);
+        // tickets.save(ticket);
+
+        // t = tickets.findById(2L);
+
+        // ticket = t.get();
+        // ticket.setBoughtUser(user);
+        // ticket.setTicketStatus('U');
+        // tickets.save(ticket);
+        
+        // // System.out.println(user);
+        
+        // // System.out.println(list);
+        // list.add(ticket);
+        // user.setPurchasedTickets(list);
+        // users.save(user);
+
+        // force initialise ticket to pending, normaluser id 2
+        Optional<Ticket> t1 = tickets.findById(1L);
+        Optional<Ticket> t2 = tickets.findById(255L);
         Optional<User> u = users.findById(2L);
         User user = u.get();
+        System.out.println(user.getUsername());
+        List<Ticket> sc = new ArrayList<>();
 
-        Ticket ticket = t.get();
-        ticket.setUser(user);
-        ticket.setTicketStatus('U');
-        tickets.save(ticket);
+        Ticket ticket1 = t1.get();
+        ticket1.setCartedUser(user);
+        ticket1.setTicketStatus('P');
+        tickets.save(ticket1); // Save ticket1 first
+        sc.add(ticket1);
 
-        t = tickets.findById(2L);
+        Ticket ticket2 = t2.get();
+        ticket2.setCartedUser(user);
+        ticket2.setTicketStatus('P');
+        tickets.save(ticket2); // Save ticket2
+        sc.add(ticket2);
 
-        ticket = t.get();
-        ticket.setUser(user);
-        ticket.setTicketStatus('U');
-        tickets.save(ticket);
-        
-        // System.out.println(user);
-        List<Ticket> list = new ArrayList<>();
-        // System.out.println(list);
-        list.add(ticket);
-        user.setPurchasedTickets(list);
+        ticket1 = tickets.findById(200L).get();
+        ticket1.setCartedUser(user);
+        ticket1.setTicketStatus('P');
+        tickets.save(ticket1); // Save ticket1 first
+        sc.add(ticket1);
+
+        ticket2 = tickets.findById(100L).get();
+        ticket2.setCartedUser(user);
+        ticket2.setTicketStatus('P');
+        tickets.save(ticket2); // Save ticket2
+        sc.add(ticket2);
+
+        ticket2 = tickets.findById(140L).get();
+        ticket2.setCartedUser(user);
+        ticket2.setTicketStatus('P');
+        tickets.save(ticket2); // Save ticket2
+        sc.add(ticket2);
+
+        System.out.println(sc.size());
+        user.setShoppingCart(sc); // Set the tickList in ShoppingCart
+        System.out.println(user.getShoppingCart().size());
         users.save(user);
 
 
@@ -131,8 +178,6 @@ public class BookingApp {
             "dsasdgsdf@sfs.com", "dsdfsdsd", "ROLE_ADMIN"));
         result.add(new User("normaluser", encoder.encode("goodpassword"),"23-10-2001", 
             "dsasdgsdf@sfs.com", "dsdfsdsd", "ROLE_USER"));
-        result.add(new User("admin", encoder.encode("goodpassword"), "19-03-2003" ,
-            "hello123@gmail.com" ,"1234", "ROLE_ADMIN"));
         return result;
     }
     
@@ -144,15 +189,15 @@ public class BookingApp {
     public static List<Venue> iniVenues(){
         
         Venue v1 = new Venue("Singapore National Stadium", 10000,"src/main/resources/static/seating_plan/Taylor_Swift_Seating_Plan.jpg");
-        Venue v2 = new Venue("Singapore Indoor Stadium", 10000, "src/main/resources/static/seating_plan/Charlie_Puth_Seating_Plan.jpg");
-        Venue v3 = new Venue("Esplanade Theatre A", 10000, "src/main/resources/static/seating_plan/Charlie_Puth_Seating_Plan.jpg");
+        Venue v2 = new Venue("Singapore National Stadium", 10000, "src/main/resources/static/seating_plan/Coldplay_Seat_Map.jpg");
+        Venue v3 = new Venue("Singapore National Stadium", 10000, "src/main/resources/static/seating_plan/BTS_Seating_Plan.png");
         List<Venue> result = new ArrayList<>(List.of(v1, v2, v3));
 
-        Sector newSect1 = new Sector(v1, "634", 348.0, new String[]{"A","B","C","D"}, new Integer[]{18,18,18,18}, "src/main/resources/static/seating_plan/sector_seating.png");
-        Sector newSect1a = new Sector(v1, "635", 348.0, new String[]{"D", "E", "F"}, new Integer[]{50,50,50}, "src/main/resources/static/seating_plan/sector_seating.png");
-        Sector newSect2 = new Sector(v2, "634", 348.0, new String[]{"A"}, new Integer[]{20}, "src/main/resources/static/seating_plan/sector_seating.png");
-        Sector newSect3 = new Sector(v3, "634", 348.0, new String[]{"A"}, new Integer[]{20}, "src/main/resources/static/seating_plan/sector_seating.png");
-        List<Sector> newSects = new ArrayList<>(List.of(newSect1, newSect1a, newSect2, newSect3));
+        Sector swiftSector1 = new Sector(v1, "634", 348.0, new String[]{"A","B","C","D"}, new Integer[]{18,18,18,18});
+        Sector swiftSector2 = new Sector(v1, "635", 348.0, new String[]{"D", "E", "F"}, new Integer[]{50,50,50});
+        Sector newSect2 = new Sector(v2, "634", 348.0, new String[]{"A", "B","C","D"}, new Integer[]{20,20,20,20});
+        Sector newSect3 = new Sector(v3, "634", 348.0, new String[]{"A", "AA", "AAA"}, new Integer[]{15,15,15});
+        List<Sector> newSects = new ArrayList<>(List.of(swiftSector1, swiftSector2, newSect2, newSect3));
         
         // set the venues' sectors to 
         for (Venue v : result){
