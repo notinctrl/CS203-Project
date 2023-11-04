@@ -2,8 +2,11 @@ package taylor.project.webController;
 
 import java.io.IOException;
 import java.nio.file.*;
+
 import java.util.*;
 
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,7 +34,12 @@ public class HTMLController {
     private static String UPLOADED_FOLDER = "F://temp//";
 
     @GetMapping("/index")
-    public String index(Model model) throws IOException{
+    public String index(Model model, Authentication authentication) throws IOException{
+        if (authentication!=null) {
+                    UserDetails userDetails =(UserDetails)authentication.getPrincipal();
+                    model.addAttribute("username", userDetails.getUsername());
+                    System.out.println(userDetails.getUsername());
+        }
         List<Concert> concerts = concertService.listConcerts();
         int num = 1;
         for (Concert c : concerts){
@@ -44,7 +52,7 @@ public class HTMLController {
             model.addAttribute("Concert" + num + "Time", c.getStartTime().toString());
             num++;
         }
-        
+
         return "index";
     }
 
