@@ -61,7 +61,7 @@ public class User implements UserDetails{
     @Size(min = 8, message = "Password should be at least 8 characters")
     private String password;
 
-    @NotNull(message = "Authorities should not be null")
+    // @NotNull(message = "Authorities should not be null")
     // We define two roles/authorities: ROLE_USER or ROLE_ADMIN
     private String authorities;
 
@@ -94,10 +94,9 @@ public class User implements UserDetails{
         this.password = password;
         //this.birthday = LocalDate.parse(birthday, DateTimeFormatter.ofPattern("dd-MM-yyyy"));
         this.birthday = birthday;
-        this.emailAddress=emailAddress;
+        this.emailAddress = emailAddress;
         this.address = address;
-        this.authorities = authorities;
-
+        this.authorities = "ROLE_USER";
         this.purchasedTickets = new ArrayList<Ticket>();
     }
 
@@ -132,6 +131,11 @@ public class User implements UserDetails{
 
     public boolean isPresent() {
         return false;
+    }
+
+
+    public UserDetails orElseThrow(Object object) {
+        return null;
     }
 
 }
