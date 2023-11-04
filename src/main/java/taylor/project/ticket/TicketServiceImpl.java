@@ -69,6 +69,11 @@ public class TicketServiceImpl implements TicketService {
         }).orElse(null);
     }
 
+    @Override
+    public Ticket getTicketById(Long id){
+        return tickets.findById(id).orElse(null);
+    }
+
     /**
      * Sets the ticket userId (if null) and its status to the specified status.
      * Status is ONE CHARACTER, IN UPPERCASE.
@@ -79,7 +84,7 @@ public class TicketServiceImpl implements TicketService {
         Optional<Ticket> t = tickets.findById(ticketId);
         Optional<User> u = users.findById(userid);
         char statusUppercased = Character.toUpperCase(status);
-        if (!t.isPresent() || !!u.isPresent()){
+        if (!t.isPresent() || !u.isPresent()){
 
             throw new RuntimeException("Ticket/User not found");
 
@@ -87,19 +92,96 @@ public class TicketServiceImpl implements TicketService {
             Ticket ticket = t.get();
             User user = u.get();
 
-            ticket.setTicketStatus(statusUppercased);
+            // ticket.setTicketStatus(statusUppercased);
 
+            // 1) if changing the ticket to unavailable...
             if (statusUppercased == 'U') {
+                // 2 scenarios: (1) from the cart to purchased (2) from the marketplace to purchased
+                // firstly, get the list of new user's purchased ticekts
                 List<Ticket> userPurTickets = user.getPurchasedTickets();
-                ticket.setBoughtUser(user);
-                ticket.setCartedUser(null);
-                userPurTickets.add(ticket);
-                user.setPurchasedTickets(userPurTickets);
-            } else if (statusUppercased == 'P'){
-                ticket.setCartedUser(user);
-                List<Ticket> userShoppingCart = user.getShoppingCart();
-                userShoppingCart.add(ticket);
-                user.setPurchasedTickets(userShoppingCart);
+
+                // (1) check if carted. if it is, remove ticket from cart and place in purch
+                if (ticket.getCartedUser() != null && ticket.getTicketStatus() == 'P'){
+                    // get the cart
+                    List<Ticket> shoppingCart = user.getShoppingCart();
+
+                    //change the ticket status and change cartedUser to boughtUser
+                    ticket.setTicketStatus('U');
+                    ticket.setCartedUser(null);
+                    ticket.setBoughtUser(user);
+
+                    // remove the carted ticket from the cart and add it to purchased
+                    shoppingCart.remove(ticket);
+                    userPurTickets.add(ticket);
+
+                    // set the cart and purch after use
+                    user.setShoppingCart(shoppingCart);
+                    user.setPurchasedTickets(userPurTickets);
+                } 
+                // (2) if it isnt in someones cart AND it has status M, ticket is from marketplace
+                else if (ticket.getTicketStatus() == 'M'){
+                    // get the selling user, because we need to remove his sold ticket frm purch ticket
+                    User sellingUser = ticket.getBoughtUser();
+                    List<Ticket> sellerPurTickets = sellingUser.getPurchasedTickets();
+
+                    // remove the ticket from the seller and set it + commit changes
+                    sellerPurTickets.remove(ticket);
+                    sellingUser.setPurchasedTickets(sellerPurTickets);
+                    users.save(sellingUser);
+
+                    //change the ticket status, and change boughtUser to user(the buyer)
+                    ticket.setTicketStatus('U');
+                    ticket.setBoughtUser(user);
+
+                    // add the ticket to the buyer's purTickets and set it
+                    List<Ticket> buyerPurTickets = user.getPurchasedTickets();
+                    buyerPurTickets.add(ticket);
+                    user.setPurchasedTickets(buyerPurTickets);
+                }
+                // runtime exception if unexpected behaviour occured
+                else throw new RuntimeException("Illegal status change operation: from " + ticket.getTicketStatus() + "to U");
+            } 
+            
+            //  2) if putting the ticket into cart
+            else if (statusUppercased == 'P'){
+                // check if ticket is A, because that is the only status it can be before it goes to P
+                if (ticket.getTicketStatus() == 'A'){
+                    ticket.setCartedUser(user);
+                    ticket.setTicketStatus('P');
+                    List<Ticket> userShoppingCart = user.getShoppingCart();
+                    userShoppingCart.add(ticket);
+                    user.setShoppingCart(userShoppingCart);
+                }
+                // runtime exception if unexpected behaviour occured
+                else throw new RuntimeException("Illegal status change operation: from " + ticket.getTicketStatus() + "to P");
+            }
+            
+            // 3) making the ticket available again (timer expired)
+            else if (statusUppercased == 'A'){
+                // check if ticket is A, because that is the only status it can be before it goes to P
+                if (ticket.getTicketStatus() == 'P'){
+                    ticket.setCartedUser(null);
+                    ticket.setTicketStatus('A');
+                    List<Ticket> userShoppingCart = user.getShoppingCart();
+                    userShoppingCart.remove(ticket);
+                    user.setShoppingCart(userShoppingCart);
+                }
+                // runtime exception if unexpected behaviour occured
+                else throw new RuntimeException("Illegal status change operation: from " + ticket.getTicketStatus() + "to A");
+            }
+            
+            // 4) if putting ticket into marketplace
+            else if (statusUppercased == 'M'){
+                // check if ticket is U, because that is the only status it can be before it goes to M
+                if (ticket.getTicketStatus() == 'U'){
+                    ticket.setCartedUser(null);
+                    ticket.setTicketStatus('M');
+                    List<Ticket> userShoppingCart = user.getShoppingCart();
+                    userShoppingCart.remove(ticket);
+                    user.setShoppingCart(userShoppingCart);
+                }
+                // runtime exception if unexpected behaviour occured
+                else throw new RuntimeException("Illegal status change operation: from " + ticket.getTicketStatus() + "to M");
             }
 
             // update repo

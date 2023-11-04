@@ -34,6 +34,11 @@ public class TicketController {
         return ticketService.listTickets();
     }
 
+    @GetMapping("/tickets/{Id}")
+    public Ticket getTicketById(@PathVariable Long ticketId){
+        return ticketService.getTicketById(ticketId);
+    }
+
     // @GetMapping("/tickets/{seatNumber}")
     // public Ticket getTicketbySeatNumber(@PathVariable int seatNumber){
     //     Ticket ticket = ticketService.getTicketbySeatNumber(seatNumber);

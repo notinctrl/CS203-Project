@@ -1,49 +1,47 @@
 package taylor.project.webController;
 
 import java.io.IOException;
-import java.nio.file.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.web.server.csrf.CsrfToken;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import taylor.project.concert.Concert;
 import taylor.project.concert.ConcertService;
-import taylor.project.sector.*;
-import taylor.project.venue.*;
+import taylor.project.sector.Sector;
+import taylor.project.sector.SectorService;
+import taylor.project.ticket.TicketService;
+import taylor.project.venue.Venue;
 
 @Controller
 public class HTMLController {
 
     private ConcertService concertService;
     private SectorService sectorService;
+    private TicketService ticketService;
     private Long concertId;
     private String sectorName;
     private List<String> selectedSeats;
 
-    public HTMLController(ConcertService cs, SectorService ss){
+    public HTMLController(ConcertService cs, SectorService ss, TicketService ts){
         this.concertService = cs;
         sectorService = ss;
+        ticketService = ts;
     }
 
     //Save the uploaded file to this folder
-    private static String UPLOADED_FOLDER = "F://temp//";
+    // private static String UPLOADED_FOLDER = "F://temp//";
 
     @GetMapping("/index")
     public String index(Model model) throws IOException{
@@ -145,11 +143,6 @@ public class HTMLController {
         return ResponseEntity.ok("Attribute set to true");
     }
 
-    @GetMapping("error")
-    public String errorPage(){
-        return "error.html";
-    }
-
     @GetMapping("concerts/{concertId}/sectorLayout/selectSeat/{sectorName}")
     public String seatplan(@PathVariable("concertId") Long concertId, @PathVariable("sectorName") String sectorName, Model model, HttpSession session){
         model.addAttribute("concertId", concertId);
@@ -196,7 +189,7 @@ public class HTMLController {
     }
 
     @GetMapping("user/{userId}/purchasedtickets")
-    public String portfolio(@PathVariable("userId") Long userId, Model model){
+    public String puchasedTickets(@PathVariable("userId") Long userId, Model model){
         model.addAttribute("userId", userId);
         return "purchased-tickets";
     }
@@ -206,48 +199,6 @@ public class HTMLController {
         return "services";
     }
 
-    @GetMapping("/about")
-    public String about() {
-        return "about";
-    }
-
-
-    @PostMapping("/upload") // //new annotation since 4.3
-    public String singleFileUpload(@RequestParam("file") MultipartFile file,
-                                   RedirectAttributes redirectAttributes) {
-
-        if (file.isEmpty()) {
-            redirectAttributes.addFlashAttribute("message", "Please select a file to upload");
-            return "redirect:uploadStatus";
-        }
-
-        try {
-
-            // Get the file and save it somewhere
-            byte[] bytes = file.getBytes();
-            Path path = Paths.get(UPLOADED_FOLDER + file.getOriginalFilename());
-            Files.write(path, bytes);
-
-            redirectAttributes.addFlashAttribute("message",
-                    "You successfully uploaded '" + file.getOriginalFilename() + "'");
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return "redirect:/uploadStatus";
-    }
-
-    @GetMapping("/uploadStatus")
-    public String uploadStatus() {
-        return "uploadStatus";
-    }
-
-    // @RequestMapping("/shoppingcart.html")
-    // public String viewShoppingCart(){
-    //     return "shoppingcart";
-    // }
-
     @GetMapping("user/{userId}/shoppingcart")
     public String getShoppingCart(@PathVariable Long userId, Model model){
         model.addAttribute("userId", userId);
@@ -255,7 +206,52 @@ public class HTMLController {
     }
 
 
-/**
+    @GetMapping("/marketplace")
+    public String marketplace(){
+        return "marketplace";
+    }
+
+    @GetMapping("/marketplace/{ticketId}")
+    public String marketplaceViewTicket(@PathVariable Long ticketId, Model model){
+        model.addAttribute("ticketId", ticketId);
+        return "marketplace-ticket";
+    }
+
+    @GetMapping("/marketplace/{ticketId}/purchase-marketplace-ticket")
+    public String marketplaceHandlePurchase(@PathVariable("ticketId") Long ticketId, Model model){
+        Long buyerUserId = 2L;
+        try {
+            ticketService.setUserIdAndStatus(ticketId, buyerUserId, 'U');
+        } catch (RuntimeException e){
+            System.out.println(e.getMessage());
+            return "redirect:/marketplace/error";
+        }
+        return "redirect:/marketplace/" + ticketId + "/purchase-success";
+    }
+
+    // @GetMapping("/marketplace/{ticketId}/purchase-marketplace-ticket/{buyerUserId}")
+    // public String marketplaceHandlePurchase(@PathVariable("ticketId") Long ticketId, @PathVariable("buyerUserId") Long buyerUserId, Model model){
+    //     ticketService.setUserIdAndStatus(ticketId, buyerUserId, 'U');
+    //     return "redirect:/marketplace/" + ticketId + "/purchase-success";
+    // }
+
+    @GetMapping("/marketplace/{ticketId}/purchase-success")
+    public String marketplacePurchaseSuccess(@PathVariable Long ticketId, Model model){
+        return "marketplace-purch-success";
+    }
+
+    @GetMapping("/marketplace/error")
+    public String marketplaceError(Model model){
+        return "marketplace-error";
+    }
+
+    @GetMapping("error")
+    public String errorPage(){
+        return "error.html";
+    }
+
+
+/** Methods for data retrieval
  * 
  * @param seatAvailability contains all the rows in a sector and each string's character represents a seat.
  * @return Information about the sector in list form: {<number of avail seats>, <total seats in this sector>, sectorStatus}
@@ -303,6 +299,52 @@ public class HTMLController {
         m.put("sector" + s.getSectorName() + "status", sectorInfo.get(2));
         return m;
     }
+
+    /** Unused controller methods.
+     *  
+     */
+    /*
+    @PostMapping("/upload") // //new annotation since 4.3
+    public String singleFileUpload(@RequestParam("file") MultipartFile file,
+                                   RedirectAttributes redirectAttributes) {
+
+        if (file.isEmpty()) {
+            redirectAttributes.addFlashAttribute("message", "Please select a file to upload");
+            return "redirect:uploadStatus";
+        }
+
+        try {
+
+            // Get the file and save it somewhere
+            byte[] bytes = file.getBytes();
+            Path path = Paths.get(UPLOADED_FOLDER + file.getOriginalFilename());
+            Files.write(path, bytes);
+
+            redirectAttributes.addFlashAttribute("message",
+                    "You successfully uploaded '" + file.getOriginalFilename() + "'");
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return "redirect:/uploadStatus";
+    }
+
+    @GetMapping("/uploadStatus")
+    public String uploadStatus() {
+        return "uploadStatus";
+    }
+
+    // @RequestMapping("/shoppingcart.html")
+    // public String viewShoppingCart(){
+    //     return "shoppingcart";
+    // }
+
+    @GetMapping("/about")
+    public String about() {
+        return "about";
+    }
+*/
 }
 
 // hard code: retrieval of concert attributes

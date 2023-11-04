@@ -49,7 +49,7 @@ public class Ticket {
      * Tracks which user has already bought this ticket.
      *  If ticket is in marketplace, this field remains non-null until the ticket is sold
      *  to the new user.
-     * this field can be non-null when . 
+     * this field can be non-null together with cartedUser IF AND ONLY IF the ticket is in the marketplace. 
      */
     @ManyToOne
     @JoinColumn(name = "bought_user")

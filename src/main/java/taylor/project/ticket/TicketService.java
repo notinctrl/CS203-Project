@@ -5,6 +5,8 @@ import java.util.List;
 public interface TicketService {
     List<Ticket> listTickets();
 
+    Ticket getTicketById(Long id);
+
     Ticket getTicketBySeatRowNameAndSeatNo(String seatRowName, Integer seatNo);
     //Ticket getTicketbySeatNumber(int seatNumber);
     List<Ticket> getTicketListbySeatNo(Integer seatNo);
