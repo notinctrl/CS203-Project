@@ -51,7 +51,7 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
         .sessionManagement()
-        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+        .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
             .and()
         .httpBasic()
             .and() //  "and()"" method allows us to continue configuring the parent
