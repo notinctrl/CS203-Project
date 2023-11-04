@@ -32,6 +32,18 @@ seatLayout.html (old cinema seat divs)
                 <div class="seat"></div>
             </div> -->
 
+shoppingcart.html (center button)
+<div class="container">
+			<div class="row align-items-center v-h-full">
+
+				<div class="col-lg-7 col-xxl-6 mx-auto text-center">
+					<h1 class="heading-2 text-white mb-3" data-aos="fade-up">Services</h1>
+					<p data-aos="fade-up" data-aos-delay="200" class="text-white lead mb-4">Lorem ipsum dolor sit amet consectetur adipisicing elit. Perferendis quis molestiae vitae eligendi at.</p>
+					<p data-aos="fade-up" data-aos-delay="300"><a href="#" class="btn btn-primary-outline white me-4">Get in Touch</a></p>
+				</div>
+
+			</div>
+		</div>
 
 purchased-tickets.html (old code)
 <!-- old code -->

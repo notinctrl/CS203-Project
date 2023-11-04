@@ -28,7 +28,7 @@
 	<link rel="stylesheet" href="/css/aos.css">
 	<link rel="stylesheet" href="/css/glightbox.min.css">
 	<link rel="stylesheet" href="/css/style.css">
-	<link rel="stylesheet" href="/css/margin-top.css">
+	<link rel="stylesheet" href="/css/ticket-related/margin-top.css">
 
 	<title>TTTicket &mdash; Purchased Tickets</title>
 </head>
@@ -82,7 +82,7 @@
 
 	
 	<div class="title-container mx-auto text-center">
-		<h1 class="heading-2 text-white mb-3" data-aos="fade-up"> Purchased Tickets</h1>
+		<h1 class="heading-2 text-white mb-3" data-aos="fade-up">Purchased Tickets</h1>
 		<p data-aos="fade-up" data-aos-delay="200" class="text-white lead mb-4">Click a ticket to scan entry/view details/edit ticket information.</p>
 	</div>
 	<div class="container content-section">
@@ -193,7 +193,7 @@
 		var userId = /*[[${userId}]]*/ null;
 		// console.log(userId);
 		
-		fetch('http://localhost:8080/users/' + userId + '/purchasedTickets')
+		fetch('http://localhost:8080/users/' + userId + '/purchasedtickets')
         .then(response => response.json())
         .then(data => {
             const ticketContainer = document.getElementById('ticket-container');

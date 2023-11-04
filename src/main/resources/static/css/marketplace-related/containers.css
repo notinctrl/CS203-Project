@@ -1,0 +1,26 @@
+.ticket-details-container{
+    width:30%;
+    position: absolute;
+    right:31%; /* ++ == left -- == right*/
+    bottom: 7%; /* ++ == up -- == down*/
+}
+
+.title-container{
+    position:relative;
+    margin-top: 10%;
+}
+
+.content-section{
+    margin-top: 3%;
+}
+
+#back-button{
+    width:fit-content;
+    position:absolute;
+    left: 10%; /* -- == left ++ == right*/
+    bottom: 2%; /*++ == right -- == left*/
+}
+
+.img-border {
+    border: 2px solid #fff;
+  }
