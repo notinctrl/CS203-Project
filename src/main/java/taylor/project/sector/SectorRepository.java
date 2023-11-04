@@ -14,6 +14,6 @@ import taylor.project.venue.*;
  * JpaRepository provides more features by extending PagingAndSortingRepository, which in turn extends CrudRepository
  */
 @Repository
-public interface SectorRepository extends JpaRepository <Sector, String> {
+public interface SectorRepository extends JpaRepository <Sector, Long> {
     boolean existsBySectorNameAndVenue(String sName, Venue v); 
 }
