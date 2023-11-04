@@ -60,11 +60,11 @@
 							<li><a href="#">Menu Three</a></li>
 						</ul>
 					</li>
-					<li><a href="services">Services</a></li>
+					<li><a href="/services">Services</a></li>
 					<li><a href="/marketplace">Marketplace</a></li>
 					<li><a href="/user/2/purchasedtickets">My Tickets</a></li>
-					<li><a href="shoppingcart">Shopping Cart</a></li>
-					<li><a href="login">Login/Signup</a></li>
+					<li><a href="/user/2/shoppingcart">Shopping Cart</a></li>
+					<li><a href="/login">Login/Signup</a></li>
 				</ul>
 
 				<a href="#" class="burger ms-auto float-end site-menu-toggle mt-2 js-menu-toggle d-inline-block d-lg-none light" data-toggle="collapse" data-target="#main-navbar">
@@ -235,7 +235,7 @@
 					<div class="service grayscale">
 						<div class="service-img">
 							<!-- <h3>Connect</h3> -->
-							<a href="concert1"><img th:src="${Concert1Image}" class="container-fluid"></a>
+							<a href="/concerts/1"><img th:src="${Concert1Image}" class="container-fluid"></a>
 						</div>
 						<div class="service-inner">
 							<span></span>
@@ -251,7 +251,7 @@
 				<div class="col-lg-4 mb-4 mb-lg-0" data-aos="fade-up" data-aos-delay="100">
 					<div class="service grayscale">
 						<div class="service-img">
-							<a href="concert2"><img th:src="${Concert2Image}" class="container-fluid"></a>
+							<a href="/concerts/2"><img th:src="${Concert2Image}" class="container-fluid"></a>
 						</div>
 						<div class="service-inner">
 							<span></span>
@@ -267,7 +267,7 @@
 				<div class="col-lg-4 mb-4 mb-lg-0" data-aos="fade-up" data-aos-delay="200">
 					<div class="service grayscale">
 						<div class="service-img">
-							<a href="concert3"><img th:src="${Concert3Image}" class="container-fluid"></a>
+							<a href="/concerts/3"><img th:src="${Concert3Image}" class="container-fluid"></a>
 						</div>
 						<div class="service-inner">
 							<span></span>
@@ -299,9 +299,9 @@
 				<div class="container-fluid">
 					<div class="row">
 						<div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="200">
-							<a href="images/img_v_1-min.jpg" class="media-1 glightbox">
+							<a th:href="${Concert2Image}" class="media-1 glightbox">
 								<!-- <img src="images/img_v_1-min.jpg" alt="Image" class="img-fluid"> -->
-								<img th:src="${Concert1Image}" alt="Image" width="320px" class="container-fluid">
+								<img th:src="${Concert2Image}" alt="Image" width="320px" class="container-fluid">
 								<div class="media-1-content">
 									<!-- <h2>Bonzai Tree</h2> -->
 									<h2 th:text="${Concert2Name}">Concert Name</h2>
@@ -335,32 +335,42 @@
 							</a>
 						</div>
 
-						<div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="100">
-							<a th:href="${Concert2Image}" class="media-1 glightbox">
-								<img th:src="${Concert2Image}" alt="Image" width="340px" class="container-fluid">
+						<!-- <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="100">
+							<a href="${Concert2Image}" class="media-1 glightbox">
+								<img th:src="${Concert2Image}" alt="Image" width="320px" class="container-fluid">
 								<div class="media-1-content">
-									<!-- <h2>Design Material</h2>
-									<span class="category">Web Application</span> -->
+									<h2>Design Material</h2>
+									<span class="category">Web Application</span>
 									<h2 th:text="${Concert2Name}">Concert Name</h2>
 									<span th:text="${Concert2Date}" class="category">Branding</span>
 								</div>
 							</a>
-						</div>
+						</div> -->
 						<div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="200">
-							<a href="images/img_v_5-min.jpg" class="media-1 glightbox">
-								<img src="images/img_v_5-min.jpg" alt="Image" class="img-fluid">
+							<a href="/concert_posters/bebe_concert_poster.jpg" class="media-1 glightbox">
+								<img src="/concert_posters/bebe_concert_poster.jpg" alt="Image" width="340px" class="container-fluid">
 								<div class="media-1-content">
-									<h2>Handy Food</h2>
-									<span class="category">Branding</span>
+									<h2>Bebe Rexha 2024</h2>
+									<span class="category">3 November 2023</span>
 								</div>
 							</a>
 						</div>
 						<div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="300">
-							<a href="images/img_v_6-min.jpg" class="media-1 glightbox">
-								<img src="images/img_v_6-min.jpg" alt="Image" class="img-fluid">
+							<a href="/concert_posters/RHCP_concert_poster.jpg" class="media-1 glightbox">
+								<img src="/concert_posters/RHCP_concert_poster.jpg" alt="Image" width="340px" class="container-fluid">
 								<div class="media-1-content">
-									<h2>Cat With Cup</h2>
-									<span class="category">Website</span>
+									<h2>Red Hot Chili Peppers 2023</h2>
+									<span class="category">16 December 2023</span>
+								</div>
+							</a>
+						</div>
+
+						<div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="300">
+							<a href="/concert_posters/one-reb_concert_poster.jpg" class="media-1 glightbox">
+								<img src="/concert_posters/one-reb_concert_poster.jpg" alt="Image" width="340px" class="container-fluid">
+								<div class="media-1-content">
+									<h2>One Republic 2023</h2>
+									<span class="category">28 Februaru 2023</span>
 								</div>
 							</a>
 						</div>
