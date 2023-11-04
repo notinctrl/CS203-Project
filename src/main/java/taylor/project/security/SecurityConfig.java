@@ -91,7 +91,7 @@ public class SecurityConfig {
         .usernameParameter("username").permitAll()
         .defaultSuccessUrl("/index", true)
         .and()
-        .logout().permitAll()
+        .logout().logoutSuccessUrl("/index").permitAll()
         ; // Disable the security headers, as we do not return HTML in our service
         return http.build();
     }
