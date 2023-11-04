@@ -38,7 +38,6 @@ public class HTMLController {
         if (authentication!=null) {
                     UserDetails userDetails =(UserDetails)authentication.getPrincipal();
                     model.addAttribute("username", userDetails.getUsername());
-                    System.out.println(userDetails.getUsername());
         }
         List<Concert> concerts = concertService.listConcerts();
         int num = 1;
