@@ -80,31 +80,14 @@ public class webController {
         return "concert3";
     }
 
-    // @GetMapping("/testlogin")
-    // public String dashboard(Model model) {
-    //     Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-    //     // if (authentication.getPrincipal() instanceof User) System.out.println("is a user");
-    //     // else if (authentication.getPrincipal() instanceof String) System.out.println("is a string");
-    //     // else System.out.println(authentication.getPrincipal().getClass().getName());
-    //     System.out.println(authentication.getPrincipal().toString());
-    //     if (authentication.isAuthenticated() && authentication.getPrincipal() instanceof User) {
-    //         User user = (User)authentication.getPrincipal();
-    //         String username = user.getUsername(); // Get the username
-    //         Long id = user.getId();
-    //         System.out.println(username);
-    //         Long userId = 2L;
-    //         model.addAttribute("loggedInUsername", username); // Set it as an attribute
-    //         return "redirect:/user/" + id + "/purchasedtickets";
-    //     } else {
-    //         return "redirect:/login";
-    //     }
-    // }
+    @GetMapping("/marketplace")
+    public String showmarketplacePage() {
+        // Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        // if (authentication==null||authentication instanceof AnonymousAuthenticationToken) {
+        //     return  "login";
+        // }
 
-    @PostMapping("/login")
-    public String processLogin() {
-        // Spring Security will automatically handle the authentication
-        // If the authentication is successful, it will redirect to the defaultSuccessUrl
-        // If the authentication fails, it will redirect to the login page with an error parameter
-        return "redirect:/index"; // Assuming /dashboard is your defaultSuccessUrl
+        // return "redirect:/";
+        return "marketplace";
     }
 }
