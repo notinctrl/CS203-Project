@@ -10,6 +10,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.http.ResponseEntity;
+import java.nio.file.*;
+
+import java.util.*;
+
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,6 +28,8 @@ import taylor.project.concert.ConcertService;
 import taylor.project.sector.Sector;
 import taylor.project.sector.SectorService;
 import taylor.project.ticket.TicketService;
+import taylor.project.user.User;
+import taylor.project.user.UserService;
 import taylor.project.venue.Venue;
 
 @Controller
@@ -30,21 +38,28 @@ public class HTMLController {
     private ConcertService concertService;
     private SectorService sectorService;
     private TicketService ticketService;
+    private UserService userService;
     private Long concertId;
     private String sectorName;
     private List<String> selectedSeats;
 
-    public HTMLController(ConcertService cs, SectorService ss, TicketService ts){
+    public HTMLController(ConcertService cs, SectorService ss, TicketService ts, UserService us){
         this.concertService = cs;
         sectorService = ss;
         ticketService = ts;
+        userService=us;
     }
 
     //Save the uploaded file to this folder
     // private static String UPLOADED_FOLDER = "F://temp//";
 
     @GetMapping("/index")
-    public String index(Model model) throws IOException{
+    public String index(Model model, Authentication authentication) throws IOException{
+        if (authentication!=null) {
+                    UserDetails userDetails =(UserDetails)authentication.getPrincipal();
+                    model.addAttribute("username", userDetails.getUsername());
+                    User user = userService.getUser(userDetails.getUsername());
+        }
         List<Concert> concerts = concertService.listConcerts();
         int num = 1;
         for (Concert c : concerts){
@@ -57,7 +72,7 @@ public class HTMLController {
             model.addAttribute("Concert" + num + "Time", c.getStartTime().toString());
             num++;
         }
-        
+
         return "index";
     }
 
