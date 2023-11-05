@@ -34,7 +34,9 @@ public class RegistrationController {
 
     @Autowired
     private UserServiceImpl userServiceImpl;
+
     private UserService userService;
+    @Autowired
     private UserRepository users;
     
 
@@ -53,13 +55,13 @@ public class RegistrationController {
     }
  
     @PostMapping("/save")
-    public String userRegistration(@ModelAttribute User user) {
+    public String userRegistration(@ModelAttribute User user, Model model) {
 
-        // Optional<User> existingUser = users.findByUsername(user.getUsername());
-        // if (existingUser != null) {
-        //     model.addAttribute("error", "Username is already taken.");
-        //     return "registration";
-        // }
+       Optional<User> existingUser = users.findByUsername(user.getUsername());
+        if (existingUser != null) {
+            model.addAttribute("error", "Username is already taken.");
+            return "register";
+        }
         user.setPassword(encoder.encode(user.getPassword()));
         userService.addUser(user);
         return "login";
