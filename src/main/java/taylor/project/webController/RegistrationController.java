@@ -19,9 +19,11 @@ import taylor.project.user.User;
 import taylor.project.user.UserService;
 import taylor.project.user.UserServiceImpl;
 import taylor.project.user.UserController;
+import taylor.project.user.UserRepository;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import javax.validation.Valid;
 
@@ -33,6 +35,7 @@ public class RegistrationController {
     @Autowired
     private UserServiceImpl userServiceImpl;
     private UserService userService;
+    private UserRepository users;
     
 
 
@@ -51,6 +54,12 @@ public class RegistrationController {
  
     @PostMapping("/save")
     public String userRegistration(@ModelAttribute User user) {
+
+        // Optional<User> existingUser = users.findByUsername(user.getUsername());
+        // if (existingUser != null) {
+        //     model.addAttribute("error", "Username is already taken.");
+        //     return "registration";
+        // }
         user.setPassword(encoder.encode(user.getPassword()));
         userService.addUser(user);
         return "login";

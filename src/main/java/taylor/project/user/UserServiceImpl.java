@@ -3,12 +3,13 @@ package taylor.project.user;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 @Service
 public class UserServiceImpl implements UserService{
-   
+    @Autowired
     private UserRepository users;
 
     public UserServiceImpl(UserRepository users){
@@ -30,11 +31,15 @@ public class UserServiceImpl implements UserService{
             return user;
         }).orElse(null);
     }
-        
-        
-  
+
     @Override
     public User addUser(User user) {
+        String username = user.getUsername();
+
+        if (users.findByUsername(username) != null) {
+            throw new UsernameAlreadyExistsException(username);
+        }
+        
         return users.save(user);
     }
 

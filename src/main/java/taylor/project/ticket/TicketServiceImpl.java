@@ -69,6 +69,14 @@ public class TicketServiceImpl implements TicketService {
 
     }
 
+    @Override
+    public Ticket pendingStatus(Long id, Character newStatus){
+        return tickets.findById(id).map(ticket -> { ticket.setTicketStatus(newStatus);
+            return tickets.save(ticket);
+    }).orElse(null);
+
+    }
+
     /**
      * Remove a ticket with the given id
      * Spring Data JPA does not return a value for delete operation

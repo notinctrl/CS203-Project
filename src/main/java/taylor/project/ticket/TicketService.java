@@ -2,6 +2,8 @@ package taylor.project.ticket;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 public interface TicketService {
     List<Ticket> listTickets();
     // Ticket getTicket(Long id);
@@ -18,4 +20,8 @@ public interface TicketService {
      * @param id
      */
     void deleteTicket(Long id);
+
+     //for ticket to be shown as sold
+    Ticket pendingStatus(Long id, Character newStatus);
+
 }

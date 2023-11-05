@@ -69,7 +69,7 @@ public class User implements UserDetails{
     @NotNull(message = "Birthday should not be null")
     private String birthday;
     
-    @NotNull(message = "Email should not be null") @Email(message = "Please provide a valid email")
+    @NotNull(message = "Email should not be null")
 
     @Email(message = "Please provide a valid email")
     @NotNull(message = "Email address should not be null")
@@ -92,11 +92,10 @@ public class User implements UserDetails{
         this.id = counter.incrementAndGet();
         this.username = username;
         this.password = password;
-        //this.birthday = LocalDate.parse(birthday, DateTimeFormatter.ofPattern("dd-MM-yyyy"));
         this.birthday = birthday;
         this.emailAddress = emailAddress;
         this.address = address;
-        this.authorities = "ROLE_USER";
+        this.authorities = authorities;
         this.purchasedTickets = new ArrayList<Ticket>();
     }
 
