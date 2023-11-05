@@ -139,6 +139,22 @@ System.out.println("model has " + model);
     public ResponseEntity<String> setSelectSectorButtonClicked(HttpSession session) {
         session.setAttribute("selectSectorButtonClicked", true);
         return ResponseEntity.ok("Attribute set to true");
+    @GetMapping("/concerts.html")
+    public String concerts(Model model) throws IOException{
+        List<Concert> concerts = concertService.listConcerts();
+        int num = 1;
+        for (Concert c : concerts){
+            model.addAttribute("Concert" + num + "Name", c.getConcertName());
+            StringBuilder sb = new StringBuilder(c.getPhoto().getPath());
+            sb.delete(0, 25);
+            String correctPath = sb.toString();
+            model.addAttribute("Concert" + num + "Image", correctPath);
+            model.addAttribute("Concert" + num + "Date", c.getDateRange());
+            model.addAttribute("Concert" + num + "Time", c.getStartTime().toString());
+            num++;
+        }
+        
+        return "concerts";
     }
 
     @GetMapping("concerts/{concertId}/sectorLayout/selectSeat/{sectorName}")
@@ -372,6 +388,14 @@ System.out.println("model has " + model);
     @GetMapping("/about")
     public String about() {
         return "about";
+    @RequestMapping("/concerts.html")
+    public String viewConcerts(){
+        return "concerts";
+    }
+
+    @RequestMapping("/shoppingcart.html")
+    public String viewShoppingCart(){
+        return "shoppingcart";
     }
 */
 }
