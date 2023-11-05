@@ -209,10 +209,10 @@
 				const anchorElement = document.createElement('a');
 				anchorElement.href = '/../../images/img_v_3-min.jpg';
 				anchorElement.classList.add('media-1', 'glightbox');
-				anchorElement.addEventListener('click', (e) => {
-					e.preventDefault(); // Prevent the default link behavior
-					openOverlay(ticket); // Open the overlay with ticket details
-				});
+				// anchorElement.addEventListener('click', (e) => {
+				// 	e.preventDefault(); // Prevent the default link behavior
+				// 	openOverlay(ticket); // Open the overlay with ticket details
+				// });
 
 				// Create the <img> element
 				const imgElement = document.createElement('img');
@@ -239,9 +239,22 @@
 				seatNameElement.textContent = "Seat No: " + ticket.seatRowName + ticket.seatNo;
 				seatNameElement.style.color = 'white';
 
+				const qrButton = document.createElement('div');
+				qrButton.classList.add("col-lg-7",  "col-xxl-6",  "mx-auto",  "text-center", "category");
+				const paraWithin = document.createElement('p');
+				paraWithin.setAttribute('data-aos', 'fade-up');
+				paraWithin.setAttribute('data-aos-delay', '400');
+				const anchorWithin = document.createElement('a');
+				anchorWithin.href = "/images/rick-astley-never-gonna-give-you-up.gif";
+				anchorWithin.classList.add("btn", "btn-primary-outline",  "white", "media-1");
+				anchorWithin.textContent = "Show QR";
+				paraWithin.appendChild(anchorWithin);
+				qrButton.appendChild(paraWithin);
+
 				mediaContentElement.appendChild(h2Element);
 				mediaContentElement.appendChild(dateRangeElement);
 				mediaContentElement.appendChild(seatNameElement);
+				mediaContentElement.appendChild(qrButton);
 				anchorElement.appendChild(imgElement);
 				anchorElement.appendChild(mediaContentElement);
 				ticketElement.appendChild(anchorElement);

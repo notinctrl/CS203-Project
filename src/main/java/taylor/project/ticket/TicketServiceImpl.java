@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 
 import taylor.project.user.*;
+import taylor.project.concert.*;
 
 
 @Service
@@ -218,5 +219,9 @@ public class TicketServiceImpl implements TicketService {
     @Override
     public void deleteTicket(Long id){
         tickets.deleteById(id);
+    }
+
+    public Optional<Ticket> findSpecificTicket(Concert c, String sectName, String rowName, Integer seatNo){
+        return tickets.findTicketByConcertAndSectorNameAndSeatRowNameAndSeatNo(c, sectName, rowName, seatNo);
     }
 }

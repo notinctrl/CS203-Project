@@ -223,7 +223,7 @@
 
 				// Create the <a> element
 				const anchorElement = document.createElement('a');
-				anchorElement.href = '/marketplace/' + ticket.id;
+				// anchorElement.href = '/marketplace/' + ticket.id;
 				anchorElement.classList.add('media-1', 'glightbox');
 
 				// Create the <img> element
@@ -252,21 +252,34 @@
 				sectorNameElement.textContent = "Sector: " + ticket.sectorName;
 				sectorNameElement.style.color = 'white';
 
-				const seatNameElement = document.createElement('p');
-				seatNameElement.classList.add('category');
-				seatNameElement.textContent = "Seat No: " + ticket.seatRowName + ticket.seatNo;
-				seatNameElement.style.color = 'white';
+				// const seatNameElement = document.createElement('p');
+				// seatNameElement.classList.add('category');
+				// seatNameElement.textContent = "Seat No: " + ticket.seatRowName + ticket.seatNo;
+				// seatNameElement.style.color = 'white';
 
-				const sellerNameElement = document.createElement('p');
-				sellerNameElement.classList.add('category');
-				sellerNameElement.textContent = "Seller: " + ticket.boughtUser.username;
-				sellerNameElement.style.color = 'white';
+				// const sellerNameElement = document.createElement('p');
+				// sellerNameElement.classList.add('category');
+				// sellerNameElement.textContent = "Seller: " + ticket.boughtUser.username;
+				// sellerNameElement.style.color = 'white';
+
+				const moreInfoButton = document.createElement('div');
+				moreInfoButton.classList.add("col-lg-7",  "col-xxl-6",  "mx-auto",  "text-center", 'category');
+				const paraWithin = document.createElement('p');
+				paraWithin.setAttribute('data-aos', 'fade-up');
+				paraWithin.setAttribute('data-aos-delay', '400');
+				const anchorWithin = document.createElement('a');
+				anchorWithin.href = "/marketplace/" + ticket.id;
+				anchorWithin.classList.add("btn",  "btn-primary-outline",  "white");
+				anchorWithin.textContent = "More Info";
+				paraWithin.appendChild(anchorWithin);
+				moreInfoButton.appendChild(paraWithin);
 
 				mediaContentElement.appendChild(h2Element);
 				mediaContentElement.appendChild(dateRangeElement);
 				mediaContentElement.appendChild(sectorNameElement);
-				mediaContentElement.appendChild(seatNameElement);
-				mediaContentElement.appendChild(sellerNameElement);
+				// mediaContentElement.appendChild(seatNameElement);
+				// mediaContentElement.appendChild(sellerNameElement);
+				mediaContentElement.appendChild(moreInfoButton);
 				anchorElement.appendChild(imgElement);
 				anchorElement.appendChild(mediaContentElement);
 				ticketElement.appendChild(anchorElement);

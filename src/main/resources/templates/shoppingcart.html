@@ -94,6 +94,8 @@
 		</div>
 	</div>
 
+	<p id="globaltimer"></p>
+
 
 	<div class="section">
 		<div class="container">
@@ -183,6 +185,29 @@
 		</div> <!-- /.container -->
 	</div> <!-- /.site-footer -->
 
+	<script>
+		var countDownTime = localStorage.getItem('countDownTime');
+
+		if (countDownTime) {
+		countDownTime = new Date(parseInt(countDownTime, 10));
+
+		var x = setInterval(function () {
+			var now = new Date().getTime();
+			var distance = countDownTime - now;
+
+			var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+			var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+			document.getElementById("demo").innerHTML = minutes + "m " + seconds + "s ";
+
+			if (distance < 0) {
+			clearInterval(x);
+			document.getElementById("demo").innerHTML = "EXPIRED";
+			}
+		}, 1000);
+		}
+	</script>
+
 
 	<!-- Preloader -->
 	<div id="overlayer"></div>
@@ -200,6 +225,7 @@
 	<script src="/js/glightbox.min.js"></script>
 	<script src="/js/rellax.min.js"></script>
 	<script src="/js/custom.js"></script>
+	<script src="js/globaltimer.js"></script>
 
 
 	<!-- script to display tickets -->
@@ -222,12 +248,12 @@
 
 				// Create the <a> element
 				const anchorElement = document.createElement('a');
-				anchorElement.href = '/../../../images/img_v_3-min.jpg';
+				// anchorElement.href = '/../../../images/img_v_3-min.jpg';
 				anchorElement.classList.add('media-1', 'glightbox');
-				anchorElement.addEventListener('click', (e) => {
-					e.preventDefault(); // Prevent the default link behavior
-					openOverlay(ticket); // Open the overlay with ticket details
-				});
+				// anchorElement.addEventListener('click', (e) => {
+				// 	e.preventDefault(); // Prevent the default link behavior
+				// 	openOverlay(ticket); // Open the overlay with ticket details
+				// });
 
 				// Create the <img> element
 				const imgElement = document.createElement('img');
@@ -256,9 +282,22 @@
 				seatNameElement.textContent = "Seat No: " + ticket.seatRowName + ticket.seatNo;
 				seatNameElement.style.color = 'white';
 
+				const checkoutButton = document.createElement('div');
+				checkoutButton.classList.add("col-lg-7",  "col-xxl-6",  "mx-auto",  "text-center", "category");
+				const paraWithin = document.createElement('p');
+				paraWithin.setAttribute('data-aos', 'fade-up');
+				paraWithin.setAttribute('data-aos-delay', '400');
+				const anchorWithin = document.createElement('a');
+				anchorWithin.href = "/user/2/shoppingcart/purchase-carted-ticket/" + ticket.id;
+				anchorWithin.classList.add("btn",  "btn-primary-outline",  "white");
+				anchorWithin.textContent = "Checkout";
+				paraWithin.appendChild(anchorWithin);
+				checkoutButton.appendChild(paraWithin);
+
 				mediaContentElement.appendChild(h2Element);
 				mediaContentElement.appendChild(dateRangeElement);
 				mediaContentElement.appendChild(seatNameElement);
+				mediaContentElement.appendChild(checkoutButton);
 				anchorElement.appendChild(imgElement);
 				anchorElement.appendChild(mediaContentElement);
 				ticketElement.appendChild(anchorElement);

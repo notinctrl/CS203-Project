@@ -119,21 +119,19 @@ public class HTMLController {
         //     return "redirect:/../../../login"; // Replace with the URL of the previous page
         // }
         // session.setAttribute("selectSectorButtonClicked", null);
-        List<Sector> sectors = concertService.getConcertById(1L).getConcertVenue().getSectors();
+        List<Sector> sectors = concertService.getConcertById(concertId).getConcertVenue().getSectors();
         Map<String, Object> attributeMap = new HashMap<>();
+
         for (Sector s : sectors){
-
-            // find how many seats are avail
-            List<String> sectorInfo = iniSectorSeats(s.getSeats());            
-
+            // find how many seats are avail. 
+            List<String> sectorInfo = iniSectorInfo(s);            
             model = addSectorAttributes(model, s, sectorInfo);
             attributeMap = addSectorAttributeMap(attributeMap, s, sectorInfo);
+        }
 
 // checker for what the model contains
-// System.out.println("model has " + model);
-        }
+System.out.println("model has " + model);
         model.addAttribute("attributeMap", attributeMap);
-        // session.setAttribute("seatSelectAllowed", true);
         return "concertStorage/" + concertId + "/sectorLayout.html";
     }
 
@@ -158,15 +156,18 @@ public class HTMLController {
             this.concertId = Long.valueOf((Integer) requestBody.get("concertId"));
             this.sectorName = (String) requestBody.get("sectorName");
             this.selectedSeats = (List<String>) requestBody.get("selectedSeats");
+            // Object obj = requestBody.get("selectedSeats");
+            // if (obj instanceof List<String>) System.out.println("string list");
+            // else if (obj instanceof List<Integer>)
 
-    // System.out.println("concertid: " + concertId + " sectName:" + sectorName);
+    // System.out.println("concertid: " + concertId + " sectName:" + sectorName + " selseats:" + selectedSeats);
             String responseMessage = "Received the following seats: " + selectedSeats.toString();
             System.out.println("now changing concert's selected seats to pending...");
             Venue venue = concertService.getConcertById(concertId).getConcertVenue();
             
-            sectorService.updateSelectedSectorSeatsToStatus(venue, selectedSeats, sectorName, 'P');
+            sectorService.updateSelectedSeatsToStatus(venue, selectedSeats, sectorName, 'P');
 
-        // System.out.println("all done!");
+        System.out.println("all done!");
             return ResponseEntity.ok(responseMessage);
         // } else {
         //     return ResponseEntity.status(HttpStatus.FORBIDDEN).body("CSRF Token Validation Failed");
@@ -205,20 +206,38 @@ public class HTMLController {
         return "shoppingcart";
     }
 
+    @GetMapping("/user/{userId}/shoppingcart/purchase-carted-ticket/{ticketId}")
+    public String shoppingCartHandlePurchase(@PathVariable("userId") Long userId, @PathVariable("ticketId") Long ticketId, Model model){
+        try {
+            ticketService.setUserIdAndStatus(ticketId, userId, 'U');
+        } catch (RuntimeException e){
+            System.out.println(e.getMessage());
+            return "redirect:/marketplace/marketplace-error.html";
+        }
+        return "redirect:/user/" + userId + "/shoppingcart/" + ticketId + "/purchase-success";
+    }
+
+    @GetMapping("/user/{userId}/shoppingcart/{ticketId}/purchase-success")
+    public String shoppingCartPurchaseSuccess(@PathVariable("userId") Long userId, @PathVariable("ticketId") Long ticketId, Model model){
+        model.addAttribute("ticketId", ticketId);
+        return "shoppingcart-purch-success.html";
+    }
 
     @GetMapping("/marketplace")
     public String marketplace(){
-        return "marketplace";
+        return "marketplace/marketplace.html";
     }
 
     @GetMapping("/marketplace/{ticketId}")
     public String marketplaceViewTicket(@PathVariable Long ticketId, Model model){
         model.addAttribute("ticketId", ticketId);
-        return "marketplace-ticket";
+        return "marketplace/marketplace-ticket.html";
     }
 
+    //TODO: TRACK USER ID WHEN BUYING
     @GetMapping("/marketplace/{ticketId}/purchase-marketplace-ticket")
     public String marketplaceHandlePurchase(@PathVariable("ticketId") Long ticketId, Model model){
+        //TODO: track the user so i can get his id for this method.
         Long buyerUserId = 2L;
         try {
             ticketService.setUserIdAndStatus(ticketId, buyerUserId, 'U');
@@ -237,17 +256,18 @@ public class HTMLController {
 
     @GetMapping("/marketplace/{ticketId}/purchase-success")
     public String marketplacePurchaseSuccess(@PathVariable Long ticketId, Model model){
-        return "marketplace-purch-success";
+        model.addAttribute("ticketId", ticketId);
+        return "/marketplace/marketplace-purch-success.html";
     }
 
     @GetMapping("/marketplace/error")
     public String marketplaceError(Model model){
-        return "marketplace-error";
+        return "marketplace/marketplace-error.html";
     }
 
     @GetMapping("error")
     public String errorPage(){
-        return "error.html";
+        return "marketplace/marketplace-error.html";
     }
 
 
@@ -256,34 +276,43 @@ public class HTMLController {
  * @param seatAvailability contains all the rows in a sector and each string's character represents a seat.
  * @return Information about the sector in list form: {<number of avail seats>, <total seats in this sector>, sectorStatus}
  */
-    public static List<String> iniSectorSeats(List<String> seatAvailability){
-        double totalSeats = 0;
-        double availSeats = 0;
+    public static List<String> iniSectorInfo(Sector s){
 
-        for (String row : seatAvailability){
-            totalSeats += row.length();
-            char[] seats = row.toCharArray();
-            for (char seat : seats) {
-                if (seat == 'A') availSeats++;
+        List<String> result = new ArrayList<>();
+        double seatAvailPercent = 0;
+
+        if (s.isGeneralStanding()){
+            result = new ArrayList<>(List.of(Double.toString(s.getSeatsLeft()), Double.toString(s.getSectorSize())));
+            seatAvailPercent =  s.getSeatsLeft() / s.getSectorSize();
+            System.out.println(seatAvailPercent);
+        } else {
+            double totalSeats = 0;
+            double availSeats = 0;
+
+            for (String row : s.getSeats()){
+                totalSeats += row.length();
+                char[] seats = row.toCharArray();
+                for (char seat : seats) {
+                    if (seat == 'A') availSeats++;
+                }
             }
+            result = new ArrayList<>(List.of(Double.toString(availSeats), Double.toString(totalSeats)));
+            seatAvailPercent =  availSeats / totalSeats;
         }
 
-        List<String> result = new ArrayList<>(List.of(Double.toString(availSeats), Double.toString(totalSeats)));
-
-        double seatAvailPercent =  availSeats / totalSeats;
-
         /* status reference:
-            H (High)    = 66% to 100% seats available (green)
-            M (Medium)  = 33% to 65% seats available (blue)
-            L (Low)     = (non-zero)% to 32% seats available (orange)
-            U (Unavail) = 0% seats available (red)
-        */
+                    H (High)    = 66% to 100% seats available (green)
+                    M (Medium)  = 33% to 65% seats available (blue)
+                    L (Low)     = (non-zero)% to 32% seats available (orange)
+                    U (Unavail) = 0% seats available (red)
+                */
         if (seatAvailPercent > 0.66) result.add("H");
         else if (seatAvailPercent > 0.33) result.add("M");
         else if (seatAvailPercent > 0) result.add("L");
         else result.add("U");
 
         return result;
+        
     }
 
     public static Model addSectorAttributes(Model m, Sector s, List<String> sectorInfo){

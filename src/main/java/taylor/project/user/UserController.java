@@ -66,13 +66,13 @@ public class UserController {
 
     @GetMapping("/users/{userId}/purchasedtickets")
     public ResponseEntity<List<Ticket>> purchasedTickets(@PathVariable String userId){
-        Optional<User> user = users.findById(Long.parseLong(userId));
+        User user = users.findById(Long.parseLong(userId)).get();
 
         // if no user found, return null
         if (user == null) return ResponseEntity.notFound().build();
 
         // retrive purchased tickets
-        return ResponseEntity.ok(user.get().getPurchasedTickets());
+        return ResponseEntity.ok(user.getPurchasedTickets());
     }
 
     /**

@@ -13,6 +13,11 @@ GET http://localhost:8080/users/2/shoppingcart
 Content-Type: application/json
 Authorization: Basic normaluser goodpassword
 
+###
+GET http://localhost:8080/tickets/
+Content-Type: application/json
+Authorization: Basic normaluser goodpassword
+
 ### Ryan End
 
 GET http://localhost:8080/concerts
