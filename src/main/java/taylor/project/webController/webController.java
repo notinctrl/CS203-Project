@@ -80,14 +80,14 @@ public class webController {
         return "concert3";
     }
 
-    @GetMapping("/marketplace")
-    public String showmarketplacePage() {
-        // Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        // if (authentication==null||authentication instanceof AnonymousAuthenticationToken) {
-        //     return  "login";
-        // }
+    // @GetMapping("/marketplace")
+    // public String showmarketplacePage() {
+    //     // Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    //     // if (authentication==null||authentication instanceof AnonymousAuthenticationToken) {
+    //     //     return  "login";
+    //     // }
 
-        // return "redirect:/";
-        return "marketplace";
-    }
+    //     // return "redirect:/";
+    //     return "marketplace";
+    // }
 }

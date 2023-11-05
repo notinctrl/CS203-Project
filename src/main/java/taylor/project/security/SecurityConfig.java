@@ -51,7 +51,7 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
         .sessionManagement()
-        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+        .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
             .and()
         .httpBasic()
             .and() //  "and()"" method allows us to continue configuring the parent
@@ -100,12 +100,11 @@ public class SecurityConfig {
         // .usernameParameter("username").permitAll()
         .defaultSuccessUrl("/index", true)
         .and()
-        .logout()   
-        .permitAll()
             // .logoutUrl("/custom-logout") // Specify a custom logout URL
             // .logoutSuccessUrl("/index") // Redirect to this URL after successful logout
             // .invalidateHttpSession(true) // Invalidate the HTTP session
             // .deleteCookies("JSESSIONID") // Delete cookies on logout
+        .logout().logoutSuccessUrl("/index").permitAll()
         ; // Disable the security headers, as we do not return HTML in our service
 
         

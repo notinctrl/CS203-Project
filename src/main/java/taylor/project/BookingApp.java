@@ -96,58 +96,58 @@ public class BookingApp {
         // users.save(user);
 
         // force initialise ticket to pending, normaluser id 2
-        Optional<Ticket> t1 = tickets.findById(1L);
-        Optional<Ticket> t2 = tickets.findById(255L);
-        Optional<User> u = users.findById(2L);
-        User user = u.get();
-        System.out.println(user.getUsername());
-        List<Ticket> sc = new ArrayList<>();
+        // Optional<Ticket> t1 = tickets.findById(1L);
+        // Optional<Ticket> t2 = tickets.findById(255L);
+        // Optional<User> u = users.findById(2L);
+        // User user = u.get();
+        // System.out.println(user.getUsername());
+        // List<Ticket> sc = new ArrayList<>();
 
-        Ticket ticket1 = t1.get();
-        ticket1.setCartedUser(user);
-        ticket1.setTicketStatus('P');
-        tickets.save(ticket1); // Save ticket1 first
-        sc.add(ticket1);
+        // Ticket ticket1 = t1.get();
+        // ticket1.setCartedUser(user);
+        // ticket1.setTicketStatus('P');
+        // tickets.save(ticket1); // Save ticket1 first
+        // sc.add(ticket1);
 
-        Ticket ticket2 = t2.get();
-        ticket2.setCartedUser(user);
-        ticket2.setTicketStatus('P');
-        tickets.save(ticket2); // Save ticket2
-        sc.add(ticket2);
+        // Ticket ticket2 = t2.get();
+        // ticket2.setCartedUser(user);
+        // ticket2.setTicketStatus('P');
+        // tickets.save(ticket2); // Save ticket2
+        // sc.add(ticket2);
 
-        ticket1 = tickets.findById(200L).get();
-        ticket1.setCartedUser(user);
-        ticket1.setTicketStatus('P');
-        tickets.save(ticket1); // Save ticket1 first
-        sc.add(ticket1);
+        // ticket1 = tickets.findById(200L).get();
+        // ticket1.setCartedUser(user);
+        // ticket1.setTicketStatus('P');
+        // tickets.save(ticket1); // Save ticket1 first
+        // sc.add(ticket1);
 
-        ticket2 = tickets.findById(100L).get();
-        ticket2.setCartedUser(user);
-        ticket2.setTicketStatus('P');
-        tickets.save(ticket2); // Save ticket2
-        sc.add(ticket2);
+        // ticket2 = tickets.findById(100L).get();
+        // ticket2.setCartedUser(user);
+        // ticket2.setTicketStatus('P');
+        // tickets.save(ticket2); // Save ticket2
+        // sc.add(ticket2);
 
-        ticket2 = tickets.findById(140L).get();
-        ticket2.setCartedUser(user);
-        ticket2.setTicketStatus('P');
-        tickets.save(ticket2); // Save ticket2
-        sc.add(ticket2);
+        // ticket2 = tickets.findById(140L).get();
+        // ticket2.setCartedUser(user);
+        // ticket2.setTicketStatus('P');
+        // tickets.save(ticket2); // Save ticket2
+        // sc.add(ticket2);
 
         // System.out.println(sc.size());
-        user.setShoppingCart(sc); // Set the tickList in ShoppingCart
-        System.out.println(user.getShoppingCart().size());
-        users.save(user);
+        // user.setShoppingCart(sc); // Set the tickList in ShoppingCart
+        // System.out.println(user.getShoppingCart().size());
+        // users.save(user);
 
         //pending end
 
         // force initialise tickets to marketplace
         // Optional<Ticket> t1 = tickets.findById(1L);
         // Optional<Ticket> t2 = tickets.findById(255L);
-        Optional<Ticket> t3 = tickets.findById(347L);
-        User userSeller = users.findById(3L).get();
-        List<Ticket> bought = new ArrayList<>();
+        // Optional<Ticket> t3 = tickets.findById(347L);
+        // User userSeller = users.findById(3L).get();
+        // List<Ticket> bought = new ArrayList<>();
 
-        Ticket t = t1.get();
+        // Ticket t = t1.get();
         // t.setTicketStatus('M');
         // t.setBoughtUser(userSeller);
         // bought.add(t);
@@ -159,14 +159,14 @@ public class BookingApp {
         // bought.add(t);
         // tickets.save(t);
 
-        t = t3.get();
-        t.setTicketStatus('M');
-        t.setBoughtUser(userSeller);
-        bought.add(t);
-        tickets.save(t);
+        // t = t3.get();
+        // t.setTicketStatus('M');
+        // t.setBoughtUser(userSeller);
+        // bought.add(t);
+        // tickets.save(t);
 
-        userSeller.setPurchasedTickets(bought);
-        users.save(userSeller);
+        // userSeller.setPurchasedTickets(bought);
+        // users.save(userSeller);
 
         // marketplace end
 

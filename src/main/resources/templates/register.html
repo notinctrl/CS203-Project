@@ -6,6 +6,19 @@
     <title> Responsive Registration Form | CodingLab </title>
     <link rel="stylesheet" href="css/style_register.css">
      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <script>
+      function validatePassword() {
+          var password = document.getElementById("password").value;
+          var confirmPassword = document.getElementById("confirmPassword").value;
+          var errorSpan = document.getElementById("passwordError");
+
+          if (password !== confirmPassword) {
+              errorSpan.innerHTML = "Passwords do not match";
+          } else {
+              errorSpan.innerHTML = "";
+          }
+      }
+  </script>
    </head>
 <body>
   <div class="container">
@@ -30,40 +43,22 @@
             <input type="text" placeholder="Enter your date of birth" required name = "birthday">
           </div>
           <div class="input-box">
-            <span class="details">Authorities</span>
-            <input placeholder="Enter your authorities" required name = "authorities">
+            <span class="details">Enter Password</span>
+            <input type="password" placeholder="Enter your password" required id="password"  name = "password">
           </div>
           <div class="input-box">
             <span class="details">Confirm Password</span>
-            <input type="password" placeholder="Confirm your password" required name = "password">
-          </div>
+            <input type="password" placeholder="Confirm your password" id="confirmPassword"  oninput="validatePassword()">
+            <span id="passwordError" style="color: red;"></span>
+          
         </div>
-        <!-- <div class="gender-details">
-          <input type="radio" name="gender" id="dot-1">
-          <input type="radio" name="gender" id="dot-2">
-          <input type="radio" name="gender" id="dot-3">
-          <span class="gender-title">Gender</span>
-          <div class="category">
-            <label for="dot-1">
-            <span class="dot one"></span>
-            <span class="gender">Male</span>
-          </label>
-          <label for="dot-2">
-            <span class="dot two"></span>
-            <span class="gender">Female</span>
-          </label>
-          <label for="dot-3">
-            <span class="dot three"></span>
-            <span class="gender">Prefer not to say</span>
-            </label>
-          </div>
-        </div> -->
+        <input type="hidden" name="authorities" value="ROLE_USER">
         <div class="button">
           <input type="submit" value="Register">
         </div>
       </form>
 
-      <a th:href="@{/index}"> back to homepage</a>
+      <a th:href="@{/index}"> Back to Homepage</a>
     </div>
   </div>
 
