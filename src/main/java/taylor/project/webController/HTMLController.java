@@ -154,6 +154,8 @@ System.out.println("model has " + model);
     public ResponseEntity<String> setSelectSectorButtonClicked(HttpSession session) {
         session.setAttribute("selectSectorButtonClicked", true);
         return ResponseEntity.ok("Attribute set to true");
+    }
+    
     @GetMapping("/concerts.html")
     public String concerts(Model model) throws IOException{
         List<Concert> concerts = concertService.listConcerts();
