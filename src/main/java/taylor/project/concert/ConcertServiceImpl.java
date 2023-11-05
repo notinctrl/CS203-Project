@@ -83,11 +83,16 @@ public class ConcertServiceImpl implements ConcertService {
                 // once specified sector found, get its rowNames and
                 // its seatAvailability to store in result.
                 if (currentSectorName.equals(sectorToFind)){
-                    List<String> seats = s.getSeats();
-                    List<String> rowNames = s.getRowNames();
-                    int i = 0;
-                    for (String rowName : rowNames) {
-                        result.add(rowName + ":" + seats.get(i++));
+                    if (s.isGeneralStanding()){
+                        result.add(s.getRowNames().get(0) + ":" + s.getSeatsLeft());
+                    }
+                    else {
+                        List<String> seats = s.getSeats();
+                        List<String> rowNames = s.getRowNames();
+                        int i = 0;
+                        for (String rowName : rowNames) {
+                            result.add(rowName + ":" + seats.get(i++));
+                        }
                     }
                 }
             }

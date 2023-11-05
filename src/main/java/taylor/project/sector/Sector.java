@@ -45,10 +45,10 @@ public class Sector{
     private String sectorName;
 
     private double ticketPrice;
-    private int sectorSize;
-    // @Column(nullable = true, length = 10000000)
-    // @NotNull(message = "Error: You must provide a seat layout for the sector.")
-    // private File seatLayout;
+    private double sectorSize;
+    
+    private boolean isGeneralStanding = false;
+    private double seatsLeft;
 
     // due to sql limitations, a map cannot be inserted into a database.
     // as a result, the rowNames (key) and the seats in each row (value)
@@ -74,17 +74,22 @@ public class Sector{
 
         this.seats = new ArrayList<>();
 
-        for (int row : totalSeatsInRow){
-            int i = 0;
-            String avail = "";
-            while (i < row){
-                avail += "A";
-                i++;
+        if (rowNames.length != 1 && totalSeatsInRow.length != 1){
+            for (int row : totalSeatsInRow){
+                int i = 0;
+                String avail = "";
+                while (i < row){
+                    avail += "A";
+                    i++;
+                }
+                    seats.add(avail);
             }
-            seats.add(avail);
+        } else {
+            isGeneralStanding = true;
+            seatsLeft = totalSeatsInRow[0];
+            sectorSize = totalSeatsInRow[0];
         }
-
-        // this.seatLayout = new File(seatLayoutPath);
+    
     }
 
     //for testing

@@ -1,6 +1,9 @@
 package taylor.project.ticket;
 
 import java.util.List;
+import java.util.Optional;
+
+import taylor.project.concert.Concert;
 
 public interface TicketService {
     List<Ticket> listTickets();
@@ -16,6 +19,8 @@ public interface TicketService {
     Character getTicketStatus(Long id);
 
     void setUserIdAndStatus(Long ticketid, Long userid, char status);
+
+    Optional<Ticket> findSpecificTicket(Concert c, String sectName, String rowName, Integer seatNo);
 
     /**
      * Change method's signature: do not return a value for delete operation

@@ -1,6 +1,7 @@
 package taylor.project.ticket;
 
 import java.util.List;
+import java.util.Optional;
 
 import javax.validation.Valid;
 
@@ -17,12 +18,16 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import taylor.project.concert.*;
+
 @RestController
 public class TicketController {
     private TicketService ticketService;
+    private ConcertService concertService;
 
-    public TicketController(TicketService ts){
+    public TicketController(TicketService ts, ConcertService cs){
         this.ticketService = ts;
+        concertService = cs;
     }
 
     /**
@@ -75,8 +80,13 @@ public class TicketController {
 
     // }
     
-    
-
+    @GetMapping("/tickets/{cId}/{sectName}/{rowName}/{seatNo}")
+    public Optional<Ticket> findSpecificTicket(@PathVariable("cId") Long concertId, @PathVariable("sectName") String sectName,
+                                                 @PathVariable("rowName") String rowName, @PathVariable("seatNo") Integer seatNo){
+        Concert c = concertService.getConcertById(concertId);
+        return ticketService.findSpecificTicket(c, sectName, rowName, seatNo);
+    }
+     
     
 
     /*

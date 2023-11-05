@@ -1,22 +1,18 @@
 package taylor.project;
 
 import java.util.*;
-import java.time.LocalDateTime;
 
-import java.time.LocalDate;
 import java.io.*;
-import java.nio.file.*;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import taylor.project.concert.*;
 import taylor.project.user.*;
 import taylor.project.client.RestTemplateClient;
-import taylor.project.shoppingCart.*;
+// import taylor.project.shoppingCart.*;
 import taylor.project.venue.*;
 import taylor.project.sector.*;
 import taylor.project.ticket.*;
@@ -52,9 +48,14 @@ public class BookingApp {
         UserRepository users = ctx.getBean(UserRepository.class);
         // refer to below psvm for initialised users.
         List<User> uList = iniUsers(ctx);
-        System.out.println("[Add user]: " + users.save(uList.get(0)).getUsername());
+        System.out.println("[Add user]: " + users.save(uList.get(0)).getUsername()
+                                        + " and role " + uList.get(0).getAuthorities());
         System.out.println("[Add user]: " + users.save(uList.get(1)).getUsername() 
-                                        + " with email " + uList.get(1).getEmailAddress());
+                                        + " with email " + uList.get(1).getEmailAddress()
+                                        + " and role " + uList.get(1).getAuthorities());
+        System.out.println("[Add user]: " + users.save(uList.get(2)).getUsername() 
+                                        + " with email " + uList.get(2).getEmailAddress()
+                                        + " and role " + uList.get(2).getAuthorities());
         // System.out.println("[Add user]: " + users.save(uList.get(2)).getUsername());    
         
         // JPA shopping cart repository init. default settings
@@ -132,11 +133,42 @@ public class BookingApp {
         tickets.save(ticket2); // Save ticket2
         sc.add(ticket2);
 
-        System.out.println(sc.size());
+        // System.out.println(sc.size());
         user.setShoppingCart(sc); // Set the tickList in ShoppingCart
         System.out.println(user.getShoppingCart().size());
         users.save(user);
 
+        //pending end
+
+        // force initialise tickets to marketplace
+        // Optional<Ticket> t1 = tickets.findById(1L);
+        // Optional<Ticket> t2 = tickets.findById(255L);
+        Optional<Ticket> t3 = tickets.findById(347L);
+        User userSeller = users.findById(3L).get();
+        List<Ticket> bought = new ArrayList<>();
+
+        Ticket t = t1.get();
+        // t.setTicketStatus('M');
+        // t.setBoughtUser(userSeller);
+        // bought.add(t);
+        // tickets.save(t);
+
+        // t = t2.get();
+        // t.setTicketStatus('M');
+        // t.setBoughtUser(userSeller);
+        // bought.add(t);
+        // tickets.save(t);
+
+        t = t3.get();
+        t.setTicketStatus('M');
+        t.setBoughtUser(userSeller);
+        bought.add(t);
+        tickets.save(t);
+
+        userSeller.setPurchasedTickets(bought);
+        users.save(userSeller);
+
+        // marketplace end
 
         // Test the RestTemplate client with authentication
         /**
@@ -171,12 +203,14 @@ public class BookingApp {
         return result;
     }
 
-    public static List<User> iniUsers(ApplicationContext ctx){
+    public static List<User> iniUsers(ApplicationContext ctx){      
         BCryptPasswordEncoder encoder = ctx.getBean(BCryptPasswordEncoder.class);
         List<User> result = new ArrayList<>();
         result.add(new User("admin", encoder.encode("goodpassword"),"19-03-2003", 
             "dsasdgsdf@sfs.com", "dsdfsdsd", "ROLE_ADMIN"));
         result.add(new User("normaluser", encoder.encode("goodpassword"),"23-10-2001", 
+            "dsasdgsdf@sfs.com", "dsdfsdsd", "ROLE_USER"));
+        result.add(new User("normalfag", encoder.encode("goodpassword"),"23-10-2001", 
             "dsasdgsdf@sfs.com", "dsdfsdsd", "ROLE_USER"));
         return result;
     }
@@ -195,9 +229,11 @@ public class BookingApp {
 
         Sector swiftSector1 = new Sector(v1, "634", 348.0, new String[]{"A","B","C","D"}, new Integer[]{18,18,18,18});
         Sector swiftSector2 = new Sector(v1, "635", 348.0, new String[]{"D", "E", "F"}, new Integer[]{50,50,50});
-        Sector newSect2 = new Sector(v2, "634", 348.0, new String[]{"A", "B","C","D"}, new Integer[]{20,20,20,20});
-        Sector newSect3 = new Sector(v3, "634", 348.0, new String[]{"A", "AA", "AAA"}, new Integer[]{15,15,15});
-        List<Sector> newSects = new ArrayList<>(List.of(swiftSector1, swiftSector2, newSect2, newSect3));
+        Sector coldSect1 = new Sector(v2, "635", 128.0, new String[]{"A", "B","C","D"}, new Integer[]{20,20,20,20});
+        Sector coldSect2 = new Sector(v2, "General_Standing", 168.0, new String[]{"GEN-"}, new Integer[]{300});
+        Sector btsSect1 = new Sector(v3, "Purple_1", 348.0, new String[]{"PURP1-"}, new Integer[]{200});
+        Sector btsSect2 = new Sector(v3, "112", 268.0, new String[]{"A", "AA", "AAA"}, new Integer[]{15,15,15});
+        List<Sector> newSects = new ArrayList<>(List.of(swiftSector1, swiftSector2, coldSect1, coldSect2, btsSect1, btsSect2));
         
         // set the venues' sectors to 
         for (Venue v : result){
@@ -231,19 +267,26 @@ public class BookingApp {
             String sectName = sect.getSectorName();
             List<String> rowNames = sect.getRowNames();
             List<String> allSeats = sect.getSeats();
+            Concert concert = sect.getVenue().getConcert();
 
-            // go thru every sector's rows
-            for (int i = 0; i < rowNames.size(); i++) {
-                String rowName = rowNames.get(i);
-                String seatsInRow = allSeats.get(i);
-                Concert concert = sect.getVenue().getConcert();
-
-                // go thru this specific row and create a ticket for every seat 
-                for(int seatNo = 1; seatNo <= seatsInRow.length(); seatNo++) {
-                    // System.out.println("Added ticket:" + tickets.save(new Ticket(sectName, (rowName + seatNo), newSect1.getTicketPrice())));
-                    result.add(new Ticket(concert, sectName, rowName,  seatNo, sect.getTicketPrice()));
+            // if it is general standing sector, initialise accordingly
+            if (sect.isGeneralStanding()){
+                for (int i = 1; i <= sect.getSeatsLeft(); i++){
+                    result.add(new Ticket(concert, sectName, sect.getRowNames().get(0), i, sect.getTicketPrice()));
                 }
-            }
+            } else {
+                // go thru every sector's rows
+                for (int i = 0; i < rowNames.size(); i++) {
+                    String rowName = rowNames.get(i);
+                    String seatsInRow = allSeats.get(i);
+
+                    // go thru this specific row and create a ticket for every seat 
+                    for(int seatNo = 1; seatNo <= seatsInRow.length(); seatNo++) {
+                        // System.out.println("Added ticket:" + tickets.save(new Ticket(sectName, (rowName + seatNo), newSect1.getTicketPrice())));
+                        result.add(new Ticket(concert, sectName, rowName,  seatNo, sect.getTicketPrice()));
+                    }
+                }
+            }            
         }
         return result;
     }
