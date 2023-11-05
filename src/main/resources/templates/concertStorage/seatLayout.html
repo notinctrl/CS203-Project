@@ -74,19 +74,15 @@
 		</div>
 	</nav>
     <div class="seat-view-container">
-        <img alt="Image" height=300px class="seat-view-img" th:src="@{/seating_plan/concert-view.png}"/>
+        <img alt="Image" height=300px class="seat-view-img" th:src="@{'/seating_plan/seat-view/' + ${sectorName} + '.png'}"/>
     </div>
     <div class="sector-name-container">
-        <h1 class="heading-2 text-white mb-3" th:text="'Sector ' + ${sectorName}"></p>
+        <h1 class="heading-2 text-white mb-3" style="color:white;" th:text="'Sector ' + ${sectorName}"></h1>
     </div>
+
     <div class="theatre">
-        
         <div class="cinema-seats rows" id="seating-container"></div>
         <div class="button-container">
-            <!-- <div class="alert">
-                <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
-                This is an alert box.
-            </div> -->
             <button id="confirm-button">Confirm Selection</button>
             <div id="selected-seats-message" style="display: none;"></div>
             <button id="final-confirm-button" style="display: none;">Final Confirm?</button>
@@ -101,6 +97,7 @@
 
     <div class="tooltip"></div>
 
+    <!-- Script for initialising seats/number of ticket selector -->
     <script th:inline="javascript">
 
         // obtain data from model
@@ -111,55 +108,112 @@
         let maxSeats = 0;
         let numRows = 0;
 
+        var gen_seat = false;
+
         // Function to obtain the seat status data from server to create the seat plan
         fetch('http://localhost:8080/sectorRowAvailability/' + concertId + '/' + sectorName)
-        .then(response => response.json())
+        // .then(response => response.json())
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
         .then(data => {
             const seatingContainer = document.getElementById('seating-container');
+// console.log(data);
+            if (data.length == 1){
+                gen_seat = true;
+                const headerElement = document.createElement('p');
+                headerElement.style.color = "white";
+                headerElement.textContent = "Select the number of Seats:";
 
-            // Function to create the clickable seat objects and rows.
-            data.forEach(seatInfo => {
-            const [row, seats] = seatInfo.split(':'); // Split the row and seat information
+                const optionsContainer = document.createElement('select');
+                optionsContainer.setAttribute("onchange", "handleDropdownSelection()");
+                optionsContainer.id = "seatSelect"
+                optionsContainer.style.width = "35%";
+                optionsContainer.style.height = "15%";
+                optionsContainer.style.marginTop = "15%";
 
-            const rowElement = document.createElement('div');
+                const optionblank = document.createElement('option');
+                optionblank.value = 0;
+                optionblank.textContent = '';
+                optionsContainer.appendChild(optionblank);
 
-            const rowNameElement = document.createElement('div');
-            rowNameElement.classList.add('row-name');
-            rowNameElement.textContent = row[0]; // Set the row name text
+                 // Add options to the select element
+                const option1 = document.createElement('option');
+                option1.value = 1;
+                option1.textContent = '1 Seat';
+                optionsContainer.appendChild(option1);
 
-            rowElement.appendChild(rowNameElement);
-            rowElement.classList.add('cinema-row');
-            rowElement.classList.add('row1');
-            // console.log([row,seats]);
+                const option2 = document.createElement('option');
+                option2.value = 2;
+                option2.textContent = '2 Seats';
+                optionsContainer.appendChild(option2);
 
-            // sizing factor. find out max number of seats in a row
-            if (seats.length > maxSeats) maxSeats = seats.length;
+                const option3 = document.createElement('option');
+                option3.value = 3;
+                option3.textContent = '3 Seats';
+                optionsContainer.appendChild(option3);
 
-            for (let i = 0; i < seats.length; i++) {
-                const seatElement = document.createElement('div');
+                const option4 = document.createElement('option');
+                option4.value = 4;
+                option4.textContent = '4 Seats';
+                optionsContainer.appendChild(option4);
 
-                let seatNo = i + 1;
-                seatElement.setAttribute('id', row[0] + ':' + seatNo);
+                optionsContainer.appendChild(option1);
+                optionsContainer.appendChild(option2);
+                optionsContainer.appendChild(option3);
+                optionsContainer.appendChild(option4);
 
-                if (seats[i] === 'A')   seatElement.classList.add('seat');
-                else if (seats[i] === 'P') seatElement.classList.add('seatPend');
-                else                        seatElement.classList.add('seatUnavail');
+                seatingContainer.appendChild(headerElement);
+                seatingContainer.appendChild(optionsContainer);
+                $("#seating-container").css("transform", "rotate(-90deg)");
+            } 
+            else {
+                // Function to create the clickable seat objects and rows.
+                data.forEach(seatInfo => {
+                const [row, seats] = seatInfo.split(':'); // Split the row and seat information
 
-                rowElement.appendChild(seatElement);
-            }
+                const rowElement = document.createElement('div');
 
-            // Add the row to the container
-            seatingContainer.appendChild(rowElement);
-            numRows = numRows + 1;
+                const rowNameElement = document.createElement('div');
+                rowNameElement.classList.add('row-name');
+                rowNameElement.textContent = row[0]; // Set the row name text
+
+                rowElement.appendChild(rowNameElement);
+                rowElement.classList.add('cinema-row');
+                rowElement.classList.add('row1');
+                // console.log([row,seats]);
+
+                // sizing factor. find out max number of seats in a row
+                if (seats.length > maxSeats) maxSeats = seats.length;
+
+                for (let i = 0; i < seats.length; i++) {
+                    const seatElement = document.createElement('div');
+
+                    let seatNo = i + 1;
+                    seatElement.setAttribute('id', row[0] + ':' + seatNo);
+
+                    if (seats[i] === 'A')   seatElement.classList.add('seat');
+                    else if (seats[i] === 'P') seatElement.classList.add('seatPend');
+                    else                        seatElement.classList.add('seatUnavail');
+
+                    rowElement.appendChild(seatElement);
+                }
+
+                // Add the row to the container
+                seatingContainer.appendChild(rowElement);
+                numRows = numRows + 1;
             });
 
-            var scaleFactor = calculateScaleFactor(maxSeats, numRows);
-        
-            // Apply the scale to the seating container
-            $("#seating-container").css("transform", "scale(" + scaleFactor + ")" + " scaleY(-1)");
-        })
-        .catch(error => {
-            console.error('Error fetching seat data:', error);
+                var scaleFactor = calculateScaleFactor(maxSeats, numRows);
+            
+                // Apply the scale to the seating container
+                $("#seating-container").css("transform", "scale(" + scaleFactor + ")" + " scaleY(-1)");
+            }
+        }).catch(error => {
+        console.error('Error fetching seat data:', error);
         });
 
         // Function to attach a mouseover event to a seat, displaying the seat number.
@@ -246,29 +300,36 @@
                     
                 }
             });
+        });
+        
+        function handleDropdownSelection() {
+            const selectedValue = document.getElementById('seatSelect').value;
+            selectedSeats[0] = selectedValue;
+        }
 
-            $('#confirm-button').on('click', function() {
+        // document.getElementById('seatSelect').addEventListener('change', handleDropdownSelection);
+        
+        $('#confirm-button').on('click', function() {
                 // Display the selected seats message
-                if (selectedSeats.length != 0){
+                if (selectedSeats.length != 0 && selectedSeats[0] != 0){
                     // Display the final confirm button
                     $('#final-confirm-button').show();
                     $('#cancel-button').show();
+                    console.log(document.getElementById('seatSelect').value);
                 } else alert("Please select at least one seat.");
                 
             });
 
-            // Add a click event handler for the final confirm button
-            $('#final-confirm-button').on('click', function() {
-                // Call the function to send the selected seats to the backend
-                sendSelectedSeatsToBackend(concertId, sectorName, selectedSeats);
-            });
+        // Add a click event handler for the final confirm button
+        $('#final-confirm-button').on('click', function() {
+            // Call the function to send the selected seats to the backend
+            sendSelectedSeatsToBackend(concertId, sectorName, selectedSeats);
+        });
 
-            $('#cancel-button').on('click', function() {
-                $('#final-confirm-button').hide();
-                $('#cancel-button').hide();
-                $('#confirm-button').show();
-            });
-
+        $('#cancel-button').on('click', function() {
+            $('#final-confirm-button').hide();
+            $('#cancel-button').hide();
+            $('#confirm-button').show();
         });
 
         // Function to send the selected seat to the backend
@@ -299,10 +360,12 @@
                         console.log('Selected seat sent to backend successfully.');
                     } else {
                         console.error('Failed to send selected seat to backend.');
+                        window.location.href = '/error';
                     }
                 })
                 .catch(error => {
                     console.error('Error sending selected seat to backend:', error);
+                    window.location.href = '/error';
                 });
             }
         }
