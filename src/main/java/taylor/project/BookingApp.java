@@ -71,17 +71,17 @@ public class BookingApp {
 
         /**
          * force initialise ticket to sold, normaluser id 2
-         * /
-        // Optional<Ticket> t = tickets.findById(1L);
-        // Optional<User> u = users.findById(2L);
-        // User user = u.get();
-        // List<Ticket> list = new ArrayList<>();
+        */
+        Optional<Ticket> t = tickets.findById(1L);
+        Optional<User> u = users.findById(2L);
+        User user = u.get();
+        List<Ticket> list = new ArrayList<>();
 
-        // Ticket ticket = t.get();
-        // ticket.setBoughtUser(user);
-        // ticket.setTicketStatus('U');
-        // list.add(ticket);
-        // tickets.save(ticket);
+        Ticket ticket = t.get();
+        ticket.setBoughtUser(user);
+        ticket.setTicketStatus('U');
+        list.add(ticket);
+        tickets.save(ticket);
 
         // t = tickets.findById(2L);
 
@@ -93,9 +93,9 @@ public class BookingApp {
         // // System.out.println(user);
         
         // // System.out.println(list);
-        // list.add(ticket);
-        // user.setPurchasedTickets(list);
-        // users.save(user);
+        list.add(ticket);
+        user.setPurchasedTickets(list);
+        users.save(user);
 
         /**
          * force initialise ticket to pending, normaluser id 2
@@ -139,7 +139,6 @@ public class BookingApp {
 
         // System.out.println(sc.size());
         // user.setShoppingCart(sc); // Set the tickList in ShoppingCart
-        // System.out.println(user.getShoppingCart().size());
         // users.save(user);
 
         //pending end
@@ -147,17 +146,17 @@ public class BookingApp {
         /**
          * Force Initialise tickets to marketplace
          */
-        Optional<Ticket> t1 = tickets.findById(1L);
+        // Optional<Ticket> t1 = tickets.findById(13L);
         // Optional<Ticket> t2 = tickets.findById(255L);
         // Optional<Ticket> t3 = tickets.findById(347L);
-        User userSeller = users.findById(3L).get();
-        List<Ticket> bought = new ArrayList<>();
+        // User userSeller = users.findById(3L).get();
+        // List<Ticket> bought = new ArrayList<>();
 
-        Ticket t = t1.get();
-        t.setTicketStatus('M');
-        t.setBoughtUser(userSeller);
-        bought.add(t);
-        tickets.save(t);
+        // Ticket ticket22 = t1.get();
+        // ticket22.setTicketStatus('M');
+        // ticket22.setBoughtUser(userSeller);
+        // bought.add(ticket22);
+        // tickets.save(ticket22);
 
         // t = t2.get();
         // t.setTicketStatus('M');
@@ -171,8 +170,8 @@ public class BookingApp {
         // bought.add(t);
         // tickets.save(t);
 
-        userSeller.setPurchasedTickets(bought);
-        users.save(userSeller);
+        // userSeller.setPurchasedTickets(bought);
+        // users.save(userSeller);
 
         // marketplace end
 
@@ -234,11 +233,11 @@ public class BookingApp {
         List<Venue> result = new ArrayList<>(List.of(v1, v2, v3));
 
         Sector swiftSector1 = new Sector(v1, "634", 348.0, new String[]{"A","B","C","D"}, new Integer[]{18,18,18,18});
-        Sector swiftSector2 = new Sector(v1, "635", 348.0, new String[]{"D", "E", "F"}, new Integer[]{50,50,50});
+        Sector swiftSector2 = new Sector(v1, "635", 348.0, new String[]{"D", "E", "F"}, new Integer[]{20,20,20});
         Sector coldSect1 = new Sector(v2, "635", 128.0, new String[]{"A", "B","C","D"}, new Integer[]{20,20,20,20});
         Sector coldSect2 = new Sector(v2, "General_Standing", 168.0, new String[]{"GEN-"}, new Integer[]{300});
         Sector btsSect1 = new Sector(v3, "Purple_1", 348.0, new String[]{"PURP1-"}, new Integer[]{200});
-        Sector btsSect2 = new Sector(v3, "112", 268.0, new String[]{"A", "AA", "AAA"}, new Integer[]{15,15,15});
+        Sector btsSect2 = new Sector(v3, "112", 268.0, new String[]{"F", "G", "H", "I"}, new Integer[]{15,15,15,15});
         List<Sector> newSects = new ArrayList<>(List.of(swiftSector1, swiftSector2, coldSect1, coldSect2, btsSect1, btsSect2));
         
         // set the venues' sectors to 

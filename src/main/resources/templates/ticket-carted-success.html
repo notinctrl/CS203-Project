@@ -39,27 +39,24 @@
 				<a href="/../../../../index" class="logo m-0">TTTicket</a>
 
 				<ul class="js-clone-nav d-none d-lg-inline-block text-start site-menu float-end">
-					<li><a href="/../../../../index">Home</a></li>
-					<li class="has-children">
-						<a href="#">Dropdown</a>
+					<li><a href="/../../../index">Home</a></li>
+					<li><a href="/concerts">All Concerts</a></li>
+					<li><a href="/marketplace">Marketplace</a></li>
+
+					<li th:unless="${username}"><a href="login">My Tickets</a></li>
+					<li th:unless="${username}"><a href="login">Shopping Cart</a></li>
+
+					<li th:if="${username}"><a id="myTicketsLink" href="#">My Tickets</a></li>
+					<li th:if="${username}"><a id="shoppingCartLink" href="#">Shopping Cart</a></li>
+
+					<li th:unless="${username}"><a href="login">Login/Signup</a></li>
+					<li th:if="${username}" class="has-children">
+						<a><span>Welcome, <strong th:text="${username}"></strong></span></a>
 						<ul class="dropdown">
-							<li><a href="#">Menu One</a></li>
-							<li class="has-children">
-								<a href="#">Menu Two</a>
-								<ul class="dropdown">
-									<li><a href="#">Sub Menu One</a></li>
-									<li><a href="#">Sub Menu Two</a></li>
-									<li><a href="#">Sub Menu Three</a></li>
-								</ul>
-							</li>
-							<li><a href="#">Menu Three</a></li>
+							<li><a href="#">Account Details</a></li>
+							<li><a href="logout">Logout</a></li>
 						</ul>
 					</li>
-					<li><a href="/../../../../services">Services</a></li>
-					<li><a href="/../../../../marketplace">Marketplace</a></li>
-					<li><a href="/../../../../user/2/purchasedtickets">My Tickets</a></li>
-					<li><a href="/../../../../user/2/shoppingcart">Shopping Cart</a></li>
-					<li><a href="/../../../../login">Login/Signup</a></li>
 				</ul>
 
 				<a href="#" class="burger ms-auto float-end site-menu-toggle mt-2 js-menu-toggle d-inline-block d-lg-none light" data-toggle="collapse" data-target="#main-navbar">
@@ -74,11 +71,15 @@
 		<p data-aos="fade-up" data-aos-delay="200" class="text-white lead mb-4">You have <strong><u>10 minutes</u></strong> to checkout and pay for your ticket(s).</p>
 	</div>
 
-    <div class="content-section-tsucc">
+    <div class="content-section-tsucc" data-aos="fade-up" data-aos-delay="300">
         <p data-aos="fade-up" data-aos-delay="200" class="text-white lead mb-4"><center><strong>Concert ID: <span th:text="${concertId}"></center></strong></span></p>
         <p data-aos="fade-up" data-aos-delay="200" class="text-white lead mb-4"><center><strong>Sector Name: <span th:text="${sectorName}"></center></strong></span></p>
         <p data-aos="fade-up" data-aos-delay="200" class="text-white lead mb-4"><center><strong>Selected Seats: <span th:text="${selectedSeats}"></center></strong></span></p>
     </div>
+<br>
+	<div class="col-lg-7 col-xxl-6 mx-auto text-center">
+		<p data-aos="fade-up" data-aos-delay="400"><a id="secondShoppingCartLink" href="#" class="btn btn-primary-outline white me-4">Shopping Cart</a></p>
+	</div>
 
 	<div id="timer-container">
 		<p id="global-timer" style="top: 10%"></p>
@@ -119,6 +120,22 @@
 			document.getElementById("demo").innerHTML = "EXPIRED";
 		}
 		}, 1000);
+	</script>
+
+	<!-- Script to change login only pages to specific userId -->
+	<script th:inline="javascript">
+		// JavaScript code to create a dynamic URL
+		var userId = /*[[${userId}]]*/ null;
+		if (userId != null){
+			var shoppingCartLink = document.getElementById("shoppingCartLink");
+			shoppingCartLink.href = "/user/" + userId + "/shoppingcart";
+
+			shoppingCartLink = document.getElementById("myTicketsLink");
+			shoppingCartLink.href = "/user/" + userId + "/purchasedtickets";
+
+			shoppingCartLink = document.getElementById("secondShoppingCartLink");
+			shoppingCartLink.href = "/user/" + userId + "/shoppingcart";
+		}
 	</script>
 
 	<script src="/js/bootstrap.bundle.min.js"></script>

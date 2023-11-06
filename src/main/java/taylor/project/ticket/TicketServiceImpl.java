@@ -140,7 +140,7 @@ public class TicketServiceImpl implements TicketService {
                     user.setPurchasedTickets(buyerPurTickets);
                 }
                 // runtime exception if unexpected behaviour occured
-                else throw new RuntimeException("Illegal status change operation: from " + ticket.getTicketStatus() + "to U");
+                else throw new RuntimeException("Illegal status change operation: from " + ticket.getTicketStatus() + " to U");
             } 
             
             //  2) if putting the ticket into cart
@@ -175,11 +175,10 @@ public class TicketServiceImpl implements TicketService {
             else if (statusUppercased == 'M'){
                 // check if ticket is U, because that is the only status it can be before it goes to M
                 if (ticket.getTicketStatus() == 'U'){
-                    ticket.setCartedUser(null);
+                    List<Ticket> purchTickets = user.getPurchasedTickets();
+                    purchTickets.remove(ticket);
+                    user.setPurchasedTickets(purchTickets);
                     ticket.setTicketStatus('M');
-                    List<Ticket> userShoppingCart = user.getShoppingCart();
-                    userShoppingCart.remove(ticket);
-                    user.setShoppingCart(userShoppingCart);
                 }
                 // runtime exception if unexpected behaviour occured
                 else throw new RuntimeException("Illegal status change operation: from " + ticket.getTicketStatus() + "to M");
@@ -223,5 +222,9 @@ public class TicketServiceImpl implements TicketService {
 
     public Optional<Ticket> findSpecificTicket(Concert c, String sectName, String rowName, Integer seatNo){
         return tickets.findTicketByConcertAndSectorNameAndSeatRowNameAndSeatNo(c, sectName, rowName, seatNo);
+    }
+
+    public List<Ticket> getTicketsByConcertAndSectorName(Concert c,  String sectName){
+        return tickets.findTicketsByConcertAndSectorName(c, sectName);
     }
 }

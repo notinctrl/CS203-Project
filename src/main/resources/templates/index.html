@@ -180,11 +180,10 @@
 				</div>
 			</div>
 		</div>
-	</div>
-
-	<!-- Button for All Concerts -->
-	<div class="col-lg-7 col-xxl-6 mx-auto text-center">
-		<p data-aos="fade-up" data-aos-delay="300"><a href="/concerts" class="btn btn-primary-outline black me-4">All Concerts</a></p>
+		<!-- Button for All Concerts -->
+		<div class="col-lg-7 col-xxl-6 mx-auto text-center">
+			<p data-aos="fade-up" data-aos-delay="300"><a href="/concerts" class="btn btn-black me-4">All Concerts</a></p>
+		</div>
 	</div>
 
 	<!-- Concert Listings - Coming Soon -->
@@ -201,7 +200,7 @@
 				<div class="container-fluid">
 					<div class="row">
 						<div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="200">
-							<a th:href="${Concert2Image}" class="media-1 glightbox">
+							<a href="${Concert2Image}" class="media-1 glightbox">
 								<img th:src="${Concert2Image}" alt="Image" width="320px" class="container-fluid">
 								<div class="media-1-content">
 									<h2 th:text="${Concert2Name}">Concert Name</h2>
@@ -228,17 +227,6 @@
 							</a>
 						</div>
 
-						<!-- <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="100">
-							<a href="${Concert2Image}" class="media-1 glightbox">
-								<img th:src="${Concert2Image}" alt="Image" width="320px" class="container-fluid">
-								<div class="media-1-content">
-									<h2>Design Material</h2>
-									<span class="category">Web Application</span>
-									<h2 th:text="${Concert2Name}">Concert Name</h2>
-									<span th:text="${Concert2Date}" class="category">Branding</span>
-								</div>
-							</a>
-						</div> -->
 						<div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="200">
 							<a href="/concert_posters/bebe_concert_poster.jpg" class="media-1 glightbox">
 								<img src="/concert_posters/bebe_concert_poster.jpg" alt="Image" width="320px" class="container-fluid">

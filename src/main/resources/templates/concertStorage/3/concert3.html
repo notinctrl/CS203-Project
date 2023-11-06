@@ -122,7 +122,8 @@
 			<label for="date"><b>Select date:<br> (2024.08.25 to 2024.09.07)<br></b>
 				<input style="background: greenyellow" type="date" id="date" max="2024-09-07" min="2024-08-25" value="2024-08-25">
 			</label>
-			<p><a href="/../concerts/3/sectorLayout" class="btn btn-black">BUY TICKETS HERE</a></p>
+			<p th:if="${username}"><a href="/concerts/3/sectorLayout" class="btn btn-black">BUY TICKETS HERE</a></p>
+			<p th:unless="${username}"><a href="/../login" class="btn btn-black">BUY TICKETS HERE</a></p>
 		</div>
 		<pre style="color:black ; float:center ; margin: 30px ; font-family:Roboto ; font-size:medium;">
 			<b>STANDARD</b>
@@ -303,6 +304,22 @@
 			var shoppingCartLink = document.getElementById("myTicketsLink");
 			shoppingCartLink.href = "/../../user/" + userId + "/purchasedtickets";
 		}
+	</script>
+
+	<!-- Script to remember this path after login -->
+	<script>
+		document.addEventListener("DOMContentLoaded", function () {
+		var buyTicketsButton = document.getElementById("buyTicketsButton");
+		
+		if (buyTicketsButton) {
+			buyTicketsButton.addEventListener("click", function (event) {
+			event.preventDefault();
+		
+			// Store the desired URL in a cookie
+			document.cookie = "redirectUrl=/concerts/3/sectorLayout; path=/"; // You can customize the cookie name
+			});
+		}
+		});
 	</script>
 
 	<script src="/js/bootstrap.bundle.min.js"></script>

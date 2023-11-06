@@ -112,11 +112,7 @@ public class HTMLController {
 
     @GetMapping("concerts/{concertId}/sectorLayout")
     public String getSectorLayout(@PathVariable("concertId") Long concertId, Model model, Authentication authentication){
-        // if (session.getAttribute("selectSectorButtonClicked") == null || !(boolean) session.getAttribute("selectSectorButtonClicked")) {
-        //     // If the session attribute is not set or is false, redirect the user back to the previous page
-        //     return "redirect:/../../../login"; // Replace with the URL of the previous page
-        // }
-        // session.setAttribute("selectSectorButtonClicked", null);
+        model = checkAuth(authentication, model);
         List<Sector> sectors = concertService.getConcertById(concertId).getConcertVenue().getSectors();
         Map<String, Object> attributeMap = new HashMap<>();
 
@@ -133,23 +129,19 @@ public class HTMLController {
         return "concertStorage/" + concertId + "/sectorLayout.html";
     }
 
-    @PostMapping("/setSelectSectorButtonClicked")
-    public ResponseEntity<String> setSelectSectorButtonClicked(HttpSession session) {
-        session.setAttribute("selectSectorButtonClicked", true);
-        return ResponseEntity.ok("Attribute set to true");
-    }
-
     @GetMapping("concerts/{concertId}/sectorLayout/selectSeat/{sectorName}")
-    public String seatplan(@PathVariable("concertId") Long concertId, @PathVariable("sectorName") String sectorName, Model model, HttpSession session){
+    public String getSeatPlan(@PathVariable("concertId") Long concertId, @PathVariable("sectorName") String sectorName, Model model, Authentication authentication){
+        model = checkAuth(authentication, model);
         model.addAttribute("concertId", concertId);
         model.addAttribute("sectorName", sectorName);
         return "concertStorage/seatLayout.html";
     }
 
     @PostMapping("/bookingSuccess")
-    public ResponseEntity<String> handleSeatSelection(HttpServletRequest request, @RequestBody Map<String, Object> requestBody) {
+    public ResponseEntity<String> handleSeatSelection(HttpServletRequest request, @RequestBody Map<String, Object> requestBody, Authentication auth, Model model) {
         // CsrfToken csrfToken = (CsrfToken) request.getAttribute(CsrfToken.class.getName());
-
+        model = checkAuth(auth, model);
+        Long userId = (Long) model.getAttribute("userId");
         // if (csrfToken != null && csrfToken.getToken().equals(requestBody.get("_csrf"))) {
             this.concertId = Long.valueOf((Integer) requestBody.get("concertId"));
             this.sectorName = (String) requestBody.get("sectorName");
@@ -160,7 +152,7 @@ public class HTMLController {
 System.out.println("now changing concert's selected seats to pending...");
             Venue venue = concertService.getConcertById(concertId).getConcertVenue();
             
-            sectorService.updateSelectedSeatsToStatus(venue, selectedSeats, sectorName, 'P');
+            sectorService.updateSelectedSeatsToStatus(venue, selectedSeats, sectorName, 'P', userId);
 
 System.out.println("all done!");
             return ResponseEntity.ok(responseMessage);
@@ -170,7 +162,8 @@ System.out.println("all done!");
     }
 
     @GetMapping("/bookingSuccessDetails")
-    public String showBookingDetails(Model model, HttpSession session) {
+    public String showBookingDetails(Model model, HttpSession session, Authentication authentication) {
+        model = checkAuth(authentication, model);
         session.setAttribute("seatSelectAllowed", false);
         // Now you can use these attributes in your view or processing logic
         model.addAttribute("concertId", concertId);
@@ -180,14 +173,44 @@ System.out.println("all done!");
     }
 
     @GetMapping("user/{userId}/purchasedtickets")
-    public String puchasedTickets(@PathVariable("userId") Long userId, Model model){
-        model.addAttribute("userId", userId);
+    public String puchasedTickets(@PathVariable("userId") Long userId, Model model, Authentication authentication){
+        model = checkAuth(authentication, model);
         return "purchased-tickets";
     }
 
+    @GetMapping("/add-to-marketplace/{ticketId}")
+    public String handleMarketplaceAddition(@PathVariable Long ticketId, Model model, Authentication authentication) {
+        model = checkAuth(authentication, model);
+        Long userId = (Long)model.getAttribute("userId");
+
+        try {
+            ticketService.setUserIdAndStatus(ticketId, userId, 'M');
+        } catch (RuntimeException e){
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+        }
+        
+        return "add-to-marketplace-success";
+    }
+
+    @GetMapping("/rmv-from-marketplace/{ticketId}")
+    public String handleMarketplaceRemoval(@PathVariable Long ticketId, Model model, Authentication authentication) {
+        model = checkAuth(authentication, model);
+        Long userId = (Long)model.getAttribute("userId");
+
+        try {
+            ticketService.setUserIdAndStatus(ticketId, userId, 'U');
+        } catch (RuntimeException e){
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+        }
+        
+        return "rmv-from-marketplace-success";
+    }
+
     @GetMapping("user/{userId}/shoppingcart")
-    public String getShoppingCart(@PathVariable Long userId, Model model){
-        model.addAttribute("userId", userId);
+    public String getShoppingCart(@PathVariable Long userId, Model model, Authentication authentication){
+        model = checkAuth(authentication, model);
         return "shoppingcart";
     }
 
@@ -203,18 +226,21 @@ System.out.println("all done!");
     }
 
     @GetMapping("/user/{userId}/shoppingcart/{ticketId}/purchase-success")
-    public String shoppingCartPurchaseSuccess(@PathVariable("userId") Long userId, @PathVariable("ticketId") Long ticketId, Model model){
+    public String shoppingCartPurchaseSuccess(@PathVariable("userId") Long userId, @PathVariable("ticketId") Long ticketId, Model model, Authentication authentication){
+        model = checkAuth(authentication, model);
         model.addAttribute("ticketId", ticketId);
         return "shoppingcart-purch-success.html";
     }
 
     @GetMapping("/marketplace")
-    public String marketplace(){
+    public String marketplace(Authentication authentication, Model model){
+        model = checkAuth(authentication, model);
         return "marketplace/marketplace.html";
     }
 
     @GetMapping("/marketplace/{ticketId}")
-    public String marketplaceViewTicket(@PathVariable Long ticketId, Model model){
+    public String marketplaceViewTicket(@PathVariable Long ticketId, Authentication authentication, Model model){
+        model = checkAuth(authentication, model);
         model.addAttribute("ticketId", ticketId);
         return "marketplace/marketplace-ticket.html";
     }
@@ -245,7 +271,8 @@ System.out.println("all done!");
     // }
 
     @GetMapping("/marketplace/{ticketId}/purchase-success")
-    public String marketplacePurchaseSuccess(@PathVariable Long ticketId, Model model){
+    public String marketplacePurchaseSuccess(@PathVariable Long ticketId, Model model, Authentication authentication){
+        model = checkAuth(authentication, model);
         model.addAttribute("ticketId", ticketId);
         return "/marketplace/marketplace-purch-success.html";
     }
@@ -323,6 +350,12 @@ System.out.println("all done!");
      *  
      */
     /*
+
+    @PostMapping("/setSelectSectorButtonClicked")
+    public ResponseEntity<String> setSelectSectorButtonClicked(HttpSession session) {
+        session.setAttribute("selectSectorButtonClicked", true);
+        return ResponseEntity.ok("Attribute set to true");
+    }
 
     @GetMapping("/services")
     public String services(Model model){

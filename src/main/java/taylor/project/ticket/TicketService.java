@@ -22,6 +22,8 @@ public interface TicketService {
 
     Optional<Ticket> findSpecificTicket(Concert c, String sectName, String rowName, Integer seatNo);
 
+    List<Ticket> getTicketsByConcertAndSectorName(Concert c, String sectorName);
+
     /**
      * Change method's signature: do not return a value for delete operation
      * @param id

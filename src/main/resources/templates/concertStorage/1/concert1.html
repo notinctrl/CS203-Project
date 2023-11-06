@@ -148,7 +148,8 @@
 			<label for="date"><b>Select date:<br> (2024.03.02 to 2024.03.09)<br></b>
 				<input style="background: greenyellow" type="date" id="date" max="2024-03-09" min="2024-03-02" value="2024-03-02">
 			</label>
-			<p><a href="/../concerts/1/sectorLayout" class="btn btn-black">BUY TICKETS HERE</a></p>
+			<p th:if="${username}"><a href="/concerts/1/sectorLayout" class="btn btn-black">BUY TICKETS HERE</a></p>
+			<p th:unless="${username}"><a href="/../login" class="btn btn-black">BUY TICKETS HERE</a></p>
 		</div>
 		<pre style="color:black ; float:center ; margin: 30px ; font-family:Roboto ; font-size:medium;">
 			<b>STANDARD</b>
