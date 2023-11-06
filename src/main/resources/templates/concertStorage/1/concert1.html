@@ -147,8 +147,8 @@
 			<label for="date"><b>Select date:<br> (2024.03.02 to 2024.03.09)<br></b>
 				<input style="background: greenyellow" type="date" id="date" max="2024-03-09" min="2024-03-02" value="2024-03-02">
 			</label>
-			<p th:if="${username}"><a href="/concerts/1/sectorLayout" class="btn btn-black">BUY TICKETS HERE</a></p>
-			<p th:unless="${username}"><a href="/../login" class="btn btn-black">BUY TICKETS HERE</a></p>
+			<p th:if="${username}"><a href="/concerts/1/sectorLayout" class="btn btn-primary-outline white">BUY TICKETS HERE</a></p>
+			<p th:unless="${username}"><a href="/../login" class="btn btn-primary-outline white">BUY TICKETS HERE</a></p>
 		</div>
 		<pre style="color:white ; float:center ; margin: 30px ; font-family:Roboto ; font-size:medium;">
 			<b>STANDARD</b>
@@ -220,11 +220,11 @@
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-4 pe-lg-5" data-aos="fade-up">
-					<span class="subheading d-inline-block mb-2">TTTicket</span>
-					<h2 class="mb-4">Expressing Diversity through Concerts</h2>
-					<p class="mb-5">We organize and hold concerts of various genres from different countries,
+					<span class="subheading d-inline-block mb-2" style="color:white">TTTicket</span>
+					<h2 class="mb-4" style="color:white">Expressing Diversity through Concerts</h2>
+					<p class="mb-5" style="color:white">We organize and hold concerts of various genres from different countries,
 						providing the opportunity to experience cultural diversity.</p>
-					<p><a href="/concerts" class="btn btn-black">Interested in other Concerts?</a></p>
+					<p><a href="/concerts" class="btn btn-primary-outline white">Interested in other Concerts?</a></p>
 				</div>
 				<div class="col-lg-8">
 					<div class="row">
