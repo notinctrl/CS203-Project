@@ -55,11 +55,14 @@ public class HTMLController {
 
     @GetMapping("/index")
     public String index(Model model, Authentication authentication) throws IOException{
+        Long userId;
         if (authentication!=null) {
-                    UserDetails userDetails =(UserDetails)authentication.getPrincipal();
-                    model.addAttribute("username", userDetails.getUsername());
-                    User user = userService.getUser(userDetails.getUsername());
+            UserDetails userDetails =(UserDetails)authentication.getPrincipal();
+            model.addAttribute("username", userDetails.getUsername());
+            userId = userService.getUser(userDetails.getUsername()).getId();
+            model.addAttribute("userId", userId);
         }
+
         List<Concert> concerts = concertService.listConcerts();
         int num = 1;
         for (Concert c : concerts){
@@ -75,52 +78,6 @@ public class HTMLController {
 
         return "index";
     }
-
-    // @PostMapping("/selectSectorButton")
-    // public String selectSectorButton(@RequestParam String token, HttpSession session) {
-    //     // Get the generated one-time token for this session
-    //     String sessionToken = (String) session.getAttribute("selectSectorButtonToken");
-
-    //     // Verify that the provided token matches the one from the session
-    //     if (sessionToken != null && sessionToken.equals(token)) {
-    //         // Token is valid, set the session attribute
-    //         session.setAttribute("selectSectorButtonClicked", true);
-    //         // Redirect to the select sector page
-    //         return "redirect:/concerts/1/sectorLayout";
-    //     } else {
-    //         // Invalid token, handle accordingly
-    //         // For added security, you can invalidate the token here
-    //         // and/or log suspicious activity
-    //         return "redirect:/error";
-    //     }
-    // }
-
-    // @GetMapping("/generateToken")
-    // public String generateToken(HttpSession session) {
-    //     String oneTimeToken = UUID.randomUUID().toString(); // Generate a random token
-    //     session.setAttribute("selectSectorButtonToken", oneTimeToken);
-    //     return "redirect:/index"; // Redirect back to your index page
-    // }
-
-    // @GetMapping("/checkToken")
-    // public String checkToken(HttpSession session) {
-    //     String sessionToken = (String) session.getAttribute("selectSectorButtonToken");
-    //     System.out.println("Generated Token: " + sessionToken);
-    //     return "redirect:/index"; // Redirect to the index page or any other page
-    // }
-
-    // @RequestMapping(value = "/submit-form", method = RequestMethod.POST)
-    // public String submitForm(CsrfToken csrfToken) {
-    //     // Check the CSRF token
-    //     if (csrfToken != null) {
-    //         // Process the form data here
-    //         // Redirect to a success page or return a response as needed
-    //         return "success";
-    //     } else {
-    //         // Handle the case where the token is missing or invalid
-    //         return "error";
-    //     }
-    // }
 
     @GetMapping("concerts/{concertId}")
     public String viewConcert(@PathVariable Long concertId){
@@ -145,7 +102,7 @@ public class HTMLController {
         }
 
 // checker for what the model contains
-System.out.println("model has " + model);
+// System.out.println("model has " + model);
         model.addAttribute("attributeMap", attributeMap);
         return "concertStorage/" + concertId + "/sectorLayout.html";
     }
@@ -155,8 +112,9 @@ System.out.println("model has " + model);
         session.setAttribute("selectSectorButtonClicked", true);
         return ResponseEntity.ok("Attribute set to true");
     }
-    @GetMapping("/concerts.html")
-    public String concerts(Model model) throws IOException{
+
+    @GetMapping("/concerts")
+    public String allConcerts(Model model) throws IOException{
         List<Concert> concerts = concertService.listConcerts();
         int num = 1;
         for (Concert c : concerts){
@@ -188,18 +146,15 @@ System.out.println("model has " + model);
             this.concertId = Long.valueOf((Integer) requestBody.get("concertId"));
             this.sectorName = (String) requestBody.get("sectorName");
             this.selectedSeats = (List<String>) requestBody.get("selectedSeats");
-            // Object obj = requestBody.get("selectedSeats");
-            // if (obj instanceof List<String>) System.out.println("string list");
-            // else if (obj instanceof List<Integer>)
 
     // System.out.println("concertid: " + concertId + " sectName:" + sectorName + " selseats:" + selectedSeats);
             String responseMessage = "Received the following seats: " + selectedSeats.toString();
-            System.out.println("now changing concert's selected seats to pending...");
+System.out.println("now changing concert's selected seats to pending...");
             Venue venue = concertService.getConcertById(concertId).getConcertVenue();
             
             sectorService.updateSelectedSeatsToStatus(venue, selectedSeats, sectorName, 'P');
 
-        System.out.println("all done!");
+System.out.println("all done!");
             return ResponseEntity.ok(responseMessage);
         // } else {
         //     return ResponseEntity.status(HttpStatus.FORBIDDEN).body("CSRF Token Validation Failed");
@@ -216,20 +171,10 @@ System.out.println("model has " + model);
         return "ticket-carted-success.html"; // Return the view where you want to display the data
     }
 
-    @GetMapping("/contact")
-    public String contact(Model model){
-        return "contact";
-    }
-
     @GetMapping("user/{userId}/purchasedtickets")
     public String puchasedTickets(@PathVariable("userId") Long userId, Model model){
         model.addAttribute("userId", userId);
         return "purchased-tickets";
-    }
-
-    @GetMapping("/services")
-    public String services(Model model){
-        return "services";
     }
 
     @GetMapping("user/{userId}/shoppingcart")
@@ -266,18 +211,23 @@ System.out.println("model has " + model);
         return "marketplace/marketplace-ticket.html";
     }
 
-    //TODO: TRACK USER ID WHEN BUYING
     @GetMapping("/marketplace/{ticketId}/purchase-marketplace-ticket")
-    public String marketplaceHandlePurchase(@PathVariable("ticketId") Long ticketId, Model model){
-        //TODO: track the user so i can get his id for this method.
-        Long buyerUserId = 2L;
-        try {
-            ticketService.setUserIdAndStatus(ticketId, buyerUserId, 'U');
-        } catch (RuntimeException e){
-            System.out.println(e.getMessage());
-            return "redirect:/marketplace/error";
+    public String marketplaceHandlePurchase(Authentication auth, @PathVariable("ticketId") Long ticketId, Model model){
+        Long userId;
+        if (auth != null) {
+            UserDetails userDetails =(UserDetails)auth.getPrincipal();
+            model.addAttribute("username", userDetails.getUsername());
+            userId = userService.getUser(userDetails.getUsername()).getId();
+            model.addAttribute("userId", userId);
+            try {
+                ticketService.setUserIdAndStatus(ticketId, userId, 'U');
+            } catch (RuntimeException e){
+                System.out.println(e.getMessage());
+                return "redirect:/marketplace/error";
+            }
+            return "redirect:/marketplace/" + ticketId + "/purchase-success";
         }
-        return "redirect:/marketplace/" + ticketId + "/purchase-success";
+        throw new RuntimeException("User is not logged in");       
     }
 
     // @GetMapping("/marketplace/{ticketId}/purchase-marketplace-ticket/{buyerUserId}")
@@ -365,6 +315,64 @@ System.out.println("model has " + model);
      *  
      */
     /*
+
+    @GetMapping("/services")
+    public String services(Model model){
+        return "services";
+    }
+
+    
+    @GetMapping("/contact")
+    public String contact(Model model){
+        return "contact";
+    }
+
+        // @PostMapping("/selectSectorButton")
+    // public String selectSectorButton(@RequestParam String token, HttpSession session) {
+    //     // Get the generated one-time token for this session
+    //     String sessionToken = (String) session.getAttribute("selectSectorButtonToken");
+
+    //     // Verify that the provided token matches the one from the session
+    //     if (sessionToken != null && sessionToken.equals(token)) {
+    //         // Token is valid, set the session attribute
+    //         session.setAttribute("selectSectorButtonClicked", true);
+    //         // Redirect to the select sector page
+    //         return "redirect:/concerts/1/sectorLayout";
+    //     } else {
+    //         // Invalid token, handle accordingly
+    //         // For added security, you can invalidate the token here
+    //         // and/or log suspicious activity
+    //         return "redirect:/error";
+    //     }
+    // }
+
+    // @GetMapping("/generateToken")
+    // public String generateToken(HttpSession session) {
+    //     String oneTimeToken = UUID.randomUUID().toString(); // Generate a random token
+    //     session.setAttribute("selectSectorButtonToken", oneTimeToken);
+    //     return "redirect:/index"; // Redirect back to your index page
+    // }
+
+    // @GetMapping("/checkToken")
+    // public String checkToken(HttpSession session) {
+    //     String sessionToken = (String) session.getAttribute("selectSectorButtonToken");
+    //     System.out.println("Generated Token: " + sessionToken);
+    //     return "redirect:/index"; // Redirect to the index page or any other page
+    // }
+
+    // @RequestMapping(value = "/submit-form", method = RequestMethod.POST)
+    // public String submitForm(CsrfToken csrfToken) {
+    //     // Check the CSRF token
+    //     if (csrfToken != null) {
+    //         // Process the form data here
+    //         // Redirect to a success page or return a response as needed
+    //         return "success";
+    //     } else {
+    //         // Handle the case where the token is missing or invalid
+    //         return "error";
+    //     }
+    // }
+
     @PostMapping("/upload") // //new annotation since 4.3
     public String singleFileUpload(@RequestParam("file") MultipartFile file,
                                    RedirectAttributes redirectAttributes) {

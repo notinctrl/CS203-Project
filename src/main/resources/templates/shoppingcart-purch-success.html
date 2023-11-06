@@ -215,7 +215,7 @@
 	<script th:inline="javascript">
 
 		var ticketId = /*[[${ticketId}]]*/ null;
-		// console.log(userId);
+		console.log(userId);
 		
 		fetch('http://localhost:8080/tickets')
         .then(response => response.json())

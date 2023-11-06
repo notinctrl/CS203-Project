@@ -29,6 +29,7 @@
 </head>
 <body>
 
+	<!-- Nav Bar for Mobile -->
 	<div class="site-mobile-menu site-navbar-target">
 		<div class="site-mobile-menu-header">
 			<div class="site-mobile-menu-close">
@@ -38,6 +39,7 @@
 		<div class="site-mobile-menu-body"></div>
 	</div>
 
+	<!-- Nav Bar -->
 	<nav class="site-nav">
 		<div class="container">
 			<div class="site-navigation">
@@ -45,24 +47,24 @@
 
 				<ul class="js-clone-nav d-none d-lg-inline-block text-start site-menu float-end">
 					<li class="active"><a href="index">Home</a></li>
-					<li><a href="/services">Services</a></li>
+					<li><a href="/concerts">All Concerts</a></li>
 					<li><a href="/marketplace">Marketplace</a></li>
-					<li><a href="/user/2/purchasedtickets">My Tickets</a></li>
-					<li><a href="/user/2/shoppingcart">Shopping Cart</a></li>
+
+					<li th:unless="${username}"><a href="login">My Tickets</a></li>
+					<li th:unless="${username}"><a href="login">Shopping Cart</a></li>
+
+					<li th:if="${username}"><a id="myTicketsLink" href="#">My Tickets</a></li>
+					<li th:if="${username}"><a id="shoppingCartLink" href="#">Shopping Cart</a></li>
+					
+					<!-- <li><a href="/user/2/purchasedtickets">My Tickets</a></li> -->
+					<!-- <li><a href="/user/2/shoppingcart">My Tickets</a></li> -->
+
 					<li th:unless="${username}"><a href="login">Login/Signup</a></li>
 					<li th:if="${username}" class="has-children">
-						<a href="#"><span th:text="${username}"></span></a>
+						<a href="#"><span>Welcome, <strong th:text="${username}"></strong></span></a>
 						<ul class="dropdown">
-							<li><a href="#">Account details</a></li>
-							<li><a href="#">My purchases</a></li>
-							<!-- <li class="has-children">
-								<a href="#">Menu Two</a>
-								<ul class="dropdown">
-									<li><a href="#">Sub Menu One</a></li>
-									<li><a href="#">Sub Menu Two</a></li>
-									<li><a href="#">Sub Menu Three</a></li>
-								</ul>
-							</li> -->
+							<li><a href="#">Account Details</a></li>
+							<!-- <li><a href="#">My purchases</a></li> -->
 							<li><a href="logout">Logout</a></li>
 						</ul>
 					</li>
@@ -75,6 +77,7 @@
 		</div>
 	</nav>
 
+	<!-- Main Photo and Title -->
 	<div class="hero v-h-full overlay">
 		<div class="img-bg rellax">
 			<img src="../static/images/Main_Background.jpg" alt="Image" class="img-fluid" th:src="@{/images/Main_Background.jpg}"/>
@@ -83,7 +86,7 @@
 			<div class="row align-items-center v-h-full">
 				<div class="col-lg-10 col-xxl-6">
 					<h1 class="heading-2 text-white mb-5" data-aos="fade-up">See your stars live seamlessly.</h1>
-					<p data-aos="fade-up" class="d-flex" data-aos-delay="200"><input class="btn btn-primary-outline white me-4" value="Find a concert now!" type="button" onClick="document.getElementById('concerts2').scrollIntoView();" /> <a href="https://www.youtube.com/watch?v=mwtbEGNABWU" class="glightbox d-inline-flex align-items-center playvid"><span class="icon-play me-2"></span><span>Watch our video</span></a></p>
+					<p data-aos="fade-up" class="d-flex" data-aos-delay="200"><input class="btn btn-primary-outline white me-4" value="Find a concert now!" type="button" onClick="document.getElementById('main-concerts').scrollIntoView();" /></p>
 					<p data-aos="fade-up" class="d-flex" data-aos-delay="200">
 					</p>
 					<p id="demo"></p>
@@ -93,10 +96,14 @@
 		</div>
 
 	</div>
+
+	<!-- Spacer for the image banner -->
 	<div class="row justify-content-center mb-5">
 		<div class="col-lg-6 text-center" data-aos="fade-up" data-aos-delay="100">
 		</div>
 	</div>
+
+	<!-- Image Banner -->
 	<div class="main-banner" id="main-banner">
 		<div class="imgbanbtn imgbanbtn-prev" id="imgbanbtn-prev"></div>
 		<div class="imgban" id="imgban3">
@@ -110,113 +117,11 @@
 		</div>
 		<div class="imgbanbtn imgbanbtn-next" id="imgbanbtn-next"></div>
 	</div>
-	<script>
-		var bannerStatus = 1;
-		var bannerTimer = 4000;
 
-		window.onload = function() {
-			bannerLoop();
-		}
-
-		var startBannerLoop = setInterval(function() {
-			bannerLoop();
-		}, bannerTimer);
-
-		document.getElementById("main-banner").onmouseenter = function() {
-			clearInterval(startBannerLoop);
-		}
-		document.getElementById("main-banner").onmouseleave = function() {
-			startBannerLoop = setInterval(function() {
-				bannerLoop();
-			}, bannerTimer);
-		}
-		document.getElementById("imgbanbtn-prev").onclick = function() {
-			if (bannerStatus === 1){
-				bannerStatus = 2;
-			} else if (bannerStatus === 2){
-				bannerStatus = 3;
-			} else if (bannerStatus === 3){
-				bannerStatus = 1;
-			}
-			bannerLoop();
-		}
-		document.getElementById("imgbanbtn-next").onclick = function() {
-			bannerLoop();
-		}
-		document.getElementById("imgbanbtn-prev").onclick = function() {
-			if (bannerStatus === 1){
-				bannerStatus = 2;
-			} else if (bannerStatus === 2){
-				bannerStatus = 3;
-			} else if (bannerStatus === 3){
-				bannerStatus = 1;
-			}
-			bannerLoop();
-		}
-		document.getElementById("imgban1").onclick = function() {
-			window.location.href = 'concert1';
-		}
-		document.getElementById("imgban2").onclick = function() {
-			window.location.href = 'concert2';
-		}
-		document.getElementById("imgban3").onclick = function() {
-			window.location.href = 'concert3';
-		}
-
-		function bannerLoop(){
-			if (bannerStatus === 1){
-				document.getElementById("imgban2").style.opacity = "0";
-				setTimeout(function() {
-					document.getElementById("imgban1").style.right = "0px";
-					document.getElementById("imgban1").style.zIndex = "1000";
-					document.getElementById("imgban2").style.right = "-1200px";
-					document.getElementById("imgban2").style.zIndex = "1500";
-					document.getElementById("imgban3").style.right = "1200px";
-					document.getElementById("imgban3").style.zIndex = "500";
-				}, 500);
-				setTimeout(function() {
-					document.getElementById("imgban2").style.opacity = "1";
-				}, 1000);
-				bannerStatus = 2;
-			}
-			else if (bannerStatus === 2){
-				document.getElementById("imgban3").style.opacity = "0";
-				setTimeout(function() {
-					document.getElementById("imgban2").style.right = "0px";
-					document.getElementById("imgban2").style.zIndex = "1000";
-					document.getElementById("imgban3").style.right = "-1200px";
-					document.getElementById("imgban3").style.zIndex = "1500";
-					document.getElementById("imgban1").style.right = "1200px";
-					document.getElementById("imgban1").style.zIndex = "500";
-				}, 500);
-				setTimeout(function() {
-					document.getElementById("imgban3").style.opacity = "1";
-				}, 1000);
-				bannerStatus = 3;
-			}
-			else if (bannerStatus === 3){
-				document.getElementById("imgban1").style.opacity = "0";
-				setTimeout(function() {
-					document.getElementById("imgban3").style.right = "0px";
-					document.getElementById("imgban3").style.zIndex = "1000";
-					document.getElementById("imgban1").style.right = "-1200px";
-					document.getElementById("imgban1").style.zIndex = "1500";
-					document.getElementById("imgban2").style.right = "1200px";
-					document.getElementById("imgban2").style.zIndex = "500";
-				}, 500);
-				setTimeout(function() {
-					document.getElementById("imgban1").style.opacity = "1";
-				}, 1000);
-				bannerStatus = 1;
-			}
-		}
-	</script>
-
-<!-- img src="images/img_1.jpg" -->
-	<div id="concerts1"></div>
+	<!-- Concert Listings - Top Picks -->
 	<div class="section bg-light">
 		<div class="container">
-			<div class="row justify-content-center mb-5">
+			<div id="main-concerts" class="row justify-content-center mb-5">
 				<div class="col-lg-6 text-center" data-aos="fade-up" data-aos-delay="100">
 					<!-- <span class="subheading mb-2 d-inline-block">Awesome Portfolio</span> -->
 					<!-- <h2 class="mb-4">Our Portfolio</h2> -->
@@ -228,7 +133,7 @@
 					<div class="service grayscale">
 						<div class="service-img">
 							<!-- <h3>Connect</h3> -->
-							<a href="/concerts/1"><img th:src="${Concert1Image}" class="container-fluid"></a>
+							<a href="/concerts/1"><img th:src="${Concert1Image}" class="container-fluid" width="150px"></a>
 						</div>
 						<div class="service-inner">
 							<span></span>
@@ -236,7 +141,7 @@
 							<h3 th:text="${Concert1Date}">Concert Date</h3>
 							<h3 th:text="${Concert1Time}">Concert Time</h3>
 							<p>Taylor Swift | The Eras Tour in Singapore will take place on 2, 3, 4 & 7, 8, 9 March 2024 at Singapore’s National Stadium.</p>
-							<p class="mb-0"><a href="concert1" class="more">Learn more</a></p>
+							<p class="mb-0"><a href="/concerts/1" class="more">Learn more</a></p>
 						</div>
 
 					</div>
@@ -244,7 +149,7 @@
 				<div class="col-lg-4 mb-4 mb-lg-0" data-aos="fade-up" data-aos-delay="100">
 					<div class="service grayscale">
 						<div class="service-img">
-							<a href="/concerts/2"><img th:src="${Concert2Image}" class="container-fluid"></a>
+							<a href="/concerts/2"><img th:src="${Concert2Image}" class="container-fluid" width="150px"></a>
 						</div>
 						<div class="service-inner">
 							<span></span>
@@ -252,7 +157,7 @@
 							<h3 th:text="${Concert2Date}">Concert Date</h3>
 							<h3 th:text="${Concert2Time}">Concert Time</h3>
 							<p>Following the spectacular sellout success of Coldplay’s newly announced January and February 2024 dates in Asia, the band have today announced additional dates as part of their record-breaking Music Of The Spheres World Tour.</p>
-							<p class="mb-0"><a href="concert2" class="more">Learn more</a></p>
+							<p class="mb-0"><a href="/concerts/2" class="more">Learn more</a></p>
 						</div>
 
 					</div>
@@ -260,7 +165,7 @@
 				<div class="col-lg-4 mb-4 mb-lg-0" data-aos="fade-up" data-aos-delay="200">
 					<div class="service grayscale">
 						<div class="service-img">
-							<a href="/concerts/3"><img th:src="${Concert3Image}" class="container-fluid"></a>
+							<a href="/concerts/3"><img th:src="${Concert3Image}" class="container-fluid" width="150px"></a>
 						</div>
 						<div class="service-inner">
 							<span></span>
@@ -268,7 +173,7 @@
 							<h3 th:text="${Concert3Date}">Concert Date</h3>
 							<h3 th:text="${Concert3Time}">Concert Time</h3>
 							<p>In 2013, BTS (aka the Bangtan Boys) stepped onto the K-pop scene thanks to record label Big Hit Entertainment. Members Kim Namjoon (RM), Kim Seokjin (Jin), Min Yoongi (Suga), Jung Hoseok (J-Hope), Park Jimin, Kim Taehyung (V), and Jeon Jungkook.</p>
-							<p class="mb-0"><a href="concert3" class="more">Learn more</a></p>
+							<p class="mb-0"><a href="/concerts/3" class="more">Learn more</a></p>
 						</div>
 
 					</div>
@@ -277,8 +182,14 @@
 		</div>
 	</div>
 
+	<!-- Button for All Concerts -->
+	<div class="col-lg-7 col-xxl-6 mx-auto text-center">
+		<p data-aos="fade-up" data-aos-delay="300"><a href="/concerts" class="btn btn-primary-outline black me-4">All Concerts</a></p>
+	</div>
+
+	<!-- Concert Listings - Coming Soon -->
 	<div class="section">
-		<div id = "concerts2">
+		<div>
 		<div class="container">
 			<div class="row justify-content-center mb-5">
 				<div class="col-lg-6 text-center" data-aos="fade-up" data-aos-delay="100">
@@ -318,7 +229,7 @@
 						</div>
 						<div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="400">
 							<a th:href="${Concert3Image}" class="media-1 glightbox">
-								<img th:src="${Concert3Image}" alt="Image" width="340px" height="530px">
+								<img th:src="${Concert3Image}" alt="Image" width="320px" class="container-fluid">
 								<div class="media-1-content">
 									<!-- <h2>Fruits</h2>
 									<span class="category">Website</span> -->
@@ -341,7 +252,7 @@
 						</div> -->
 						<div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="200">
 							<a href="/concert_posters/bebe_concert_poster.jpg" class="media-1 glightbox">
-								<img src="/concert_posters/bebe_concert_poster.jpg" alt="Image" width="340px" class="container-fluid">
+								<img src="/concert_posters/bebe_concert_poster.jpg" alt="Image" width="320px" class="container-fluid">
 								<div class="media-1-content">
 									<h2>Bebe Rexha 2024</h2>
 									<span class="category">3 November 2023</span>
@@ -350,7 +261,7 @@
 						</div>
 						<div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="300">
 							<a href="/concert_posters/RHCP_concert_poster.jpg" class="media-1 glightbox">
-								<img src="/concert_posters/RHCP_concert_poster.jpg" alt="Image" width="340px" class="container-fluid">
+								<img src="/concert_posters/RHCP_concert_poster.jpg" alt="Image" width="320px" class="container-fluid">
 								<div class="media-1-content">
 									<h2>Red Hot Chili Peppers 2023</h2>
 									<span class="category">16 December 2023</span>
@@ -358,12 +269,12 @@
 							</a>
 						</div>
 
-						<div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="300">
+						<div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="400">
 							<a href="/concert_posters/one-reb_concert_poster.jpg" class="media-1 glightbox">
-								<img src="/concert_posters/one-reb_concert_poster.jpg" alt="Image" width="340px" class="container-fluid">
+								<img src="/concert_posters/one-reb_concert_poster.jpg" alt="Image" width="320px" class="container-fluid">
 								<div class="media-1-content">
 									<h2>One Republic 2023</h2>
-									<span class="category">28 Februaru 2023</span>
+									<span class="category">28 February 2023</span>
 								</div>
 							</a>
 						</div>
@@ -375,168 +286,9 @@
 		</div>
 	</div>
 
-	<div th:if="${username}">
+	<!-- <div th:if="${username}">
         <p>Welcome, <span th:text="${username}"></span></p>
-    </div>
-
-	<div class="section">
-		<div class="container">
-			<div class="row">
-				<div class="col-lg-4 pe-lg-5" data-aos="fade-up">
-					<span class="subheading d-inline-block mb-2">We love to design</span>
-					<h2 class="mb-4">Create Outstanding Website</h2>
-					<p class="mb-5">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
-					<p><a href="#" class="btn btn-black">Get started</a></p>
-				</div>
-				<div class="col-lg-8">
-					<div class="row">
-						<div class="col-6 col-lg-6 mt-5" data-aos="fade-up" data-aos-delay="100">
-							<img src="images/img_v_5-min.jpg" alt="Image" class="img-fluid rounded">
-						</div>
-						<div class="col-6 col-lg-6" data-aos="fade-up" data-aos-delay="200">
-							<img src="images/img_v_6-min.jpg" alt="Image" class="img-fluid rounded">
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-
-
-	<div class="section bg-light">
-		<div class="container">
-			<div class="row mb-5">
-				<div class="col-12 text-center" data-aos="fade-up">
-					<span class="subheading d-inline-block mb-2">Our Services</span>
-					<h2>What we can do for you?</h2>
-				</div>
-			</div>
-			<div class="row align-items-stretch">
-				<div class="col-md-6 col-lg-4 mb-4 mb-lg-5" data-aos="fade-up">
-					<div class="unit-4 d-flex">
-						<div class="unit-4-icon me-4"><span class="feather-briefcase"></span></div>
-						<div>
-							<h3>Web Design</h3>
-							<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Perferendis quis molestiae vitae eligendi at.</p>
-							<p><a href="#" class="more">Learn more</a></p>
-						</div>
-					</div>
-				</div>
-				<div class="col-md-6 col-lg-4 mb-4 mb-lg-5" data-aos="fade-up" data-aos-delay="100">
-					<div class="unit-4 d-flex">
-						<div class="unit-4-icon me-4"><span class="feather-command"></span></div>
-						<div>
-							<h3>Option</h3>
-							<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Perferendis quis molestiae vitae eligendi at.</p>
-							<p><a href="#" class="more">Learn more</a></p>
-						</div>
-					</div>
-				</div>
-				<div class="col-md-6 col-lg-4 mb-4 mb-lg-5" data-aos="fade-up" data-aos-delay="200">
-					<div class="unit-4 d-flex">
-						<div class="unit-4-icon me-4"><span class="feather-cpu"></span></div>
-						<div>
-							<h3>Settings</h3>
-							<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Perferendis quis molestiae vitae eligendi at.</p>
-							<p><a href="#" class="more">Learn more</a></p>
-						</div>
-					</div>
-				</div>
-
-
-				<div class="col-md-6 col-lg-4 mb-4 mb-lg-5" data-aos="fade-up" data-aos-delay="300">
-					<div class="unit-4 d-flex">
-						<div class="unit-4-icon me-4"><span class="feather-home"></span></div>
-						<div>
-							<h3>Settings</h3>
-							<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Perferendis quis molestiae vitae eligendi at.</p>
-							<p><a href="#" class="more">Learn more</a></p>
-						</div>
-					</div>
-				</div>
-				<div class="col-md-6 col-lg-4 mb-4 mb-lg-5" data-aos="fade-up" data-aos-delay="400">
-					<div class="unit-4 d-flex">
-						<div class="unit-4-icon me-4"><span class="feather-feather"></span></div>
-						<div>
-							<h3>Writing</h3>
-							<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Perferendis quis molestiae vitae eligendi at.</p>
-							<p><a href="#" class="more">Learn more</a></p>
-						</div>
-					</div>
-				</div>
-				<div class="col-md-6 col-lg-4 mb-4 mb-lg-5" data-aos="fade-up" data-aos-delay="500">
-					<div class="unit-4 d-flex">
-						<div class="unit-4-icon me-4"><span class="feather-file-text"></span></div>
-						<div>
-							<h3>Mobile Apps</h3>
-							<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Perferendis quis molestiae vitae eligendi at.</p>
-							<p><a href="#" class="more">Learn more</a></p>
-						</div>
-					</div>
-				</div>
-
-			</div>
-		</div>
-	</div>
-
-	<div class="section mb-5">
-		<div class="container">
-			<div class="row mb-5">
-				<div class="col-lg-7" data-aos="fade-up">
-					<span class="subheading mb-2 d-inline-block">Other Interests</span>
-					<h2>You May Also be Interested</h2>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-md-6 col-lg-4 mb-4" data-aos="fade-up" data-aos-delay="100">
-					<a href="#"><img src="images/img_v_3-min.jpg" alt="Image" class="img-fluid rounded mb-4"></a>
-					<h3 class="h4 mb-3"><a href="#">Digital Advertising</a></h3>
-					<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eum consequuntur, iure quidem officiis adipisci</p>
-					<p class="mb-0"><a href="#" class="more">Find out more</a></p>
-				</div>
-				<div class="col-md-6 col-lg-4 mb-4" data-aos="fade-up" data-aos-delay="200">
-					<a href="#"><img src="images/img_v_4-min.jpg" alt="Image" class="img-fluid rounded mb-4"></a>
-					<h3 class="h4 mb-3"><a href="#">Content Creation</a></h3>
-					<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eum consequuntur, iure quidem officiis adipisci</p>
-					<p class="mb-0"><a href="#" class="more">Find out more</a></p>
-				</div>
-				<div class="col-md-6 col-lg-4 mb-4" data-aos="fade-up" data-aos-delay="300">
-					<a href="#"><img src="images/img_v_6-min.jpg" alt="Image" class="img-fluid rounded mb-4"></a>
-					<h3 class="h4 mb-3"><a href="#">Time and Project Mgt.</a></h3>
-					<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eum consequuntur, iure quidem officiis adipisci</p>
-					<p class="mb-0"><a href="#" class="more">Find out more</a></p>
-				</div>
-			</div>
-		</div>
-	</div>
-
-
-	<div class="section section-contact m-md-5 px-md-5">
-		<div class="container">
-			<h2>Subscribe to Newsletter</h2>
-			<p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Qui, exercitationem!</p>
-
-			<form action="" class="form-contact">
-				<div class="row">
-					<div class="col-sm-4 col-md-4 col-lg-4">
-						<div class="form-group">
-							<input type="text" class="form-control" placeholder="Your name">
-						</div>	
-					</div>
-					<div class="col-sm-4 col-md-4 col-lg-4">
-						<div class="form-group">
-							<input type="email" class="form-control" placeholder="Your email">
-						</div>
-					</div>
-
-					<div class="col-sm-4 col-md-4 col-lg-4">
-						<input type="submit" class="btn btn-black btn-block" value="Subscribe">
-					</div>
-
-				</div>
-			</form>
-		</div>	
-	</div>
+    </div> -->
 
 
 	<div class="site-footer">
@@ -613,7 +365,110 @@
 		</div>
 	</div>
 
+	<!-- Script for concert banner view -->
 	<script>
+		var bannerStatus = 1;
+		var bannerTimer = 4000;
+
+		window.onload = function() {
+			bannerLoop();
+		}
+
+		var startBannerLoop = setInterval(function() {
+			bannerLoop();
+		}, bannerTimer);
+
+		document.getElementById("main-banner").onmouseenter = function() {
+			clearInterval(startBannerLoop);
+		}
+		document.getElementById("main-banner").onmouseleave = function() {
+			startBannerLoop = setInterval(function() {
+				bannerLoop();
+			}, bannerTimer);
+		}
+		document.getElementById("imgbanbtn-prev").onclick = function() {
+			if (bannerStatus === 1){
+				bannerStatus = 2;
+			} else if (bannerStatus === 2){
+				bannerStatus = 3;
+			} else if (bannerStatus === 3){
+				bannerStatus = 1;
+			}
+			bannerLoop();
+		}
+		document.getElementById("imgbanbtn-next").onclick = function() {
+			bannerLoop();
+		}
+		document.getElementById("imgbanbtn-prev").onclick = function() {
+			if (bannerStatus === 1){
+				bannerStatus = 2;
+			} else if (bannerStatus === 2){
+				bannerStatus = 3;
+			} else if (bannerStatus === 3){
+				bannerStatus = 1;
+			}
+			bannerLoop();
+		}
+		document.getElementById("imgban1").onclick = function() {
+			window.location.href = '/concerts/1';
+		}
+		document.getElementById("imgban2").onclick = function() {
+			window.location.href = '/concerts/2';
+		}
+		document.getElementById("imgban3").onclick = function() {
+			window.location.href = '/concerts/3';
+		}
+
+		function bannerLoop(){
+			if (bannerStatus === 1){
+				document.getElementById("imgban2").style.opacity = "0";
+				setTimeout(function() {
+					document.getElementById("imgban1").style.right = "0px";
+					document.getElementById("imgban1").style.zIndex = "1000";
+					document.getElementById("imgban2").style.right = "-1200px";
+					document.getElementById("imgban2").style.zIndex = "1500";
+					document.getElementById("imgban3").style.right = "1200px";
+					document.getElementById("imgban3").style.zIndex = "500";
+				}, 500);
+				setTimeout(function() {
+					document.getElementById("imgban2").style.opacity = "1";
+				}, 1000);
+				bannerStatus = 2;
+			}
+			else if (bannerStatus === 2){
+				document.getElementById("imgban3").style.opacity = "0";
+				setTimeout(function() {
+					document.getElementById("imgban2").style.right = "0px";
+					document.getElementById("imgban2").style.zIndex = "1000";
+					document.getElementById("imgban3").style.right = "-1200px";
+					document.getElementById("imgban3").style.zIndex = "1500";
+					document.getElementById("imgban1").style.right = "1200px";
+					document.getElementById("imgban1").style.zIndex = "500";
+				}, 500);
+				setTimeout(function() {
+					document.getElementById("imgban3").style.opacity = "1";
+				}, 1000);
+				bannerStatus = 3;
+			}
+			else if (bannerStatus === 3){
+				document.getElementById("imgban1").style.opacity = "0";
+				setTimeout(function() {
+					document.getElementById("imgban3").style.right = "0px";
+					document.getElementById("imgban3").style.zIndex = "1000";
+					document.getElementById("imgban1").style.right = "-1200px";
+					document.getElementById("imgban1").style.zIndex = "1500";
+					document.getElementById("imgban2").style.right = "1200px";
+					document.getElementById("imgban2").style.zIndex = "500";
+				}, 500);
+				setTimeout(function() {
+					document.getElementById("imgban1").style.opacity = "1";
+				}, 1000);
+				bannerStatus = 1;
+			}
+		}
+	</script>
+
+	<!-- <script>
 		function generateAndVerifyToken() {
 			// Generate a random token
 			var oneTimeToken = generateRandomToken();
@@ -635,12 +490,24 @@
 			// Generate a random token here, e.g., using a library or Math.random()
 			return 'GENERATED_ONE_TIME_TOKEN'; // Replace with actual token generation logic
 		}
-		</script>
-		
+	</script> -->
+	
+	<!-- Script to change login only pages to specific userId -->
+	<script th:inline="javascript">
+		// JavaScript code to create a dynamic URL
+		var userId = /*[[${userId}]]*/ null;
+		if (userId != null){
+			var shoppingCartLink = document.getElementById("shoppingCartLink");
+			shoppingCartLink.href = "/user/" + userId + "/shoppingcart";
+
+			var shoppingCartLink = document.getElementById("myTicketsLink");
+			shoppingCartLink.href = "/user/" + userId + "/purchasedtickets";
+		}
+	</script>
 
 
 	<script src="js/bootstrap.bundle.min.js"></script>
-	<script src="js/tiny-slider.js"></script>
+	<!-- <script src="js/tiny-slider.js"></script> -->
 	<script src="js/aos.js"></script>
 	<script src="js/navbar.js"></script>
 	<script src="js/glightbox.min.js"></script>
@@ -648,7 +515,7 @@
 	<script src="js/custom.js"></script>
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 	<script src="js/globaltimer.js"></script>
-	<script>
+	<!-- <script>
 		document.getElementById("sectorButton").addEventListener("click", function(event) {
 		event.preventDefault(); // Prevent the default behavior of the anchor element
 	
@@ -660,7 +527,7 @@
 			window.location.href = "/concerts/1/sectorLayout";
 		});
 	});
-	</script>
+	</script> -->
 
 </body>
 
