@@ -1,10 +1,8 @@
 package taylor.project.sector;
-
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import java.util.List;
 
-import taylor.project.venue.*;
+import taylor.project.venue.Venue;
 
 
 /**
@@ -15,5 +13,5 @@ import taylor.project.venue.*;
  */
 @Repository
 public interface SectorRepository extends JpaRepository <Sector, Long> {
-    boolean existsBySectorNameAndVenue(String sName, Venue v); 
+    boolean existsBySectorNameAndVenue(String sName, Venue v);
 }

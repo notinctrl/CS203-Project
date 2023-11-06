@@ -1,3 +1,25 @@
+### Ryan's methods
+### Method found in ConcertServiceImpl.java
+GET http://localhost:8080/sectorRowAvailability/1/634
+Accept: application/json
+
+### Method found in UserServiceImpl.java
+GET http://localhost:8080/users/2/purchasedtickets
+Content-Type: application/json
+Authorization: Basic normaluser goodpassword
+
+### Method found in UserController.java
+GET http://localhost:8080/users/2/shoppingcart
+Content-Type: application/json
+Authorization: Basic normaluser goodpassword
+
+###
+GET http://localhost:8080/tickets/
+Content-Type: application/json
+Authorization: Basic normaluser goodpassword
+
+### Ryan End
+
 GET http://localhost:8080/concerts
 
 ###
@@ -18,14 +40,10 @@ GET http://localhost:8080/concerts/byName/BST
 # Should throw a 404 exception because there are no concerts whose name contains "BST"
 
 ###
-GET http://localhost:8080/getSectorRowAvailability/1/634
-Accept: application/json
-
-###
 DELETE http://localhost:8080/concerts/3
 
 
-###
+### outdated
 POST http://localhost:8080/concerts
 Content-Type: application/json
 Authorization: Basic admin goodpassword
@@ -39,7 +57,7 @@ Authorization: Basic admin goodpassword
     "photo": "src/main/resources/static/concert_posters/Coldplay_Concert_Poster.jpg"
 }
 
-###deleting concert works under admin privileges
+### deleting concert works under admin privileges
 DELETE http://localhost:8080/concerts/3
 Content-Type: application/json
 Authorization: Basic admin goodpassword

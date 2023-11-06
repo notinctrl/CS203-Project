@@ -1,0 +1,176 @@
+sectortest2.html (talyer select sector)
+<!--coordinates for the original taylor swift concert layout 
+    <area target="" alt="sector635" title="sector635" href="" coords="556,312,637,279,711,330,634,370" shape="poly">
+<area target="" alt="sector636" title="sector636" href="" coords="465,360,549,315,631,373,556,413" shape="poly">
+<area target="" alt="sector637" title="sector637" href="" coords="383,402,460,360,551,418,485,464" shape="poly">
+<area target="" alt="sector638" title="sector638" href="" coords="313,459,381,405,469,459,402,507" shape="poly">
+<area target="" alt="sector639" title="sector639" href="" coords="241,513,278,481,305,460,409,514,345,561" shape="poly">
+<area target="" alt="sector640" title="sector640" href="" coords="204,549,190,571,285,615,342,564,236,514,223,525" shape="poly">
+<area target="" alt="sector641" title="sector641" href="" coords="137,630,223,666,282,616,186,573" shape="poly">
+<area target="" alt="sector642" title="sector642" href="" coords="137,632,97,696,174,715,218,667" shape="poly">
+<area target="" alt="sector643" title="sector643" href="" coords="97,702,73,763,139,773,172,720" shape="poly">
+<area target="" alt="sector644" title="sector644" href="" coords="70,768,59,830,121,832,140,777" shape="poly">
+<area target="" alt="sector645" title="sector645" href="" coords="60,884,107,881,115,835,59,835" shape="poly"> -->
+
+seatLayout.html (old cinema seat divs)
+            <!-- <div class="cinema-row row2">
+                <div class="seatUnavail"></div>
+                <div class="seat"></div>
+                <div class="seat"></div>
+                <div class="seatPend"></div>
+                <div class="seat"></div>
+                <div class="seat"></div>
+                <div class="seat"></div>
+            </div>
+            <div class="cinema-row row1">
+                <div class="seat"></div>
+                <div class="seat"></div>
+                <div class="seat"></div>
+                <div class="seat"></div>
+                <div class="seat"></div>
+                <div class="seat"></div>
+                <div class="seat"></div>
+            </div> -->
+
+shoppingcart.html (center button)
+<div class="container">
+			<div class="row align-items-center v-h-full">
+
+				<div class="col-lg-7 col-xxl-6 mx-auto text-center">
+					<h1 class="heading-2 text-white mb-3" data-aos="fade-up">Services</h1>
+					<p data-aos="fade-up" data-aos-delay="200" class="text-white lead mb-4">Lorem ipsum dolor sit amet consectetur adipisicing elit. Perferendis quis molestiae vitae eligendi at.</p>
+					<p data-aos="fade-up" data-aos-delay="300"><a href="#" class="btn btn-primary-outline white me-4">Get in Touch</a></p>
+				</div>
+
+			</div>
+		</div>
+
+purchased-tickets.html (old code)
+<!-- old code -->
+	<!-- <div class="section bg-light">
+		<div class="container">
+			<div class="row mb-5">
+				<div class="col-12 text-center" data-aos="fade-up">
+					<span class="subheading d-inline-block mb-2">Our Services</span>
+					<h2>What we can do for you?</h2>
+				</div>
+			</div>
+			<div class="row align-items-stretch">
+				<div class="col-md-6 col-lg-4 mb-4 mb-lg-5" data-aos="fade-up">
+					<div class="unit-4 d-flex">
+						<div class="unit-4-icon me-4"><span class="feather-briefcase"></span></div>
+						<div>
+							<h3>Web Design</h3>
+							<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Perferendis quis molestiae vitae eligendi at.</p>
+							<p><a href="#" class="more">Learn more</a></p>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-6 col-lg-4 mb-4 mb-lg-5" data-aos="fade-up" data-aos-delay="100">
+					<div class="unit-4 d-flex">
+						<div class="unit-4-icon me-4"><span class="feather-command"></span></div>
+						<div>
+							<h3>Option</h3>
+							<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Perferendis quis molestiae vitae eligendi at.</p>
+							<p><a href="#" class="more">Learn more</a></p>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-6 col-lg-4 mb-4 mb-lg-5" data-aos="fade-up" data-aos-delay="200">
+					<div class="unit-4 d-flex">
+						<div class="unit-4-icon me-4"><span class="feather-cpu"></span></div>
+						<div>
+							<h3>Settings</h3>
+							<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Perferendis quis molestiae vitae eligendi at.</p>
+							<p><a href="#" class="more">Learn more</a></p>
+						</div>
+					</div>
+				</div>
+
+
+				<div class="col-md-6 col-lg-4 mb-4 mb-lg-5" data-aos="fade-up" data-aos-delay="300">
+					<div class="unit-4 d-flex">
+						<div class="unit-4-icon me-4"><span class="feather-home"></span></div>
+						<div>
+							<h3>Settings</h3>
+							<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Perferendis quis molestiae vitae eligendi at.</p>
+							<p><a href="#" class="more">Learn more</a></p>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-6 col-lg-4 mb-4 mb-lg-5" data-aos="fade-up" data-aos-delay="400">
+					<div class="unit-4 d-flex">
+						<div class="unit-4-icon me-4"><span class="feather-feather"></span></div>
+						<div>
+							<h3>Writing</h3>
+							<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Perferendis quis molestiae vitae eligendi at.</p>
+							<p><a href="#" class="more">Learn more</a></p>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-6 col-lg-4 mb-4 mb-lg-5" data-aos="fade-up" data-aos-delay="500">
+					<div class="unit-4 d-flex">
+						<div class="unit-4-icon me-4"><span class="feather-file-text"></span></div>
+						<div>
+							<h3>Mobile Apps</h3>
+							<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Perferendis quis molestiae vitae eligendi at.</p>
+							<p><a href="#" class="more">Learn more</a></p>
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+
+	<div class="section">
+		<div class="container">
+			<div class="row mb-5">
+				<div class="col-md-6" data-aos="fade-up">
+					<span class="subheading mb-2 d-inline-block">Testimonials</span>
+					<h2>What's Our Client Think...</h2>
+				</div>
+			</div>
+
+			<div class="testimonial-wrap" data-aos="fade-up"  data-aos-delay="100">
+				<div id="testimonial">
+					<div class="item">
+						<div class="testmonial">
+							<span class="quote">&rdquo;</span>
+							<blockquote>
+								<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eum consequuntur, iure quidem officiis adipisci, error odit omnis consequatur doloremque nobis. Quam vitae omnis perferendis excepturi?</p>
+							</blockquote>
+							<div class="d-flex author align-items-center">
+								<div class="pic">
+									<img src="images/person_1.jpg" alt="Image" class="img-fluid">
+								</div>
+								<div class="author-name">
+									<h2>Jon Smith</h2>
+									<span>CEO, Co-Founder XYZ Inc.</span>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="item">
+						<div class="testmonial">
+							<span class="quote">&rdquo;</span>
+							<blockquote>
+								<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eum consequuntur, iure quidem officiis adipisci, error odit omnis consequatur doloremque nobis. Quam vitae omnis perferendis excepturi?</p>
+							</blockquote>
+							<div class="d-flex author align-items-center">
+								<div class="pic">
+									<img src="images/person_2.jpg" alt="Image" class="img-fluid">
+								</div>
+								<div class="author-name">
+									<h2>Jon Smith</h2>
+									<span>CEO, Co-Founder XYZ Inc.</span>
+								</div>
+							</div>
+						</div>
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</div> -->

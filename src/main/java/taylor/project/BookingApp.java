@@ -1,29 +1,23 @@
 package taylor.project;
 
 import java.util.*;
-import java.time.LocalDateTime;
 
-import java.time.LocalDate;
 import java.io.*;
-import java.nio.file.*;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import taylor.project.concert.*;
 import taylor.project.user.*;
 import taylor.project.client.RestTemplateClient;
-import taylor.project.shoppingCart.*;
+// import taylor.project.shoppingCart.*;
 import taylor.project.venue.*;
 import taylor.project.sector.*;
 import taylor.project.ticket.*;
-import taylor.project.sector.exceptions.SectorExistsException;
 
 @SpringBootApplication
-@ComponentScan({"taylor.project","taylor.project.fileupload"})
 public class BookingApp {
 
 	public static void main(String[] args) throws IOException{
@@ -35,37 +29,146 @@ public class BookingApp {
         VenueRepository venues = ctx.getBean(VenueRepository.class);
         TicketRepository tickets = ctx.getBean(TicketRepository.class);
         // refer to below psvm for initialised concerts.
-        List<Venue> vList = iniVenues(ctx, venues, tickets);
+        List<Venue> vList = iniVenues();
         List<Concert> cList = iniConcerts(vList);
+        List<Ticket> tList = iniTickets(vList);
         System.out.println("[Add concert]: " + concerts.save(cList.get(0)).getConcertName());
 
-                // tester for sector seats and information is being added to concert successfully.
-                // + " and Sector " +  cList.get(0).getConcertVenue().getSectors().get(0).getSectorName()
-                // + ", row " + cList.get(0).getConcertVenue().getSectors().get(0).getRowNames().get(0) 
-                // + " has the following seats available = " + cList.get(0).getConcertVenue().getSectors().get(0).getSeats().get(0));
+                
         System.out.println("[Add concert]: " + concerts.save(cList.get(1)).getConcertName());
         System.out.println("[Add concert]: " + concerts.save(cList.get(2)).getConcertName());
 
-        for (Venue v : vList){
-            venues.save(v);
-        }
+        // venues cannot be added into repository in iniVenues.
+        // as a result, i have to save them from the list.
+        // same can be said for the rest of the entities
+        for (Venue v : vList) venues.save(v);
+        for (Ticket t : tList) tickets.save(t);
 
         // JPA user repository init
         UserRepository users = ctx.getBean(UserRepository.class);
         // refer to below psvm for initialised users.
         List<User> uList = iniUsers(ctx);
-        System.out.println("[Add user]: " + users.save(uList.get(0)).getUsername());
+        System.out.println("[Add user]: " + users.save(uList.get(0)).getUsername()
+                                        + " and role " + uList.get(0).getAuthorities());
         System.out.println("[Add user]: " + users.save(uList.get(1)).getUsername() 
-                                        + " with email " + uList.get(1).getEmailAddress());
+                                        + " with email " + uList.get(1).getEmailAddress()
+                                        + " and role " + uList.get(1).getAuthorities());
+        System.out.println("[Add user]: " + users.save(uList.get(2)).getUsername() 
+                                        + " with email " + uList.get(2).getEmailAddress()
+                                        + " and role " + uList.get(2).getAuthorities());
         // System.out.println("[Add user]: " + users.save(uList.get(2)).getUsername());    
         
         // JPA shopping cart repository init. default settings
-        ShoppingCartRepository shoppingCarts = ctx.getBean(ShoppingCartRepository.class);
-        ShoppingCart testShoppingCart1 = new ShoppingCart((long) 1);
-        ShoppingCart testShoppingCart2 = new ShoppingCart((long) 324);
+        // ShoppingCartRepository shoppingCarts = ctx.getBean(ShoppingCartRepository.class);
+        // for (User u : uList){
+        //     shoppingCarts.save(u.getShoppingCart());
+        // }
+        // ShoppingCart testShoppingCart1 = new ShoppingCart((long) 1);
+        // ShoppingCart testShoppingCart2 = new ShoppingCart((long) 324);
 
-        System.out.println("[Add shopping cart]: User ID = " + shoppingCarts.save(testShoppingCart1).getUserID());
-        System.out.println("[Add shopping cart]: User ID = " + shoppingCarts.save(testShoppingCart2).getUserID());
+        // System.out.println("[Add shopping cart]: User ID = " + shoppingCarts.save(testShoppingCart1).getUserID());
+        // System.out.println("[Add shopping cart]: User ID = " + shoppingCarts.save(testShoppingCart2).getUserID());
+
+        // force initialise ticket to sold, normaluser id 2
+        // Optional<Ticket> t = tickets.findById(1L);
+        // Optional<User> u = users.findById(2L);
+        // User user = u.get();
+        // List<Ticket> list = new ArrayList<>();
+
+        // Ticket ticket = t.get();
+        // ticket.setBoughtUser(user);
+        // ticket.setTicketStatus('U');
+        // list.add(ticket);
+        // tickets.save(ticket);
+
+        // t = tickets.findById(2L);
+
+        // ticket = t.get();
+        // ticket.setBoughtUser(user);
+        // ticket.setTicketStatus('U');
+        // tickets.save(ticket);
+        
+        // // System.out.println(user);
+        
+        // // System.out.println(list);
+        // list.add(ticket);
+        // user.setPurchasedTickets(list);
+        // users.save(user);
+
+        // force initialise ticket to pending, normaluser id 2
+        // Optional<Ticket> t1 = tickets.findById(1L);
+        // Optional<Ticket> t2 = tickets.findById(255L);
+        // Optional<User> u = users.findById(2L);
+        // User user = u.get();
+        // System.out.println(user.getUsername());
+        // List<Ticket> sc = new ArrayList<>();
+
+        // Ticket ticket1 = t1.get();
+        // ticket1.setCartedUser(user);
+        // ticket1.setTicketStatus('P');
+        // tickets.save(ticket1); // Save ticket1 first
+        // sc.add(ticket1);
+
+        // Ticket ticket2 = t2.get();
+        // ticket2.setCartedUser(user);
+        // ticket2.setTicketStatus('P');
+        // tickets.save(ticket2); // Save ticket2
+        // sc.add(ticket2);
+
+        // ticket1 = tickets.findById(200L).get();
+        // ticket1.setCartedUser(user);
+        // ticket1.setTicketStatus('P');
+        // tickets.save(ticket1); // Save ticket1 first
+        // sc.add(ticket1);
+
+        // ticket2 = tickets.findById(100L).get();
+        // ticket2.setCartedUser(user);
+        // ticket2.setTicketStatus('P');
+        // tickets.save(ticket2); // Save ticket2
+        // sc.add(ticket2);
+
+        // ticket2 = tickets.findById(140L).get();
+        // ticket2.setCartedUser(user);
+        // ticket2.setTicketStatus('P');
+        // tickets.save(ticket2); // Save ticket2
+        // sc.add(ticket2);
+
+        // System.out.println(sc.size());
+        // user.setShoppingCart(sc); // Set the tickList in ShoppingCart
+        // System.out.println(user.getShoppingCart().size());
+        // users.save(user);
+
+        //pending end
+
+        // force initialise tickets to marketplace
+        // Optional<Ticket> t1 = tickets.findById(1L);
+        // Optional<Ticket> t2 = tickets.findById(255L);
+        // Optional<Ticket> t3 = tickets.findById(347L);
+        // User userSeller = users.findById(3L).get();
+        // List<Ticket> bought = new ArrayList<>();
+
+        // Ticket t = t1.get();
+        // t.setTicketStatus('M');
+        // t.setBoughtUser(userSeller);
+        // bought.add(t);
+        // tickets.save(t);
+
+        // t = t2.get();
+        // t.setTicketStatus('M');
+        // t.setBoughtUser(userSeller);
+        // bought.add(t);
+        // tickets.save(t);
+
+        // t = t3.get();
+        // t.setTicketStatus('M');
+        // t.setBoughtUser(userSeller);
+        // bought.add(t);
+        // tickets.save(t);
+
+        // userSeller.setPurchasedTickets(bought);
+        // users.save(userSeller);
+
+        // marketplace end
 
         // Test the RestTemplate client with authentication
         /**
@@ -100,39 +203,39 @@ public class BookingApp {
         return result;
     }
 
-    public static List<User> iniUsers(ApplicationContext ctx){
+    public static List<User> iniUsers(ApplicationContext ctx){      
         BCryptPasswordEncoder encoder = ctx.getBean(BCryptPasswordEncoder.class);
         List<User> result = new ArrayList<>();
         result.add(new User("admin", encoder.encode("goodpassword"),"19-03-2003", 
             "dsasdgsdf@sfs.com", "dsdfsdsd", "ROLE_ADMIN"));
         result.add(new User("normaluser", encoder.encode("goodpassword"),"23-10-2001", 
             "dsasdgsdf@sfs.com", "dsdfsdsd", "ROLE_USER"));
-        result.add(new User("admin", encoder.encode("goodpassword"), "19-03-2003" ,
-            "hello123@gmail.com" ,"1234", "ROLE_ADMIN"));
+        result.add(new User("normalfag", encoder.encode("goodpassword"),"23-10-2001", 
+            "dsasdgsdf@sfs.com", "dsdfsdsd", "ROLE_USER"));
         return result;
     }
-
-    public static List<Venue> iniVenues(ApplicationContext ctx, VenueRepository venues, TicketRepository tickets){
+    
+    /**
+     * Initialise all the venues and relevant sectors for use in each concert.
+     * 
+     * @return List<Venue> for saving onto the venue repository.
+     */
+    public static List<Venue> iniVenues(){
         
         Venue v1 = new Venue("Singapore National Stadium", 10000,"src/main/resources/static/seating_plan/Taylor_Swift_Seating_Plan.jpg");
-        Venue v2 = new Venue("Singapore Indoor Stadium", 10000, "src/main/resources/static/seating_plan/Charlie_Puth_Seating_Plan.jpg");
-        Venue v3 = new Venue("Esplanade Theatre A", 10000, "src/main/resources/static/seating_plan/Charlie_Puth_Seating_Plan.jpg");
+        Venue v2 = new Venue("Singapore National Stadium", 10000, "src/main/resources/static/seating_plan/Coldplay_Seat_Map.jpg");
+        Venue v3 = new Venue("Singapore National Stadium", 10000, "src/main/resources/static/seating_plan/BTS_Seating_Plan.png");
         List<Venue> result = new ArrayList<>(List.of(v1, v2, v3));
 
-        Sector newSect1 = new Sector(v1, "634", 348.0, new String[]{"A","B","C","D"}, new Integer[]{18,18,18,18}, "src/main/resources/static/seating_plan/sector_seating.png");
-        for(int i = 0; i < newSect1.getRowNames().size(); i++) {
-            String rowName = newSect1.getRowNames().get(i);
-            String seats = newSect1.getSeats().get(i);
-
-            for(int seatNo = 1; seatNo <= seats.length(); seatNo++) {
-                System.out.println("Added ticket:" + tickets.save(new Ticket(newSect1.getSectorName(), rowName, seatNo, newSect1.getTicketPrice())));
-            }
-        }
-        Sector newSect1a = new Sector(v1, "635", 348.0, new String[]{"D", "E", "F"}, new Integer[]{50,50,50}, "src/main/resources/static/seating_plan/sector_seating.png");
-        Sector newSect2 = new Sector(v2, "634", 348.0, new String[]{"A"}, new Integer[]{20}, "src/main/resources/static/seating_plan/sector_seating.png");
-        Sector newSect3 = new Sector(v3, "634", 348.0, new String[]{"A"}, new Integer[]{20}, "src/main/resources/static/seating_plan/sector_seating.png");
-        List<Sector> newSects = new ArrayList<>(List.of(newSect1, newSect1a, newSect2, newSect3));
-
+        Sector swiftSector1 = new Sector(v1, "634", 348.0, new String[]{"A","B","C","D"}, new Integer[]{18,18,18,18});
+        Sector swiftSector2 = new Sector(v1, "635", 348.0, new String[]{"D", "E", "F"}, new Integer[]{50,50,50});
+        Sector coldSect1 = new Sector(v2, "635", 128.0, new String[]{"A", "B","C","D"}, new Integer[]{20,20,20,20});
+        Sector coldSect2 = new Sector(v2, "General_Standing", 168.0, new String[]{"GEN-"}, new Integer[]{300});
+        Sector btsSect1 = new Sector(v3, "Purple_1", 348.0, new String[]{"PURP1-"}, new Integer[]{200});
+        Sector btsSect2 = new Sector(v3, "112", 268.0, new String[]{"A", "AA", "AAA"}, new Integer[]{15,15,15});
+        List<Sector> newSects = new ArrayList<>(List.of(swiftSector1, swiftSector2, coldSect1, coldSect2, btsSect1, btsSect2));
+        
+        // set the venues' sectors to 
         for (Venue v : result){
             ArrayList<Sector> vSectors = new ArrayList<>();
             for (Sector s : newSects){
@@ -142,9 +245,59 @@ public class BookingApp {
         }
         return result;
     }
+
+    /**
+     * Initialise tickets according to the sectors' seats. Mark them as all available, with
+     * a null userid tagged to them
+     * 
+     */
+    public static List<Ticket> iniTickets(List<Venue> venues){
+        List<Ticket> result = new ArrayList<>();
+
+        // get all sectors present in Venues 
+        List<Sector> sectors = new ArrayList<>();
+
+        // iterate through venue list to get all sectors
+        for (Venue v : venues){
+            sectors.addAll(v.getSectors());
+        }
+        // initialise the ticketRepository and fill it with tickets
+        for (Sector sect : sectors){
+            // ini all variables required.
+            String sectName = sect.getSectorName();
+            List<String> rowNames = sect.getRowNames();
+            List<String> allSeats = sect.getSeats();
+            Concert concert = sect.getVenue().getConcert();
+
+            // if it is general standing sector, initialise accordingly
+            if (sect.isGeneralStanding()){
+                for (int i = 1; i <= sect.getSeatsLeft(); i++){
+                    result.add(new Ticket(concert, sectName, sect.getRowNames().get(0), i, sect.getTicketPrice()));
+                }
+            } else {
+                // go thru every sector's rows
+                for (int i = 0; i < rowNames.size(); i++) {
+                    String rowName = rowNames.get(i);
+                    String seatsInRow = allSeats.get(i);
+
+                    // go thru this specific row and create a ticket for every seat 
+                    for(int seatNo = 1; seatNo <= seatsInRow.length(); seatNo++) {
+                        // System.out.println("Added ticket:" + tickets.save(new Ticket(sectName, (rowName + seatNo), newSect1.getTicketPrice())));
+                        result.add(new Ticket(concert, sectName, rowName,  seatNo, sect.getTicketPrice()));
+                    }
+                }
+            }            
+        }
+        return result;
+    }
 }
 
-
+        // old concert format
         // System.out.println("[Add concert]: " + concerts.save(new Concert("Coldplay Music of the Spheres 2024", 20000,
         //                     "23 - 27 January, 2024", "20:00", "Singapore National Stadium", 
         //                     "src/main/resources/static/concert_posters/Coldplay_Concert_Poster.jpg")).getConcertName());
+
+        // tester for sector seats and information is being added to concert successfully.
+                // + " and Sector " +  cList.get(0).getConcertVenue().getSectors().get(0).getSectorName()
+                // + ", row " + cList.get(0).getConcertVenue().getSectors().get(0).getRowNames().get(0) 
+                // + " has the following seats available = " + cList.get(0).getConcertVenue().getSectors().get(0).getSeats().get(0));

@@ -45,27 +45,27 @@
 
 				<ul class="js-clone-nav d-none d-lg-inline-block text-start site-menu float-end">
 					<li class="active"><a href="index">Home</a></li>
-					<li class="has-children">
-						<a href="#">Dropdown</a>
+					<li><a href="/services">Services</a></li>
+					<li><a href="/marketplace">Marketplace</a></li>
+					<li><a href="/user/2/purchasedtickets">My Tickets</a></li>
+					<li><a href="/user/2/shoppingcart">Shopping Cart</a></li>
+					<li th:unless="${username}"><a href="login">Login/Signup</a></li>
+					<li th:if="${username}" class="has-children">
+						<a href="#"><span th:text="${username}"></span></a>
 						<ul class="dropdown">
-							<li><a href="#">Menu One</a></li>
-							<li class="has-children">
+							<li><a href="#">Account details</a></li>
+							<li><a href="#">My purchases</a></li>
+							<!-- <li class="has-children">
 								<a href="#">Menu Two</a>
 								<ul class="dropdown">
 									<li><a href="#">Sub Menu One</a></li>
 									<li><a href="#">Sub Menu Two</a></li>
 									<li><a href="#">Sub Menu Three</a></li>
 								</ul>
-							</li>
-							<li><a href="#">Menu Three</a></li>
+							</li> -->
+							<li><a href="logout">Logout</a></li>
 						</ul>
 					</li>
-					<li><a href="services.html">Services</a></li>
-					<li><a href="portfolio.html">Portfolio</a></li>
-					<li><a href="about.html">About</a></li>
-					<li><a href="contact.html">Contact</a></li>
-					<li><a href="shoppingcart.html">Shopping Cart</a></li>
-					<li><a href="login">Login/Signup</a></li>
 				</ul>
 
 				<a href="#" class="burger ms-auto float-end site-menu-toggle mt-2 js-menu-toggle d-inline-block d-lg-none light" data-toggle="collapse" data-target="#main-navbar">
@@ -84,7 +84,18 @@
 <!-- <a href="#" class="btn btn-primary-outline white me-4">Find concert now</a> -->
 				<div class="col-lg-10 col-xxl-6">
 					<h1 class="heading-2 text-white mb-5" data-aos="fade-up">See your stars live seamlessly.</h1>
-					<p data-aos="fade-up" class="d-flex" data-aos-delay="200"><input class="btn btn-primary-outline white me-4" value="Find a concert now!" type="button" onClick="document.getElementById('concerts1').scrollIntoView();" /> <a href="https://www.youtube.com/watch?v=mwtbEGNABWU" class="glightbox d-inline-flex align-items-center playvid"><span class="icon-play me-2"></span><span>Watch our video</span></a></p>
+					<p data-aos="fade-up" class="d-flex" data-aos-delay="200"><input class="btn btn-primary-outline white me-4" value="Find a concert now!" type="button" onClick="document.getElementById('concerts2').scrollIntoView();" /> <a href="https://www.youtube.com/watch?v=mwtbEGNABWU" class="glightbox d-inline-flex align-items-center playvid"><span class="icon-play me-2"></span><span>Watch our video</span></a></p>
+					<p data-aos="fade-up" class="d-flex" data-aos-delay="200">
+						<!-- <a href="/concerts/1/sectorLayout" class="btn btn-primary-outline white me-4 sector-button"
+						   th:if="${#request.isUserInRole('ROLE_USER')}">
+							Take me to Sector
+						</a> -->
+						<!-- <a href="/login" class="btn btn-primary-outline white me-4 sector-button"
+						   th:unless="${#request.isUserInRole('ROLE_USER')}">
+							Login to see Sector
+						</a> -->
+					</p>
+					<p id="demo"></p>
 				</div>
 
 			</div>
@@ -226,7 +237,7 @@
 					<div class="service grayscale">
 						<div class="service-img">
 							<!-- <h3>Connect</h3> -->
-							<a href="concert1"><img th:src="${Concert1Image}" class="container-fluid"></a>
+							<a href="/concerts/1"><img th:src="${Concert1Image}" class="container-fluid"></a>
 						</div>
 						<div class="service-inner">
 							<span></span>
@@ -242,7 +253,7 @@
 				<div class="col-lg-4 mb-4 mb-lg-0" data-aos="fade-up" data-aos-delay="100">
 					<div class="service grayscale">
 						<div class="service-img">
-							<a href="concert2"><img th:src="${Concert2Image}" class="container-fluid"></a>
+							<a href="/concerts/2"><img th:src="${Concert2Image}" class="container-fluid"></a>
 						</div>
 						<div class="service-inner">
 							<span></span>
@@ -258,7 +269,7 @@
 				<div class="col-lg-4 mb-4 mb-lg-0" data-aos="fade-up" data-aos-delay="200">
 					<div class="service grayscale">
 						<div class="service-img">
-							<a href="concert3"><img th:src="${Concert3Image}" class="container-fluid"></a>
+							<a href="/concerts/3"><img th:src="${Concert3Image}" class="container-fluid"></a>
 						</div>
 						<div class="service-inner">
 							<span></span>
@@ -290,9 +301,9 @@
 				<div class="container-fluid">
 					<div class="row">
 						<div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="200">
-							<a href="images/img_v_1-min.jpg" class="media-1 glightbox">
+							<a th:href="${Concert2Image}" class="media-1 glightbox">
 								<!-- <img src="images/img_v_1-min.jpg" alt="Image" class="img-fluid"> -->
-								<img th:src="${Concert1Image}" alt="Image" width="320px" class="container-fluid">
+								<img th:src="${Concert2Image}" alt="Image" width="320px" class="container-fluid">
 								<div class="media-1-content">
 									<!-- <h2>Bonzai Tree</h2> -->
 									<h2 th:text="${Concert2Name}">Concert Name</h2>
@@ -305,7 +316,7 @@
 							<a th:href="${Concert1Image}" class="media-1 glightbox">
 							<!-- <a href="images/img_v_2-min.jpg" class="media-1 glightbox"> -->
 								<!-- <img src="images/img_v_2-min.jpg" alt="Image" class="img-fluid"> -->
-								<img th:src="${Concert1Image}" alt="Image" width="340px" class="container-fluid">
+								<img th:src="${Concert1Image}" alt="Image" width="320px" class="container-fluid">
 								<div class="media-1-content">
 									<!-- <h2>Simple Woman</h2> -->
 									<h2 th:text="${Concert1Name}">Concert Name</h2>
@@ -316,7 +327,7 @@
 						</div>
 						<div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="400">
 							<a th:href="${Concert3Image}" class="media-1 glightbox">
-								<img th:src="${Concert3Image}" alt="Image" width="340px" class="container-fluid">
+								<img th:src="${Concert3Image}" alt="Image" width="340px" height="530px">
 								<div class="media-1-content">
 									<!-- <h2>Fruits</h2>
 									<span class="category">Website</span> -->
@@ -326,32 +337,42 @@
 							</a>
 						</div>
 
-						<div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="100">
-							<a th:href="${Concert2Image}" class="media-1 glightbox">
-								<img th:src="${Concert2Image}" alt="Image" width="340px" class="container-fluid">
+						<!-- <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="100">
+							<a href="${Concert2Image}" class="media-1 glightbox">
+								<img th:src="${Concert2Image}" alt="Image" width="320px" class="container-fluid">
 								<div class="media-1-content">
-									<!-- <h2>Design Material</h2>
-									<span class="category">Web Application</span> -->
+									<h2>Design Material</h2>
+									<span class="category">Web Application</span>
 									<h2 th:text="${Concert2Name}">Concert Name</h2>
 									<span th:text="${Concert2Date}" class="category">Branding</span>
 								</div>
 							</a>
-						</div>
+						</div> -->
 						<div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="200">
-							<a href="images/img_v_5-min.jpg" class="media-1 glightbox">
-								<img src="images/img_v_5-min.jpg" alt="Image" class="img-fluid">
+							<a href="/concert_posters/bebe_concert_poster.jpg" class="media-1 glightbox">
+								<img src="/concert_posters/bebe_concert_poster.jpg" alt="Image" width="340px" class="container-fluid">
 								<div class="media-1-content">
-									<h2>Handy Food</h2>
-									<span class="category">Branding</span>
+									<h2>Bebe Rexha 2024</h2>
+									<span class="category">3 November 2023</span>
 								</div>
 							</a>
 						</div>
 						<div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="300">
-							<a href="images/img_v_6-min.jpg" class="media-1 glightbox">
-								<img src="images/img_v_6-min.jpg" alt="Image" class="img-fluid">
+							<a href="/concert_posters/RHCP_concert_poster.jpg" class="media-1 glightbox">
+								<img src="/concert_posters/RHCP_concert_poster.jpg" alt="Image" width="340px" class="container-fluid">
 								<div class="media-1-content">
-									<h2>Cat With Cup</h2>
-									<span class="category">Website</span>
+									<h2>Red Hot Chili Peppers 2023</h2>
+									<span class="category">16 December 2023</span>
+								</div>
+							</a>
+						</div>
+
+						<div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="300">
+							<a href="/concert_posters/one-reb_concert_poster.jpg" class="media-1 glightbox">
+								<img src="/concert_posters/one-reb_concert_poster.jpg" alt="Image" width="340px" class="container-fluid">
+								<div class="media-1-content">
+									<h2>One Republic 2023</h2>
+									<span class="category">28 Februaru 2023</span>
 								</div>
 							</a>
 						</div>
@@ -362,6 +383,10 @@
 			</div>
 		</div>
 	</div>
+
+	<div th:if="${username}">
+        <p>Welcome, <span th:text="${username}"></span></p>
+    </div>
 
 	<div class="section">
 		<div class="container">
@@ -597,6 +622,31 @@
 		</div>
 	</div>
 
+	<script>
+		function generateAndVerifyToken() {
+			// Generate a random token
+			var oneTimeToken = generateRandomToken();
+			
+			// Set the generated token in the hidden input field
+			document.getElementById("tokenInput").value = oneTimeToken;
+		
+			// Log the generated token for debugging
+			console.log("Generated Token: " + oneTimeToken);
+			
+			// You can also set the token in the session if needed
+			// For example: sessionStorage.setItem("selectSectorButtonToken", oneTimeToken);
+			
+			// Continue with the form submission
+			return true;
+		}
+		
+		function generateRandomToken() {
+			// Generate a random token here, e.g., using a library or Math.random()
+			return 'GENERATED_ONE_TIME_TOKEN'; // Replace with actual token generation logic
+		}
+		</script>
+		
+
 
 	<script src="js/bootstrap.bundle.min.js"></script>
 	<script src="js/tiny-slider.js"></script>
@@ -605,5 +655,23 @@
 	<script src="js/glightbox.min.js"></script>
 	<script src="js/rellax.min.js"></script>
 	<script src="js/custom.js"></script>
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<script src="js/globaltimer.js"></script>
+	<script>
+		document.getElementById("sectorButton").addEventListener("click", function(event) {
+		event.preventDefault(); // Prevent the default behavior of the anchor element
+	
+		// Make an AJAX request to set the attribute
+		$.post("/setSelectSectorButtonClicked", function(data) {
+			// Handle the response, if needed
+			console.log(data); // Log the response for debugging
+			// After the attribute is set, you can navigate to the desired URL
+			window.location.href = "/concerts/1/sectorLayout";
+		});
+	});
+	</script>
+
 </body>
+
+
 </html>

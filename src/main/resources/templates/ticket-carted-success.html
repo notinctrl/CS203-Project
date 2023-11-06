@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <!-- Required meta tags -->
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	
+	<meta name="author" content="Untree.co">
+	<link rel="shortcut icon" href="favicon.png">
+
+	<meta name="description" content="" />
+	<meta name="keywords" content="bootstrap, bootstrap5" />
+
+	<link rel="preconnect" href="https://fonts.gstatic.com">
+	<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Roboto:wght@300;400&display=swap" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="/fonts/icomoon/style.css">
+	<link rel="stylesheet" type="text/css" href="/fonts/feather/style.css">
+
+	<link rel="stylesheet" href="/css/tiny-slider.css">
+	<link rel="stylesheet" href="/css/aos.css">
+	<link rel="stylesheet" href="/css/glightbox.min.css">
+	<link rel="stylesheet" href="/css/style.css">
+	<link rel="stylesheet" href="/css/ticket-related/margin-top.css">
+    <title>Ticket added to Cart!</title>
+</head>
+
+<body>
+    <div class="site-mobile-menu site-navbar-target">
+		<div class="site-mobile-menu-header">
+			<div class="site-mobile-menu-close">
+				<span class="icofont-close js-menu-toggle"></span>
+			</div>
+		</div>
+		<div class="site-mobile-menu-body"></div>
+	</div>
+    <nav class="site-nav">
+		<div class="container">
+			<div class="site-navigation">
+				<a href="/../../../../index" class="logo m-0">TTTicket</a>
+
+				<ul class="js-clone-nav d-none d-lg-inline-block text-start site-menu float-end">
+					<li><a href="/../../../../index">Home</a></li>
+					<li class="has-children">
+						<a href="#">Dropdown</a>
+						<ul class="dropdown">
+							<li><a href="#">Menu One</a></li>
+							<li class="has-children">
+								<a href="#">Menu Two</a>
+								<ul class="dropdown">
+									<li><a href="#">Sub Menu One</a></li>
+									<li><a href="#">Sub Menu Two</a></li>
+									<li><a href="#">Sub Menu Three</a></li>
+								</ul>
+							</li>
+							<li><a href="#">Menu Three</a></li>
+						</ul>
+					</li>
+					<li><a href="/../../../../services">Services</a></li>
+					<li><a href="/../../../../marketplace">Marketplace</a></li>
+					<li><a href="/../../../../user/2/purchasedtickets">My Tickets</a></li>
+					<li><a href="/../../../../user/2/shoppingcart">Shopping Cart</a></li>
+					<li><a href="/../../../../login">Login/Signup</a></li>
+				</ul>
+
+				<a href="#" class="burger ms-auto float-end site-menu-toggle mt-2 js-menu-toggle d-inline-block d-lg-none light" data-toggle="collapse" data-target="#main-navbar">
+					<span></span>
+				</a>
+			</div>
+		</div>
+	</nav>
+
+	<div class="title-container mx-auto text-center">
+		<h1 class="heading-2 text-white mb-3" data-aos="fade-up"> Ticket Carted Successfully!</h1>
+		<p data-aos="fade-up" data-aos-delay="200" class="text-white lead mb-4">You have <strong><u>10 minutes</u></strong> to checkout and pay for your ticket(s).</p>
+	</div>
+
+    <div class="content-section-tsucc">
+        <p data-aos="fade-up" data-aos-delay="200" class="text-white lead mb-4"><center><strong>Concert ID: <span th:text="${concertId}"></center></strong></span></p>
+        <p data-aos="fade-up" data-aos-delay="200" class="text-white lead mb-4"><center><strong>Sector Name: <span th:text="${sectorName}"></center></strong></span></p>
+        <p data-aos="fade-up" data-aos-delay="200" class="text-white lead mb-4"><center><strong>Selected Seats: <span th:text="${selectedSeats}"></center></strong></span></p>
+    </div>
+
+	<div id="timer-container">
+		<p id="global-timer" style="top: 10%"></p>
+	</div>
+
+	
+
+	<!-- Display the countdown timer in an element -->
+
+
+	<script>
+		// Set the date we're counting down to
+		var countDownTime = new Date();
+		countDownTime.setMinutes(countDownTime.getMinutes() + 10);
+
+		// Store the countdown time in localStorage
+		localStorage.setItem('countDownTime', countDownTime.getTime());
+
+		// Update the count down every 1 second
+		var x = setInterval(function() {
+
+		// Get today's date and time
+		var now = new Date().getTime();
+
+		// Find the distance between now and the count down date
+		var distance = countDownTime - now;
+
+		// Time calculations for days, hours, minutes and seconds
+		var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+		var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+		// Display the result in the element with id="demo"
+		document.getElementById("globaltimer").innerHTML = minutes + "m " + seconds + "s ";
+
+		// If the count down is finished, write some text
+		if (distance < 0) {
+			clearInterval(x);
+			document.getElementById("demo").innerHTML = "EXPIRED";
+		}
+		}, 1000);
+	</script>
+
+	<script src="/js/bootstrap.bundle.min.js"></script>
+	<script src="/js/tiny-slider.js"></script>
+	<script src="/js/aos.js"></script>
+	<script src="/js/navbar.js"></script>
+	<script src="/js/glightbox.min.js"></script>
+	<script src="/js/rellax.min.js"></script>
+	<script src="/js/custom.js"></script>
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+</body>
+</html>

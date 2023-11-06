@@ -1,0 +1,96 @@
+.button-container {
+    display: flex;
+    flex-direction: column; /* Stack the buttons vertically */
+    justify-content: right; /* Center the buttons vertically */
+    align-items: flex-end; /* Align the buttons to the right */
+    position: absolute;
+    width: 900px;
+    right: -140px; /* Vertical control : -- down ++ up*/
+    bottom: 95%; /* Horizontal control : -- left ++ right*/
+}
+
+.seat-view-container{
+  position: absolute;
+  align-items: flex-end;
+  /*right:36%; /* Horizontal control : -- right ++ left*/
+  bottom:45%; /* Vertical control : -- down ++ up*/    
+}
+
+.seat-view-img {
+  align-items: center;
+  border: 3px solid #fff;
+}
+
+.sector-name-container{
+  /* justify-content: left; */
+  width:15%;
+  position:absolute;
+  right: 75%; /* Horizontal control : -- right ++ left*/
+  bottom: 60%; /* Vertical control : -- down ++ up*/
+}
+
+
+#selected-seats-message {
+  position: absolute;
+  color: #fff;
+  font-family: Roboto, sans-serif;
+  width: 400px;
+  right:-10%; /* Vertical control : -- down ++ up*/
+  bottom:1000%; /* Horizontal control : -- left ++ right*/    
+  transform: rotate(-90deg);
+}
+
+.tooltip {
+  position: absolute;
+  top: 45%; /* ++ == down, -- == up  */
+  right: 45%; /*++ == left, -- == right*/
+  font-weight: bold;
+  background: #fff;
+  border: 1px solid #ccc;
+  padding: 10px;
+  display: none;
+}
+
+
+
+#confirm-button,
+#final-confirm-button{
+    width: 160px; 
+    height: 20px;
+    position:absolute;
+    right:0px; /* Vertical control : -- down ++ up*/
+    bottom:10%; /* Horizontal control : -- left ++ right*/    
+    transform: rotate(-90deg); 
+}
+
+#cancel-button {
+  width: 160px; 
+  height: 20px;
+  position:absolute;
+  right:-30px; /* Vertical control : -- down ++ up*/
+  bottom:10%; /* Horizontal control : -- left ++ right*/    
+  transform: rotate(-90deg); 
+}
+
+#final-confirm-button,
+#cancel-button {
+  display: none;
+}
+
+/* .tooltip {
+  position: relative;
+  top: -20%; /* ++ == down, -- == up  
+  right: 0%; ++ == left, -- == right
+  background: #fff;
+  border: 1px solid #ccc;
+  padding: 10px;
+  display: none;
+}*/
+
+/*#selected-seats-message {
+  position: absolute;
+  width: 400px;
+  right:-80px; /* Vertical control : -- down ++ up
+  bottom:1000%;  Horizontal control : -- left ++ right  
+  transform: rotate(-90deg);
+} */

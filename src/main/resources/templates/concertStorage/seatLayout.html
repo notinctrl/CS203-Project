@@ -1,78 +1,219 @@
 <!DOCTYPE html>
 <html xmlns:th="https://www.thymeleaf.org">
-<link rel="stylesheet" href="/css/sector-related/seatSettings.css">
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<head>
+	<!-- Required meta tags -->
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	
+	<meta name="author" content="Untree.co">
+	<link rel="shortcut icon" href="favicon.png">
 
-<body>
+	<meta name="description" content="" />
+	<meta name="keywords" content="bootstrap, bootstrap5" />
+
+	<link rel="preconnect" href="https://fonts.gstatic.com">
+	<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Roboto:wght@300;400&display=swap" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="/fonts/icomoon/style.css">
+	<link rel="stylesheet" type="text/css" href="/fonts/feather/style.css">
+
+	<link rel="stylesheet" type="text/css" href="/css/tiny-slider.css">
+	<link rel="stylesheet" type="text/css" href="/css/aos.css">
+	<link rel="stylesheet" type="text/css" href="/css/glightbox.min.css">
+
+    <title>TTTicket &mdash; Select Seat</title>
+</head>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="/css/sector-related/seatSettings.css">
+    <!-- <link rel="stylesheet" href="/css/sector-related/tooltip.css"> -->
+    <link rel="stylesheet" href="/css/sector-related/buttons.css">
+    <link rel="stylesheet" type="text/css" href="/css/sector-related/style-shortened.css">
+	
+<body style="background-color:black;">
+    <div class="site-mobile-menu site-navbar-target">
+		<div class="site-mobile-menu-header">
+			<div class="site-mobile-menu-close">
+				<span class="icofont-close js-menu-toggle"></span>
+			</div>
+		</div>
+		<div class="site-mobile-menu-body"></div>
+	</div>
+    <nav class="site-nav">
+		<div class="container">
+			<div class="site-navigation">
+				<a href="/../../../../index" class="logo m-0">TTTicket</a>
+
+				<ul class="js-clone-nav d-none d-lg-inline-block text-start site-menu float-end">
+					<li><a href="/../../../../index">Home</a></li>
+					<li class="has-children">
+						<a href="#">Dropdown</a>
+						<ul class="dropdown">
+							<li><a href="#">Menu One</a></li>
+							<li class="has-children">
+								<a href="#">Menu Two</a>
+								<ul class="dropdown">
+									<li><a href="#">Sub Menu One</a></li>
+									<li><a href="#">Sub Menu Two</a></li>
+									<li><a href="#">Sub Menu Three</a></li>
+								</ul>
+							</li>
+							<li><a href="#">Menu Three</a></li>
+						</ul>
+					</li>
+					<li><a href="/../../../../services">Services</a></li>
+                    <li><a href="/../../../../marketplace">Marketplace</a></li>
+					<li><a href="/../../../../user/2/purchasedtickets">My Tickets</a></li>
+					<li><a href="/../../../../shoppingcart.html">Shopping Cart</a></li>
+					<li><a href="/../../../../login">Login/Signup</a></li>
+				</ul>
+
+				<a href="#" class="burger ms-auto float-end site-menu-toggle mt-2 js-menu-toggle d-inline-block d-lg-none light" data-toggle="collapse" data-target="#main-navbar">
+					<span></span>
+				</a>
+			</div>
+		</div>
+	</nav>
+    <div class="seat-view-container">
+        <img alt="Image" height=300px class="seat-view-img" th:src="@{'/seating_plan/seat-view/' + ${sectorName} + '.png'}"/>
+    </div>
+    <div class="sector-name-container">
+        <h1 class="heading-2 text-white mb-3" style="color:white;" th:text="'Sector ' + ${sectorName}"></h1>
+    </div>
+
     <div class="theatre">
-        
         <div class="cinema-seats rows" id="seating-container"></div>
-
         <div class="button-container">
             <button id="confirm-button">Confirm Selection</button>
             <div id="selected-seats-message" style="display: none;"></div>
             <button id="final-confirm-button" style="display: none;">Final Confirm?</button>
+            <!-- <form method="post" action="/submit-form">
+                
+                <button type="final-confirm-button">Submit</button>
+                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+            </form> -->
             <button id="cancel-button" style="display: none;">Cancel</button>
         </div>
     </div>
 
-    <div class="tooltip">
-        <!-- Tooltip content will go here -->
-    </div>
+    <div class="tooltip"></div>
 
+    <!-- Script for initialising seats/number of ticket selector -->
     <script th:inline="javascript">
+
+        // obtain data from model
         var concertId = /*[[${concertId}]]*/ null;
         var sectorName = /*[[${sectorName}]]*/ null;
+
+        // for container scaling and size readjustment.
         let maxSeats = 0;
         let numRows = 0;
 
-        // obtaining the data required to create the seat plan
-        fetch('http://localhost:8080/getSectorRowAvailability/' + concertId + '/' + sectorName)
-        .then(response => response.json())
+        var gen_seat = false;
+
+        // Function to obtain the seat status data from server to create the seat plan
+        fetch('http://localhost:8080/sectorRowAvailability/' + concertId + '/' + sectorName)
+        // .then(response => response.json())
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
         .then(data => {
             const seatingContainer = document.getElementById('seating-container');
+// console.log(data);
+            if (data.length == 1){
+                gen_seat = true;
+                const headerElement = document.createElement('p');
+                headerElement.style.color = "white";
+                headerElement.textContent = "Select the number of Seats:";
 
-            // Function to create the clickable seat objects and rows.
-            data.forEach(seatInfo => {
-            const [row, seats] = seatInfo.split(':'); // Split the row and seat information
+                const optionsContainer = document.createElement('select');
+                optionsContainer.setAttribute("onchange", "handleDropdownSelection()");
+                optionsContainer.id = "seatSelect"
+                optionsContainer.style.width = "35%";
+                optionsContainer.style.height = "15%";
+                optionsContainer.style.marginTop = "15%";
 
-            const rowElement = document.createElement('div');
+                const optionblank = document.createElement('option');
+                optionblank.value = 0;
+                optionblank.textContent = '';
+                optionsContainer.appendChild(optionblank);
 
-            const rowNameElement = document.createElement('div');
-            rowNameElement.classList.add('row-name');
-            rowNameElement.textContent = row[0]; // Set the row name text
+                 // Add options to the select element
+                const option1 = document.createElement('option');
+                option1.value = 1;
+                option1.textContent = '1 Seat';
+                optionsContainer.appendChild(option1);
 
-            rowElement.appendChild(rowNameElement);
-            rowElement.classList.add('cinema-row');
-            rowElement.classList.add('row1');
-            // console.log([row,seats]);
+                const option2 = document.createElement('option');
+                option2.value = 2;
+                option2.textContent = '2 Seats';
+                optionsContainer.appendChild(option2);
 
-            if (seats.length > maxSeats) maxSeats = seats.length;
+                const option3 = document.createElement('option');
+                option3.value = 3;
+                option3.textContent = '3 Seats';
+                optionsContainer.appendChild(option3);
 
-            for (let i = 0; i < seats.length; i++) {
-                const seatElement = document.createElement('div');
+                const option4 = document.createElement('option');
+                option4.value = 4;
+                option4.textContent = '4 Seats';
+                optionsContainer.appendChild(option4);
 
-                seatElement.setAttribute('id', row[0] + ':' + i);
+                optionsContainer.appendChild(option1);
+                optionsContainer.appendChild(option2);
+                optionsContainer.appendChild(option3);
+                optionsContainer.appendChild(option4);
 
-                if (seats[i] === 'A')   seatElement.classList.add('seat');
-                else if (seats[i] === 'P') seatElement.classList.add('seatPend');
-                else                        seatElement.classList.add('seatUnavail');
+                seatingContainer.appendChild(headerElement);
+                seatingContainer.appendChild(optionsContainer);
+                $("#seating-container").css("transform", "rotate(-90deg)");
+            } 
+            else {
+                // Function to create the clickable seat objects and rows.
+                data.forEach(seatInfo => {
+                const [row, seats] = seatInfo.split(':'); // Split the row and seat information
 
-                rowElement.appendChild(seatElement);
-            }
+                const rowElement = document.createElement('div');
 
-            // Add the row to the container
-            seatingContainer.appendChild(rowElement);
-            numRows = numRows + 1;
+                const rowNameElement = document.createElement('div');
+                rowNameElement.classList.add('row-name');
+                rowNameElement.textContent = row[0]; // Set the row name text
+
+                rowElement.appendChild(rowNameElement);
+                rowElement.classList.add('cinema-row');
+                rowElement.classList.add('row1');
+                // console.log([row,seats]);
+
+                // sizing factor. find out max number of seats in a row
+                if (seats.length > maxSeats) maxSeats = seats.length;
+
+                for (let i = 0; i < seats.length; i++) {
+                    const seatElement = document.createElement('div');
+
+                    let seatNo = i + 1;
+                    seatElement.setAttribute('id', row[0] + ':' + seatNo);
+
+                    if (seats[i] === 'A')   seatElement.classList.add('seat');
+                    else if (seats[i] === 'P') seatElement.classList.add('seatPend');
+                    else                        seatElement.classList.add('seatUnavail');
+
+                    rowElement.appendChild(seatElement);
+                }
+
+                // Add the row to the container
+                seatingContainer.appendChild(rowElement);
+                numRows = numRows + 1;
             });
 
-            var scaleFactor = calculateScaleFactor(maxSeats, numRows);
-        
-            // Apply the scale to the seating container
-            $("#seating-container").css("transform", "scale(" + scaleFactor + ")" + " scaleY(-1)");
-        })
-        .catch(error => {
-            console.error('Error fetching seat data:', error);
+                var scaleFactor = calculateScaleFactor(maxSeats, numRows);
+            
+                // Apply the scale to the seating container
+                $("#seating-container").css("transform", "scale(" + scaleFactor + ")" + " scaleY(-1)");
+            }
+        }).catch(error => {
+        console.error('Error fetching seat data:', error);
         });
 
         // Function to attach a mouseover event to a seat, displaying the seat number.
@@ -90,7 +231,7 @@
                 tooltip.style.display = 'block';
 
                 // You can add content to the tooltip based on the seat or any other relevant information
-                tooltip.innerHTML = 'Seat Info: ' + target.getAttribute('id');
+                tooltip.innerHTML = 'Seat Number: ' + target.getAttribute('id');
             }
         });
 
@@ -100,12 +241,12 @@
             tooltip.style.display = 'none';
         });
 
-        // function to track seats clicked.
+        // Function to track seats clicked.
         let selectedSeats = []; // Initialize as an empty array
         $(document).ready(function() {
             $('#seating-container').on('click', '.seat', function() {
                 if (selectedSeats.length < 4){
-                    console.log("Seat clicked!"); // Check if this message appears in the console
+                    // console.log("Seat clicked!"); // Check if this message appears in the console
                     $(this).toggleClass('active');
                     
                     // Get the seat ID
@@ -128,7 +269,7 @@
                 }
                 else if (selectedSeats.length === 4) {
 
-                    console.log("Seat clicked! (limit at 4)");
+                    // console.log("Seat clicked! (limit at 4)");
 
                     // Get the seat ID
                     const seatId = $(this).attr('id');
@@ -138,7 +279,8 @@
 
                     if (index === -1) {
                     // If not selected, deny adding seat to array
-                        console.log("You can only select up to 4 seats. Please deselect some seats to select new ones.");
+                        // console.log("You can only select up to 4 seats. Please deselect some seats to select new ones.");
+                        alert("You can only select up to 4 seats. Please deselect some seats to select new ones.");
                         
                     } else {
                     // If already selected, remove it from the selectedSeats array
@@ -152,72 +294,103 @@
                     $('#selected-seats-message').show();
                 }
                 else {
+                    alert("You can only select up to 4 seats. Please deselect some seats to select new ones.");
                     // when the array size exceeds 4, deny addition of seats to array 
-                    console.log("You can only select up to 4 seats. Please deselect some seats to select new ones.");
+                    // console.log("You can only select up to 4 seats. Please deselect some seats to select new ones.");
+                    
                 }
             });
+        });
+        
+        function handleDropdownSelection() {
+            const selectedValue = document.getElementById('seatSelect').value;
+            selectedSeats[0] = selectedValue;
+        }
 
-            $('#confirm-button').on('click', function() {
+        // document.getElementById('seatSelect').addEventListener('change', handleDropdownSelection);
+        
+        $('#confirm-button').on('click', function() {
                 // Display the selected seats message
-                if (selectedSeats.length != 0){
+                if (selectedSeats.length != 0 && selectedSeats[0] != 0){
                     // Display the final confirm button
                     $('#final-confirm-button').show();
                     $('#cancel-button').show();
-                } else console.log("Please select at least one seat.");
+                    console.log(document.getElementById('seatSelect').value);
+                } else alert("Please select at least one seat.");
                 
             });
 
-            // Add a click event handler for the final confirm button
-            $('#final-confirm-button').on('click', function() {
-                // Call the function to send the selected seats to the backend
-                sendSelectedSeatsToBackend(selectedSeats);
-            });
+        // Add a click event handler for the final confirm button
+        $('#final-confirm-button').on('click', function() {
+            // Call the function to send the selected seats to the backend
+            sendSelectedSeatsToBackend(concertId, sectorName, selectedSeats);
+        });
 
-            $('#cancel-button').on('click', function() {
-                $('#final-confirm-button').hide();
-                $('#cancel-button').hide();
-                $('#confirm-button').show();
-            });
-
+        $('#cancel-button').on('click', function() {
+            $('#final-confirm-button').hide();
+            $('#cancel-button').hide();
+            $('#confirm-button').show();
         });
 
         // Function to send the selected seat to the backend
-        function sendSelectedSeatToBackend() {
-            if (selectedSeat) {
-                fetch('http://localhost:8080/bookingSuccessful/1', {
+        // Also redirects people the booking success page
+        function sendSelectedSeatsToBackend(concertId, sectorName, selectedSeats) {
+
+            const data = {
+                concertId: concertId,
+                sectorName: sectorName,
+                selectedSeats: selectedSeats
+            };
+
+            if (selectedSeats) {
+                fetch('http://localhost:8080/bookingSuccess', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify({ selectedSeat }), // Send the selected seat as JSON data
+                    body: JSON.stringify(data), // Send the selected seat as JSON data
                 })
                 .then(response => {
                     if (response.ok) {
+                        // Redirect to a new URL
+                        // window.location.replace('ticket-carted-success.html');
+                        // Reload the current page
+                        window.location.reload();
+                        window.location.href = '/bookingSuccessDetails';
                         console.log('Selected seat sent to backend successfully.');
                     } else {
                         console.error('Failed to send selected seat to backend.');
+                        window.location.href = '/error';
                     }
                 })
                 .catch(error => {
                     console.error('Error sending selected seat to backend:', error);
+                    window.location.href = '/error';
                 });
             }
         }
         
-        // function to scale seat plan based on number of seats and rows
+        // Function to scale seat plan based on number of seats and rows
         function calculateScaleFactor(maxSeats, numRows) {
-        // Your logic to calculate the scale factor based on the total number of elements
-        // Adjust this logic as needed for your specific use case
-        var maxScale = 0.7; // A default scale value
-        var baseScale = 1.0; // The maximum scale you want
-        
-        if (maxSeats > 34 || numRows >= 14) {
-            return maxScale;
-        } else {
-            return baseScale;
-        }
+            // Your logic to calculate the scale factor based on the total number of elements
+            // Adjust this logic as needed for your specific use case
+            var maxScale = 0.7; // A default scale value
+            var baseScale = 1.0; // The maximum scale you want
+            
+            if (maxSeats > 34 || numRows >= 14) {
+                return maxScale;
+            } else {
+                return baseScale;
+            }
         }
     </script>
+    <script src="/js/bootstrap.bundle.min.js"></script>
+    <script src="/js/tiny-slider.js"></script>
+    <script src="/js/aos.js"></script>
+    <script src="/js/navbar.js"></script>
+    <script src="/js/glightbox.min.js"></script>
+    <script src="/js/rellax.min.js"></script>
+    <script src="/js/custom.js"></script>
 </body>
 </html>
 

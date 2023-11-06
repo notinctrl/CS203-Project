@@ -1,6 +1,4 @@
 <!DOCTYPE html>
-<!-- <html lang="en"> -->
-
 <html xmlns:th="https://www.thymeleaf.org">
     <body style="background-color:black;">
 <head>
@@ -24,7 +22,7 @@
 	<link rel="stylesheet" type="text/css" href="/css/tiny-slider.css">
 	<link rel="stylesheet" type="text/css" href="/css/aos.css">
 	<link rel="stylesheet" type="text/css" href="/css/glightbox.min.css">
-	<link rel="stylesheet" type="text/css" href="/css/style.css">
+	<link rel="stylesheet" type="text/css" href="/css/sector-related/style-shortened.css">
     <link rel="stylesheet" type="text/css" href="/css/sector-related/sectorImageSizing.css">
 	<title>TTTicket &mdash; Select Sector</title>
 </head>
@@ -42,10 +40,10 @@
 	<nav class="site-nav">
 		<div class="container">
 			<div class="site-navigation">
-				<a href="index" class="logo m-0">TTTicket</a>
+				<a href="/../../index" class="logo m-0">TTTicket</a>
 
 				<ul class="js-clone-nav d-none d-lg-inline-block text-start site-menu float-end">
-					<li><a href="index">Home</a></li>
+					<li><a href="/../../index">Home</a></li>
 					<li class="has-children">
 						<a href="#">Dropdown</a>
 						<ul class="dropdown">
@@ -61,12 +59,12 @@
 							<li><a href="#">Menu Three</a></li>
 						</ul>
 					</li>
-					<li><a href="services.html">Services</a></li>
-					<li><a href="portfolio.html">Portfolio</a></li>
-					<li><a href="about.html">About</a></li>
-					<li><a href="contact.html">Contact</a></li>
-					<li><a href="shoppingcart.html">Shopping Cart</a></li>
-					<li><a href="login">Login/Signup</a></li>
+					<li><a href="/../../services.html">Services</a></li>
+					<li><a href="/../../portfolio.html">Portfolio</a></li>
+					<li><a href="/../../about.html">About</a></li>
+					<li><a href="/../../contact.html">Contact</a></li>
+					<li><a href="/../../shoppingcart.html">Shopping Cart</a></li>
+					<li><a href="/../../login">Login/Signup</a></li>
 				</ul>
 
 				<a href="#" class="burger ms-auto float-end site-menu-toggle mt-2 js-menu-toggle d-inline-block d-lg-none light" data-toggle="collapse" data-target="#main-navbar">
@@ -81,6 +79,10 @@
 <script type="text/javascript" src="/js/sector-related/jquery.maphilight.js"></script>
 <script type="text/javascript" src="https://raw.githubusercontent.com/davidjbradshaw/imagemap-resizer/master/js/imageMapResizer.min.js"></script>
 
+<div class="tooltip-container">
+    <div class="tooltip"></div>
+</div>
+
 <body>
     <div class="center-container">
         <img th:src="@{/seating_plan/Taylor_Swift_Seating_Plan(updated).jpg}" id="image" usemap="#image-map" class="maparea" height="100%" >
@@ -90,8 +92,8 @@
     group layout here: todo -->
     <map name="image-map" id="image-map">
         <!-- Group 1: Sectors 634-645 -->
-        <area target="_self" th:alt="${sector634status}" title="sector634" href="sectorLayout/selectSeat/634" coords="736,244,645,276,706,322,778,293" shape="poly">
-        <area target="_self" th:alt="${sector635status}" title="sector635" href="sectorLayout/selectSeat/635" coords="640,276,554,310,630,369,710,324" shape="poly">
+        <area target="_self" th:alt="${sector634status}" title="sector634" href="/concerts/1/sectorLayout/selectSeat/634" coords="736,244,645,276,706,322,778,293" shape="poly">
+        <area target="_self" th:alt="${sector635status}" title="sector635" href="/concerts/1/sectorLayout/selectSeat/635" coords="640,276,554,310,630,369,710,324" shape="poly">
         <area target="_self" th:alt="${sector636status}" title="sector636" href="" coords="549,308,466,352,555,411,626,369" shape="poly">
         <area target="_self" th:alt="${sector637status}" title="sector637" href="" coords="460,353,386,396,485,457,551,414" shape="poly">
         <area target="_self" th:alt="${sector638status}" title="sector638" href="" coords="383,400,313,448,404,499,469,451" shape="poly">
@@ -254,9 +256,7 @@
     $(function() {
         $('#image-map').imageMapResize();
     });
-</script>
 
-<script>
     // Function to adjust image map coordinates
     function adjustImageMapCoordinates() {
         // Get a reference to the image element
@@ -287,11 +287,72 @@
             area.setAttribute('coords', coords.join(','));
         });
     }
-    
+
     // Call the adjustImageMapCoordinates function when the window loads and when it resizes
     window.addEventListener('load', adjustImageMapCoordinates);
     window.addEventListener('resize', adjustImageMapCoordinates);
-    </script>
+
+</script>
+
+<script th:inline="javascript">
+const sName = 'sector634';
+const attributeName = sName + 'avail';
+const map = /*[[${attributeMap}]]*/ 'N/A';
+console.log(map[attributeName]);
+
+    const areas = document.querySelectorAll('area');
+    // Add event listeners to each area
+    areas.forEach((area) => {
+        area.addEventListener('mouseover', (event) => {
+            const sectorName = event.target.getAttribute('title');
+            const availability = parseInt(map[sectorName + 'avail']);
+            // Find the corresponding attributes in the model based on sectorName
+            const total = parseInt(map[sectorName + 'total']);
+            const status = map[sectorName + 'status'];
+
+            showTooltip(sectorName, availability, total, status);
+        });
+
+        area.addEventListener('mouseout', () => {
+            hideTooltip();
+        });
+    });
+
+    const tooltip = document.querySelector('.tooltip');
+
+    function showTooltip(sectorName, avail, total, status) {
+        tooltip.style.display = 'block';
+        var statusFullForm = "";
+        switch(status) {
+            case 'H':
+                statusFullForm = "High";
+                break;
+            case 'M':
+                statusFullForm = "Medium";
+                break;
+            case 'L':
+                statusFullForm = "Low";
+                break;
+            default:
+                statusFullForm = "Sold Out";
+        }
+        var sectNameRefined;
+        if (sectorName.substring(0,6).localeCompare("sector") === 0){
+            sectNameRefined = sectorName.slice(6);
+        } else {
+            sectNameRefined = sectorName;
+        }
+        // console.log(sectNameRefined);
+        tooltip.innerHTML = `Sector Name: ` + sectNameRefined + `<br>Seats Left: ${avail}<br>Total: ${total}<br>Availability: ` + statusFullForm;
+    }
+
+    function hideTooltip() {
+        tooltip.style.display = 'none';
+        tooltip.innerHTML = '';
+    }
+</script>
+
+    
 
 </html>
 

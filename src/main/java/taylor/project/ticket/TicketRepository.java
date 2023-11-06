@@ -6,6 +6,8 @@ import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import taylor.project.concert.Concert;
+
 /**
  * We only need this interface declaration
  * Spring will automatically generate an implementation of the repo
@@ -18,5 +20,6 @@ public interface TicketRepository extends JpaRepository <Ticket, Long> {
 
     List<Ticket> findTicketBySeatNo(Integer seatNo);
     Optional<Ticket> findBySeatNo(Integer seatNo);
+    Optional<Ticket> findTicketByConcertAndSectorNameAndSeatRowNameAndSeatNo(Concert concert, String sectName, String rowName, Integer seatNo);
 
 }

@@ -1,6 +1,6 @@
 body {
   margin: 0; /* Remove unnecessary margin */
-  /* background: #111; */
+  background: #111;
   display: flex;
   justify-content: center;
   align-items: center; /* Vertically and horizontally center the theater */
@@ -9,17 +9,23 @@ body {
   position: relative;
 }
 
+.site-nav {
+  position:fixed;
+}
+
 /* Position of the whole theater */
 .theatre {
   display: flex;
-  justify-content: space-evenly;
+  position: absolute;
   flex-direction: column; /* Stack the seating container and buttons vertically */
   align-items: center; /* Center the content horizontally */
   transform: rotate(90deg); /* Rotate and center the entire container */
+  margin-top: 15%; /* -- == move whole theatre up ++ == whole theatre down*/
 }
 
 #seating-container {
   display: flex;
+  margin-left: 10% /* ++ = seats down, button stay. -- == seats up, button stay*/
   /* transform: scaleY(-1); */
 }
 
@@ -91,63 +97,13 @@ body {
   .row-name {
     /* Add styling for the row name */
     position: relative;
+    font-weight: bold;
     transform-origin: left center; /* Set the rotation origin to the left center */
     transform: rotate(-90deg) scaleX(-1) translate(-10%); /* Rotate the row name by -90 degrees (counter-clockwise) rotate(-90deg)*/
     white-space: nowrap; /* Prevent text from wrapping */
     width: 20px; /* Adjust the width as needed */
     top: -5px; /* Adjust the top position as needed */
+    color: rgb(255, 255, 255);
 }
   
-  .button-container {
-    display: flex;
-    flex-direction: column; /* Stack the buttons vertically */
-    justify-content: right; /* Center the buttons vertically */
-    align-items: flex-end; /* Align the buttons to the right */
-    position: absolute;
-    width: 900px;
-    right: -140px; /* Vertical control : -- down ++ up*/
-    bottom: 95%; /* Horizontal control : -- left ++ right*/
-}
-
-
-#confirm-button,
-#final-confirm-button{
-    width: 160px; 
-    height: 20px;
-    position:absolute;
-    right:0px; /* Vertical control : -- down ++ up*/
-    bottom:10%; /* Horizontal control : -- left ++ right*/    
-    transform: rotate(-90deg); 
-}
-
-#cancel-button {
-  width: 160px; 
-  height: 20px;
-  position:absolute;
-  right:-30px; /* Vertical control : -- down ++ up*/
-  bottom:10%; /* Horizontal control : -- left ++ right*/    
-  transform: rotate(-90deg); 
-}
-
-#final-confirm-button,
-#cancel-button {
-  display: none;
-}
-
-#selected-seats-message {
-  position: absolute;
-  width: 400px;
-  right:-80px; /* Vertical control : -- down ++ up*/
-  bottom:1000%; /* Horizontal control : -- left ++ right*/    
-  transform: rotate(-90deg);
-}
-
-.tooltip {
-  position: fixed;
-  top: 0;
-  right: 0;
-  background: #fff;
-  border: 1px solid #ccc;
-  padding: 10px;
-  display: none;
-}
+  

@@ -1,0 +1,344 @@
+<!-- /*
+* Template Name: Medio
+* Template Author: Untree.co
+* Tempalte URI: https://untree.co/
+* License: https://creativecommons.org/licenses/by/3.0/
+*/ -->
+<!doctype html>
+<html lang="en">
+<head>
+	<!-- Required meta tags -->
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	
+	<meta name="author" content="Untree.co">
+	<link rel="shortcut icon" href="/favicon.png">
+
+	<meta name="description" content="" />
+	<meta name="keywords" content="bootstrap, bootstrap5" />
+
+	<link rel="preconnect" href="https://fonts.gstatic.com">
+	<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Roboto:wght@300;400&display=swap" rel="stylesheet">
+
+
+	<link rel="stylesheet" href="/fonts/icomoon/style.css">
+	<link rel="stylesheet" href="/fonts/feather/style.css">
+
+	<link rel="stylesheet" href="/css/tiny-slider.css">
+	<link rel="stylesheet" href="/css/aos.css">
+	<link rel="stylesheet" href="/css/glightbox.min.css">
+	<link rel="stylesheet" href="/css/style.css">
+	<link rel="stylesheet" href="/css/marketplace-related/containers.css">
+
+
+	<title>TTTicket &mdash; Shopping Cart</title>
+</head>
+<body style="background-color: black;">
+
+	<div class="site-mobile-menu site-navbar-target">
+		<div class="site-mobile-menu-header">
+			<div class="site-mobile-menu-close">
+				<span class="icofont-close js-menu-toggle"></span>
+			</div>
+		</div>
+		<div class="site-mobile-menu-body"></div>
+	</div>
+
+	<nav class="site-nav">
+		<div class="container">
+			<div class="site-navigation">
+				<a href="/../../index" class="logo m-0">TTTicket</a>
+
+				<ul class="js-clone-nav d-none d-lg-inline-block text-start site-menu float-end">
+					<li><a href="/../../index">Home</a></li>
+					<li class="has-children">
+						<a href="#">Dropdown</a>
+						<ul class="dropdown">
+							<li><a href="#">Menu One</a></li>
+							<li class="has-children">
+								<a href="#">Menu Two</a>
+								<ul class="dropdown">
+									<li><a href="#">Sub Menu One</a></li>
+									<li><a href="#">Sub Menu Two</a></li>
+									<li><a href="#">Sub Menu Three</a></li>
+								</ul>
+							</li>
+							<li><a href="#">Menu Three</a></li>
+						</ul>
+					</li>
+					<li><a href="/../../services">Services</a></li>
+					<li class="active"><a href="/../../marketplace">Marketplace</a></li>
+					<li><a href="/../../user/2/purchasedtickets">My Tickets</a></li>
+					<li><a href="/../../user/2/shoppingcart">Shopping Cart</a></li>
+					<li><a href="/../../login">Login/Signup</a></li>
+				</ul>
+
+				<a href="#" class="burger ms-auto float-end site-menu-toggle mt-2 js-menu-toggle d-inline-block d-lg-none light" data-toggle="collapse" data-target="#main-navbar">
+					<span></span>
+				</a>
+			</div>
+		</div>
+	</nav>
+
+	<div class="title-container mx-auto text-center">
+		<h1 class="heading-2 text-white mb-3" data-aos="fade-up">Marketplace</h1>
+		<p data-aos="fade-up" data-aos-delay="200" class="text-white lead mb-4">Trusted ticket user resales on our platform. Never get scalped again!</p>
+		<div id="back-button">
+			<p data-aos="fade-up" data-aos-delay="300" ><a class="btn btn-primary-outline white" href="/marketplace" >← Back</a></p>
+		</div>
+	</div>
+
+	<div class="container content-section">
+		<div class="row">
+			<div class="container-fluid">
+				<div class="row" id="poster-container"></div>
+			</div>
+		</div>
+	</div>
+
+	<dix class="ticket-details-container" id="td-container" data-aos='fade-up' data-aos-delay="400">
+		<h2 style="color:white; text-decoration: underline;">Ticket Details</h2>
+	</dix>
+
+	<dix id="btn-container" data-aos='fade-up' data-aos-delay="430"></dix>
+	
+	<div class="section">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-4 pe-lg-5" data-aos="fade-up">
+					<span class="subheading d-inline-block mb-2">TTTicket</span>
+					<h2 class="text-white mb-4">Expressing Diversity through Concerts</h2>
+					<p class="text-white mb-5">We organize and hold concerts of various genres from different countries, providing the opportunity to experience cultural diversity.</p>
+					<p><a href="#" class="btn btn-black">Interested in Upcoming Concerts?</a></p>
+				</div>
+				<div class="col-lg-8">
+					<div class="row">
+						<div class="col-6 col-lg-6 mt-5" data-aos="fade-up" data-aos-delay="100">
+							<img src="/concert_posters/BTS_Concert_Poster.jpg" alt="Image" class="img-fluid rounded img-border">
+						</div>
+						<div class="col-6 col-lg-6" data-aos="fade-up" data-aos-delay="200">
+							<img src="/concert_posters/Coldplay_Concert_Poster.jpg" alt="Image" class="img-fluid rounded">
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="site-footer">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-4">
+					<div class="widget">
+						<h3>Contact</h3>
+						<address>43 Raymouth Rd. Baltemoer, London 3910</address>
+						<ul class="list-unstyled links">
+							<li><a href="tel://11234567890">+1(123)-456-7890</a></li>
+							<li><a href="tel://11234567890">+1(123)-456-7890</a></li>
+							<li><a href="mailto:info@mydomain.com">info@mydomain.com</a></li>
+						</ul>
+					</div> <!-- /.widget -->
+				</div> <!-- /.col-lg-4 -->
+				<div class="col-lg-4">
+					<div class="widget">
+						<h3>Sources</h3>
+						<ul class="list-unstyled float-start links">
+							<li><a href="#">About us</a></li>
+							<li><a href="#">Services</a></li>
+							<li><a href="#">Vision</a></li>
+							<li><a href="#">Mission</a></li>
+							<li><a href="#">Terms</a></li>
+							<li><a href="#">Privacy</a></li>
+						</ul>
+						<ul class="list-unstyled float-start links">
+							<li><a href="#">Partners</a></li>
+							<li><a href="#">Business</a></li>
+							<li><a href="#">Careers</a></li>
+							<li><a href="#">Blog</a></li>
+							<li><a href="#">FAQ</a></li>
+							<li><a href="#">Creative</a></li>
+						</ul>
+					</div> <!-- /.widget -->
+				</div> <!-- /.col-lg-4 -->
+				<div class="col-lg-4">
+					<div class="widget">
+						<h3>Links</h3>
+						<ul class="list-unstyled links">
+							<li><a href="#">Our Vision</a></li>
+							<li><a href="#">About us</a></li>
+							<li><a href="#">Contact us</a></li>
+						</ul>
+
+						<ul class="list-unstyled social">
+							<li><a href="#"><span class="icon-instagram"></span></a></li>
+							<li><a href="#"><span class="icon-twitter"></span></a></li>
+							<li><a href="#"><span class="icon-facebook"></span></a></li>
+							<li><a href="#"><span class="icon-linkedin"></span></a></li>
+							<li><a href="#"><span class="icon-pinterest"></span></a></li>
+							<li><a href="#"><span class="icon-dribbble"></span></a></li>
+						</ul>
+					</div> <!-- /.widget -->
+				</div> <!-- /.col-lg-4 -->
+			</div> <!-- /.row -->
+
+			<div class="row mt-5">
+				<div class="col-12 text-center">
+					<p class="mb-0">Copyright &copy;<script>document.write(new Date().getFullYear());</script>. All Rights Reserved. &mdash; Designed with love by <a href="https://untree.co">Untree.co</a> <!-- License information: https://untree.co/license/ -->
+					</p>
+				</div>
+			</div>
+		</div> <!-- /.container -->
+	</div> <!-- /.site-footer -->
+
+
+	<!-- Preloader -->
+	<div id="overlayer"></div>
+	<div class="loader">
+		<div class="spinner-border" role="status">
+			<span class="visually-hidden">Loading...</span>
+		</div>
+	</div>
+
+
+	<script src="/js/bootstrap.bundle.min.js"></script>
+	<script src="/js/tiny-slider.js"></script>
+	<script src="/js/aos.js"></script>
+	<script src="/js/navbar.js"></script>
+	<script src="/js/glightbox.min.js"></script>
+	<script src="/js/rellax.min.js"></script>
+	<script src="/js/custom.js"></script>
+
+
+	<!-- script to display tickets -->
+	<script th:inline="javascript">
+
+		var ticketId = /*[[${ticketId}]]*/ null;
+		// console.log(userId);
+		
+		fetch('http://localhost:8080/tickets')
+        .then(response => response.json())
+        .then(data => {
+            const ticketContainer = document.getElementById('poster-container');
+			const ticketDetailsContainer = document.getElementById('td-container');
+			const buttonContainer = document.getElementById('btn-container');
+
+			data.forEach(ticket => {
+				if (ticket.id === ticketId && ticket.ticketStatus === 'M'){
+					// Create a div for each ticket
+					const ticketElement = document.createElement('div');
+					ticketElement.classList.add('col-md-1', 'col-lg-3');
+					ticketElement.setAttribute('data-aos', 'fade-up');
+					ticketElement.setAttribute('data-aos-delay', '400');
+
+					// Create the <a> element
+					const anchorElement = document.createElement('a');
+					anchorElement.classList.add('media-2');
+					anchorElement.addEventListener('click', (e) => {
+						e.preventDefault(); // Prevent the default link behavior
+						openOverlay(ticket); // Open the overlay with ticket details
+					});
+
+					// Create the <img> element
+					const imgElement = document.createElement('img');
+					// Set the image source when it becomes available
+					// console.log("\\..\\..\\" + ticket.concert.photo.replace(/.*static\\/, ""));
+					imgElement.classList.add('img-border')
+					imgElement.src = "/../" + ticket.concert.photo.replace(/.*static\\/, "");
+					imgElement.alt = 'Image';
+					imgElement.classList.add('img-fluid');
+
+					// Create the <div> element for media-1-content
+					const mediaContentElement = document.createElement('div');
+					mediaContentElement.classList.add('media-1-content');
+
+					// Create <h2> element for the title
+					const h2Element = document.createElement('h3');
+					h2Element.textContent = ticket.concert.concertName;
+					h2Element.style.color = 'white';
+
+					const dateRangeElement = document.createElement('p');
+					// dateRangeElement.classList.add('category');
+					dateRangeElement.textContent = ticket.concert.dateRange;
+					dateRangeElement.style.color = 'white';
+					
+					const sectorNameElement = document.createElement('p');
+					// sectorNameElement.classList.add('category');
+					sectorNameElement.textContent = "Sector: " + ticket.sectorName;
+					sectorNameElement.style.color = 'white';
+
+					const seatNameElement = document.createElement('p');
+					// seatNameElement.classList.add('category');
+					seatNameElement.textContent = "Seat No: " + ticket.seatRowName + ticket.seatNo;
+					seatNameElement.style.color = 'white';
+
+					const sellerNameElement = document.createElement('p');
+					// sellerNameElement.classList.add('category');
+					sellerNameElement.textContent = "Seller: " + ticket.boughtUser.username;
+					sellerNameElement.style.color = 'white';
+
+					const element = document.createElement('p');
+					element.textContent = "Seller: " + ticket.boughtUser.username;
+					element.style.color = 'white';
+
+					anchorElement.appendChild(imgElement);
+					ticketElement.appendChild(anchorElement);
+					ticketContainer.appendChild(ticketElement);
+
+					ticketDetailsContainer.appendChild(h2Element);
+					ticketDetailsContainer.appendChild(dateRangeElement);
+					ticketDetailsContainer.appendChild(sectorNameElement);
+					ticketDetailsContainer.appendChild(seatNameElement);
+					ticketDetailsContainer.appendChild(sellerNameElement);
+
+					const browseTicketsButton = document.createElement('div');
+					browseTicketsButton.classList.add("col-lg-7",  "col-xxl-6",  "mx-auto",  "text-center");
+					const paraWithin = document.createElement('p');
+					paraWithin.setAttribute('data-aos', 'fade-up');
+					paraWithin.setAttribute('data-aos-delay', '400');
+					const anchorWithin = document.createElement('a');
+					anchorWithin.href = "/marketplace/" + ticket.id + "/purchase-marketplace-ticket";
+					anchorWithin.classList.add("btn",  "btn-primary-outline",  "white");
+					anchorWithin.textContent = "Buy Now!";
+					paraWithin.appendChild(anchorWithin);
+					browseTicketsButton.appendChild(paraWithin);
+					buttonContainer.appendChild(browseTicketsButton);
+				}
+			});
+
+			if (ticketContainer.childElementCount < 1) {
+				// Display an alternative message
+				const noTicketTitle = document.createElement('h1');
+				noTicketTitle.classList.add('text-white', 'lead', 'mb-4', 'aos-init', 'text-center');
+				noTicketTitle.setAttribute('data-aos', 'fade-up');
+				noTicketTitle.setAttribute('data-aos-delay', '300');
+				noTicketTitle.textContent = 'Oops!';
+
+				const noTicketMessage = docuemnt.createElement('p');
+				noTicketTitle.classList.add('text-white', 'lead', 'mb-4', 'aos-init', 'text-center');
+				noTicketTitle.setAttribute('data-aos', 'fade-up');
+				noTicketTitle.setAttribute('data-aos-delay', '300');
+				noTicketTitle.textContent = 'Either the ticket has just been bought, or does not exist.';
+				
+				const browseTicketsButton = document.createElement('div');
+				browseTicketsButton.classList.add("col-lg-7",  "col-xxl-6",  "mx-auto",  "text-center");
+				const paraWithin = document.createElement('p');
+				paraWithin.setAttribute('data-aos', 'fade-up');
+				paraWithin.setAttribute('data-aos-delay', '400');
+				const anchorWithin = document.createElement('a');
+				anchorWithin.href = "/../../index";
+				anchorWithin.classList.add("btn",  "btn-primary-outline",  "white");
+				anchorWithin.textContent = "Browse Concerts";
+				paraWithin.appendChild(anchorWithin);
+				browseTicketsButton.appendChild(paraWithin);
+				ticketContainer.appendChild(noTicketTitle);
+				ticketContainer.appendChild(browseTicketsButton);
+        	}
+
+        })
+        .catch(error => {
+            console.error('Error fetching seat data:', error);
+        });
+	</script>
+</body>
+</html>
+

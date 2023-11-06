@@ -1,21 +1,23 @@
 package taylor.project.ticket;
 
-import java.util.*;
-
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
-import lombok.*;
-import taylor.project.concert.*;
-import taylor.project.user.*;
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+import taylor.project.concert.Concert;
+// import taylor.project.shoppingCart.ShoppingCart;
+import taylor.project.user.User;
 
 @Entity
 @Getter
@@ -32,7 +34,37 @@ public class Ticket {
         follow business logic in google docs.
     */
     
-    private Long userId;
+
+    /*
+     * Tracks which user has this ticket in their cart.
+     * If ticket is avail, MUST BE NULL.
+     * Will be null if boughtUser is NON-NULL. 
+     */
+    @ManyToOne
+    @JoinColumn(name = "carted_user")
+    @JsonManagedReference
+    User cartedUser;
+
+    /*
+     * Tracks which user has already bought this ticket.
+     *  If ticket is in marketplace, this field remains non-null until the ticket is sold
+     *  to the new user.
+     * this field can be non-null together with cartedUser IF AND ONLY IF the ticket is in the marketplace. 
+     */
+    @ManyToOne
+    @JoinColumn(name = "bought_user")
+    @JsonManagedReference
+    User boughtUser;
+
+    @ManyToOne
+    @JoinColumn(name = "concert_id")
+    @JsonManagedReference
+    Concert concert;
+
+    // @ManyToOne
+    // @JoinColumn(name = "shoppingCart_id")
+    // @JsonManagedReference
+    // ShoppingCart shoppingCart;
 
     private String sectorName;
     private String seatRowName;
@@ -41,8 +73,10 @@ public class Ticket {
 
     private Character ticketStatus;
 
-    public Ticket(String sectorName, String seatRowName, Integer seatNo, Double price) {
-        this.userId = null;
+    public Ticket(Concert concert, String sectorName, String seatRowName, Integer seatNo, Double price) {
+        cartedUser = null;
+        boughtUser = null;
+        this.concert = concert;
         this.sectorName = sectorName;
         this.seatRowName = seatRowName;
         this.seatNo = seatNo;
@@ -50,12 +84,6 @@ public class Ticket {
         this.ticketStatus = 'A';
     }
     
-    public void setIdAndStatus(Long id) {
-        this.userId = id;
-        this.ticketStatus = 'P';
-    }
-    
-    //@JsonIgnore
     
     
 }
