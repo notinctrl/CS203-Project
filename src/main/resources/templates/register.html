@@ -6,6 +6,43 @@
     <title> Responsive Registration Form | CodingLab </title>
     <link rel="stylesheet" href="css/style_register.css">
      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <script>
+      function validatePassword() {
+          var password = document.getElementById("password").value;
+          var confirmPassword = document.getElementById("confirmPassword").value;
+          var errorSpan = document.getElementById("passwordError");
+
+          if (password !== confirmPassword) {
+              errorSpan.innerHTML = "Passwords do not match";
+          } else {
+              errorSpan.innerHTML = "";
+          }
+      }
+  </script>
+
+<!-- <script>
+  document.getElementById('registration-form').addEventListener('submit', function (e) {
+      e.preventDefault();
+      // Get the entered username
+      var username = document.getElementById('username').value;
+
+      // Check if the username is already taken (you can use AJAX to check on the server)
+      if (usernameIsTaken(username)) {
+          document.getElementById('error-message').textContent = "Username is already taken.";
+      } else {
+          // Proceed with registration
+          // You can submit the form or handle it as needed
+      }
+  });
+
+  // Simulate a function to check if the username is already taken
+  function usernameIsTaken(username) {
+      // This is a simple mock function; in reality, you'd use AJAX to check on the server
+      // Replace this with your server-side validation
+      var takenUsernames = getElementById().value;
+      return takenUsernames.includes(username);
+  }
+</script> -->
    </head>
 <body>
   <div class="container">
@@ -36,7 +73,8 @@
           </div>
           <div class="input-box">
             <span class="details">Confirm Password</span>
-            <input type="password" placeholder="Confirm your password" required name = "password">
+            <input type="password" placeholder="Confirm your password" id="confirmPassword" oninput="validatePassword()">
+            <span id="passwordError" style="color: red;"></span>
           </div>
         </div>
         <input type="hidden" name="authorities" value="ROLE_USER">
