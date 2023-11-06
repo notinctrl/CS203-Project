@@ -57,15 +57,17 @@ public class RegistrationController {
     @PostMapping("/save")
     public String userRegistration(@ModelAttribute User user, Model model) {
 
-       Optional<User> existingUser = users.findByUsername(user.getUsername());
-        if (existingUser != null) {
+        
+
+        if (userService.getUser(user.getUsername())!=null) {
             model.addAttribute("error", "Username is already taken.");
             return "register";
+        } else {
+            // No existing user found, proceed with registration.
+            user.setPassword(encoder.encode(user.getPassword()));
+            userService.addUser(user);
+            return "login";
         }
-        user.setPassword(encoder.encode(user.getPassword()));
-        userService.addUser(user);
-        return "login";
     }
-    
 
 }
