@@ -39,7 +39,7 @@ public class ConcertController {
      * List all concerts in the system
      * @return list of all concerts
      */
-    @GetMapping("/concerts")
+    @GetMapping("/allconcerts")
     public List<Concert> getConcerts(){
         return concertService.listConcerts();
     }

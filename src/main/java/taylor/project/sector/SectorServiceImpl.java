@@ -1,7 +1,6 @@
 package taylor.project.sector;
 
 import java.util.*;
-import java.util.Optional;
 
 import org.hibernate.mapping.Set;
 import org.springframework.stereotype.Service;
@@ -60,7 +59,7 @@ public class SectorServiceImpl implements SectorService {
      * Changes selected seat status
      */
     @Override
-    public void updateSelectedSeatsToStatus(Venue venue, List<String> selectedSeats, String sectorName, char newStatus){
+    public void updateSelectedSeatsToStatus(Venue venue, List<String> selectedSeats, String sectorName, char newStatus, Long userId){
         switch(newStatus){
             case 'P': case 'U':
                 break;
@@ -82,7 +81,7 @@ public class SectorServiceImpl implements SectorService {
 
         Concert c = venue.getConcert();
 
-        findSeatUpdateStatusAndTickets(c, sectors, rowNamesToFind, selectedSeats, sectorName, newStatus);
+        findSeatUpdateStatusAndTickets(c, sectors, rowNamesToFind, selectedSeats, sectorName, newStatus, userId);
     }
 
     /**
@@ -104,7 +103,7 @@ public class SectorServiceImpl implements SectorService {
     }
 
     public void findSeatUpdateStatusAndTickets(Concert concert, List<Sector> sectors, TreeSet<String> rowNamesToFind, 
-                                            List<String> selectedSeats, String sectorName, char newStatus){
+                                            List<String> selectedSeats, String sectorName, char newStatus, Long userId){
         for (Sector sector : sectors){
             Long id = sector.getId();
             // sector found
@@ -119,8 +118,17 @@ public class SectorServiceImpl implements SectorService {
                     seatsLeft -= seatsToBook;
                     sector.setSeatsLeft(seatsLeft);
 
-                    // change the ticket status to Pending, update cartedUser
-                    //TODO: find out how to track a logged in user so that i can update the ticket to cartedUser
+                    List<Ticket> tickets = ticketService.getTicketsByConcertAndSectorName(concert, sectorName);
+
+                    for (int i = 0; i < seatsToBook; i++){
+                        for (Ticket t : tickets){
+                            if (t.getTicketStatus() == 'A'){
+                                Long ticketId = t.getId();
+                                ticketService.setUserIdAndStatus(ticketId, userId, newStatus);
+                                break;
+                            }
+                        }
+                    }
                 }
                 // normal case: sector has more than one row
                 else {
@@ -161,10 +169,9 @@ System.out.println("row names to find are " + rowNamesToFind);
                                     if (ticket == null) throw new RuntimeException("Cannot find ticket for " + concert.getConcertName()
                                                                                      + " sectorName " + sectorName + ", seat " + rowName + seatNo);
 
-                                    // edit the ticket's status accordingly. this function also helps to
-                                    // persist ticket and user to repo.
-                                    // TODO: hardcoded userId
-                                    ticketService.setUserIdAndStatus(ticket.getId(), 2L, newStatus);
+                                    // edit the ticket's status accordingly. this function also
+                                    // helps to persist ticket and user to repo.
+                                    ticketService.setUserIdAndStatus(ticket.getId(), userId, newStatus);
                                 }
                                 // if status not changed successfully, throw runtime error
                                 // else throw new RuntimeException("Could not change status in sector: Seat " + ss 

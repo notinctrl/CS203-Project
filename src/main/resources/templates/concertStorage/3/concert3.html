@@ -27,7 +27,7 @@
 	<link rel="stylesheet" href="/css/style.css">
 	<link rel="stylesheet" href="/css/concertstyle.css">
 
-	<title>TTTicket &mdash; Concert 3</title>
+	<title>TTTicket &mdash; View Concert</title>
 </head>
 
 <body style="background: black;">
@@ -40,33 +40,32 @@
 		<div class="site-mobile-menu-body"></div>
 	</div>
 
+	<!-- Nav Bar -->
 	<nav class="site-nav">
 		<div class="container">
 			<div class="site-navigation">
 				<a href="/../../index" class="logo m-0">TTTicket</a>
 
 				<ul class="js-clone-nav d-none d-lg-inline-block text-start site-menu float-end">
-					<li class="active"><a href="/../../index">Home</a></li>
-					<li class="has-children">
-						<a href="#">Dropdown</a>
+					<li><a href="/../../index">Home</a></li>
+					<li><a href="/concerts">All Concerts</a></li>
+					<li><a href="/marketplace">Marketplace</a></li>
+
+					<li th:unless="${username}"><a href="/../login">My Tickets</a></li>
+					<li th:unless="${username}"><a href="/../login">Shopping Cart</a></li>
+
+					<li th:if="${username}"><a id="myTicketsLink" href="#">My Tickets</a></li>
+					<li th:if="${username}"><a id="shoppingCartLink" href="#">Shopping Cart</a></li>
+
+					<li th:unless="${username}"><a href="/../login">Login/Signup</a></li>
+					<li th:if="${username}" class="has-children">
+						<a><span>Welcome, <strong th:text="${username}"></strong></span></a>
 						<ul class="dropdown">
-							<li><a href="#">Menu One</a></li>
-							<li class="has-children">
-								<a href="#">Menu Two</a>
-								<ul class="dropdown">
-									<li><a href="#">Sub Menu One</a></li>
-									<li><a href="#">Sub Menu Two</a></li>
-									<li><a href="#">Sub Menu Three</a></li>
-								</ul>
-							</li>
-							<li><a href="#">Menu Three</a></li>
+							<li><a href="#">Account Details</a></li>
+							<!-- <li><a href="#">My purchases</a></li> -->
+							<li><a href="/../logout">Logout</a></li>
 						</ul>
 					</li>
-					<li><a href="/../../services">Services</a></li>
-					<li><a href="/../../marketplace">Marketplace</a></li>
-					<li><a href="/user/2/purchasedtickets">My Tickets</a></li>
-					<li><a href="/user/2/shoppingcart">Shopping Cart</a></li>
-					<li><a href="/../../login">Login/Signup</a></li>
 				</ul>
 
 				<a href="#"
@@ -78,29 +77,19 @@
 		</div>
 	</nav>
 
-	<div class="header">
+	<!-- Spacer for poster -->
+	<div class="header"></div>
+
+
+	<!-- Poster -->
+	<div class="img">
+		<center><img src="/images/Concert3_Main.jpg" alt="Image" class="img-fluid"><center>
 	</div>
 
+	<!-- Spacer for Poster end -->
+	<!-- <br> -->
 
-	<!-- <div class="hero v-h-full overlay"> -->
-		<div class="img">
-			<center><img src="/images/Concert3_Main.jpg" alt="Image" class="img-fluid"><center>
-		</div>
-
-	<!-- <div class="container">
-			<div class="row align-items-center v-h-full">
-
-				<div class="col-lg-7 col-xxl-6 mx-auto text-center">
-					<h1 class="heading-2 text-white mb-3" data-aos="fade-up">Shopping Cart</h1>
-					<p data-aos="fade-up" data-aos-delay="200" class="text-white lead mb-4"><br/>Shopping Cart is currently empty.</p>
-					<p data-aos="fade-up" data-aos-delay="300"><a href="#" class="btn btn-primary-outline white me-4">Browse Tickets</a></p>
-				</div>
-
-			</div>
-		</div> -->
-
-	</div>
-
+	<!-- Event Details -->
 	<div class="box" style="background:black">
 		<br>
 		<p class="heading-2 text-white mb-5"><u>Event Details</u></p>
@@ -121,6 +110,7 @@
 		</p>
 	</div>
 
+	<!-- Ticket Pricing -->
 	<div class="box" style="background:black">
 		<br>
 		<p class="heading-2 text-white mb-5"><u>Ticket Pricing</u></p>
@@ -130,7 +120,8 @@
 			<label for="date"><b>Select date:<br> (2024.08.25 to 2024.09.07)<br></b>
 				<input style="background: greenyellow" type="date" id="date" max="2024-09-07" min="2024-08-25" value="2024-08-25">
 			</label>
-			<p><a href="/../concerts/3/sectorLayout" class="btn btn-black">BUY TICKETS HERE</a></p>
+			<p th:if="${username}"><a href="/concerts/3/sectorLayout" class="btn btn-black">BUY TICKETS HERE</a></p>
+			<p th:unless="${username}"><a href="/../login" class="btn btn-black">BUY TICKETS HERE</a></p>
 		</div>
 		<pre style="color:white ; float:center ; margin: 30px ; font-family:Roboto ; font-size:medium;">
 			<b>STANDARD</b>
@@ -153,6 +144,7 @@
 		</pre>
 	</div>
 
+	<!-- T & C -->
 	<div class="box" style="background:black">
 		<br>
 		<p class="heading-2 text-white mb-5"><u>Terms and Conditions</u></p>
@@ -196,17 +188,28 @@
 		</pre>
 	</div>
 
-			<div class="section">
-				<div class="container">
+	<!-- Explore Concerts -->
+	<div class="section">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-4 pe-lg-5" data-aos="fade-up">
+					<span class="subheading d-inline-block mb-2">TTTicket</span>
+					<h2 class="mb-4">Expressing Diversity through Concerts</h2>
+					<p class="mb-5">We organize and hold concerts of various genres from different countries,
+						providing the opportunity to experience cultural diversity.</p>
+					<p><a href="concerts.html" class="btn btn-black">Interested in other Concerts?</a></p>
+				</div>
+				<div class="col-lg-8">
 					<div class="row">
-						<!-- <div class="col-6 col-lg-6 mt-5" data-aos="fade-up" data-aos-delay="100">
-							<img src="/concert_posters/BTS_Concert_Poster.jpg" alt="Image" class="img-fluid rounded">
+						<div class="col-6 col-lg-6 mt-5" data-aos="fade-up" data-aos-delay="100">
+							<img src="/concert_posters/Taylor_Swift_Concert_Poster.jpg" alt="Image"
+								class="img-fluid rounded">
 						</div>
 						<div class="col-6 col-lg-6" data-aos="fade-up" data-aos-delay="200">
-							<img src="/concert_posters/Coldplay_Concert_Poster.jpg" alt="Image" class="img-fluid rounded"> -->
+							<!-- <img src="/concert_posters/Coldplay_Concert_Poster.jpg" alt="Image" class="img-fluid rounded"> --> -->
 
 							
-						<div class="col-lg-4 pe-lg-5" data-aos="fade-up">
+						<!-- <div class="col-lg-4 pe-lg-5" data-aos="fade-up">
 							<span class="subheading d-inline-block mb-2" style="color: white">TTTicket</span>
 							<h2 class="mb-4" style="color: white">Expressing Diversity through Concerts</h2>
 							<p class="mb-5" style="color: white">We organize and hold concerts of various genres from different countries,
@@ -223,91 +226,83 @@
 									<img src="/concert_posters/Coldplay_Concert_Poster.jpg" alt="Image"
 										class="img-fluid rounded">
 								</div>
-							</div>
+							</div> -->
+							<img src="/concert_posters/Coldplay_Concert_Poster.jpg" alt="Image"
+								class="img-fluid rounded">
 						</div>
 					</div>
 				</div>
 			</div>
+		</div>
+	</div>
 
+	<div class="site-footer">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-4">
+					<div class="widget">
+						<h3>Contact</h3>
+						<address>43 Raymouth Rd. Baltemoer, London 3910</address>
+						<ul class="list-unstyled links">
+							<li><a href="tel://11234567890">+1(123)-456-7890</a></li>
+							<li><a href="tel://11234567890">+1(123)-456-7890</a></li>
+							<li><a href="mailto:info@mydomain.com">info@mydomain.com</a></li>
+						</ul>
+					</div> <!-- /.widget -->
+				</div> <!-- /.col-lg-4 -->
+				<div class="col-lg-4">
+					<div class="widget">
+						<h3>Sources</h3>
+						<ul class="list-unstyled float-start links">
+							<li><a href="#">About us</a></li>
+							<li><a href="#">Services</a></li>
+							<li><a href="#">Vision</a></li>
+							<li><a href="#">Mission</a></li>
+							<li><a href="#">Terms</a></li>
+							<li><a href="#">Privacy</a></li>
+						</ul>
+						<ul class="list-unstyled float-start links">
+							<li><a href="#">Partners</a></li>
+							<li><a href="#">Business</a></li>
+							<li><a href="#">Careers</a></li>
+							<li><a href="#">Blog</a></li>
+							<li><a href="#">FAQ</a></li>
+							<li><a href="#">Creative</a></li>
+						</ul>
+					</div> <!-- /.widget -->
+				</div> <!-- /.col-lg-4 -->
+				<div class="col-lg-4">
+					<div class="widget">
+						<h3>Links</h3>
+						<ul class="list-unstyled links">
+							<li><a href="#">Our Vision</a></li>
+							<li><a href="#">About us</a></li>
+							<li><a href="#">Contact us</a></li>
+						</ul>
 
+						<ul class="list-unstyled social">
+							<li><a href="#"><span class="icon-instagram"></span></a></li>
+							<li><a href="#"><span class="icon-twitter"></span></a></li>
+							<li><a href="#"><span class="icon-facebook"></span></a></li>
+							<li><a href="#"><span class="icon-linkedin"></span></a></li>
+							<li><a href="#"><span class="icon-pinterest"></span></a></li>
+							<li><a href="#"><span class="icon-dribbble"></span></a></li>
+						</ul>
+					</div> <!-- /.widget -->
+				</div> <!-- /.col-lg-4 -->
+			</div> <!-- /.row -->
 
-			<div class="site-footer">
-				<div class="container">
-					<div class="row">
-						<div class="col-lg-4">
-							<div class="widget">
-								<h3>Contact</h3>
-								<address>43 Raymouth Rd. Baltemoer, London 3910</address>
-								<ul class="list-unstyled links">
-									<li><a href="tel://11234567890">+1(123)-456-7890</a></li>
-									<li><a href="tel://11234567890">+1(123)-456-7890</a></li>
-									<li><a href="mailto:info@mydomain.com">info@mydomain.com</a></li>
-								</ul>
-							</div> <!-- /.widget -->
-						</div> <!-- /.col-lg-4 -->
-						<div class="col-lg-4">
-							<div class="widget">
-								<h3>Sources</h3>
-								<ul class="list-unstyled float-start links">
-									<li><a href="#">About us</a></li>
-									<li><a href="#">Services</a></li>
-									<li><a href="#">Vision</a></li>
-									<li><a href="#">Mission</a></li>
-									<li><a href="#">Terms</a></li>
-									<li><a href="#">Privacy</a></li>
-								</ul>
-								<ul class="list-unstyled float-start links">
-									<li><a href="#">Partners</a></li>
-									<li><a href="#">Business</a></li>
-									<li><a href="#">Careers</a></li>
-									<li><a href="#">Blog</a></li>
-									<li><a href="#">FAQ</a></li>
-									<li><a href="#">Creative</a></li>
-								</ul>
-							</div> <!-- /.widget -->
-						</div> <!-- /.col-lg-4 -->
-						<div class="col-lg-4">
-							<div class="widget">
-								<h3>Links</h3>
-								<ul class="list-unstyled links">
-									<li><a href="#">Our Vision</a></li>
-									<li><a href="#">About us</a></li>
-									<li><a href="#">Contact us</a></li>
-								</ul>
-
-								<ul class="list-unstyled social">
-									<li><a href="#"><span class="icon-instagram"></span></a></li>
-									<li><a href="#"><span class="icon-twitter"></span></a></li>
-									<li><a href="#"><span class="icon-facebook"></span></a></li>
-									<li><a href="#"><span class="icon-linkedin"></span></a></li>
-									<li><a href="#"><span class="icon-pinterest"></span></a></li>
-									<li><a href="#"><span class="icon-dribbble"></span></a></li>
-								</ul>
-							</div> <!-- /.widget -->
-						</div> <!-- /.col-lg-4 -->
-					</div> <!-- /.row -->
-
-					<div class="row mt-5">
-						<div class="col-12 text-center">
-							<p class="mb-0">Copyright &copy;
-								<script>document.write(new Date().getFullYear());</script>. All Rights Reserved. &mdash;
-								Designed with love by <a href="https://untree.co">Untree.co</a>
-								<!-- License information: https://untree.co/license/ -->
-							</p>
-						</div>
-					</div>
-				</div> <!-- /.container -->
-			</div> <!-- /.site-footer -->
-
-
-			<!-- Preloader
-			<div id="overlayer"></div>
-			<div class="loader">
-				<div class="spinner-border" role="status">
-					<span class="visually-hidden">Loading...</span>
+			<div class="row mt-5">
+				<div class="col-12 text-center">
+					<p class="mb-0">Copyright &copy;
+						<script>document.write(new Date().getFullYear());</script>. All Rights Reserved. &mdash;
+						Designed with love by <a href="https://untree.co">Untree.co</a>
+						<!-- License information: https://untree.co/license/ -->
+					</p>
 				</div>
-			</div> -->
-
+			</div>
+		</div> <!-- /.container -->
+	</div> <!-- /.site-footer -->
 
 	<!-- Preloader -->
 	<div id="overlayer"></div>
@@ -317,6 +312,34 @@
 		</div>
 	</div>
 
+	<!-- Script to change login only pages to specific userId -->
+	<script th:inline="javascript">
+		// JavaScript code to create a dynamic URL
+		var userId = /*[[${userId}]]*/ null;
+		if (userId != null){
+			var shoppingCartLink = document.getElementById("shoppingCartLink");
+			shoppingCartLink.href = "/../../user/" + userId + "/shoppingcart";
+
+			var shoppingCartLink = document.getElementById("myTicketsLink");
+			shoppingCartLink.href = "/../../user/" + userId + "/purchasedtickets";
+		}
+	</script>
+
+	<!-- Script to remember this path after login -->
+	<script>
+		document.addEventListener("DOMContentLoaded", function () {
+		var buyTicketsButton = document.getElementById("buyTicketsButton");
+		
+		if (buyTicketsButton) {
+			buyTicketsButton.addEventListener("click", function (event) {
+			event.preventDefault();
+		
+			// Store the desired URL in a cookie
+			document.cookie = "redirectUrl=/concerts/3/sectorLayout; path=/"; // You can customize the cookie name
+			});
+		}
+		});
+	</script>
 
 	<script src="/js/bootstrap.bundle.min.js"></script>
 	<script src="/js/tiny-slider.js"></script>
