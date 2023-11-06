@@ -35,8 +35,7 @@
 	<title>TTTicket &mdash; View Concert</title>
 </head>
 
-<body>
-	<!-- Nav Bar for Mobile -->
+<body style="background: black;">
 	<div class="site-mobile-menu site-navbar-target">
 		<div class="site-mobile-menu-header">
 			<div class="site-mobile-menu-close">
@@ -100,14 +99,14 @@
 	<!-- Event Details -->
 	<div class="box" style="background:black">
 		<br>
-		<p class="heading-2 text-white mb-5">Event Details</p>
+		<p class="heading-2 text-white mb-5"><u>Event Details</u></p>
 	</div>
 	<div>
 		<div style="float:left ; margin:30px">
 			<img src="/concert_posters/Taylor_Swift_Concert_Poster.jpg" alt="Image" class="img-fluid" width="300"
 				height="600" float="left">
 		</div>
-		<span style="color:black">
+		<p style="color:white ; margin:30px">
 			<br>
 			<b>The UOB Cardmembers Presale for Taylor Swift | The Eras Tour in Singapore is now SOLD OUT!</b><br>
 			Standby for General On-sale happening on<b> Friday, 7 July at 12pm (SGT)</b><br>
@@ -135,23 +134,23 @@
 			General On-Sale:<br>
 			Starts from <b>Friday, July 7 at 12PM (SGT)</b>
 			<br><br>
-		</span>
+		</p>
 	</div>
 
 	<!-- Ticket Pricing -->
 	<div class="box" style="background:black">
 		<br>
-		<p class="heading-2 text-white mb-5">Ticket Pricing</p>
+		<p class="heading-2 text-white mb-5"><u>Ticket Pricing</u></p>
 	</div>
 	<div>
-		<div style="color:black ; float:right ; margin: 50px ; font-family:Roboto ; font-size:medium;">
+		<div style="color:white ; float:right ; margin: 50px ; font-family:Roboto ; font-size:medium;">
 			<label for="date"><b>Select date:<br> (2024.03.02 to 2024.03.09)<br></b>
 				<input style="background: greenyellow" type="date" id="date" max="2024-03-09" min="2024-03-02" value="2024-03-02">
 			</label>
-			<p th:if="${username}"><a href="/concerts/1/sectorLayout" class="btn btn-black">BUY TICKETS HERE</a></p>
-			<p th:unless="${username}"><a href="/../login" class="btn btn-black">BUY TICKETS HERE</a></p>
+			<p th:if="${username}"><a href="/concerts/1/sectorLayout" class="btn btn-primary-outline white">BUY TICKETS HERE</a></p>
+			<p th:unless="${username}"><a href="/../login" class="btn btn-primary-outline white">BUY TICKETS HERE</a></p>
 		</div>
-		<pre style="color:black ; float:center ; margin: 30px ; font-family:Roboto ; font-size:medium;">
+		<pre style="color:white ; float:center ; margin: 30px ; font-family:Roboto ; font-size:medium;">
 			<b>STANDARD</b>
 				CAT 1: $348
 				CAT 2: $328
@@ -175,10 +174,10 @@
 	<!-- T & C -->
 	<div class="box" style="background:black">
 		<br>
-		<p class="heading-2 text-white mb-5">Terms and Conditions</p>
+		<p class="heading-2 text-white mb-5"><u>Terms and Conditions</u></p>
 	</div>
 	<div>
-		<pre style="color:black ; float:center ; margin: 30px ; font-family:Roboto ; font-size:medium;">
+		<pre style="color:white ; float:center ; margin: 30px ; font-family:Roboto ; font-size:medium;">
 			<b>Terms and Conditions:</b>
 				1. All tickets will be released 2 weeks before the concert date.
 				2. Your ticket purchase constitutes a personal, revocable license and, at all times, remains the property of
@@ -221,11 +220,11 @@
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-4 pe-lg-5" data-aos="fade-up">
-					<span class="subheading d-inline-block mb-2">TTTicket</span>
-					<h2 class="mb-4">Expressing Diversity through Concerts</h2>
-					<p class="mb-5">We organize and hold concerts of various genres from different countries,
+					<span class="subheading d-inline-block mb-2" style="color:white">TTTicket</span>
+					<h2 class="mb-4" style="color:white">Expressing Diversity through Concerts</h2>
+					<p class="mb-5" style="color:white">We organize and hold concerts of various genres from different countries,
 						providing the opportunity to experience cultural diversity.</p>
-					<p><a href="/concerts" class="btn btn-black">Interested in other Concerts?</a></p>
+					<p><a href="/concerts" class="btn btn-primary-outline white">Interested in other Concerts?</a></p>
 				</div>
 				<div class="col-lg-8">
 					<div class="row">
@@ -234,6 +233,30 @@
 								class="img-fluid rounded">
 						</div>
 						<div class="col-6 col-lg-6" data-aos="fade-up" data-aos-delay="200">
+							<!-- <img src="/concert_posters/Coldplay_Concert_Poster.jpg" alt="Image" class="img-fluid rounded"> -->
+
+							
+			<!-- <div class="section">
+				<div class="container"> -->
+					<!-- <div class="row">
+						<div class="col-lg-4 pe-lg-5" data-aos="fade-up">
+							<span class="subheading d-inline-block mb-2" style="color: white">TTTicket</span>
+							<h2 class="mb-4" style="color: white">Expressing Diversity through Concerts</h2>
+							<p class="mb-5" style="color: white">We organize and hold concerts of various genres from different countries,
+								providing the opportunity to experience cultural diversity.</p>
+							<p><a href="concerts.html" class="btn btn-black">Interested in other Concerts?</a></p>
+						</div>
+						<div class="col-lg-8">
+							<div class="row">
+								<div class="col-6 col-lg-6 mt-5" data-aos="fade-up" data-aos-delay="100">
+									<img src="/concert_posters/Coldplay_Concert_Poster.jpg" alt="Image"
+										class="img-fluid rounded">
+								</div>
+								<div class="col-6 col-lg-6" data-aos="fade-up" data-aos-delay="200">
+									<img src="/concert_posters/BTS_Concert_Poster.jpg" alt="Image"
+										class="img-fluid rounded">
+								</div>
+							</div> -->
 							<img src="/concert_posters/Ed-Sheeran_Concert_Poster.jpg" alt="Image"
 								class="img-fluid rounded">
 						</div>
