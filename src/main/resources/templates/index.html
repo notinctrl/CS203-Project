@@ -61,7 +61,7 @@
 
 					<li th:unless="${username}"><a href="login">Login/Signup</a></li>
 					<li th:if="${username}" class="has-children">
-						<a href="#"><span>Welcome, <strong th:text="${username}"></strong></span></a>
+						<a><span>Welcome, <strong th:text="${username}"></strong></span></a>
 						<ul class="dropdown">
 							<li><a href="#">Account Details</a></li>
 							<!-- <li><a href="#">My purchases</a></li> -->
@@ -193,8 +193,6 @@
 		<div class="container">
 			<div class="row justify-content-center mb-5">
 				<div class="col-lg-6 text-center" data-aos="fade-up" data-aos-delay="100">
-					<!-- <span class="subheading mb-2 d-inline-block">Awesome Portfolio</span> -->
-					<!-- <h2 class="mb-4">Our Portfolio</h2> -->
 					<h2 class="mb-4">Coming Soon</h2>
 				</div>
 			</div>
@@ -204,26 +202,19 @@
 					<div class="row">
 						<div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="200">
 							<a th:href="${Concert2Image}" class="media-1 glightbox">
-								<!-- <img src="images/img_v_1-min.jpg" alt="Image" class="img-fluid"> -->
 								<img th:src="${Concert2Image}" alt="Image" width="320px" class="container-fluid">
 								<div class="media-1-content">
-									<!-- <h2>Bonzai Tree</h2> -->
 									<h2 th:text="${Concert2Name}">Concert Name</h2>
 									<span th:text="${Concert2Date}" class="category">Branding</span>
-									<!-- <span class="category">Web Application</span> -->
 								</div>
 							</a>
 						</div>
 						<div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="300">
 							<a th:href="${Concert1Image}" class="media-1 glightbox">
-							<!-- <a href="images/img_v_2-min.jpg" class="media-1 glightbox"> -->
-								<!-- <img src="images/img_v_2-min.jpg" alt="Image" class="img-fluid"> -->
 								<img th:src="${Concert1Image}" alt="Image" width="320px" class="container-fluid">
 								<div class="media-1-content">
-									<!-- <h2>Simple Woman</h2> -->
 									<h2 th:text="${Concert1Name}">Concert Name</h2>
 									<span th:text="${Concert1Date}" class="category">Branding</span>
-									<!-- <span class="category">Branding</span> -->
 								</div>
 							</a>
 						</div>
@@ -231,8 +222,6 @@
 							<a th:href="${Concert3Image}" class="media-1 glightbox">
 								<img th:src="${Concert3Image}" alt="Image" width="320px" class="container-fluid">
 								<div class="media-1-content">
-									<!-- <h2>Fruits</h2>
-									<span class="category">Website</span> -->
 									<h2 th:text="${Concert3Name}">Concert Name</h2>
 									<span th:text="${Concert3Date}" class="category">Branding</span>
 								</div>

@@ -69,7 +69,9 @@ public class BookingApp {
         // System.out.println("[Add shopping cart]: User ID = " + shoppingCarts.save(testShoppingCart1).getUserID());
         // System.out.println("[Add shopping cart]: User ID = " + shoppingCarts.save(testShoppingCart2).getUserID());
 
-        // force initialise ticket to sold, normaluser id 2
+        /**
+         * force initialise ticket to sold, normaluser id 2
+         * /
         // Optional<Ticket> t = tickets.findById(1L);
         // Optional<User> u = users.findById(2L);
         // User user = u.get();
@@ -95,7 +97,9 @@ public class BookingApp {
         // user.setPurchasedTickets(list);
         // users.save(user);
 
-        // force initialise ticket to pending, normaluser id 2
+        /**
+         * force initialise ticket to pending, normaluser id 2
+         */
         // Optional<Ticket> t1 = tickets.findById(1L);
         // Optional<Ticket> t2 = tickets.findById(255L);
         // Optional<User> u = users.findById(2L);
@@ -140,18 +144,20 @@ public class BookingApp {
 
         //pending end
 
-        // force initialise tickets to marketplace
-        // Optional<Ticket> t1 = tickets.findById(1L);
+        /**
+         * Force Initialise tickets to marketplace
+         */
+        Optional<Ticket> t1 = tickets.findById(1L);
         // Optional<Ticket> t2 = tickets.findById(255L);
         // Optional<Ticket> t3 = tickets.findById(347L);
-        // User userSeller = users.findById(3L).get();
-        // List<Ticket> bought = new ArrayList<>();
+        User userSeller = users.findById(3L).get();
+        List<Ticket> bought = new ArrayList<>();
 
-        // Ticket t = t1.get();
-        // t.setTicketStatus('M');
-        // t.setBoughtUser(userSeller);
-        // bought.add(t);
-        // tickets.save(t);
+        Ticket t = t1.get();
+        t.setTicketStatus('M');
+        t.setBoughtUser(userSeller);
+        bought.add(t);
+        tickets.save(t);
 
         // t = t2.get();
         // t.setTicketStatus('M');
@@ -165,8 +171,8 @@ public class BookingApp {
         // bought.add(t);
         // tickets.save(t);
 
-        // userSeller.setPurchasedTickets(bought);
-        // users.save(userSeller);
+        userSeller.setPurchasedTickets(bought);
+        users.save(userSeller);
 
         // marketplace end
 

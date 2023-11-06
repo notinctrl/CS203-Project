@@ -56,6 +56,36 @@ index.html (old stuff)
 		</div>
 	</div>
 
+concerts.html (extra concerts)
+<!-- 
+							<div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="100">
+								<a th:href="${Concert4Image}" class="media-1 glightbox">
+									<img th:src="${Concert4Image}" alt="Image" width="340px" class="container-fluid">
+									<div class="media-1-content">
+										<h2 th:text="${Concert4Name}">Concert Name</h2>
+										<span th:text="${Concert4Date}" class="category">Branding</span>
+									</div>
+								</a>
+							</div> -->
+							<!-- <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="200">
+								<a href="images/img_v_5-min.jpg" class="media-1 glightbox">
+									<img src="images/img_v_5-min.jpg" alt="Image" class="img-fluid">
+									<div class="media-1-content">
+										<h2>Handy Food</h2>
+										<span class="category">Branding</span>
+									</div>
+								</a>
+							</div>
+							<div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="300">
+								<a href="images/img_v_6-min.jpg" class="media-1 glightbox">
+									<img src="images/img_v_6-min.jpg" alt="Image" class="img-fluid">
+									<div class="media-1-content">
+										<h2>Cat With Cup</h2>
+										<span class="category">Website</span>
+									</div>
+								</a>
+							</div> -->
+
 
 	<div class="section bg-light">
 		<div class="container">

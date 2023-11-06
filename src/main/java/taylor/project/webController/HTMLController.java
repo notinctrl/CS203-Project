@@ -53,16 +53,21 @@ public class HTMLController {
     //Save the uploaded file to this folder
     // private static String UPLOADED_FOLDER = "F://temp//";
 
-    @GetMapping("/index")
-    public String index(Model model, Authentication authentication) throws IOException{
+    public Model checkAuth(Authentication auth, Model model){
         Long userId;
-        if (authentication!=null) {
-            UserDetails userDetails =(UserDetails)authentication.getPrincipal();
+        if (auth != null) {
+            UserDetails userDetails =(UserDetails)auth.getPrincipal();
             model.addAttribute("username", userDetails.getUsername());
             userId = userService.getUser(userDetails.getUsername()).getId();
             model.addAttribute("userId", userId);
         }
 
+        return model;
+    }
+
+    @GetMapping("/index")
+    public String index(Model model, Authentication authentication) throws IOException{
+        model = checkAuth(authentication, model);
         List<Concert> concerts = concertService.listConcerts();
         int num = 1;
         for (Concert c : concerts){
@@ -79,13 +84,34 @@ public class HTMLController {
         return "index";
     }
 
+    @GetMapping("/concerts")
+    public String allConcerts(Model model, Authentication authentication) throws IOException{
+        model = checkAuth(authentication, model);
+        List<Concert> concerts = concertService.listConcerts();
+        int num = 1;
+        for (Concert c : concerts){
+            model.addAttribute("Concert" + num + "Name", c.getConcertName());
+            StringBuilder sb = new StringBuilder(c.getPhoto().getPath());
+            sb.delete(0, 25);
+            String correctPath = sb.toString();
+            model.addAttribute("Concert" + num + "Image", correctPath);
+            model.addAttribute("Concert" + num + "Date", c.getDateRange());
+            model.addAttribute("Concert" + num + "Time", c.getStartTime().toString());
+            num++;
+        }
+        
+        return "concertStorage/concerts.html";
+    }
+
     @GetMapping("concerts/{concertId}")
-    public String viewConcert(@PathVariable Long concertId){
+    public String viewConcert(@PathVariable Long concertId, Authentication authentication, Model model){
+        model = checkAuth(authentication, model);
+        System.out.println(model);
         return "concertStorage/" + concertId + "/concert" + concertId + ".html";
     }
 
     @GetMapping("concerts/{concertId}/sectorLayout")
-    public String getSectorLayout(@PathVariable("concertId") Long concertId, Model model, HttpSession session){
+    public String getSectorLayout(@PathVariable("concertId") Long concertId, Model model, Authentication authentication){
         // if (session.getAttribute("selectSectorButtonClicked") == null || !(boolean) session.getAttribute("selectSectorButtonClicked")) {
         //     // If the session attribute is not set or is false, redirect the user back to the previous page
         //     return "redirect:/../../../login"; // Replace with the URL of the previous page
@@ -111,24 +137,6 @@ public class HTMLController {
     public ResponseEntity<String> setSelectSectorButtonClicked(HttpSession session) {
         session.setAttribute("selectSectorButtonClicked", true);
         return ResponseEntity.ok("Attribute set to true");
-    }
-
-    @GetMapping("/concerts")
-    public String allConcerts(Model model) throws IOException{
-        List<Concert> concerts = concertService.listConcerts();
-        int num = 1;
-        for (Concert c : concerts){
-            model.addAttribute("Concert" + num + "Name", c.getConcertName());
-            StringBuilder sb = new StringBuilder(c.getPhoto().getPath());
-            sb.delete(0, 25);
-            String correctPath = sb.toString();
-            model.addAttribute("Concert" + num + "Image", correctPath);
-            model.addAttribute("Concert" + num + "Date", c.getDateRange());
-            model.addAttribute("Concert" + num + "Time", c.getStartTime().toString());
-            num++;
-        }
-        
-        return "concerts";
     }
 
     @GetMapping("concerts/{concertId}/sectorLayout/selectSeat/{sectorName}")
