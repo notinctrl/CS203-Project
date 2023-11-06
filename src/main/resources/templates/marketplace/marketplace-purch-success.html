@@ -254,7 +254,7 @@
 					// Set the image source when it becomes available
 					// console.log("\\..\\..\\" + ticket.concert.photo.replace(/.*static\\/, ""));
 					imgElement.classList.add('img-border')
-					imgElement.src = "/../" + ticket.concert.photo.replace(/.*static\\/, "").replaceAll("\\", "/");
+					imgElement.src = "/../" + ticket.concert.photo.replace(/.*static\//, "").replaceAll("\\", "/");
 					imgElement.alt = 'Image';
 					imgElement.classList.add('img-fluid');
 
