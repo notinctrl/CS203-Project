@@ -46,16 +46,23 @@ public class UserServiceTest {
         verify(users).save(user);
     }
 
-}
-
 
 // @Test
-// void addBook_SameTitle_ReturnNull(){ 
-    // Book book = new Book("The Same Title Exists");
-    // List<Book> sameTitles = new ArrayList<Book>(); 
-    // sameTitles.add(new Book("The Same Title Exists")); 
-    // when(books.findByTitle(book.getTitle())).thenReturn(sameTitles); 
-    // Book savedBook = bookService.addBook(book); 
-    // assertNull(savedBook); 
-    // verify(books).findByTitle(book.getTitle());
-// }
+// void addUser_SameUsername_ReturnException(){ 
+//     User user = new User("dahee", "123455678",  "234323434", "dahee@smu.com", "singpapore and korea","ROLE_USER");
+//     List<User> sameUsername = new ArrayList<User>();
+//     sameUsername.add(new User("dahee", "123455678",  "234323434", "dahee@smu.com", "singpapore and korea","ROLE_USER"));
+//     when(users.findByUsername(user.getUsername())).thenReturn(null);
+//     User savedUser = userService.addUser(user);
+//     assertNull(savedUser);
+//     verify(users).findByUsername(user.getUsername());
+//     // Book book = new Book("The Same Title Exists");
+//     // List<Book> sameTitles = new ArrayList<Book>(); 
+//     // sameTitles.add(new Book("The Same Title Exists")); 
+//     // when(books.findByTitle(book.getTitle())).thenReturn(sameTitles); 
+//     // Book savedBook = bookService.addBook(book); 
+//     // assertNull(savedBook); 
+//     // verify(books).findByTitle(book.getTitle());
+//     }
+
+}
