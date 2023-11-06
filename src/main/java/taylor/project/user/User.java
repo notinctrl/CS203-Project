@@ -14,6 +14,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.regex.*;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -55,6 +56,7 @@ public class User implements UserDetails{
     
     @NotNull(message = "Username should not be null")
     @Size(min = 5, max = 20, message = "Username should be between 5 and 20 characters")
+    @Column(unique = true)
     private String username;
     
     @NotNull(message = "Password should not be null")
@@ -69,8 +71,7 @@ public class User implements UserDetails{
     @NotNull(message = "Birthday should not be null")
     private String birthday;
     
-    @NotNull(message = "Email should not be null")
-
+    @NotNull(message = "Email should not be null") 
     @Email(message = "Please provide a valid email")
     @NotNull(message = "Email address should not be null")
     private String emailAddress;
