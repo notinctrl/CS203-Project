@@ -1,6 +1,5 @@
 package taylor.project.sector;
 
-import java.io.File;
 import java.util.*;
 
 import javax.persistence.CollectionTable;
@@ -9,11 +8,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
-import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
-import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -25,7 +21,6 @@ import lombok.Setter;
 import lombok.ToString;
 
 import taylor.project.venue.Venue;
-import taylor.project.concert.Concert;
 
 @Entity
 @Getter
@@ -34,7 +29,6 @@ import taylor.project.concert.Concert;
 @NoArgsConstructor
 @EqualsAndHashCode
 
-// @IdClass(SectorId.class)
 public class Sector{
     //ID tagged to all sectors
     @Id

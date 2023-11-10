@@ -24,6 +24,8 @@ public interface TicketService {
 
     List<Ticket> getTicketsByConcertAndSectorName(Concert c, String sectorName);
 
+    void changeTicketStatusToPending(Long concertId, String sectorName, List<String> selectedSeats, Long userId);
+
     /**
      * Change method's signature: do not return a value for delete operation
      * @param id

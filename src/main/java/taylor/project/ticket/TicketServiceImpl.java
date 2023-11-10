@@ -14,11 +14,12 @@ public class TicketServiceImpl implements TicketService {
    
     private TicketRepository tickets;
     private UserRepository users;
-    
+    private ConcertService concertService;
 
-    public TicketServiceImpl(TicketRepository trep, UserRepository users){
+    public TicketServiceImpl(TicketRepository trep, UserRepository users, ConcertService cs){
         tickets = trep;
         this.users = users;
+        concertService = cs;
     }
 
     @Override
@@ -74,6 +75,21 @@ public class TicketServiceImpl implements TicketService {
     public Ticket getTicketById(Long id){
         return tickets.findById(id).orElse(null);
     }
+
+    /**Possible Ticket statuses (in capital char)
+         * A - Available    : seat is available for booking and is not reserved by anybody
+         *                      Ticket userid is NULL.
+         * 
+         * P - Pending      : seat is in someone's shopping cart and not avail for purchase.
+         *                      Ticket userid is NON-NULL.
+         * 
+         * U - Unavailable  : seat has been purchased after a successful transaction.
+         *                      Ticket userid is NON-NULL.
+         * 
+         * M - Marketplace  : seat is available for purchase, but Ticket is still within the
+         *                      ownership of the selling user. 
+         *                      Ticket userid is NON-NULL.
+         */
 
     /**
      * Sets the ticket userId (if null) and its status to the specified status.
@@ -189,21 +205,49 @@ public class TicketServiceImpl implements TicketService {
             tickets.save(ticket);
 
         } else throw new RuntimeException("Provide a valid status. (A/P/U/M)");
+    }
 
-        /**Possible Ticket statuses (in capital char)
-         * A - Available    : seat is available for booking and is not reserved by anybody
-         *                      Ticket userid is NULL.
-         * 
-         * P - Pending      : seat is in someone's shopping cart and not avail for purchase.
-         *                      Ticket userid is NON-NULL.
-         * 
-         * U - Unavailable  : seat has been purchased after a successful transaction.
-         *                      Ticket userid is NON-NULL.
-         * 
-         * M - Marketplace  : seat is available for purchase, but Ticket is still within the
-         *                      ownership of the selling user. 
-         *                      Ticket userid is NON-NULL.
-         */
+    public void changeTicketStatusToPending(Long concertId, String sectorName, List<String> selectedSeats, Long userId){
+        // 1. go thru the selected seat list and find the ticket based on the seat details
+        for (String seat : selectedSeats){
+            Concert c = concertService.getConcertById(concertId);
+            String[] seatDetails = seat.split(":");
+            String rowName = seatDetails[0];
+            Integer seatNo = Integer.parseInt(seatDetails[1]);
+            Ticket ticket = findSpecificTicket(c, sectorName, rowName, seatNo).get();
+            if (ticket == null){
+                throw new RuntimeException("Exception in ticksvcimpl, changeTicketStatusToPending: ticket not found");
+            }
+
+            // 2. check if the ticket is valid to change from available to pending. refer below for function.
+            updateTicketToPending(ticket, userId);
+        }
+    }
+
+    /**Checks if ticket is valid to change to Pending before executing the update [NOTE BELOW]
+     * NOTE: the ticket can only be changed to Pending if:  1) BOTH its cartedUser and boughtUser fields are null.
+     *                                                      2) Its original ticketStatus is 'A'.
+     * An exception will be thrown if the ticket does not fulfill these.
+     * If valid to change, the ticket status will be changed and the cartedUser will be set to the ticket buyer.
+     * 
+     * @param t
+     * @param userId
+     */
+    public void updateTicketToPending(Ticket t, Long userId){
+        if (t.getBoughtUser() != null || t.getCartedUser() != null || t.getTicketStatus() != 'A'){
+            throw new RuntimeException("Illegal ticket status change from " + t.getTicketStatus() + " to P");
+        }
+
+        Ticket finalTicket = t;
+        User user = users.findById(userId).get();
+        if (user == null){
+            throw new RuntimeException("User not found");
+        }
+        finalTicket.setCartedUser(user);
+        finalTicket.setTicketStatus('P');
+
+        // persist the changes to the ticket repository.
+        tickets.save(finalTicket);
     }
 
     public boolean isValidStatus(char status){

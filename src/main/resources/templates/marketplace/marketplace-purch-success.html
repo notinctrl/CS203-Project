@@ -79,11 +79,11 @@
 	</nav>
 
 	<div class="title-container mx-auto text-center">
+		<h1 class="heading-2 text-white mb-3" data-aos="fade-up">Marketplace</h1>
+		<p data-aos="fade-up" data-aos-delay="200" class="text-white lead mb-4">Trusted ticket user resales on our platform. Never get scalped again!</p>
 		<div id="back-button">
 			<p data-aos="fade-up" data-aos-delay="300" ><a class="btn btn-primary-outline white me-4" href="/marketplace" >← Back</a></p>
 		</div>
-		<h1 class="heading-2 text-white mb-3" data-aos="fade-up">Marketplace</h1>
-		<p data-aos="fade-up" data-aos-delay="200" class="text-white lead mb-4">Trusted ticket user resales on our platform. Never get scalped again!</p>
 	</div>
 
 	<div class="container content-section">
@@ -254,7 +254,7 @@
 					// Set the image source when it becomes available
 					// console.log("\\..\\..\\" + ticket.concert.photo.replace(/.*static\\/, ""));
 					imgElement.classList.add('img-border')
-					imgElement.src = "/../" + ticket.concert.photo.replace(/.*static\//, "").replaceAll("\\", "/");
+					imgElement.src = "/../" + ticket.concert.photo.replace(/.*static\\/, "").replaceAll("\\", "/");
 					imgElement.alt = 'Image';
 					imgElement.classList.add('img-fluid');
 
@@ -284,7 +284,7 @@
 
 					const sellerNameElement = document.createElement('p');
 					// sellerNameElement.classList.add('category');
-					sellerNameElement.textContent = "Seller: " + ticket.boughtUser.username;
+					sellerNameElement.textContent = "Bought by: " + ticket.boughtUser.username;
 					sellerNameElement.style.color = 'white';
 
 					const element = document.createElement('p');

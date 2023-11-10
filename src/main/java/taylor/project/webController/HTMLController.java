@@ -139,26 +139,24 @@ public class HTMLController {
 
     @PostMapping("/bookingSuccess")
     public ResponseEntity<String> handleSeatSelection(HttpServletRequest request, @RequestBody Map<String, Object> requestBody, Authentication auth, Model model) {
-        // CsrfToken csrfToken = (CsrfToken) request.getAttribute(CsrfToken.class.getName());
         model = checkAuth(auth, model);
         Long userId = (Long) model.getAttribute("userId");
-        // if (csrfToken != null && csrfToken.getToken().equals(requestBody.get("_csrf"))) {
             this.concertId = Long.valueOf((Integer) requestBody.get("concertId"));
             this.sectorName = (String) requestBody.get("sectorName");
             this.selectedSeats = (List<String>) requestBody.get("selectedSeats");
 
     // System.out.println("concertid: " + concertId + " sectName:" + sectorName + " selseats:" + selectedSeats);
             String responseMessage = "Received the following seats: " + selectedSeats.toString();
-System.out.println("now changing concert's selected seats to pending...");
-            Venue venue = concertService.getConcertById(concertId).getConcertVenue();
+            System.out.println("now changing concert's selected seats to pending...");
+            // Venue venue = concertService.getConcertById(concertId).getConcertVenue();
             
-            sectorService.updateSelectedSeatsToStatus(venue, selectedSeats, sectorName, 'P', userId);
+            // sectorService.updateSelectedSeatsToStatus(venue, selectedSeats, sectorName, 'P', userId);
 
-System.out.println("all done!");
+            sectorService.updateSectorSeatsToPending(concertId, sectorName, selectedSeats);
+            ticketService.changeTicketStatusToPending(concertId, sectorName, selectedSeats, userId);
+
+            System.out.println("all done!");
             return ResponseEntity.ok(responseMessage);
-        // } else {
-        //     return ResponseEntity.status(HttpStatus.FORBIDDEN).body("CSRF Token Validation Failed");
-        // }
     }
 
     @GetMapping("/bookingSuccessDetails")

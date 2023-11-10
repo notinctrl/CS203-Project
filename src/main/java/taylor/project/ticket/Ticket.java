@@ -30,11 +30,6 @@ public class Ticket {
     //ID tagged to all concerts
     private @Id @GeneratedValue (strategy = GenerationType.IDENTITY) Long id;
 
-    /*TODO: make ticket a weak entity by having its partial identifiers to concertID.
-        follow business logic in google docs.
-    */
-    
-
     /*
      * Tracks which user has this ticket in their cart.
      * If ticket is avail, MUST BE NULL.
