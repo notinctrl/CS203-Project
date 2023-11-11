@@ -35,21 +35,21 @@
 }
 
 .main-banner #imgban3 {
-  background-image: url(../images/c3.png);
+  background-image: url(../images/Concert3_Main.png);
   background-size: contain;
   background-position: center;
   background-repeat: no-repeat;
 }
 
 .main-banner #imgban2 {
-  background-image: url(../images/c2.png);
+  background-image: url(../images/Concert2_Main.png);
   background-size: contain;
   background-position: center;
   background-repeat: no-repeat;
 }
 
 .main-banner #imgban1 {
-  background-image: url(../images/c1.png);
+  background-image: url(../images/Concert1_Main.png);
   background-size: contain;
   background-position: center;
   background-repeat: no-repeat;

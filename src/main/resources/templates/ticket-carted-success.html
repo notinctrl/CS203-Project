@@ -23,7 +23,7 @@
 	<link rel="stylesheet" href="/css/ticket-related/margin-top.css">
     <title>Ticket added to Cart!</title>
 </head>
-
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <body>
     <div class="site-mobile-menu site-navbar-target">
 		<div class="site-mobile-menu-header">
@@ -81,16 +81,16 @@
 		<p data-aos="fade-up" data-aos-delay="400"><a id="secondShoppingCartLink" href="#" class="btn btn-primary-outline white me-4">Shopping Cart</a></p>
 	</div>
 
-	<div id="timer-container">
+	<!-- <div id="timer-container">
 		<p id="global-timer" style="top: 10%"></p>
-	</div>
+	</div> -->
 
 	
 
 	<!-- Display the countdown timer in an element -->
 
 
-	<script>
+	<!-- <script>
 		// Set the date we're counting down to
 		var countDownTime = new Date();
 		countDownTime.setMinutes(countDownTime.getMinutes() + 10);
@@ -120,7 +120,7 @@
 			document.getElementById("demo").innerHTML = "EXPIRED";
 		}
 		}, 1000);
-	</script>
+	</script> -->
 
 	<!-- Script to change login only pages to specific userId -->
 	<script th:inline="javascript">
@@ -145,7 +145,6 @@
 	<script src="/js/glightbox.min.js"></script>
 	<script src="/js/rellax.min.js"></script>
 	<script src="/js/custom.js"></script>
-	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 </body>
 </html>

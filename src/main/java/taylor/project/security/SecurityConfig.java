@@ -88,22 +88,16 @@ public class SecurityConfig {
             /**ADMIN ONLY functions.
              * 
              */
-            .antMatchers(HttpMethod.GET, "/sectorRowAvailability/**").hasAnyRole("USER", "ADMIN")
-            .antMatchers(HttpMethod.POST, "/sectorRowAvailability/**").hasRole("ADMIN")
-            .antMatchers(HttpMethod.PUT, "/sectorRowAvailability/**").hasRole("ADMIN")
-            .antMatchers(HttpMethod.DELETE, "/sectorRowAvailability/**").hasRole("ADMIN")
+            // .antMatchers(HttpMethod.GET, "/sectorRowAvailability/**").hasAnyRole("USER", "ADMIN")
+            // .antMatchers(HttpMethod.POST, "/sectorRowAvailability/**").hasRole("ADMIN")
+            // .antMatchers(HttpMethod.PUT, "/sectorRowAvailability/**").hasRole("ADMIN")
+            // .antMatchers(HttpMethod.DELETE, "/sectorRowAvailability/**").hasRole("ADMIN")
 
             // .antMatchers(HttpMethod.GET, "/tickets/**").hasAnyRole("USER","ADMIN")
-            .antMatchers(HttpMethod.POST, "/tickets/**").hasRole("ADMIN")
-            .antMatchers(HttpMethod.PUT, "/tickets/**").hasRole("ADMIN")
-            .antMatchers(HttpMethod.DELETE, "/tickets/**").hasRole("ADMIN")
+            // .antMatchers(HttpMethod.POST, "/tickets/**").hasRole("ADMIN")
+            // .antMatchers(HttpMethod.PUT, "/tickets/**").hasRole("ADMIN")
+            // .antMatchers(HttpMethod.DELETE, "/tickets/**").hasRole("ADMIN")
 
-
-
-
-            // .antMatchers(HttpMethod.GET, "/tickets/**/status").hasAnyRole("ADMIN", "USER")
-
-            // .antMatchers(HttpMethod.GET, "/concerts/**/sectorLayout").authenticated() // New security rule for getSectorLayout
             
         .and()
         .authenticationProvider(authenticationProvider()) //specifies the authentication provider for HttpSecurity
@@ -118,6 +112,15 @@ public class SecurityConfig {
         .logout().logoutSuccessUrl("/index").permitAll()
         .invalidateHttpSession(true) // Invalidate the HTTP session
         .deleteCookies("JSESSIONID") // Delete cookies on logout
+        .and()
+        .rememberMe()
+            .key("uniqueAndSecret")
+            .tokenValiditySeconds(604800) // One week
+            .and()
+        .sessionManagement()
+            .maximumSessions(5)
+            .expiredUrl("/login?expired")
+            .maxSessionsPreventsLogin(false);
         ; // Disable the security headers, as we do not return HTML in our service
 
         

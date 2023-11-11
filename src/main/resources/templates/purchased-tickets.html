@@ -223,7 +223,7 @@
 					// Create the <a> element
 					const anchorElement = document.createElement('a');
 					anchorElement.classList.add('media-1', 'glightbox');
-					anchorElement.href = "/../../" + ticket.concert.photo.replace(/.*static\\/, "").replaceAll("\\", "/");
+					anchorElement.href = "/../../" + ticket.concert.photo.replace(/.*static\//, "").replaceAll("\\", "/");
 					anchorElement.alt = 'Image';
 					anchorElement.classList.add('img-fluid');
 
@@ -231,7 +231,7 @@
 					const imgElement = document.createElement('img');
 					imgElement.classList.add('img-border');
 					// Set the image source when it becomes available
-					imgElement.src = "/../../" + ticket.concert.photo.replace(/.*static\\/, "").replaceAll("\\", "/");
+					imgElement.src = "/../../" + ticket.concert.photo.replace(/.*static\//, "").replaceAll("\\", "/");
 					imgElement.alt = 'Image';
 					imgElement.classList.add('img-fluid');
 
@@ -345,7 +345,7 @@
 				paraWithin.setAttribute('data-aos', 'fade-up');
 				paraWithin.setAttribute('data-aos-delay', '400');
 				const anchorWithin = document.createElement('a');
-				anchorWithin.href = "/../../index";
+				anchorWithin.href = "/../../concerts";
 				anchorWithin.classList.add("btn",  "btn-primary-outline",  "white");
 				anchorWithin.textContent = "Browse Concerts";
 				paraWithin.appendChild(anchorWithin);

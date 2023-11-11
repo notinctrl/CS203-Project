@@ -49,18 +49,18 @@
 					<li class="active"><a href="/concerts">All Concerts</a></li>
 					<li><a href="/marketplace">Marketplace</a></li>
 
-					<li th:unless="${username}"><a href="login">My Tickets</a></li>
-					<li th:unless="${username}"><a href="login">Shopping Cart</a></li>
+					<li th:unless="${username}"><a href="/../../login">My Tickets</a></li>
+					<li th:unless="${username}"><a href="/../../login">Shopping Cart</a></li>
 
 					<li th:if="${username}"><a id="myTicketsLink" href="#">My Tickets</a></li>
 					<li th:if="${username}"><a id="shoppingCartLink" href="#">Shopping Cart</a></li>
 
-					<li th:unless="${username}"><a href="login">Login/Signup</a></li>
+					<li th:unless="${username}"><a href="/../../login">Login/Signup</a></li>
 					<li th:if="${username}" class="has-children">
 						<a><span>Welcome, <strong th:text="${username}"></strong></span></a>
 						<ul class="dropdown">
 							<li><a href="#">Account Details</a></li>
-							<li><a href="logout">Logout</a></li>
+							<li><a href="/../../logout">Logout</a></li>
 						</ul>
 					</li>
 				</ul>
@@ -72,16 +72,11 @@
 		</div>
 	</nav>
 
-<script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
-<!-- Maphighlight Script -->
-<script type="text/javascript" src="/js/sector-related/jquery.maphilight.js"></script>
-<script type="text/javascript" src="https://raw.githubusercontent.com/davidjbradshaw/imagemap-resizer/master/js/imageMapResizer.min.js"></script>
 
 <div class="tooltip-container">
     <div class="tooltip"></div>
 </div>
 
-<body>
     <div class="center-container">
         <img th:src="@{/seating_plan/Taylor_Swift_Seating_Plan(updated).jpg}" id="image" usemap="#image-map" class="maparea" height="100%">
     </div>
@@ -92,16 +87,16 @@
         <!-- Group 1: Sectors 634-645 -->
         <area target="_self" th:alt="${sector634status}" title="sector634" href="/concerts/1/sectorLayout/selectSeat/634" coords="736,244,645,276,706,322,778,293" shape="poly">
         <area target="_self" th:alt="${sector635status}" title="sector635" href="/concerts/1/sectorLayout/selectSeat/635" coords="640,276,554,310,630,369,710,324" shape="poly">
-        <area target="_self" th:alt="${sector636status}" title="sector636" href="" coords="549,308,466,352,555,411,626,369" shape="poly">
-        <area target="_self" th:alt="${sector637status}" title="sector637" href="" coords="460,353,386,396,485,457,551,414" shape="poly">
-        <area target="_self" th:alt="${sector638status}" title="sector638" href="" coords="383,400,313,448,404,499,469,451" shape="poly">
-        <area target="_self" th:alt="${sector639status}" title="sector639" href="" coords="305,451,268,481,241,505,348,554,407,508" shape="poly">
-        <area target="_self" th:alt="${sector640status}" title="sector640" href="" coords="287,605,345,559,236,506,185,564" shape="poly">
-        <area target="_self" th:alt="${sector641status}" title="sector641" href="" coords="185,565,137,623,223,660,284,610" shape="poly">
-        <area target="_self" th:alt="${sector642status}" title="sector642" href="" coords="174,709,218,661,137,628,118,655,100,692" shape="poly">
-        <area target="_self" th:alt="${sector643status}" title="sector643" href="" coords="97,696,75,755,142,767,174,714" shape="poly">
-        <area target="_self" th:alt="${sector644status}" title="sector644" href="" coords="137,770,70,760,60,821,118,826" shape="poly">
-        <area target="_self" th:alt="${sector645status}" title="sector645" href="" coords="108,877,57,877,60,826,113,829" shape="poly">
+        <area target="_self" th:alt="sector636status" title="sector636" href="" coords="549,308,466,352,555,411,626,369" shape="poly">
+        <area target="_self" th:alt="sector637status" title="sector637" href="" coords="460,353,386,396,485,457,551,414" shape="poly">
+        <area target="_self" th:alt="sector638status" title="sector638" href="" coords="383,400,313,448,404,499,469,451" shape="poly">
+        <area target="_self" th:alt="sector639status" title="sector639" href="" coords="305,451,268,481,241,505,348,554,407,508" shape="poly">
+        <area target="_self" th:alt="sector640status" title="sector640" href="" coords="287,605,345,559,236,506,185,564" shape="poly">
+        <area target="_self" th:alt="sector641status" title="sector641" href="" coords="185,565,137,623,223,660,284,610" shape="poly">
+        <area target="_self" th:alt="sector642status" title="sector642" href="" coords="174,709,218,661,137,628,118,655,100,692" shape="poly">
+        <area target="_self" th:alt="sector643status" title="sector643" href="" coords="97,696,75,755,142,767,174,714" shape="poly">
+        <area target="_self" th:alt="sector644status" title="sector644" href="" coords="137,770,70,760,60,821,118,826" shape="poly">
+        <area target="_self" th:alt="sector645status" title="sector645" href="" coords="108,877,57,877,60,826,113,829" shape="poly">
 
         <!-- Group 2: Sectors 434-446 -->
         <area target="_self" th:alt="${sector434status}" title="sector434" href="" coords="817,303,737,338,782,382,857,349" shape="poly">
@@ -225,143 +220,256 @@
     </map>
 
     <!-- <h3 th:text="${sector634status}">Concert Name</h3> -->
+    <!-- <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script> -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Maphighlight Script -->
+    <script type="text/javascript" src="/js/sector-related/jquery.maphilight.js"></script>
+    <script type="text/javascript" src="https://raw.githubusercontent.com/davidjbradshaw/imagemap-resizer/master/js/imageMapResizer.min.js"></script>
+
+    <script>
+        // Create a function to initialize maphilight with the populated array
+        function initializeMaphilight(sectorAvailPercentArray) {
+            console.log("sectorAvailPercentArray contains:", sectorAvailPercentArray);
     
-</body>
-
-<script>
-    // Select all <area> elements on the page
-    var areaElements = document.querySelectorAll('area');
-
-    // Create an array to store the titles
-    var sectorAvailPercentArray = [];
-
-    // Iterate through the <area> elements and add their titles to the array
-    areaElements.forEach(function(areaElement) {
-        sectorAvailPercentArray.push({
-            sectorName: areaElement.getAttribute('title'),
-            sectorStatus: areaElement.getAttribute('alt')
+            $('.maparea').maphilight({}, sectorAvailPercentArray);
+    
+            // $('#yourImageMap area').on('mouseover', function() {
+            //     options.sectorName = $(this).attr('title');
+            // });
+        }
+    
+        // Wait for the DOM to be ready before initializing maphilight
+        $(function() {
+            // Select all <area> elements on the page
+            var areaElements = document.querySelectorAll('area');
+    
+            // Create an array to store the titles
+            var sectorAvailPercentArray = [];
+    
+            // Iterate through the <area> elements and add their titles to the array
+            areaElements.forEach(function(areaElement) {
+                sectorAvailPercentArray.push({
+                    sectorName: areaElement.getAttribute('title'),
+                    sectorStatus: areaElement.getAttribute('alt')
+                });
+            });
+    
+            // Call the function with the populated array
+            initializeMaphilight(sectorAvailPercentArray);
+    
+            $('#image-map').imageMapResize();
         });
-    });
-
-
-    $(function() {
-        $('.maparea').maphilight({}, sectorAvailPercentArray);
-        $('#yourImageMap area').on('mouseover', function() {
-            // Update options.sectorName here
-            options.sectorName = $(this).attr('title');
+    
+        // Function to adjust image map coordinates
+        $(function() {
+            $('#image-map').imageMapResize();
         });
-    });
-    $(function() {
-        $('#image-map').imageMapResize();
-    });
 
-    // Function to adjust image map coordinates
-    function adjustImageMapCoordinates() {
-        // Get a reference to the image element
-        var image = document.getElementById('image');
-    
-        // Get the actual width and height of the image
-        var imageWidth = image.width;
-        var imageHeight = image.height;
-    
-        // Get all the area elements
-        var areas = document.querySelectorAll('area');
-    
-        // Loop through each area and adjust the coordinates
-        areas.forEach(function(area) {
-            var coords = area.getAttribute('coords').split(',').map(Number);
-    
-            // Calculate the scaling factors for width and height
-            var widthScale = imageWidth / image.naturalWidth;
-            var heightScale = imageHeight / image.naturalHeight;
-    
-            // Adjust the coordinates based on the scaling factors
-            for (var i = 0; i < coords.length; i += 2) {
-                coords[i] = Math.round(coords[i] * widthScale);
-                coords[i + 1] = Math.round(coords[i + 1] * heightScale);
+        // Function to adjust image map coordinates
+        function adjustImageMapCoordinates() {
+            // Get a reference to the image element
+            var image = document.getElementById('image');
+        
+            // Get the actual width and height of the image
+            var imageWidth = image.width;
+            var imageHeight = image.height;
+        
+            // Get all the area elements
+            var areas = document.querySelectorAll('area');
+        
+            // Loop through each area and adjust the coordinates
+            areas.forEach(function(area) {
+                var coords = area.getAttribute('coords').split(',').map(Number);
+        
+                // Calculate the scaling factors for width and height
+                var widthScale = imageWidth / image.naturalWidth;
+                var heightScale = imageHeight / image.naturalHeight;
+        
+                // Adjust the coordinates based on the scaling factors
+                for (var i = 0; i < coords.length; i += 2) {
+                    coords[i] = Math.round(coords[i] * widthScale);
+                    coords[i + 1] = Math.round(coords[i + 1] * heightScale);
+                }
+        
+                // Set the adjusted coordinates back to the area element
+                area.setAttribute('coords', coords.join(','));
+            });
+        }
+
+        // Call the adjustImageMapCoordinates function when the window loads and when it resizes
+        window.addEventListener('load', adjustImageMapCoordinates);
+        window.addEventListener('resize', adjustImageMapCoordinates);
+    </script>
+    <script>
+        // Select all <area> elements on the page
+        // var areaElements = document.querySelectorAll('area');
+
+//         // Create an array to store the titles
+//         var sectorAvailPercentArray = [];
+
+//         // Iterate through the <area> elements and add their titles to the array
+//         areaElements.forEach(function(areaElement) {
+//             sectorAvailPercentArray.push({
+//                 sectorName: areaElement.getAttribute('title'),
+//                 sectorStatus: areaElement.getAttribute('alt')
+//             });
+//         });
+// console.log("sectorAvailPercentArray contains: " + sectorAvailPercentArray);
+
+//         $(function() {
+//             $('.maparea').maphilight({}, sectorAvailPercentArray);
+//             $('#yourImageMap area').on('mouseover', function() {
+//                 // Update options.sectorName here
+//                 options.sectorName = $(this).attr('title');
+//             });
+//         });
+
+// Create a function to initialize maphilight with the populated array
+// function initializeMaphilight(sectorAvailPercentArray) {
+//     console.log("sectorAvailPercentArray contains:", sectorAvailPercentArray);
+
+//     $('.maparea').maphilight({}, sectorAvailPercentArray);
+
+    // $('#yourImageMap area').on('mouseover', function() {
+    //     options.sectorName = $(this).attr('title');
+    // });
+// }
+
+// // Select all <area> elements on the page
+// var areaElements = document.querySelectorAll('area');
+
+// // Create an array to store the titles
+// var sectorAvailPercentArray = [];
+
+// // Iterate through the <area> elements and add their titles to the array
+// areaElements.forEach(function(areaElement) {
+//     sectorAvailPercentArray.push({
+//         sectorName: areaElement.getAttribute('title'),
+//         sectorStatus: areaElement.getAttribute('alt')
+//     });
+// });
+
+// // Wait for the DOM to be ready before initializing maphilight
+// $(function() {
+//     // Call the function with the populated array
+//     initializeMaphilight(sectorAvailPercentArray); // Corrected argument name
+// });
+
+
+
+        // $(function() {
+        //     $('#image-map').imageMapResize();
+        // });
+
+        // // Function to adjust image map coordinates
+        // function adjustImageMapCoordinates() {
+        //     // Get a reference to the image element
+        //     var image = document.getElementById('image');
+        
+        //     // Get the actual width and height of the image
+        //     var imageWidth = image.width;
+        //     var imageHeight = image.height;
+        
+        //     // Get all the area elements
+        //     var areas = document.querySelectorAll('area');
+        
+        //     // Loop through each area and adjust the coordinates
+        //     areas.forEach(function(area) {
+        //         var coords = area.getAttribute('coords').split(',').map(Number);
+        
+        //         // Calculate the scaling factors for width and height
+        //         var widthScale = imageWidth / image.naturalWidth;
+        //         var heightScale = imageHeight / image.naturalHeight;
+        
+        //         // Adjust the coordinates based on the scaling factors
+        //         for (var i = 0; i < coords.length; i += 2) {
+        //             coords[i] = Math.round(coords[i] * widthScale);
+        //             coords[i + 1] = Math.round(coords[i + 1] * heightScale);
+        //         }
+        
+        //         // Set the adjusted coordinates back to the area element
+        //         area.setAttribute('coords', coords.join(','));
+        //     });
+        // }
+
+        // // Call the adjustImageMapCoordinates function when the window loads and when it resizes
+        // window.addEventListener('load', adjustImageMapCoordinates);
+        // window.addEventListener('resize', adjustImageMapCoordinates);
+
+    </script>
+
+    <script th:inline="javascript">
+    const sName = 'sector634';
+    const attributeName = sName + 'avail';
+    const map = /*[[${attributeMap}]]*/ 'N/A';
+    // console.log("the status of " + sName + " avail is " + map[attributeName]);
+
+        const areas = document.querySelectorAll('area');
+        // Add event listeners to each area
+        areas.forEach((area) => {
+            area.addEventListener('mouseover', (event) => {
+                const sectorName = event.target.getAttribute('title');
+                const availability = parseInt(map[sectorName + 'avail']);
+                // Find the corresponding attributes in the model based on sectorName
+                const total = parseInt(map[sectorName + 'total']);
+                const status = map[sectorName + 'status'];
+
+                showTooltip(sectorName, availability, total, status);
+            });
+
+            area.addEventListener('mouseout', () => {
+                hideTooltip();
+            });
+        });
+
+        const tooltip = document.querySelector('.tooltip');
+
+        function showTooltip(sectorName, avail, total, status) {
+            tooltip.style.display = 'block';
+            var statusFullForm = "";
+            switch(status) {
+                case 'H':
+                    statusFullForm = "High";
+                    break;
+                case 'M':
+                    statusFullForm = "Medium";
+                    break;
+                case 'L':
+                    statusFullForm = "Low";
+                    break;
+                default:
+                    statusFullForm = "Sold Out";
             }
-    
-            // Set the adjusted coordinates back to the area element
-            area.setAttribute('coords', coords.join(','));
-        });
-    }
-
-    // Call the adjustImageMapCoordinates function when the window loads and when it resizes
-    window.addEventListener('load', adjustImageMapCoordinates);
-    window.addEventListener('resize', adjustImageMapCoordinates);
-
-</script>
-
-<script th:inline="javascript">
-const sName = 'sector634';
-const attributeName = sName + 'avail';
-const map = /*[[${attributeMap}]]*/ 'N/A';
-console.log(map[attributeName]);
-
-    const areas = document.querySelectorAll('area');
-    // Add event listeners to each area
-    areas.forEach((area) => {
-        area.addEventListener('mouseover', (event) => {
-            const sectorName = event.target.getAttribute('title');
-            const availability = parseInt(map[sectorName + 'avail']);
-            // Find the corresponding attributes in the model based on sectorName
-            const total = parseInt(map[sectorName + 'total']);
-            const status = map[sectorName + 'status'];
-
-            showTooltip(sectorName, availability, total, status);
-        });
-
-        area.addEventListener('mouseout', () => {
-            hideTooltip();
-        });
-    });
-
-    const tooltip = document.querySelector('.tooltip');
-
-    function showTooltip(sectorName, avail, total, status) {
-        tooltip.style.display = 'block';
-        var statusFullForm = "";
-        switch(status) {
-            case 'H':
-                statusFullForm = "High";
-                break;
-            case 'M':
-                statusFullForm = "Medium";
-                break;
-            case 'L':
-                statusFullForm = "Low";
-                break;
-            default:
-                statusFullForm = "Sold Out";
+            var sectNameRefined;
+            if (sectorName.substring(0,6).localeCompare("sector") === 0){
+                sectNameRefined = sectorName.slice(6);
+            } else {
+                sectNameRefined = sectorName;
+            }
+            // console.log(sectNameRefined);
+            tooltip.innerHTML = `Sector Name: ` + sectNameRefined + `<br>Seats Left: ${avail}<br>Total: ${total}<br>Availability: ` + statusFullForm;
         }
-        var sectNameRefined;
-        if (sectorName.substring(0,6).localeCompare("sector") === 0){
-            sectNameRefined = sectorName.slice(6);
-        } else {
-            sectNameRefined = sectorName;
+
+        function hideTooltip() {
+            tooltip.style.display = 'none';
+            tooltip.innerHTML = '';
         }
-        // console.log(sectNameRefined);
-        tooltip.innerHTML = `Sector Name: ` + sectNameRefined + `<br>Seats Left: ${avail}<br>Total: ${total}<br>Availability: ` + statusFullForm;
-    }
+    </script>
 
-    function hideTooltip() {
-        tooltip.style.display = 'none';
-        tooltip.innerHTML = '';
-    }
-</script>
+    <!-- Script to change login only pages to specific userId -->
+    <script th:inline="javascript">
+        // JavaScript code to create a dynamic URL
+        var userId = /*[[${userId}]]*/ null;
+        if (userId != null){
+            var shoppingCartLink = document.getElementById("shoppingCartLink");
+            shoppingCartLink.href = "/user/" + userId + "/shoppingcart";
 
-<!-- Script to change login only pages to specific userId -->
-<script th:inline="javascript">
-    // JavaScript code to create a dynamic URL
-    var userId = /*[[${userId}]]*/ null;
-    if (userId != null){
-        var shoppingCartLink = document.getElementById("shoppingCartLink");
-        shoppingCartLink.href = "/user/" + userId + "/shoppingcart";
+            var shoppingCartLink = document.getElementById("myTicketsLink");
+            shoppingCartLink.href = "/user/" + userId + "/purchasedtickets";
+        }
+    </script>
 
-        var shoppingCartLink = document.getElementById("myTicketsLink");
-        shoppingCartLink.href = "/user/" + userId + "/purchasedtickets";
-    }
-</script>
+</body>
 
 </html>
 

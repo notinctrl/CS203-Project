@@ -92,7 +92,7 @@
 		</div>
 	</div>
 
-	<p id="globaltimer"></p>
+	<!-- <p id="globaltimer"></p> -->
 
 
 	<div class="section">
@@ -183,7 +183,7 @@
 		</div> <!-- /.container -->
 	</div> <!-- /.site-footer -->
 
-	<script>
+	<!-- <script>
 		var countDownTime = localStorage.getItem('countDownTime');
 
 		if (countDownTime) {
@@ -204,7 +204,7 @@
 			}
 		}, 1000);
 		}
-	</script>
+	</script> -->
 
 
 	<!-- Preloader -->
@@ -236,7 +236,7 @@
 	<script src="/js/glightbox.min.js"></script>
 	<script src="/js/rellax.min.js"></script>
 	<script src="/js/custom.js"></script>
-	<script src="js/globaltimer.js"></script>
+	<!-- <script src="js/globaltimer.js"></script> -->
 
 
 	<!-- script to display tickets -->
@@ -248,7 +248,8 @@
 		// Get the current hostname and port dynamically
 		const hostname = window.location.hostname;
 		const port = window.location.port;
-
+console.log("host name is " + hostname);
+console.log("port is " + port);
 		// Construct the base URL
 		const baseUrl = `http://${hostname}:${port}`;
 
@@ -280,9 +281,9 @@
 				// Create the <img> element
 				const imgElement = document.createElement('img');
 				// Set the image source when it becomes available
-				console.log(ticket.concert.photo.replace(/.*static\\/, ""));
+				// console.log(ticket.concert.photo.replace(/.*static\//, ""));
 				imgElement.classList.add('img-border')
-				imgElement.src = "/../../" + ticket.concert.photo.replace(/.*static\\/, "").replaceAll("\\", "/");
+				imgElement.src = "/../../" + ticket.concert.photo.replace(/.*static\//, "").replaceAll("\\", "/");
 				imgElement.alt = 'Image';
 				imgElement.classList.add('img-fluid');
 

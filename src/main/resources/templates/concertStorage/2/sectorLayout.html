@@ -49,18 +49,18 @@
 					<li class="active"><a href="/concerts">All Concerts</a></li>
 					<li><a href="/marketplace">Marketplace</a></li>
 
-					<li th:unless="${username}"><a href="login">My Tickets</a></li>
-					<li th:unless="${username}"><a href="login">Shopping Cart</a></li>
+					<li th:unless="${username}"><a href="/../../login">My Tickets</a></li>
+					<li th:unless="${username}"><a href="/../../login">Shopping Cart</a></li>
 
 					<li th:if="${username}"><a id="myTicketsLink" href="#">My Tickets</a></li>
 					<li th:if="${username}"><a id="shoppingCartLink" href="#">Shopping Cart</a></li>
 
-					<li th:unless="${username}"><a href="login">Login/Signup</a></li>
+					<li th:unless="${username}"><a href="/../../login">Login/Signup</a></li>
 					<li th:if="${username}" class="has-children">
 						<a><span>Welcome, <strong th:text="${username}"></strong></span></a>
 						<ul class="dropdown">
 							<li><a href="#">Account Details</a></li>
-							<li><a href="logout">Logout</a></li>
+							<li><a href="/../../logout">Logout</a></li>
 						</ul>
 					</li>
 				</ul>
@@ -72,10 +72,6 @@
 		</div>
 	</nav>
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<!-- Maphighlight Script -->
-<script type="text/javascript" src="/js/sector-related/jquery.maphilight.js"></script>
-<script type="text/javascript" src="https://raw.githubusercontent.com/davidjbradshaw/imagemap-resizer/master/js/imageMapResizer.min.js"></script>
 
 <div class="tooltip-container">
     <div class="tooltip"></div>
@@ -188,145 +184,150 @@
 
     <!-- <h3 th:text="${sector634status}">Concert Name</h3> -->
     
-</body>
 
-<script>
-    // Select all <area> elements on the page
-    var areaElements = document.querySelectorAll('area');
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Maphighlight Script -->
+    <script type="text/javascript" src="/js/sector-related/jquery.maphilight.js"></script>
+    <script type="text/javascript" src="https://raw.githubusercontent.com/davidjbradshaw/imagemap-resizer/master/js/imageMapResizer.min.js"></script>
 
-    // Create an array to store the titles
-    var sectorAvailPercentArray = [];
 
-    // Iterate through the <area> elements and add their titles to the array
-    areaElements.forEach(function(areaElement) {
-        sectorAvailPercentArray.push({
-            sectorName: areaElement.getAttribute('title'),
-            sectorStatus: areaElement.getAttribute('alt')
+    <script>
+        // Select all <area> elements on the page
+        var areaElements = document.querySelectorAll('area');
+
+        // Create an array to store the titles
+        var sectorAvailPercentArray = [];
+
+        // Iterate through the <area> elements and add their titles to the array
+        areaElements.forEach(function(areaElement) {
+            sectorAvailPercentArray.push({
+                sectorName: areaElement.getAttribute('title'),
+                sectorStatus: areaElement.getAttribute('alt')
+            });
         });
-    });
 
 
-    $(function() {
-        $('.maparea').maphilight({}, sectorAvailPercentArray);
-        $('#yourImageMap area').on('mouseover', function() {
-            // Update options.sectorName here
-            options.sectorName = $(this).attr('title');
+        $(function() {
+            $('.maparea').maphilight({}, sectorAvailPercentArray);
+            $('#yourImageMap area').on('mouseover', function() {
+                // Update options.sectorName here
+                options.sectorName = $(this).attr('title');
+            });
         });
-    });
-    $(function() {
-        $('#image-map').imageMapResize();
-    });
+        $(function() {
+            $('#image-map').imageMapResize();
+        });
 
-    // Function to adjust image map coordinates
-    function adjustImageMapCoordinates() {
-        // Get a reference to the image element
-        var image = document.getElementById('image');
-    
-        // Get the actual width and height of the image
-        var imageWidth = image.width;
-        var imageHeight = image.height;
-    
-        // Get all the area elements
-        var areas = document.querySelectorAll('area');
-    
-        // Loop through each area and adjust the coordinates
-        areas.forEach(function(area) {
-            var coords = area.getAttribute('coords').split(',').map(Number);
-    
-            // Calculate the scaling factors for width and height
-            var widthScale = imageWidth / image.naturalWidth;
-            var heightScale = imageHeight / image.naturalHeight;
-    
-            // Adjust the coordinates based on the scaling factors
-            for (var i = 0; i < coords.length; i += 2) {
-                coords[i] = Math.round(coords[i] * widthScale);
-                coords[i + 1] = Math.round(coords[i + 1] * heightScale);
+        // Function to adjust image map coordinates
+        function adjustImageMapCoordinates() {
+            // Get a reference to the image element
+            var image = document.getElementById('image');
+        
+            // Get the actual width and height of the image
+            var imageWidth = image.width;
+            var imageHeight = image.height;
+        
+            // Get all the area elements
+            var areas = document.querySelectorAll('area');
+        
+            // Loop through each area and adjust the coordinates
+            areas.forEach(function(area) {
+                var coords = area.getAttribute('coords').split(',').map(Number);
+        
+                // Calculate the scaling factors for width and height
+                var widthScale = imageWidth / image.naturalWidth;
+                var heightScale = imageHeight / image.naturalHeight;
+        
+                // Adjust the coordinates based on the scaling factors
+                for (var i = 0; i < coords.length; i += 2) {
+                    coords[i] = Math.round(coords[i] * widthScale);
+                    coords[i + 1] = Math.round(coords[i + 1] * heightScale);
+                }
+        
+                // Set the adjusted coordinates back to the area element
+                area.setAttribute('coords', coords.join(','));
+            });
+        }
+
+        // Call the adjustImageMapCoordinates function when the window loads and when it resizes
+        window.addEventListener('load', adjustImageMapCoordinates);
+        window.addEventListener('resize', adjustImageMapCoordinates);
+
+    </script>
+
+    <!-- Script to get sector details for tooltip -->
+    <script th:inline="javascript">
+    const sName = 'sector635';
+    const attributeName = sName + 'avail';
+    const map = /*[[${attributeMap}]]*/ 'N/A';
+    // console.log(map[attributeName]);
+
+        const areas = document.querySelectorAll('area');
+        // Add event listeners to each area
+        areas.forEach((area) => {
+            area.addEventListener('mouseover', (event) => {
+                const sectorName = event.target.getAttribute('title');
+                const availability = parseInt(map[sectorName + 'avail']);
+                // Find the corresponding attributes in the model based on sectorName
+                const total = parseInt(map[sectorName + 'total']);
+                const status = map[sectorName + 'status'];
+
+                showTooltip(sectorName, availability, total, status);
+            });
+
+            area.addEventListener('mouseout', () => {
+                hideTooltip();
+            });
+        });
+
+        const tooltip = document.querySelector('.tooltip');
+
+        function showTooltip(sectorName, avail, total, status) {
+            tooltip.style.display = 'block';
+            var statusFullForm = "";
+            switch(status) {
+                case 'H':
+                    statusFullForm = "High";
+                    break;
+                case 'M':
+                    statusFullForm = "Medium";
+                    break;
+                case 'L':
+                    statusFullForm = "Low";
+                    break;
+                default:
+                    statusFullForm = "Sold Out";
             }
-    
-            // Set the adjusted coordinates back to the area element
-            area.setAttribute('coords', coords.join(','));
-        });
-    }
-
-    // Call the adjustImageMapCoordinates function when the window loads and when it resizes
-    window.addEventListener('load', adjustImageMapCoordinates);
-    window.addEventListener('resize', adjustImageMapCoordinates);
-
-</script>
-
-<!-- Script to get sector details for tooltip -->
-<script th:inline="javascript">
-const sName = 'sector635';
-const attributeName = sName + 'avail';
-const map = /*[[${attributeMap}]]*/ 'N/A';
-// console.log(map[attributeName]);
-
-    const areas = document.querySelectorAll('area');
-    // Add event listeners to each area
-    areas.forEach((area) => {
-        area.addEventListener('mouseover', (event) => {
-            const sectorName = event.target.getAttribute('title');
-            const availability = parseInt(map[sectorName + 'avail']);
-            // Find the corresponding attributes in the model based on sectorName
-            const total = parseInt(map[sectorName + 'total']);
-            const status = map[sectorName + 'status'];
-
-            showTooltip(sectorName, availability, total, status);
-        });
-
-        area.addEventListener('mouseout', () => {
-            hideTooltip();
-        });
-    });
-
-    const tooltip = document.querySelector('.tooltip');
-
-    function showTooltip(sectorName, avail, total, status) {
-        tooltip.style.display = 'block';
-        var statusFullForm = "";
-        switch(status) {
-            case 'H':
-                statusFullForm = "High";
-                break;
-            case 'M':
-                statusFullForm = "Medium";
-                break;
-            case 'L':
-                statusFullForm = "Low";
-                break;
-            default:
-                statusFullForm = "Sold Out";
+            var sectNameRefined;
+            if (sectorName.substring(0,6).localeCompare("sector") === 0){
+                sectNameRefined = sectorName.slice(6);
+            } else {
+                sectNameRefined = sectorName;
+            }
+            // console.log(sectNameRefined);
+            tooltip.innerHTML = `Sector Name: ` + sectNameRefined + `<br>Seats Left: ${avail}<br>Total: ${total}<br>Availability: ` + statusFullForm;
         }
-        var sectNameRefined;
-        if (sectorName.substring(0,6).localeCompare("sector") === 0){
-            sectNameRefined = sectorName.slice(6);
-        } else {
-            sectNameRefined = sectorName;
+
+        function hideTooltip() {
+            tooltip.style.display = 'none';
+            tooltip.innerHTML = '';
         }
-        // console.log(sectNameRefined);
-        tooltip.innerHTML = `Sector Name: ` + sectNameRefined + `<br>Seats Left: ${avail}<br>Total: ${total}<br>Availability: ` + statusFullForm;
-    }
+    </script>
 
-    function hideTooltip() {
-        tooltip.style.display = 'none';
-        tooltip.innerHTML = '';
-    }
-</script>
+    <!-- Script to change login only pages to specific userId -->
+    <script th:inline="javascript">
+        // JavaScript code to create a dynamic URL
+        var userId = /*[[${userId}]]*/ null;
+        if (userId != null){
+            var shoppingCartLink = document.getElementById("shoppingCartLink");
+            shoppingCartLink.href = "/user/" + userId + "/shoppingcart";
 
-<!-- Script to change login only pages to specific userId -->
-<script th:inline="javascript">
-    // JavaScript code to create a dynamic URL
-    var userId = /*[[${userId}]]*/ null;
-    if (userId != null){
-        var shoppingCartLink = document.getElementById("shoppingCartLink");
-        shoppingCartLink.href = "/user/" + userId + "/shoppingcart";
+            var shoppingCartLink = document.getElementById("myTicketsLink");
+            shoppingCartLink.href = "/user/" + userId + "/purchasedtickets";
+        }
+    </script>
 
-        var shoppingCartLink = document.getElementById("myTicketsLink");
-        shoppingCartLink.href = "/user/" + userId + "/purchasedtickets";
-    }
-</script>
-
-    
+</body>
 
 </html>
 

@@ -160,6 +160,7 @@ public class HTMLController {
         if (model.getAttribute("userId") == null){
             return "redirect:/login";
         }
+System.out.println("Model contains: " + model);
         return "concertStorage/" + concertId + "/sectorLayout.html";
     }
 
