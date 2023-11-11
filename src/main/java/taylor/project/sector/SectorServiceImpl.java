@@ -56,150 +56,6 @@ public class SectorServiceImpl implements SectorService {
 
     }
 
-    /**
-     * Changes selected seat status
-     */
-    @Override
-    public void updateSelectedSeatsToStatus(Venue venue, List<String> selectedSeats, String sectorName, char newStatus, Long userId){
-        switch(newStatus){
-            case 'P': case 'U':
-                break;
-            default:
-                System.out.println("Not valid status: input character 'P' (pending) or 'U' only");
-                return;
-        }
-        List<Sector> sectors = venue.getSectors();
-        TreeSet<String> rowNamesToFind = new TreeSet<>();
-        for (String seat : selectedSeats){
-            String[] seatDetails = seat.split(":");
-
-            // if the length of the split is 1, its because this seat only has 1 row, 
-            // meaning that its a general standing area. so stop looking!
-            if (seatDetails.length == 1) break;
-
-            rowNamesToFind.add(seatDetails[0]);
-        }
-
-        Concert c = venue.getConcert();
-
-        findSeatUpdateStatusAndTickets(c, sectors, rowNamesToFind, selectedSeats, sectorName, newStatus, userId);
-    }
-
-    public boolean checkValidStatusChange(char currentStatus, char toChange){
-        if ((currentStatus == 'A' && toChange == 'P') || (currentStatus == 'P' && toChange == 'U')
-            || (currentStatus == 'P' && toChange == 'P'))
-            return true;
-
-        return false;
-    }
-
-    /**Updates the seat status and the ticket status of the specified selected seats in
-     * that belong to the sector. to refactor.
-     * 
-     * @param concert       : the concert that the selected seat belongs to.
-     * @param sectors       : the list of sectors the concert has
-     * @param rowNamesToFind
-     * @param selectedSeats
-     * @param sectorName
-     * @param newStatus
-     * @param userId
-     */
-    public void findSeatUpdateStatusAndTickets(Concert concert, List<Sector> sectors, TreeSet<String> rowNamesToFind, 
-                                            List<String> selectedSeats, String sectorName, char newStatus, Long userId){
-        for (Sector sector : sectors){
-            Long id = sector.getId();
-            // sector found
-            if (sector.getSectorName().equals(sectorName)){
-                // special case: a general standing area has no row names to find (size == 0),
-                // so we need to specially execute this.
-                if (rowNamesToFind.size() == 0){
-                    // (1) get how many seats left
-                    double seatsLeft = sector.getSeatsLeft();
-                    // (2) change seats left based on selSeats
-                    double seatsToBook = Double.parseDouble(selectedSeats.get(0));
-                    seatsLeft -= seatsToBook;
-                    sector.setSeatsLeft(seatsLeft);
-
-                    List<Ticket> tickets = ticketService.getTicketsByConcertAndSectorName(concert, sectorName);
-
-                    for (int i = 0; i < seatsToBook; i++){
-                        for (Ticket t : tickets){
-                            if (t.getTicketStatus() == 'A'){
-                                Long ticketId = t.getId();
-                                ticketService.setUserIdAndStatus(ticketId, userId, newStatus);
-                                break;
-                            }
-                        }
-                    }
-                }
-                // normal case: sector has more than one row
-                else {
-                    List<String> rowNames = sector.getRowNames();
-                    List<String> sectSeats = sector.getSeats();
-System.out.println("row names to find are " + rowNamesToFind);
-                    for (String rowName : rowNames){
-                        if (rowNamesToFind.contains(rowName)){
-
-                            // find row index inside rowNames to get the index of the seats in seats List.
-                            int rowIdx = rowNames.indexOf(rowName);
-
-                            // get the seat string for this row and turn it into a char array (for easier manip)
-                            char[] seatRowToAlter = sectSeats.get(rowIdx).toCharArray();
-
-                            // go thru each selected seat to find the seats corresp to current row
-                            for (String ss : selectedSeats){
-
-                                //boolean to check if the status has been successfully changed.
-                                boolean statusChangeSuccess = false;
-
-                                // get the rowName and the seatNo from ss.
-                                String[] seatDetails = ss.split(":");
-                                int seatNo = Integer.valueOf(seatDetails[1]) - 1;
-
-                                if (seatDetails[0].equals(rowName)){
-                                    // boolean isValidSeatChange = checkValidStatusChange(seatRowToAlter[seatNo], newStatus);
-                                    // if (isValidSeatChange){
-                                        System.out.println("hit");
-                                        seatRowToAlter[seatNo] = newStatus;
-                                        statusChangeSuccess = true;
-                                    // }
-                                }
-
-                                if (statusChangeSuccess){
-                                    // find the ticket and update the information
-                                    Ticket ticket = ticketService.findSpecificTicket(concert, sectorName, rowName, seatNo).get();
-                                    if (ticket == null) throw new RuntimeException("Cannot find ticket for " + concert.getConcertName()
-                                                                                     + " sectorName " + sectorName + ", seat " + rowName + seatNo);
-
-                                    // edit the ticket's status accordingly. this function also
-                                    // helps to persist ticket and user to repo.
-                                    ticketService.setUserIdAndStatus(ticket.getId(), userId, newStatus);
-                                }
-                                // if status not changed successfully, throw runtime error
-                                // else throw new RuntimeException("Could not change status in sector: Seat " + ss 
-                                //                                     + " from " + seatRowToAlter[seatNo] + " to " + newStatus);
-                            }
-                            // set the new row into that sector
-                            String newRow = new String(seatRowToAlter);
-    // System.out.println("new seat layout on " + rowName + " : " + newRow);
-                            sectSeats.add(rowIdx, newRow);
-                            sectSeats.remove(rowIdx + 1);
-
-                            // update sector's seats in list
-                            sector.setSeats(sectSeats);
-                            for (String str : sector.getSeats()){
-                                System.out.println(str);
-                            }
-                        }
-                    }
-                }
-            
-            }
-
-            // update the sector based on the new data in repo
-            updateSector(id, sector);
-        }
-    }
 
     /**Updates a sector's selected seats to pending (P). [NOTE BELOW:]
      * NOTE: A seat can only turn into P if its original status is Available(A). Else, an exception will be thrown.
@@ -245,7 +101,7 @@ System.out.println("row names to find are " + rowNamesToFind);
                         String seatString = seats.get(rowNameidx);
 
                         // 6. change the selected seat to Pending, provided it is a legal change (mentioned on top).
-                        String finalSeatString = changeSeatToPending(seatString, seatNo);
+                        String finalSeatString = updateSeatToPending(seatString, seatNo);
                         
                         // 7. set the new seat string back into the seats list
                         seats.set(rowNameidx, finalSeatString);
@@ -262,6 +118,29 @@ System.out.println("row names to find are " + rowNamesToFind);
 
         // 9. persist the changes to the sectors database.
         sectors.save(sectorToChange);
+    }
+
+    /**Changes the actual seat string content to pending.
+     * 
+     * @param seatString
+     * @param seatNumStringed
+     * @return
+     */
+    public String updateSeatToPending(String seatString, String seatNumStringed){
+        // minus one because the index of seats starts from 0.
+        int seatNumberidx = Integer.parseInt(seatNumStringed) - 1;
+        StringBuilder sb = new StringBuilder(seatString);
+
+        // check if current seat status is available.
+        // if it is, change the seat to Pending
+        // if it isnt, throw exception
+        if (seatString.charAt(seatNumberidx) == 'A'){
+            sb.setCharAt(seatNumberidx, 'P');
+        } else {
+            throw new RuntimeException("Illegal seat status change: from " + seatString.indexOf(seatNumberidx) + " to P");
+        }
+
+        return sb.toString();
     }
 
     /**Changes general standing sectors' quantity of seats according to the number of seats selected.
@@ -308,25 +187,52 @@ System.out.println("row names to find are " + rowNamesToFind);
         return null;
     }
 
-    public String changeSeatToPending(String seatString, String seatNumStringed){
-        // minus one because the index of seats starts from 0.
-// System.out.println("seat no is" + seatNumStringed);
-        int seatNumberidx = Integer.parseInt(seatNumStringed) - 1;
-// System.out.println("seat no after is" + seatNumberidx);
-        StringBuilder sb = new StringBuilder(seatString);
+    /**Updates a sector row's seats to Unavailable[U] as specified by the ticket
+     * NOTE: Only seats with initial status Pending[P] can be changed. If not, an exception will be thrown.
+     */
+    public void updateSectorSeatsToUnavail(Long ticketId, Long userId){
+        Ticket t = ticketService.getTicketById(ticketId);
+        if (t == null) throw new RuntimeException("Ticket not found");
 
-        // check if current seat status is available.
-        // if it is, change the seat to Pending
-        // if it isnt, throw exception
-        if (seatString.charAt(seatNumberidx) == 'A'){
-            sb.setCharAt(seatNumberidx, 'P');
-// System.out.println("new seat string is " + sb.toString());
-        } else {
-            throw new RuntimeException("Illegal seat status change: from " + seatString.indexOf(seatNumberidx) + " to P");
+        String ticketSectName = t.getSectorName();
+        String ticketRowName = t.getSeatRowName();
+        Integer ticketSeatNo = t.getSeatNo();
+
+        // 1. We need to get the exact sector and its seats from ticket
+        Concert concert = t.getConcert();
+        Venue v = concert.getConcertVenue();
+        List<Sector> sectors = v.getSectors();
+
+        for (Sector sector : sectors){
+            if (sector.getSectorName().equals(ticketSectName)){
+                // special case: ticket belongs to general standing area. stop the function because no altering of seat status req.
+                if (sector.isGeneralStanding()){
+                    return;
+                }
+                // 2. find the row and status of the seat reflected on the sector
+                List<String> sectorRowNames = sector.getRowNames();
+                List<String> sectorSeats = sector.getSeats();
+
+                // 3. go thru rowNames and find a match. note down index, to be used to find row of seats.
+                for (int rowNameIdx = 0; rowNameIdx < sectorRowNames.size(); rowNameIdx++){
+                    if (sectorRowNames.get(rowNameIdx).equals(ticketRowName)){
+                        StringBuilder rowSeatsToChange = new StringBuilder(sectorSeats.get(rowNameIdx));
+                        // first seat starts at 0.
+                        Integer ticketSeatNoIdx = ticketSeatNo - 1;
+                        // 4. check if the index for the seat we are changing is Pending.
+                        if (rowSeatsToChange.charAt(ticketSeatNoIdx) == 'P'){
+                            rowSeatsToChange.setCharAt(ticketSeatNoIdx, 'U');
+                        } else {
+                            throw new RuntimeException("Illegal status change: from " + rowSeatsToChange.charAt(ticketSeatNoIdx) + " to U");
+                        }
+
+                        sectorSeats.set(rowNameIdx, rowSeatsToChange.toString());
+                    }
+                }
+            }
         }
-
-        return sb.toString();
     }
+    
 
     /**
      * Remove a sector with the given id

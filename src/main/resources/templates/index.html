@@ -444,30 +444,6 @@
 			}
 		}
 	</script>
-
-	<!-- <script>
-		function generateAndVerifyToken() {
-			// Generate a random token
-			var oneTimeToken = generateRandomToken();
-			
-			// Set the generated token in the hidden input field
-			document.getElementById("tokenInput").value = oneTimeToken;
-		
-			// Log the generated token for debugging
-			console.log("Generated Token: " + oneTimeToken);
-			
-			// You can also set the token in the session if needed
-			// For example: sessionStorage.setItem("selectSectorButtonToken", oneTimeToken);
-			
-			// Continue with the form submission
-			return true;
-		}
-		
-		function generateRandomToken() {
-			// Generate a random token here, e.g., using a library or Math.random()
-			return 'GENERATED_ONE_TIME_TOKEN'; // Replace with actual token generation logic
-		}
-	</script> -->
 	
 	<!-- Script to change login only pages to specific userId -->
 	<script th:inline="javascript">

@@ -9,9 +9,10 @@ public interface SectorService {
     Sector getSectorById(Long id);
     Sector addSector(Sector Sector);
     Sector updateSector(Long id, Sector Sector);
-    void updateSelectedSeatsToStatus(Venue venue, List<String> selectedSeats, String sectorName, char newStatus, Long userId);
 
     void updateSectorSeatsToPending(Long concertId, String sectorName, List<String> selectedSeats);
+
+    void updateSectorSeatsToUnavail(Long ticketId, Long userId);
 
     void deleteSector(Long id);
 }

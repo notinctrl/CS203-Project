@@ -222,6 +222,306 @@ concerts.html (extra concerts)
 		</div>	
 	</div>
 
+htmlcontroller.java
+/** Unused controller methods.
+     *  
+     */
+    /*
+
+    @PostMapping("/setSelectSectorButtonClicked")
+    public ResponseEntity<String> setSelectSectorButtonClicked(HttpSession session) {
+        session.setAttribute("selectSectorButtonClicked", true);
+        return ResponseEntity.ok("Attribute set to true");
+    }
+
+    @GetMapping("/services")
+    public String services(Model model){
+        return "services";
+    }
+
+    
+    @GetMapping("/contact")
+    public String contact(Model model){
+        return "contact";
+    }
+
+        // @PostMapping("/selectSectorButton")
+    // public String selectSectorButton(@RequestParam String token, HttpSession session) {
+    //     // Get the generated one-time token for this session
+    //     String sessionToken = (String) session.getAttribute("selectSectorButtonToken");
+
+    //     // Verify that the provided token matches the one from the session
+    //     if (sessionToken != null && sessionToken.equals(token)) {
+    //         // Token is valid, set the session attribute
+    //         session.setAttribute("selectSectorButtonClicked", true);
+    //         // Redirect to the select sector page
+    //         return "redirect:/concerts/1/sectorLayout";
+    //     } else {
+    //         // Invalid token, handle accordingly
+    //         // For added security, you can invalidate the token here
+    //         // and/or log suspicious activity
+    //         return "redirect:/error";
+    //     }
+    // }
+
+    // @GetMapping("/generateToken")
+    // public String generateToken(HttpSession session) {
+    //     String oneTimeToken = UUID.randomUUID().toString(); // Generate a random token
+    //     session.setAttribute("selectSectorButtonToken", oneTimeToken);
+    //     return "redirect:/index"; // Redirect back to your index page
+    // }
+
+    // @GetMapping("/checkToken")
+    // public String checkToken(HttpSession session) {
+    //     String sessionToken = (String) session.getAttribute("selectSectorButtonToken");
+    //     System.out.println("Generated Token: " + sessionToken);
+    //     return "redirect:/index"; // Redirect to the index page or any other page
+    // }
+
+    // @RequestMapping(value = "/submit-form", method = RequestMethod.POST)
+    // public String submitForm(CsrfToken csrfToken) {
+    //     // Check the CSRF token
+    //     if (csrfToken != null) {
+    //         // Process the form data here
+    //         // Redirect to a success page or return a response as needed
+    //         return "success";
+    //     } else {
+    //         // Handle the case where the token is missing or invalid
+    //         return "error";
+    //     }
+    // }
+
+    @PostMapping("/upload") // //new annotation since 4.3
+    public String singleFileUpload(@RequestParam("file") MultipartFile file,
+                                   RedirectAttributes redirectAttributes) {
+
+        if (file.isEmpty()) {
+            redirectAttributes.addFlashAttribute("message", "Please select a file to upload");
+            return "redirect:uploadStatus";
+        }
+
+        try {
+
+            // Get the file and save it somewhere
+            byte[] bytes = file.getBytes();
+            Path path = Paths.get(UPLOADED_FOLDER + file.getOriginalFilename());
+            Files.write(path, bytes);
+
+            redirectAttributes.addFlashAttribute("message",
+                    "You successfully uploaded '" + file.getOriginalFilename() + "'");
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return "redirect:/uploadStatus";
+    }
+
+    @GetMapping("/uploadStatus")
+    public String uploadStatus() {
+        return "uploadStatus";
+    }
+
+    // @RequestMapping("/shoppingcart.html")
+    // public String viewShoppingCart(){
+    //     return "shoppingcart";
+    // }
+
+    @GetMapping("/about")
+    public String about() {
+        return "about";
+    @RequestMapping("/concerts.html")
+    public String viewConcerts(){
+        return "concerts";
+    }
+
+    @RequestMapping("/shoppingcart.html")
+    public String viewShoppingCart(){
+        return "shoppingcart";
+    }
+*/
+}
+
+// hard code: retrieval of concert attributes
+        // Concert c1 = concerts.get(0);
+        // model.addAttribute("Concert_1_Name", c1.getConcertName());
+        // StringBuilder sb1 = new StringBuilder(c1.getPhoto().getPath());
+        // sb1.delete(0, 25);
+        // String correctPath1 = sb1.toString();
+        // model.addAttribute("Concert1Image", correctPath1);
+
+        // Concert c2 = concerts.get(1);
+        // model.addAttribute("Concert_2_Name", c2.getConcertName());
+        // StringBuilder sb2 = new StringBuilder(c2.getPhoto().getPath());
+        // sb2.delete(0, 25);
+        // String correctPath2 = sb2.toString();
+        // model.addAttribute("Concert2Image", correctPath2);
+
+        // Concert c3 = concerts.get(2);
+        // model.addAttribute("Concert_3_Name", c3.getConcertName());
+        // StringBuilder sb3 = new StringBuilder(c3.getPhoto().getPath());
+        // sb3.delete(0, 25);
+        // String correctPath3 = sb3.toString();
+        // model.addAttribute("Concert3Image", correctPath3);
+
+
+        // int num = 1;
+
+        // for (Concert c : concerts){
+        //     model.addAttribute("Concert" + num + "Name", c.getConcertName());
+        //     String createPoster = "src/main/resources/static/concert_posters/concert" + num + "poster.jpg";
+        //     FileUtils.writeByteArrayToFile(new File(createPoster), c.getPhoto());
+        //     String accessPoster = "concert_posters/concert" + num + "poster.jpg";
+        //     model.addAttribute("Concert" + num + "Image", accessPoster);
+        //     model.addAttribute("Concert" + num + "Date", c.getDate());
+        //     num++;
+        // }
+
+index.html - confirm form submission token
+	<!-- <script>
+		function generateAndVerifyToken() {
+			// Generate a random token
+			var oneTimeToken = generateRandomToken();
+			
+			// Set the generated token in the hidden input field
+			document.getElementById("tokenInput").value = oneTimeToken;
+		
+			// Log the generated token for debugging
+			console.log("Generated Token: " + oneTimeToken);
+			
+			// You can also set the token in the session if needed
+			// For example: sessionStorage.setItem("selectSectorButtonToken", oneTimeToken);
+			
+			// Continue with the form submission
+			return true;
+		}
+		
+		function generateRandomToken() {
+			// Generate a random token here, e.g., using a library or Math.random()
+			return 'GENERATED_ONE_TIME_TOKEN'; // Replace with actual token generation logic
+		}
+	</script> -->
+
+BookingApp.java: ticket force initialisers
+// System.out.println("[Add user]: " + users.save(uList.get(2)).getUsername());
+
+        // JPA shopping cart repository init. default settings
+        // ShoppingCartRepository shoppingCarts = ctx.getBean(ShoppingCartRepository.class);
+        // for (User u : uList){
+        //     shoppingCarts.save(u.getShoppingCart());
+        // }
+        // ShoppingCart testShoppingCart1 = new ShoppingCart((long) 1);
+        // ShoppingCart testShoppingCart2 = new ShoppingCart((long) 324);
+
+        // System.out.println("[Add shopping cart]: User ID = " + shoppingCarts.save(testShoppingCart1).getUserID());
+        // System.out.println("[Add shopping cart]: User ID = " + shoppingCarts.save(testShoppingCart2).getUserID());
+
+        /**
+         * force initialise ticket to sold, normaluser id 2
+        */
+        // Optional<Ticket> t = tickets.findById(1L);
+        // Optional<User> u = users.findById(2L);
+        // User user = u.get();
+        // List<Ticket> list = new ArrayList<>();
+
+        // Ticket ticket = t.get();
+        // ticket.setBoughtUser(user);
+        // ticket.setTicketStatus('U');
+        // list.add(ticket);
+        // tickets.save(ticket);
+
+        // t = tickets.findById(2L);
+
+        // ticket = t.get();
+        // ticket.setBoughtUser(user);
+        // ticket.setTicketStatus('U');
+        // tickets.save(ticket);
+        
+        // // System.out.println(user);
+        
+        // // System.out.println(list);
+        // list.add(ticket);
+        // user.setPurchasedTickets(list);
+        // users.save(user);
+
+        /**
+         * force initialise ticket to pending, normaluser id 2
+         */
+        // Optional<Ticket> t1 = tickets.findById(1L);
+        // Optional<Ticket> t2 = tickets.findById(255L);
+        // Optional<User> u = users.findById(2L);
+        // User user = u.get();
+        // System.out.println(user.getUsername());
+        // List<Ticket> sc = new ArrayList<>();
+
+        // Ticket ticket1 = t1.get();
+        // ticket1.setCartedUser(user);
+        // ticket1.setTicketStatus('P');
+        // tickets.save(ticket1); // Save ticket1 first
+        // sc.add(ticket1);
+
+        // Ticket ticket2 = t2.get();
+        // ticket2.setCartedUser(user);
+        // ticket2.setTicketStatus('P');
+        // tickets.save(ticket2); // Save ticket2
+        // sc.add(ticket2);
+
+        // ticket1 = tickets.findById(200L).get();
+        // ticket1.setCartedUser(user);
+        // ticket1.setTicketStatus('P');
+        // tickets.save(ticket1); // Save ticket1 first
+        // sc.add(ticket1);
+
+        // ticket2 = tickets.findById(100L).get();
+        // ticket2.setCartedUser(user);
+        // ticket2.setTicketStatus('P');
+        // tickets.save(ticket2); // Save ticket2
+        // sc.add(ticket2);
+
+        // ticket2 = tickets.findById(140L).get();
+        // ticket2.setCartedUser(user);
+        // ticket2.setTicketStatus('P');
+        // tickets.save(ticket2); // Save ticket2
+        // sc.add(ticket2);
+
+        // System.out.println(sc.size());
+        // user.setShoppingCart(sc); // Set the tickList in ShoppingCart
+        // users.save(user);
+
+        //pending end
+
+        /**
+         * Force Initialise tickets to marketplace
+         */
+        // Optional<Ticket> t1 = tickets.findById(13L);
+        // Optional<Ticket> t2 = tickets.findById(255L);
+        // Optional<Ticket> t3 = tickets.findById(347L);
+        // User userSeller = users.findById(3L).get();
+        // List<Ticket> bought = new ArrayList<>();
+
+        // Ticket ticket22 = t1.get();
+        // ticket22.setTicketStatus('M');
+        // ticket22.setBoughtUser(userSeller);
+        // bought.add(ticket22);
+        // tickets.save(ticket22);
+
+        // t = t2.get();
+        // t.setTicketStatus('M');
+        // t.setBoughtUser(userSeller);
+        // bought.add(t);
+        // tickets.save(t);
+
+        // t = t3.get();
+        // t.setTicketStatus('M');
+        // t.setBoughtUser(userSeller);
+        // bought.add(t);
+        // tickets.save(t);
+
+        // userSeller.setPurchasedTickets(bought);
+        // users.save(userSeller);
+
+        // marketplace end
+
 shoppingcart.html (center button)
 <div class="container">
 			<div class="row align-items-center v-h-full">

@@ -25,7 +25,6 @@
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link rel="stylesheet" href="/css/sector-related/seatSettings.css">
-    <!-- <link rel="stylesheet" href="/css/sector-related/tooltip.css"> -->
     <link rel="stylesheet" href="/css/sector-related/buttons.css">
     <link rel="stylesheet" type="text/css" href="/css/sector-related/style-shortened.css">
 	
@@ -59,7 +58,7 @@
 						<a><span>Welcome, <strong th:text="${username}"></strong></span></a>
 						<ul class="dropdown">
 							<li><a href="#">Account Details</a></li>
-							<li><a href="logout">Logout</a></li>
+							<li><a href="/../../logout">Logout</a></li>
 						</ul>
 					</li>
 				</ul>
@@ -107,8 +106,19 @@
 
         var gen_seat = false;
 
+        // Get the current hostname and port dynamically
+		const hostname = window.location.hostname;
+		const port = window.location.port;
+
+		// Construct the base URL
+		const baseUrl = `http://${hostname}:${port}`;
+
+		// Append the specific endpoint to the base URL
+		const endpoint = '/sectorRowAvailability/' + concertId + '/' + sectorName;
+		const url = baseUrl + endpoint;
+		
         // Function to obtain the seat status data from server to create the seat plan
-        fetch('http://localhost:8080/sectorRowAvailability/' + concertId + '/' + sectorName)
+		fetch(url)
         // .then(response => response.json())
         .then(response => {
             if (!response.ok) {
@@ -118,7 +128,6 @@
         })
         .then(data => {
             const seatingContainer = document.getElementById('seating-container');
-// console.log(data);
             if (data.length == 1){
                 gen_seat = true;
                 const headerElement = document.createElement('p');

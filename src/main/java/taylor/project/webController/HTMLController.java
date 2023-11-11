@@ -28,9 +28,7 @@ import taylor.project.concert.ConcertService;
 import taylor.project.sector.Sector;
 import taylor.project.sector.SectorService;
 import taylor.project.ticket.TicketService;
-import taylor.project.user.User;
 import taylor.project.user.UserService;
-import taylor.project.venue.Venue;
 
 @Controller
 public class HTMLController {
@@ -50,9 +48,12 @@ public class HTMLController {
         userService=us;
     }
 
-    //Save the uploaded file to this folder
-    // private static String UPLOADED_FOLDER = "F://temp//";
-
+    /**Method to obtain the userId of the user that is logged in. Used to redirect non-logged users to login page.
+     * 
+     * @param auth
+     * @param model
+     * @return
+     */
     public Model checkAuth(Authentication auth, Model model){
         Long userId;
         if (auth != null) {
@@ -65,6 +66,14 @@ public class HTMLController {
         return model;
     }
 
+
+    /**Homepage. Loads all concert related assets to be used.
+     * 
+     * @param model
+     * @param authentication
+     * @return
+     * @throws IOException
+     */
     @GetMapping("/index")
     public String index(Model model, Authentication authentication) throws IOException{
         model = checkAuth(authentication, model);
@@ -84,6 +93,14 @@ public class HTMLController {
         return "index";
     }
 
+
+    /**Page to show all concerts. Relevant concert information is placed into the model.
+     * 
+     * @param model
+     * @param authentication
+     * @return
+     * @throws IOException
+     */
     @GetMapping("/concerts")
     public String allConcerts(Model model, Authentication authentication) throws IOException{
         model = checkAuth(authentication, model);
@@ -103,6 +120,14 @@ public class HTMLController {
         return "concertStorage/concerts.html";
     }
 
+
+    /**Page to view specific concert.
+     * 
+     * @param concertId
+     * @param authentication
+     * @param model
+     * @return
+     */
     @GetMapping("concerts/{concertId}")
     public String viewConcert(@PathVariable Long concertId, Authentication authentication, Model model){
         model = checkAuth(authentication, model);
@@ -110,6 +135,15 @@ public class HTMLController {
         return "concertStorage/" + concertId + "/concert" + concertId + ".html";
     }
 
+
+    /**Page to view concert's sector layout. Users should not be able to access this without clicking on the
+     * "BUY TICKETS NOW" button on the viewConcert page.
+     * 
+     * @param concertId
+     * @param model
+     * @param authentication
+     * @return
+     */
     @GetMapping("concerts/{concertId}/sectorLayout")
     public String getSectorLayout(@PathVariable("concertId") Long concertId, Model model, Authentication authentication){
         model = checkAuth(authentication, model);
@@ -122,21 +156,42 @@ public class HTMLController {
             model = addSectorAttributes(model, s, sectorInfo);
             attributeMap = addSectorAttributeMap(attributeMap, s, sectorInfo);
         }
-
-// checker for what the model contains
-// System.out.println("model has " + model);
         model.addAttribute("attributeMap", attributeMap);
+        if (model.getAttribute("userId") == null){
+            return "redirect:/login";
+        }
         return "concertStorage/" + concertId + "/sectorLayout.html";
     }
 
+
+    /**Page to view specific sector selected's available/unavailable seats.
+     * 
+     * @param concertId
+     * @param sectorName
+     * @param model
+     * @param authentication
+     * @return
+     */
     @GetMapping("concerts/{concertId}/sectorLayout/selectSeat/{sectorName}")
     public String getSeatPlan(@PathVariable("concertId") Long concertId, @PathVariable("sectorName") String sectorName, Model model, Authentication authentication){
         model = checkAuth(authentication, model);
         model.addAttribute("concertId", concertId);
         model.addAttribute("sectorName", sectorName);
+        if (model.getAttribute("userId") == null){
+            return "redirect:/login";
+        }
         return "concertStorage/seatLayout.html";
     }
 
+
+    /**Function to handle final confirmations of seat selection. Changes seat statuses in sector and ticket statuses.
+     * 
+     * @param request
+     * @param requestBody
+     * @param auth
+     * @param model
+     * @return
+     */
     @PostMapping("/bookingSuccess")
     public ResponseEntity<String> handleSeatSelection(HttpServletRequest request, @RequestBody Map<String, Object> requestBody, Authentication auth, Model model) {
         model = checkAuth(auth, model);
@@ -145,12 +200,8 @@ public class HTMLController {
             this.sectorName = (String) requestBody.get("sectorName");
             this.selectedSeats = (List<String>) requestBody.get("selectedSeats");
 
-    // System.out.println("concertid: " + concertId + " sectName:" + sectorName + " selseats:" + selectedSeats);
             String responseMessage = "Received the following seats: " + selectedSeats.toString();
             System.out.println("now changing concert's selected seats to pending...");
-            // Venue venue = concertService.getConcertById(concertId).getConcertVenue();
-            
-            // sectorService.updateSelectedSeatsToStatus(venue, selectedSeats, sectorName, 'P', userId);
 
             sectorService.updateSectorSeatsToPending(concertId, sectorName, selectedSeats);
             ticketService.changeTicketStatusToPending(concertId, sectorName, selectedSeats, userId);
@@ -159,132 +210,122 @@ public class HTMLController {
             return ResponseEntity.ok(responseMessage);
     }
 
+
+    /**Redirect after successful ticket carting. Shows details of tickets carted.
+     * 
+     * @param model
+     * @param session
+     * @param authentication
+     * @return
+     */
     @GetMapping("/bookingSuccessDetails")
     public String showBookingDetails(Model model, HttpSession session, Authentication authentication) {
         model = checkAuth(authentication, model);
         session.setAttribute("seatSelectAllowed", false);
-        // Now you can use these attributes in your view or processing logic
         model.addAttribute("concertId", concertId);
         model.addAttribute("sectorName", sectorName);
         model.addAttribute("selectedSeats", selectedSeats);
         return "ticket-carted-success.html"; // Return the view where you want to display the data
     }
 
-    @GetMapping("user/{userId}/purchasedtickets")
-    public String puchasedTickets(@PathVariable("userId") Long userId, Model model, Authentication authentication){
-        model = checkAuth(authentication, model);
-        return "purchased-tickets";
-    }
-
-    @GetMapping("/add-to-marketplace/{ticketId}")
-    public String handleMarketplaceAddition(@PathVariable Long ticketId, Model model, Authentication authentication) {
-        model = checkAuth(authentication, model);
-        Long userId = (Long)model.getAttribute("userId");
-
-        try {
-            ticketService.setUserIdAndStatus(ticketId, userId, 'M');
-        } catch (RuntimeException e){
-            System.out.println(e.getMessage());
-            e.printStackTrace();
-        }
-        
-        return "add-to-marketplace-success";
-    }
-
-    @GetMapping("/rmv-from-marketplace/{ticketId}")
-    public String handleMarketplaceRemoval(@PathVariable Long ticketId, Model model, Authentication authentication) {
-        model = checkAuth(authentication, model);
-        Long userId = (Long)model.getAttribute("userId");
-
-        try {
-            ticketService.setUserIdAndStatus(ticketId, userId, 'U');
-        } catch (RuntimeException e){
-            System.out.println(e.getMessage());
-            e.printStackTrace();
-        }
-        
-        return "rmv-from-marketplace-success";
-    }
-
+    /**Page to view carted (non-checked out) tickets. Users can checkout their tickets from here.
+     * 
+     * @param userId
+     * @param model
+     * @param authentication
+     * @return
+     */
     @GetMapping("user/{userId}/shoppingcart")
     public String getShoppingCart(@PathVariable Long userId, Model model, Authentication authentication){
         model = checkAuth(authentication, model);
+        if (model.getAttribute("userId") == null){
+            return "redirect:/login";
+        }
+        // to deal with forbidden requests
+        if (userId != model.getAttribute("userId")){
+            return "redirect:/error-403";
+        }
         return "shoppingcart";
     }
 
+
+    /**Function that handles ticket checkout. Changes seat statuses in sector and ticket statuses.
+     * 
+     * @param userId
+     * @param ticketId
+     * @param model
+     * @return
+     */
     @GetMapping("/user/{userId}/shoppingcart/purchase-carted-ticket/{ticketId}")
-    public String shoppingCartHandlePurchase(@PathVariable("userId") Long userId, @PathVariable("ticketId") Long ticketId, Model model){
+    public String shoppingCartHandlePurchase(@PathVariable("userId") Long userId, @PathVariable("ticketId") Long ticketId, Model model, Authentication authentication){
+        model = checkAuth(authentication, model);
+        // to deal with forbidden requests
+        if (userId != model.getAttribute("userId")){
+            return "redirect:/error-403";
+        }
         try {
-            ticketService.setUserIdAndStatus(ticketId, userId, 'U');
+            sectorService.updateSectorSeatsToUnavail(ticketId, userId);
+            ticketService.checkoutTicket(ticketId, userId);
         } catch (RuntimeException e){
             System.out.println(e.getMessage());
-            return "redirect:/marketplace/marketplace-error.html";
+            e.printStackTrace();
+            return "redirect:/errorpage";
         }
+        
         return "redirect:/user/" + userId + "/shoppingcart/" + ticketId + "/purchase-success";
     }
 
+
+    /**Redirect after user successfully checks out ticket. Shows details of purchased ticket.
+     * 
+     * @param userId
+     * @param ticketId
+     * @param model
+     * @param authentication
+     * @return
+     */
     @GetMapping("/user/{userId}/shoppingcart/{ticketId}/purchase-success")
     public String shoppingCartPurchaseSuccess(@PathVariable("userId") Long userId, @PathVariable("ticketId") Long ticketId, Model model, Authentication authentication){
         model = checkAuth(authentication, model);
+        if (userId != model.getAttribute("userId")){
+            return "redirect:/error-403";
+        }
         model.addAttribute("ticketId", ticketId);
         return "shoppingcart-purch-success.html";
     }
 
-    @GetMapping("/marketplace")
-    public String marketplace(Authentication authentication, Model model){
-        model = checkAuth(authentication, model);
-        return "marketplace/marketplace.html";
-    }
 
-    @GetMapping("/marketplace/{ticketId}")
-    public String marketplaceViewTicket(@PathVariable Long ticketId, Authentication authentication, Model model){
+    /**Page to view checked out/purchased tickets. Users can add tickets to marketplace from here.
+     * 
+     * @param userId
+     * @param model
+     * @param authentication
+     * @return
+     */
+    @GetMapping("user/{userId}/purchasedtickets")
+    public String puchasedTickets(@PathVariable("userId") Long userId, Model model, Authentication authentication){
         model = checkAuth(authentication, model);
-        model.addAttribute("ticketId", ticketId);
-        return "marketplace/marketplace-ticket.html";
-    }
-
-    @GetMapping("/marketplace/{ticketId}/purchase-marketplace-ticket")
-    public String marketplaceHandlePurchase(Authentication auth, @PathVariable("ticketId") Long ticketId, Model model){
-        Long userId;
-        if (auth != null) {
-            UserDetails userDetails =(UserDetails)auth.getPrincipal();
-            model.addAttribute("username", userDetails.getUsername());
-            userId = userService.getUser(userDetails.getUsername()).getId();
-            model.addAttribute("userId", userId);
-            try {
-                ticketService.setUserIdAndStatus(ticketId, userId, 'U');
-            } catch (RuntimeException e){
-                System.out.println(e.getMessage());
-                return "redirect:/marketplace/error";
-            }
-            return "redirect:/marketplace/" + ticketId + "/purchase-success";
+        if (userId != model.getAttribute("userId")){
+            return "redirect:/error-403";
         }
-        throw new RuntimeException("User is not logged in");       
+        return "purchased-tickets";
     }
 
-    // @GetMapping("/marketplace/{ticketId}/purchase-marketplace-ticket/{buyerUserId}")
-    // public String marketplaceHandlePurchase(@PathVariable("ticketId") Long ticketId, @PathVariable("buyerUserId") Long buyerUserId, Model model){
-    //     ticketService.setUserIdAndStatus(ticketId, buyerUserId, 'U');
-    //     return "redirect:/marketplace/" + ticketId + "/purchase-success";
-    // }
 
-    @GetMapping("/marketplace/{ticketId}/purchase-success")
-    public String marketplacePurchaseSuccess(@PathVariable Long ticketId, Model model, Authentication authentication){
-        model = checkAuth(authentication, model);
-        model.addAttribute("ticketId", ticketId);
-        return "/marketplace/marketplace-purch-success.html";
-    }
-
-    @GetMapping("/marketplace/error")
-    public String marketplaceError(Model model){
-        return "marketplace/marketplace-error.html";
-    }
-
-    @GetMapping("error")
+    /**Universal error page.
+     * 
+     * @return
+     */
+    @GetMapping("/errorpage")
     public String errorPage(){
-        return "marketplace/marketplace-error.html";
+        return "error-page";
     }
 
+
+    @GetMapping("/error-403")
+    public String forbiddenRequest(){
+        return "error-403";
+    }
 
 /** Methods for data retrieval
  * 
@@ -343,157 +384,5 @@ public class HTMLController {
         m.put("sector" + s.getSectorName() + "status", sectorInfo.get(2));
         return m;
     }
-
-    /** Unused controller methods.
-     *  
-     */
-    /*
-
-    @PostMapping("/setSelectSectorButtonClicked")
-    public ResponseEntity<String> setSelectSectorButtonClicked(HttpSession session) {
-        session.setAttribute("selectSectorButtonClicked", true);
-        return ResponseEntity.ok("Attribute set to true");
-    }
-
-    @GetMapping("/services")
-    public String services(Model model){
-        return "services";
-    }
-
-    
-    @GetMapping("/contact")
-    public String contact(Model model){
-        return "contact";
-    }
-
-        // @PostMapping("/selectSectorButton")
-    // public String selectSectorButton(@RequestParam String token, HttpSession session) {
-    //     // Get the generated one-time token for this session
-    //     String sessionToken = (String) session.getAttribute("selectSectorButtonToken");
-
-    //     // Verify that the provided token matches the one from the session
-    //     if (sessionToken != null && sessionToken.equals(token)) {
-    //         // Token is valid, set the session attribute
-    //         session.setAttribute("selectSectorButtonClicked", true);
-    //         // Redirect to the select sector page
-    //         return "redirect:/concerts/1/sectorLayout";
-    //     } else {
-    //         // Invalid token, handle accordingly
-    //         // For added security, you can invalidate the token here
-    //         // and/or log suspicious activity
-    //         return "redirect:/error";
-    //     }
-    // }
-
-    // @GetMapping("/generateToken")
-    // public String generateToken(HttpSession session) {
-    //     String oneTimeToken = UUID.randomUUID().toString(); // Generate a random token
-    //     session.setAttribute("selectSectorButtonToken", oneTimeToken);
-    //     return "redirect:/index"; // Redirect back to your index page
-    // }
-
-    // @GetMapping("/checkToken")
-    // public String checkToken(HttpSession session) {
-    //     String sessionToken = (String) session.getAttribute("selectSectorButtonToken");
-    //     System.out.println("Generated Token: " + sessionToken);
-    //     return "redirect:/index"; // Redirect to the index page or any other page
-    // }
-
-    // @RequestMapping(value = "/submit-form", method = RequestMethod.POST)
-    // public String submitForm(CsrfToken csrfToken) {
-    //     // Check the CSRF token
-    //     if (csrfToken != null) {
-    //         // Process the form data here
-    //         // Redirect to a success page or return a response as needed
-    //         return "success";
-    //     } else {
-    //         // Handle the case where the token is missing or invalid
-    //         return "error";
-    //     }
-    // }
-
-    @PostMapping("/upload") // //new annotation since 4.3
-    public String singleFileUpload(@RequestParam("file") MultipartFile file,
-                                   RedirectAttributes redirectAttributes) {
-
-        if (file.isEmpty()) {
-            redirectAttributes.addFlashAttribute("message", "Please select a file to upload");
-            return "redirect:uploadStatus";
-        }
-
-        try {
-
-            // Get the file and save it somewhere
-            byte[] bytes = file.getBytes();
-            Path path = Paths.get(UPLOADED_FOLDER + file.getOriginalFilename());
-            Files.write(path, bytes);
-
-            redirectAttributes.addFlashAttribute("message",
-                    "You successfully uploaded '" + file.getOriginalFilename() + "'");
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return "redirect:/uploadStatus";
-    }
-
-    @GetMapping("/uploadStatus")
-    public String uploadStatus() {
-        return "uploadStatus";
-    }
-
-    // @RequestMapping("/shoppingcart.html")
-    // public String viewShoppingCart(){
-    //     return "shoppingcart";
-    // }
-
-    @GetMapping("/about")
-    public String about() {
-        return "about";
-    @RequestMapping("/concerts.html")
-    public String viewConcerts(){
-        return "concerts";
-    }
-
-    @RequestMapping("/shoppingcart.html")
-    public String viewShoppingCart(){
-        return "shoppingcart";
-    }
-*/
 }
-
-// hard code: retrieval of concert attributes
-        // Concert c1 = concerts.get(0);
-        // model.addAttribute("Concert_1_Name", c1.getConcertName());
-        // StringBuilder sb1 = new StringBuilder(c1.getPhoto().getPath());
-        // sb1.delete(0, 25);
-        // String correctPath1 = sb1.toString();
-        // model.addAttribute("Concert1Image", correctPath1);
-
-        // Concert c2 = concerts.get(1);
-        // model.addAttribute("Concert_2_Name", c2.getConcertName());
-        // StringBuilder sb2 = new StringBuilder(c2.getPhoto().getPath());
-        // sb2.delete(0, 25);
-        // String correctPath2 = sb2.toString();
-        // model.addAttribute("Concert2Image", correctPath2);
-
-        // Concert c3 = concerts.get(2);
-        // model.addAttribute("Concert_3_Name", c3.getConcertName());
-        // StringBuilder sb3 = new StringBuilder(c3.getPhoto().getPath());
-        // sb3.delete(0, 25);
-        // String correctPath3 = sb3.toString();
-        // model.addAttribute("Concert3Image", correctPath3);
-
-
-        // int num = 1;
-
-        // for (Concert c : concerts){
-        //     model.addAttribute("Concert" + num + "Name", c.getConcertName());
-        //     String createPoster = "src/main/resources/static/concert_posters/concert" + num + "poster.jpg";
-        //     FileUtils.writeByteArrayToFile(new File(createPoster), c.getPhoto());
-        //     String accessPoster = "concert_posters/concert" + num + "poster.jpg";
-        //     model.addAttribute("Concert" + num + "Image", accessPoster);
-        //     model.addAttribute("Concert" + num + "Date", c.getDate());
-        //     num++;
-        // }
+    

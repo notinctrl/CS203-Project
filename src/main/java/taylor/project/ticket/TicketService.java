@@ -18,13 +18,19 @@ public interface TicketService {
     Ticket updateTicket(Long id, Ticket ticket);
     Character getTicketStatus(Long id);
 
-    void setUserIdAndStatus(Long ticketid, Long userid, char status);
-
     Optional<Ticket> findSpecificTicket(Concert c, String sectName, String rowName, Integer seatNo);
 
     List<Ticket> getTicketsByConcertAndSectorName(Concert c, String sectorName);
 
     void changeTicketStatusToPending(Long concertId, String sectorName, List<String> selectedSeats, Long userId);
+
+    void checkoutTicket(Long ticketId, Long userId);
+
+    void addTicketToMarketplace(Long ticketId);
+
+    void rmvTicketFromMarketplace(Long ticketId, Long userId);
+
+    void buyFromMarketplace(Long ticketId, Long buyerUserId);
 
     /**
      * Change method's signature: do not return a value for delete operation

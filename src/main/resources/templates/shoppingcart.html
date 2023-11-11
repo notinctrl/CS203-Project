@@ -244,8 +244,19 @@
 
 		var userId = /*[[${userId}]]*/ null;
 		// console.log(userId);
+
+		// Get the current hostname and port dynamically
+		const hostname = window.location.hostname;
+		const port = window.location.port;
+
+		// Construct the base URL
+		const baseUrl = `http://${hostname}:${port}`;
+
+		// Append the specific endpoint to the base URL
+		const endpoint = '/users/' + userId + '/shoppingcart';
+		const url = baseUrl + endpoint;
 		
-		fetch('http://localhost:8080/users/' + userId + '/shoppingcart')
+		fetch(url)
         .then(response => response.json())
         .then(data => {
             const ticketContainer = document.getElementById('ticket-container');

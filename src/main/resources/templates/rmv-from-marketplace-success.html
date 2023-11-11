@@ -66,7 +66,7 @@
 						<ul class="dropdown">
 							<li><a href="#">Account Details</a></li>
 							<!-- <li><a href="#">My purchases</a></li> -->
-							<li><a href="logout">Logout</a></li>
+							<li><a href="/../../logout">Logout</a></li>
 						</ul>
 					</li>
 				</ul>
@@ -225,8 +225,19 @@
 
 		var ticketId = /*[[${ticketId}]]*/ null;
 		// console.log(userId);
+
+		// Get the current hostname and port dynamically
+		const hostname = window.location.hostname;
+		const port = window.location.port;
+
+		// Construct the base URL
+		const baseUrl = `http://${hostname}:${port}`;
+
+		// Append the specific endpoint to the base URL
+		const endpoint = '/tickets';
+		const url = baseUrl + endpoint;
 		
-		fetch('http://localhost:8080/tickets')
+		fetch(url)
         .then(response => response.json())
         .then(data => {
             const ticketContainer = document.getElementById('poster-container');

@@ -226,7 +226,18 @@
 		var ticketId = /*[[${ticketId}]]*/ null;
 		// console.log(userId);
 		
-		fetch('http://localhost:8080/tickets')
+		// Get the current hostname and port dynamically
+		const hostname = window.location.hostname;
+		const port = window.location.port;
+
+		// Construct the base URL
+		const baseUrl = `http://${hostname}:${port}`;
+
+		// Append the specific endpoint to the base URL
+		const endpoint = '/tickets';
+		const url = baseUrl + endpoint;
+		
+		fetch(url)
         .then(response => response.json())
         .then(data => {
             const ticketContainer = document.getElementById('poster-container');
@@ -234,6 +245,7 @@
 			const buttonContainer = document.getElementById('btn-container');
 
 			data.forEach(ticket => {
+				// only this specific marketplace ticket will get initialised
 				if (ticket.id === ticketId && ticket.ticketStatus === 'M'){
 					// Create a div for each ticket
 					const ticketElement = document.createElement('div');

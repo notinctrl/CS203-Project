@@ -205,53 +205,6 @@
 	<script src="/js/rellax.min.js"></script>
 	<script src="/js/custom.js"></script>
 
-
-	<!-- script to display tickets -->
-	<script th:inline="javascript">
-
-		var ticketId = /*[[${ticketId}]]*/ null;
-		// console.log(userId);
-		
-		fetch('http://localhost:8080/tickets')
-        .then(response => response.json())
-        .then(data => {
-            const ticketContainer = document.getElementById('poster-container');
-			const ticketDetailsContainer = document.getElementById('td-container');
-
-			if (ticketContainer.childElementCount < 1) {
-				// Display an alternative message
-				const noTicketTitle = document.createElement('h1');
-				noTicketTitle.classList.add('text-white', 'lead', 'mb-4', 'aos-init', 'text-center');
-				noTicketTitle.setAttribute('data-aos', 'fade-up');
-				noTicketTitle.setAttribute('data-aos-delay', '300');
-				noTicketTitle.textContent = 'Oops!';
-
-				const noTicketMessage = docuemnt.createElement('p');
-				noTicketTitle.classList.add('text-white', 'lead', 'mb-4', 'aos-init', 'text-center');
-				noTicketTitle.setAttribute('data-aos', 'fade-up');
-				noTicketTitle.setAttribute('data-aos-delay', '300');
-				noTicketTitle.textContent = 'Either the ticket has just been bought, or does not exist.';
-				
-				const browseTicketsButton = document.createElement('div');
-				browseTicketsButton.classList.add("col-lg-7",  "col-xxl-6",  "mx-auto",  "text-center");
-				const paraWithin = document.createElement('p');
-				paraWithin.setAttribute('data-aos', 'fade-up');
-				paraWithin.setAttribute('data-aos-delay', '400');
-				const anchorWithin = document.createElement('a');
-				anchorWithin.href = "/../../index";
-				anchorWithin.classList.add("btn",  "btn-primary-outline",  "white");
-				anchorWithin.textContent = "Browse Concerts";
-				paraWithin.appendChild(anchorWithin);
-				browseTicketsButton.appendChild(paraWithin);
-				ticketContainer.appendChild(noTicketTitle);
-				ticketContainer.appendChild(browseTicketsButton);
-        	}
-
-        })
-        .catch(error => {
-            console.error('Error fetching seat data:', error);
-        });
-	</script>
 </body>
 </html>
 

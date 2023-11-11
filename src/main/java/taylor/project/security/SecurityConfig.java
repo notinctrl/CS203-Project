@@ -38,7 +38,6 @@ public class SecurityConfig {
     }
 
     /**
-     * TODO: Only authenticated ticket sellers would be able to create/update/delete Concerts
      * 
      * Add roles to specify permissions for each endpoint
      * User role: can add concerts to cart.
@@ -57,36 +56,50 @@ public class SecurityConfig {
             .and() //  "and()"" method allows us to continue configuring the parent
         .authorizeRequests()
 
-            /** Concert access settings.
+            /** Concert access settings. All visitors can get concert infomation, but only Admins can alter concert info.
              *  permitAll: GET
-             *  authenticated (login required): POST, PUT, DELETE (FIXTHIS WHEN DEPLOYING)
+             *  ADMIN ONLY: POST, PUT, DELETE
              */
-            // .antMatchers("/", "/index").permitAll()
-            // .antMatchers("/login").permitAll()
             .antMatchers(HttpMethod.GET, "/concerts", "/concerts/*").permitAll() // Anyone can view concerts
-            .antMatchers(HttpMethod.POST, "/concerts", "concerts/").authenticated()
-            .antMatchers(HttpMethod.PUT, "/concerts/**").authenticated()
-            .antMatchers(HttpMethod.DELETE, "/concerts/*").authenticated()
-            .antMatchers(HttpMethod.POST, "/concerts/**").hasRole("ADMIN")
-            .antMatchers(HttpMethod.PUT, "/concerts/**").hasRole("ADMIN")
-            .antMatchers(HttpMethod.DELETE, "/concerts/**").hasRole("ADMIN")            
+            // .antMatchers(HttpMethod.POST, "/concerts", "/concerts/**").authenticated()
+            .antMatchers(HttpMethod.POST, "/concerts", "/concerts/**").hasRole("ADMIN")
+            // .antMatchers(HttpMethod.PUT, "/concerts", "/concerts/**").authenticated()
+            .antMatchers(HttpMethod.PUT, "/concerts", "/concerts/**").hasRole("ADMIN")
+            // .antMatchers(HttpMethod.DELETE, "/concerts", "/concerts/*").authenticated()
+            .antMatchers(HttpMethod.DELETE, "/concerts", "/concerts/**").hasRole("ADMIN")            
 
             .antMatchers(HttpMethod.GET, "/tickets/**/status").authenticated()
 
-            /** User access settings.
-             *  permitAll: POST, DELETE (???)
-             *  authenticated (login required): POST, PUT, DELETE (FIXTHIS WHEN DEPLOYING)
-             *  ADMIN ONLY: GET, 
+            /** User access settings. Only Admins are allowed to view/alter user information.
+             *  authenticated: GET (only if userId matches userId of logged in user)
+             *  ADMIN ONLY: POST, PUT, DELETE
              */
-            .antMatchers(HttpMethod.POST, "/users").permitAll()
-            .antMatchers(HttpMethod.DELETE, "/users", "/users/").permitAll()
-            .antMatchers(HttpMethod.GET, "/users/*").hasRole("ADMIN")
-            .antMatchers(HttpMethod.GET, "/users").hasRole("ADMIN")
-            .antMatchers(HttpMethod.GET, "/currentDetail").permitAll()
-            .antMatchers(HttpMethod.POST, "/adminUsers").hasRole("ADMIN")
+            .antMatchers(HttpMethod.GET, "/users", "/users/**").hasAnyRole("ADMIN", "USER")
+            .antMatchers(HttpMethod.POST, "/users", "/users/**").hasRole("ADMIN")
+            .antMatchers(HttpMethod.PUT, "/users", "/users/**").hasRole("ADMIN")
+            .antMatchers(HttpMethod.DELETE, "/users", "/users/**").hasRole("ADMIN")
+            // .antMatchers(HttpMethod.POST, "/adminUsers").hasRole("ADMIN")
 
-            //.antMatchers(HttpMethod.POST, "/users", "/users/").hasRole("ADMIN")
-            .antMatchers(HttpMethod.GET, "/users").hasRole("ADMIN")
+            .antMatchers(HttpMethod.POST, "/marketplace/**").hasRole("ADMIN")
+            .antMatchers(HttpMethod.PUT, "/marketplace/**").hasRole("ADMIN")
+            .antMatchers(HttpMethod.DELETE, "/marketplace/**").hasRole("ADMIN")
+
+
+            /**ADMIN ONLY functions.
+             * 
+             */
+            .antMatchers(HttpMethod.GET, "/sectorRowAvailability/**").hasAnyRole("USER", "ADMIN")
+            .antMatchers(HttpMethod.POST, "/sectorRowAvailability/**").hasRole("ADMIN")
+            .antMatchers(HttpMethod.PUT, "/sectorRowAvailability/**").hasRole("ADMIN")
+            .antMatchers(HttpMethod.DELETE, "/sectorRowAvailability/**").hasRole("ADMIN")
+
+            // .antMatchers(HttpMethod.GET, "/tickets/**").hasAnyRole("USER","ADMIN")
+            .antMatchers(HttpMethod.POST, "/tickets/**").hasRole("ADMIN")
+            .antMatchers(HttpMethod.PUT, "/tickets/**").hasRole("ADMIN")
+            .antMatchers(HttpMethod.DELETE, "/tickets/**").hasRole("ADMIN")
+
+
+
 
             // .antMatchers(HttpMethod.GET, "/tickets/**/status").hasAnyRole("ADMIN", "USER")
 
@@ -102,9 +115,9 @@ public class SecurityConfig {
         .and()
             // .logoutUrl("/custom-logout") // Specify a custom logout URL
             // .logoutSuccessUrl("/index") // Redirect to this URL after successful logout
-            // .invalidateHttpSession(true) // Invalidate the HTTP session
-            // .deleteCookies("JSESSIONID") // Delete cookies on logout
         .logout().logoutSuccessUrl("/index").permitAll()
+        .invalidateHttpSession(true) // Invalidate the HTTP session
+        .deleteCookies("JSESSIONID") // Delete cookies on logout
         ; // Disable the security headers, as we do not return HTML in our service
 
         

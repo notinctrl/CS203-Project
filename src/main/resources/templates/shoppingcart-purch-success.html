@@ -66,7 +66,7 @@
 						<ul class="dropdown">
 							<li><a href="#">Account Details</a></li>
 							<!-- <li><a href="#">My purchases</a></li> -->
-							<li><a href="logout">Logout</a></li>
+							<li><a href="/../../logout">Logout</a></li>
 						</ul>
 					</li>
 				</ul>
@@ -226,9 +226,20 @@
 
 		var ticketId = /*[[${ticketId}]]*/ null;
 		var userId = /*[[${userId}]]*/ null;
-		console.log(userId);
+		// console.log(userId);
 		
-		fetch('http://localhost:8080/tickets')
+		// Get the current hostname and port dynamically
+		const hostname = window.location.hostname;
+		const port = window.location.port;
+
+		// Construct the base URL
+		const baseUrl = `http://${hostname}:${port}`;
+
+		// Append the specific endpoint to the base URL
+		const endpoint = '/tickets';
+		const url = baseUrl + endpoint;
+		
+		fetch(url)
         .then(response => response.json())
         .then(data => {
             const ticketContainer = document.getElementById('poster-container');
@@ -254,7 +265,7 @@
 					// Create the <img> element
 					const imgElement = document.createElement('img');
 					// Set the image source when it becomes available
-					// console.log("\\..\\..\\" + ticket.concert.photo.replace(/.*static\\/, ""));
+					console.log("/../" + ticket.concert.photo.replace(/.*static\\/, "").replaceAll("\\", "/"));
 					imgElement.classList.add('img-border')
 					imgElement.src = "/../" + ticket.concert.photo.replace(/.*static\\/, "").replaceAll("\\", "/");
 					imgElement.alt = 'Image';
