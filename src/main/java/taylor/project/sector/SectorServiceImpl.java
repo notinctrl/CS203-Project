@@ -129,6 +129,9 @@ public class SectorServiceImpl implements SectorService {
     public String updateSeatToPending(String seatString, String seatNumStringed){
         // minus one because the index of seats starts from 0.
         int seatNumberidx = Integer.parseInt(seatNumStringed) - 1;
+        if (seatNumberidx < 0 || seatNumberidx >= seatString.length()){
+            throw new RuntimeException("seatNumberIdx out of bounds: Index:" + seatNumberidx + " of size:" + seatString.length());
+        }
         StringBuilder sb = new StringBuilder(seatString);
 
         // check if current seat status is available.
@@ -137,7 +140,7 @@ public class SectorServiceImpl implements SectorService {
         if (seatString.charAt(seatNumberidx) == 'A'){
             sb.setCharAt(seatNumberidx, 'P');
         } else {
-            throw new RuntimeException("Illegal seat status change: from " + seatString.indexOf(seatNumberidx) + " to P");
+            throw new RuntimeException("Illegal seat status change: from " + seatString.charAt(seatNumberidx) + " to P");
         }
 
         return sb.toString();

@@ -151,7 +151,9 @@ public class TicketServiceImpl implements TicketService {
                 tickets.save(t);
                 count++;
             }
-            if (count == seatsToBook) break;
+            if (count == seatsToBook) {
+                break;
+            }
         }
     }
 

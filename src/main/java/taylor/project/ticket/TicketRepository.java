@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import taylor.project.concert.Concert;
+import taylor.project.user.User;
 
 /**
  * We only need this interface declaration
@@ -17,6 +18,8 @@ import taylor.project.concert.Concert;
 @Repository
 public interface TicketRepository extends JpaRepository <Ticket, Long> {
     Ticket findBySeatRowNameAndSeatNo(String seatRowName, Integer seatNo);
+
+    List<Ticket> findByCartedUserOrBoughtUser(User user);
 
     List<Ticket> findTicketsByConcertAndSectorName(Concert c, String sectName);
     List<Ticket> findTicketBySeatNo(Integer seatNo);
