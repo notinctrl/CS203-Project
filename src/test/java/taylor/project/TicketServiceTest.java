@@ -112,5 +112,27 @@ public class TicketServiceTest {
         );
     }
     
+    @Test
+    void addTicket_available_Success(){
+        Venue venue = new Venue("s", 123, "sdfdsfsdfsd");
+        Concert concert = new Concert("monstax", 23, "s", "12:12:00", venue, "sd");
+        Ticket ticket = new Ticket(concert,"AA", "A1", 12, 123.0);
+        List<Ticket> ticketList = new ArrayList<Ticket>();
+        ticketList.add(ticket);
+        //when(tickets.findTicketBySeatNo(ticket.getSeatNo())).thenReturn(ticketList);
+        // when(ticket.getTicketStatus()).thenReturn();
+        // assertEquals('A', ticket.getTicketStatus());
 
+        when(tickets.save(any(Ticket.class))).thenReturn(ticket);
+
+        Ticket savedTicket = ticketService.addTicket(ticket);
+        
+        assertNotNull(savedTicket);
+
+        // verify(users).findByUsername(user.getUsername());
+        verify(tickets).save(ticket);
+        
+        //verify(tickets).findTicketBySeatNo(ticket.getSeatNo());
+
+    }
 }

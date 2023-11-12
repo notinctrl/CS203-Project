@@ -2,7 +2,6 @@ package taylor.project.sector;
 
 import java.util.List;
 
-import taylor.project.venue.Venue;
 
 public interface SectorService {
     List<Sector> listSectors();

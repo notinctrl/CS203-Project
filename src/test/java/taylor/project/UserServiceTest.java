@@ -1,4 +1,4 @@
-package taylor.project.user;
+package taylor.project;
 
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -19,6 +19,10 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.access.prepost.PreAuthorize;
+
+import taylor.project.user.User;
+import taylor.project.user.UserRepository;
+import taylor.project.user.UserServiceImpl;
 
 
 

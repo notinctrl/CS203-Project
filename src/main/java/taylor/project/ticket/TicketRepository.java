@@ -19,7 +19,7 @@ import taylor.project.user.User;
 public interface TicketRepository extends JpaRepository <Ticket, Long> {
     Ticket findBySeatRowNameAndSeatNo(String seatRowName, Integer seatNo);
 
-    List<Ticket> findByCartedUserOrBoughtUser(User user);
+    // List<Ticket> findByCartedUserOrBoughtUser(User user, User);
 
     List<Ticket> findTicketsByConcertAndSectorName(Concert c, String sectName);
     List<Ticket> findTicketBySeatNo(Integer seatNo);
