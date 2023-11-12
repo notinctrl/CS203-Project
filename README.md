@@ -14,8 +14,8 @@
 ## Account Credentials
 **NOTE: if you would like to simulate users buying tickets from each other via marketplace, load another instance of the website on Incognito Mode.**
 3 accounts have been premade for your use:
-1. **Username:** admin **Password:** goodpassword            -> has admin privileges (able to access list of users/sensistive information)
-2. **Username:** normaluser **Password:** goodpassword       -> has user role
+1. **Username:** admin           **Password:** goodpassword  -> has admin privileges (able to access list of users/sensistive information)
+2. **Username:** normaluser      **Password:** goodpassword  -> has user role
 3. **Username:** normalbuyeruser **Password:** goodpassword  -> has user role
 
 ## Key Features
