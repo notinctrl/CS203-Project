@@ -281,9 +281,9 @@ console.log("port is " + port);
 				// Create the <img> element
 				const imgElement = document.createElement('img');
 				// Set the image source when it becomes available
-				// console.log(ticket.concert.photo.replace(/.*static\//, ""));
+				console.log(ticket.concert.photo);
 				imgElement.classList.add('img-border')
-				imgElement.src = "/../../" + ticket.concert.photo.replace(/.*static\//, "").replaceAll("\\", "/");
+				imgElement.src = "/../../" + ticket.concert.photo.replace(/.*concert_posters/, "concert_posters").replaceAll("\\", "/");
 				imgElement.alt = 'Image';
 				imgElement.classList.add('img-fluid');
 
