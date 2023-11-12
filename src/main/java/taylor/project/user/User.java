@@ -4,6 +4,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicLong;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -47,13 +51,14 @@ public class User implements UserDetails{
     
     @NotNull(message = "Username should not be null")
     @Size(min = 5, max = 20, message = "Username should be between 5 and 20 characters")
+    @Column(unique = true)
     private String username;
     
     @NotNull(message = "Password should not be null")
     @Size(min = 8, message = "Password should be at least 8 characters")
     private String password;
 
-    @NotNull(message = "Authorities should not be null")
+    // @NotNull(message = "Authorities should not be null")
     // We define two roles/authorities: ROLE_USER or ROLE_ADMIN
     private String authorities;
 
@@ -61,8 +66,7 @@ public class User implements UserDetails{
     @NotNull(message = "Birthday should not be null")
     private String birthday;
     
-    @NotNull(message = "Email should not be null") @Email(message = "Please provide a valid email")
-
+    @NotNull(message = "Email should not be null") 
     @Email(message = "Please provide a valid email")
     @NotNull(message = "Email address should not be null")
     private String emailAddress;
@@ -86,9 +90,8 @@ public class User implements UserDetails{
         // this.id = counter.incrementAndGet();
         this.username = username;
         this.password = password;
-        //this.birthday = LocalDate.parse(birthday, DateTimeFormatter.ofPattern("dd-MM-yyyy"));
         this.birthday = birthday;
-        this.emailAddress=emailAddress;
+        this.emailAddress = emailAddress;
         this.address = address;
         this.authorities = authorities;
         this.purchasedTickets = new ArrayList<Ticket>();
@@ -134,6 +137,11 @@ public class User implements UserDetails{
 
     public boolean isPresent() {
         return false;
+    }
+
+
+    public UserDetails orElseThrow(Object object) {
+        return null;
     }
 
 }

@@ -116,9 +116,17 @@ public class TicketController {
      * @param newticketInfo
      * @return the updated, or newly added ticket
      */
-    @PutMapping("/tickets/{id}")
+    @PutMapping("/tickets/{id}/{newticketInfo}")
     public Ticket updateticket(@PathVariable Long id, @Valid @RequestBody Ticket newticketInfo){
         Ticket ticket = ticketService.updateTicket(id, newticketInfo);
+        if(ticket == null) throw new TicketNotFoundException(id);
+        
+        return ticket;
+    }
+
+    @PutMapping("/tickets/{id}")
+    public Ticket pendingStatus(@PathVariable Long id, @Valid @RequestBody Character newStatus){
+        Ticket ticket = ticketService.pendingStatus(id, newStatus);
         if(ticket == null) throw new TicketNotFoundException(id);
         
         return ticket;

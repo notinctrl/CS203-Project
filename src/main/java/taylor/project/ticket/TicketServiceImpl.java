@@ -382,6 +382,13 @@ public class TicketServiceImpl implements TicketService {
         users.save(buyerUser);
     }
     
+    @Override
+    public Ticket pendingStatus(Long id, Character newStatus){
+        return tickets.findById(id).map(ticket -> { ticket.setTicketStatus(newStatus);
+            return tickets.save(ticket);
+    }).orElse(null);
+
+    }
 
     /**
      * Remove a ticket with the given id

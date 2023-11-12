@@ -5,6 +5,8 @@ import java.util.Optional;
 
 import taylor.project.concert.Concert;
 
+import javax.validation.Valid;
+
 public interface TicketService {
     List<Ticket> listTickets();
 
@@ -37,4 +39,8 @@ public interface TicketService {
      * @param id
      */
     void deleteTicket(Long id);
+
+     //for ticket to be shown as sold
+    Ticket pendingStatus(Long id, Character newStatus);
+
 }
