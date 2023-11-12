@@ -97,7 +97,7 @@ public class BookingApp {
             "dsasdgsdf@sfs.com", "dsdfsdsd", "ROLE_ADMIN"));
         result.add(new User("normaluser", encoder.encode("goodpassword"),"23-10-2001", 
             "dsasdgsdf@sfs.com", "dsdfsdsd", "ROLE_USER"));
-        result.add(new User("MasterCoder69", encoder.encode("goodpassword"),"23-10-1001", 
+        result.add(new User("normalbuyeruser", encoder.encode("goodpassword"),"23-10-1001", 
             "coder@gwhale.com", "dsdfsdsd", "ROLE_USER"));
         return result;
     }
